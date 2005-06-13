@@ -8,7 +8,7 @@ public abstract class WebSystem implements TheSystem, Serializable
 
     public WebSystem()
     {
-        itsWorkgroup = new QixwebWorkgroup();
+        resetWorkgroup();
     }
     
     public QixwebUser userBy(String aUserName)

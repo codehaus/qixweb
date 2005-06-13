@@ -36,15 +36,6 @@ public class TestCalendarDateTime extends ExtendedTestCase
 
     }
     
-    public void testOneWeek()
-    {
-        CalendarDateTime anydate = new CalendarDateTime(22, 2, 2004, 11, 23, 24);
-        CalendarDateTime oneWeekLater = new CalendarDateTime(29, 2, 2004, 11, 23, 24);
-        CalendarDateTime oneWeekBefore = new CalendarDateTime(15, 2, 2004, 11, 23, 24);
-        assertEquals(oneWeekLater, anydate.oneWeekLater());
-        assertEquals(oneWeekBefore, anydate.oneWeekBefore());
-    }
-    
     public void testOneMinute()
     {
         CalendarDateTime anydate = new CalendarDateTime(22, 2, 2004, 11, 00, 24);
@@ -73,13 +64,6 @@ public class TestCalendarDateTime extends ExtendedTestCase
         assertEquals(1, anydate.elapsedHours(oneHourAgo));
     }
     
-    public void testOneDay()
-    {
-        CalendarDateTime anydate = new CalendarDateTime(01, 3, 2004, 11, 22, 24);
-        CalendarDateTime oneDayBefore = new CalendarDateTime(29, 2, 2004, 11, 22, 24);
-        assertEquals(oneDayBefore, anydate.oneDayBefore());
-        
-    }
     public void testEqualsFalseWithNonCalendarDateTime()
     {
         CalendarDateTime anyDate = new CalendarDateTime(22, 2, 2004, 11, 23, 24);
