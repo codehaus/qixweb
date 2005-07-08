@@ -13,7 +13,7 @@ public class XpLogger
 	// @PMD:REVIEWED:LoggerIsNotStaticFinal: by bop on 1/26/05 6:14 PM
 	private static Logger itsLogger;
       
-	private static Logger logger()
+	public static Logger logger()
 	{
 		if (itsLogger == null)
 		{
@@ -23,13 +23,23 @@ public class XpLogger
 			{
 				itsLogger = Logger.getLogger("default logger");
 				itsLogger.setLevel(Level.DEBUG);
-				itsLogger.addAppender(new ConsoleAppender(new PatternLayout("[%d{dd MMM yyyy HH:mm:ss}] %-5p %c - %m %n")));
+				ConsoleAppender consoleAppender = new ConsoleAppender(new PatternLayout("[%d{dd MMM yyyy HH:mm:ss}] %-5p %c - %m %n"));
+                consoleAppender.setName(ConsoleAppender.SYSTEM_OUT);
+                consoleAppender.setTarget(ConsoleAppender.SYSTEM_OUT);
+                itsLogger.addAppender(consoleAppender);
 			}
 			itsOldLevel = itsLogger.getLevel();
 		}		
 		
 		return itsLogger;
 	}
+    
+    public static void resetConsoleAppenderLogger()
+    {
+        WriterAppender appender = (WriterAppender)logger().getAppender(ConsoleAppender.SYSTEM_OUT);
+        if (appender != null)
+            appender.activateOptions();
+    }
     
 	public static void debug(String aMessage)
 	{

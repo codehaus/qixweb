@@ -2,9 +2,14 @@ package org.qixweb.time;
 
 import java.util.*;
 
+import org.qixweb.core.WebAppUrl;
+
 public class CalendarDate extends GregorianCalendar
 {
-	static final long serialVersionUID = 1L;
+	public static final String YEAR_PARAM = "Year";
+    public static final String MONTH_PARAM = "Month";
+    public static final String DAY_PARAM = "Day";
+    static final long serialVersionUID = 1L;
 
 	public CalendarDate(String aDay, String aMonth, String aYear)
 	{
@@ -23,10 +28,10 @@ public class CalendarDate extends GregorianCalendar
 
     public CalendarDate(Date aDate)
     {
-        this(calendarFrom(aDate));    
+        this(toCalendar(aDate));    
     }
 
-    private static Calendar calendarFrom(Date aDate)
+    private static Calendar toCalendar(Date aDate)
     {
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(aDate);
@@ -134,5 +139,14 @@ public class CalendarDate extends GregorianCalendar
     public CalendarDate oneMonthLater()
     {
         return new CalendarDate(CalendarUtils.oneMonthLater(this));
+    }
+
+    public static CalendarDate createFrom(WebAppUrl anUrl, String aPrefix)
+    {
+        return new CalendarDate(
+                Integer.parseInt(anUrl.getParameter(aPrefix+DAY_PARAM)),
+                Integer.parseInt(anUrl.getParameter(aPrefix+MONTH_PARAM)),
+                Integer.parseInt(anUrl.getParameter(aPrefix+YEAR_PARAM))
+            );
     }
 }

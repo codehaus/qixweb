@@ -3,6 +3,7 @@ package org.qixweb.time.test;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.qixweb.core.WebAppUrl;
 import org.qixweb.time.CalendarDate;
 import org.qixweb.util.EqualsBehaviourVerifier;
 import org.qixweb.util.test.ExtendedTestCase;
@@ -25,6 +26,16 @@ public class TestCalendarDate extends ExtendedTestCase
         assertEquals(1, firstOfApril2003.get(Calendar.DAY_OF_MONTH));
         assertEquals(4, firstOfApril2003.get(Calendar.MONTH) + 1);
         assertEquals(2003, firstOfApril2003.get(Calendar.YEAR));    
+    }
+    
+    public void testCreateFromUrl() 
+    {
+        CalendarDate firstOfApril2003 = new CalendarDate("1", "4", "2003");
+        WebAppUrl url = new WebAppUrl("");
+        url.setParameter("prefix"+CalendarDate.DAY_PARAM, 1);
+        url.setParameter("prefix"+CalendarDate.MONTH_PARAM, 4);
+        url.setParameter("prefix"+CalendarDate.YEAR_PARAM, 2003);
+        assertEquals(firstOfApril2003, CalendarDate.createFrom(url, "prefix"));
     }
     
     public void testCreationPassingJavaUtilDate()

@@ -79,10 +79,7 @@ public class ServletResponseHandler implements ResponseHandler
             {
                 writer.close();
             }
-            catch (IOException ioex)
-            {
-                XpLogger.logException(ioex);
-            }
+            catch (IOException ioex) { /*never*/ }
         }
 
         return html;
