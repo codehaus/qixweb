@@ -1,10 +1,9 @@
 package org.qixweb.time.test;
 
-import java.lang.reflect.*;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import org.qixweb.time.*;
+import org.qixweb.time.CalendarUtils;
 import org.qixweb.util.test.ExtendedTestCase;
 
 
@@ -72,63 +71,61 @@ public class TestCalendarUtils extends ExtendedTestCase
         assertEquals(2, CalendarUtils.elapsedMinutes(firstTimeInMinutes, secondTimeInMinutes));
     }
 
-    private void invoke_on_checking_with(String methodToTest, String classToTest, Calendar expectedDate, Calendar date) throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException
-    {
-        Class clazz = Class.forName(classToTest);
-        Method method = clazz.getDeclaredMethod(methodToTest, null);
-        Constructor constructor = clazz.getConstructor(new Class[] {Calendar.class});
-        assertEquals("Invoking "+classToTest+"."+methodToTest, constructor.newInstance(new Object[] {expectedDate}), method.invoke(constructor.newInstance(new Object[] {date}), null));
-    }
-
-    public void testOneDayAfterCrossingYear() throws ClassNotFoundException, SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, InstantiationException
+    public void testOneDayAfterCrossingYear()
     {
         Calendar date = new GregorianCalendar(2002, 11, 31);
         Calendar expectedDate = new GregorianCalendar(2003, 0, 1);
         assertEquals(expectedDate, CalendarUtils.oneDayAfter(date));
-        invoke_on_checking_with("oneDayAfter", "org.qixweb.time.CalendarDate", expectedDate, date);
     }
 
-    public void testOneDayBeforeCrossingYear() throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException
+    public void testOneDayBeforeCrossingYear()
     {
         Calendar date = new GregorianCalendar(2003, 0, 1);
         Calendar expectedDate = new GregorianCalendar(2002, 11, 31);
         assertEquals(expectedDate, CalendarUtils.oneDayBefore(date));
-        invoke_on_checking_with("oneDayBefore", "org.qixweb.time.CalendarDate", expectedDate, date);
-        invoke_on_checking_with("oneDayBefore", "org.qixweb.time.CalendarDateTime", expectedDate, date);
     }
 
-    public void testOneMonthBefore() throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException
+    public void testOneMonthBefore()
     {
-        Calendar date = new GregorianCalendar(1999, 0, 1);
-        Calendar expectedDate = new GregorianCalendar(1998, 11, 1);
+        Calendar date = new GregorianCalendar(1999, 10, 17);
+        Calendar expectedDate = new GregorianCalendar(1999, 9, 17);
         assertEquals(expectedDate, CalendarUtils.oneMonthBefore(date));
-        invoke_on_checking_with("oneMonthBefore", "org.qixweb.time.CalendarDate", expectedDate, date);
+
+        date = new GregorianCalendar(1999, 0, 1);
+        expectedDate = new GregorianCalendar(1998, 11, 1);
+        assertEquals(expectedDate, CalendarUtils.oneMonthBefore(date));
     }
 
-    public void testOneMonthLater() throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException
+    public void testOneMonthLater()
     {
-        Calendar expectedDate = new GregorianCalendar(1999, 0, 1);
-        Calendar date = new GregorianCalendar(1998, 11, 1);
+        Calendar expectedDate = new GregorianCalendar(1999, 10, 17);
+        Calendar date = new GregorianCalendar(1999, 9, 17);
         assertEquals(expectedDate, CalendarUtils.oneMonthLater(date));
-        invoke_on_checking_with("oneMonthLater", "org.qixweb.time.CalendarDate", expectedDate, date);
+
+        expectedDate = new GregorianCalendar(1999, 0, 1);
+        date = new GregorianCalendar(1998, 11, 1);
+        assertEquals(expectedDate, CalendarUtils.oneMonthLater(date));
     }
 
-    public void testOneWeekLaterCrossingMonth() throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException
+    public void testOneWeekLater()
+    {
+        Calendar date = new GregorianCalendar(1970, 10, 17);
+        Calendar expectedDate = new GregorianCalendar(1970, 10, 24);
+        assertEquals(expectedDate, CalendarUtils.oneWeekLater(date));
+    }
+
+    public void testOneWeekLaterCrossingMonth()
     {
         Calendar date = new GregorianCalendar(2003, 6, 29);
         Calendar expectedDate = new GregorianCalendar(2003, 7, 5);
         assertEquals(expectedDate, CalendarUtils.oneWeekLater(date));
-        invoke_on_checking_with("oneWeekLater", "org.qixweb.time.CalendarDate", expectedDate, date);
-        invoke_on_checking_with("oneWeekLater", "org.qixweb.time.CalendarDateTime", expectedDate, date);
     }
 
-    public void testOneWeekBeforeCrossingMonth() throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException
+    public void testOneWeekLaterCrossingYear()
     {
-        Calendar date = new GregorianCalendar(2003, 7, 5);
-        Calendar expectedDate = new GregorianCalendar(2003, 6, 29);
-        assertEquals(expectedDate, CalendarUtils.oneWeekBefore(date));
-        invoke_on_checking_with("oneWeekBefore", "org.qixweb.time.CalendarDate", expectedDate, date);
-        invoke_on_checking_with("oneWeekBefore", "org.qixweb.time.CalendarDateTime", expectedDate, date);
+        Calendar date = new GregorianCalendar(2002, 11, 31);
+        Calendar expectedDate = new GregorianCalendar(2003, 0, 7);
+        assertEquals(expectedDate, CalendarUtils.oneWeekLater(date));
     }
 
 }

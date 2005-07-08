@@ -1,7 +1,6 @@
 package org.qixweb.block.test;
 
 import org.qixweb.block.*;
-import org.qixweb.util.ArrayAsserter;
 
 import junit.framework.TestCase;
 
@@ -171,43 +170,7 @@ public abstract class ParameterizedTestLightInternalIterator extends TestCase
 		assertEquals(2, theCollectedElements.length);
 		assertEquals(theElements[0], theCollectedElements[0]);
 		assertEquals(theElements[1], theCollectedElements[1]);
-	}
-
-    public void testCollectManyElements()
-    {
-        Object[] theElements = { new Integer(1), new Integer(2), new Integer(3) };
-
-        LightInternalIterator theIterator = createIterator(theElements);
-        Object[] theCollectedElements = theIterator.collectWithoutDuplications(new Function()
-        {
-            public Object eval(Object each)
-            {
-                return new Integer(((Integer)each).intValue()+1);
-            }
-        }, Object.class);
-        ArrayAsserter.assertEquals(new Object[] { new Integer(2), new Integer(3), new Integer(4) }, theCollectedElements);
-    }
-
-    public void testCollectExcludeNull()
-    {
-        Object[] theElements = { new Integer(1), new Integer(3), new Integer(9) };
-
-        LightInternalIterator theIterator = createIterator(theElements);
-        Object[] theCollectedElements = theIterator.collectWithoutDuplications(new Function()
-        {
-            public Object eval(Object each)
-            {
-                int intValue = ((Integer)each).intValue();
-                if (intValue == 1)
-                    return null;
-                else
-                    return new Integer(intValue+1);
-            }
-        }, Object.class);
-        ArrayAsserter.assertEquals(new Object[] { new Integer(4), new Integer(10) }, theCollectedElements);
-    }
-    
-    
+	}	
     public void testCollectWithoutDuplicationsWithExceptions() throws Exception
     {
         Object[] theElements = { new Integer(1), new Integer(2), new Integer(1) };
