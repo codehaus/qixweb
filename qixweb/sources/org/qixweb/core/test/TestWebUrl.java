@@ -92,13 +92,15 @@ public class TestWebUrl extends ExtendedTestCase
 	public void testManyParameters()
 	{
 		itsUrl.setParameter("key1", "value1");
-		itsUrl.setParameter("key2", "value2");
+		itsUrl.setParameter("key2", 2);
 		itsUrl.setParameter("key3", "value3");
-	    assertEquals(3, itsUrl.parametersLength());
+        itsUrl.setParameter("key4", true);
+	    assertEquals(4, itsUrl.parametersLength());
         
 		assertEquals("value1", itsUrl.getParameter("key1"));
-		assertEquals("value2", itsUrl.getParameter("key2"));
+		assertEquals(2, Integer.parseInt(itsUrl.getParameter("key2")));
 		assertEquals("value3", itsUrl.getParameter("key3"));
+        assertTrue(Boolean.valueOf(itsUrl.getParameter("key4")).booleanValue());
 	}
     
 	public void testParameterWithMultipleValues()

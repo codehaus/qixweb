@@ -20,5 +20,6 @@ public class EqualsBehaviourVerifier
     {
         Assert.assertEquals("same object must have same hash code", target.hashCode(), target.hashCode());
         Assert.assertEquals("two objects with the same data must have same hash code", target.hashCode(), sameTarget.hashCode());
+        Assert.assertFalse("Comparing target with an instance of another class should return false without exceptions", target.equals(EqualsBehaviourVerifier.class));
     }
 }

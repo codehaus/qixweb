@@ -1,7 +1,8 @@
 package org.qixweb.core.test;
 
-import org.qixweb.core.ServletResponseHandler;
-import org.qixweb.core.WebAppUrl;
+import java.io.*;
+
+import org.qixweb.core.*;
 import org.qixweb.util.test.ExtendedTestCase;
 
 
@@ -11,21 +12,16 @@ public class TestServletResponseHandler extends ExtendedTestCase
 	private String itsPageID;
 	private String itsServletPath;
 	private ServletResponseHandler itsResponseHandler;
-
-	protected void setUp() throws Exception
+    protected void setUp() throws Exception
 	{
+        super.setUp();
 		itsHttpResponse = new FakeHttpServletResponse();
 		itsPageID = "1234567";
 		itsServletPath = "/servlet/WebAppServlet";
 		
 		itsResponseHandler = new ServletResponseHandler(itsHttpResponse, itsServletPath, itsPageID, "./templateVelocity/");
-	}
-
-
-
-
-
-	public void testRenderNodeWithVelocity() throws Exception
+    }
+    public void testRenderNodeWithVelocity() throws Exception
 	{
         AnyNode node = new AnyNode("Title");
 		itsResponseHandler.display(node);
@@ -45,8 +41,29 @@ public class TestServletResponseHandler extends ExtendedTestCase
 		assertEquals("Wrong redirect", "/webapp/servlet/WebAppServlet/"+ itsPageID +"?node=AnyNode", itsHttpResponse.redirectedUrl());
 		assert_contains("Wrong page id", itsHttpResponse.redirectedUrl(), itsPageID);
 	}
-
-	public void testRewriteAllUrlsAddingPageID() throws Exception
+    
+    public void testInexistentTemplate() throws IOException
+    {
+        grabSystemOutResettingLogger();
+        try
+        {
+            itsResponseHandler.display(new WebNode()
+            {
+            
+                public WebAppUrl[] connections()
+                {
+                    return new WebAppUrl[0];
+                }
+            
+            });
+            fail("NullPointerException should be thrown because of inexistent template");
+        }
+        catch (NullPointerException ex)
+        {
+            assert_matchesRegex(grabbedOut(), "(?s)ResourceNotFoundException.*NullPointerException");
+        }
+    }
+    public void testRewriteAllUrlsAddingPageID() throws Exception
 	{
 		String expectedHtml =
 			"<A href=\"http://"

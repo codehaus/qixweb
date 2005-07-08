@@ -50,6 +50,7 @@ public class TestQixwebWorkgroup extends TestCase
         
 		assertTrue("New user should be added correctly", itsWorkgroup.add(newUser));
         assertTrue("The new user should be added", itsWorkgroup.allUsers().contains(newUser));
+        assertFalse("Adding again should fail because already present", itsWorkgroup.add(newUser));
     }
 
     public void testEquals() throws Exception

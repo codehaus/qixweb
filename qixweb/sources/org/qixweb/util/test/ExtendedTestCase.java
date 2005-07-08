@@ -1,20 +1,33 @@
 package org.qixweb.util.test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.WriterAppender;
 import org.qixweb.util.StringUtil;
+import org.qixweb.util.XpLogger;
 
 import junit.framework.TestCase;
 
 
 public abstract class ExtendedTestCase extends TestCase
 {
-	public ExtendedTestCase()
+	protected PrintStream systemErr;
+    protected PrintStream systemOut;
+    private ByteArrayOutputStream itsGrabbedErr;
+    private ByteArrayOutputStream itsGrabbedOut;
+
+    public ExtendedTestCase()
 	{
 	    super();
+        init();
 	}
 
     public ExtendedTestCase(String aString)
 	{
 	    super(aString);
+        init();
 	}
     
 	public static void assertDoubleEquals(String aMessage, double anExpectedDouble, double anActualDouble)
@@ -81,4 +94,49 @@ public abstract class ExtendedTestCase extends TestCase
 	{
 		assertTrue(aMessagge+": length is "+someObjects.length+" instead of 0", someObjects.length == 0);
 	}
+
+    protected void setUp() throws Exception
+    {
+        init();
+    }
+
+    private void init()
+    {
+        systemOut = System.out;
+        systemErr = System.err;
+    }
+    protected void tearDown() throws Exception
+    {
+        System.setOut(systemOut);
+        XpLogger.resetConsoleAppenderLogger();
+        System.setErr(systemErr);
+    }
+
+    public String grabbedErr()
+    {
+        return itsGrabbedErr.toString();
+    }
+
+    public void grabSystemErr()
+    {
+        itsGrabbedErr = new ByteArrayOutputStream();
+        System.setErr(new PrintStream(itsGrabbedErr));
+    }
+
+    public String grabbedOut()
+    {
+        return itsGrabbedOut.toString();
+    }
+
+    public void grabSystemOutResettingLogger()
+    {
+        grabSystemOut();
+        XpLogger.resetConsoleAppenderLogger();
+    }
+
+    public void grabSystemOut()
+    {
+        itsGrabbedOut = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(itsGrabbedOut));
+    }
 }

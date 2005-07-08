@@ -1,12 +1,11 @@
 package org.qixweb.time.test;
 import java.text.ParseException;
 import java.util.*;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
-import org.qixweb.time.DateFormatter;
 
 import junit.framework.TestCase;
+
+import org.qixweb.time.CalendarDate;
+import org.qixweb.time.DateFormatter;
 
 
 public class TestDateFormatter extends TestCase
@@ -81,6 +80,14 @@ public class TestDateFormatter extends TestCase
 		}
 	}
 		
+    public void testParseDD_MM_YYYYasCalendarDate()
+    {
+        CalendarDate expectedDate =  new CalendarDate(26, 7, 2003);
+        assertEquals("Wrong parsing for a valid date", expectedDate, DateFormatter.parseDD_MM_YYYYasCalendarDate("26/07/2003"));
+
+        assertNull("Wrong parsing for invalid string", DateFormatter.parseDD_MM_YYYYasCalendarDate("sfklgkjlg h9u897"));
+        assertNull("Wrong parsing for empty string", DateFormatter.parseDD_MM_YYYYasCalendarDate(""));
+    }
 
 	public TestDateFormatter(String name)
 	{
@@ -121,6 +128,17 @@ public class TestDateFormatter extends TestCase
 		assertEquals("Wrong format", "22/02/2002", DateFormatter.formatDD_MM_YYYY(theDate));
 	}
 
+    public void testFormatWithNullCalendar()
+    {
+        assertEquals("Wrong formatDD_MM_YYYY", "", DateFormatter.formatDD_MM_YYYY(null));
+        assertEquals("Wrong formatDD_MM_YYYY_HH_mm", "", DateFormatter.formatDD_MM_YYYY_HH_mm(null));
+        assertEquals("Wrong formatDD_MM_YYYY_HH_mm_ss", "", DateFormatter.formatDD_MM_YYYY_HH_mm_ss(null));
+        assertEquals("Wrong formatMMM_YY", "", DateFormatter.formatMMM_YY(null));
+        assertEquals("Wrong formatMMM_YY with Locale", "", DateFormatter.formatMMM_YY(null, Locale.US));
+        assertEquals("Wrong formatDD_MMM_YYYY with Locale", "", DateFormatter.formatDD_MMM_YYYY(null, Locale.US));
+        assertEquals("Wrong formatDD_MMM_YYYY", "", DateFormatter.formatDD_MMM_YYYY(null));
+    }
+
 	public void testFormatDD_MM_YYYY_HH_mm()
 	{
 		Calendar theDate = Calendar.getInstance();
@@ -132,4 +150,16 @@ public class TestDateFormatter extends TestCase
 		assertEquals("Wrong format not 24 hours", "22/02/2002 13:40", DateFormatter.formatDD_MM_YYYY_HH_mm(theDate));
 
 	}
+
+    public void testFormatDD_MM_YYYY_HH_mm_ss()
+    {
+        Calendar theDate = Calendar.getInstance();
+
+        theDate.set(2002, Calendar.FEBRUARY, 22, 11, 40, 13);
+        assertEquals("Wrong format", "22/02/2002 11:40:13", DateFormatter.formatDD_MM_YYYY_HH_mm_ss(theDate));
+
+        theDate.set(2002, Calendar.FEBRUARY, 22, 13, 40, 23);
+        assertEquals("Wrong format not 24 hours", "22/02/2002 13:40:23", DateFormatter.formatDD_MM_YYYY_HH_mm_ss(theDate));
+
+    }
 }

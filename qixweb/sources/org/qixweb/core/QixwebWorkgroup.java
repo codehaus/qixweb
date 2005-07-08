@@ -15,7 +15,7 @@ public class QixwebWorkgroup implements Serializable
     private HashMap itsUsers;
     
     /**
-     * @deprecated: deve essere usato quello nuovo  
+     * @deprecated: use namesOf(Collection) instead of this  
      */
     public static String[] namesOf(QixwebUser[] someUsers)
     {

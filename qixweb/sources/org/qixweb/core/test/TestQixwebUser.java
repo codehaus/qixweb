@@ -2,6 +2,7 @@ package org.qixweb.core.test;
 
 import org.apache.commons.lang.StringUtils;
 import org.qixweb.core.QixwebUser;
+import org.qixweb.util.EqualsBehaviourVerifier;
 import org.qixweb.util.test.ExtendedTestCase;
 
 
@@ -66,6 +67,16 @@ public class TestQixwebUser extends ExtendedTestCase
 		assertTrue("CAS - UGL", user.compareTo(anotherUser) > 0);
 		assertTrue("UGL - CAS", anotherUser.compareTo(user) < 0);
 	}
+    
+    public void testEquals()
+    {
+        QixwebUser user = TestQixwebUser.createReadWriteWith("UGL", "UGL", false);
+        QixwebUser anotherEqualUser = TestQixwebUser.createReadWriteWith("UGL", "UGL", false);
+        QixwebUser differentUser = TestQixwebUser.createReadWriteWith("CAS", "CAS", false);
+        
+        EqualsBehaviourVerifier.check(user, anotherEqualUser, differentUser);
+        EqualsBehaviourVerifier.checkHashCode(user, anotherEqualUser);
+    }
 	
 	public void testIsDisabled()
 	{
