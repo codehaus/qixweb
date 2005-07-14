@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="WEB-INF/sources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="src" path="/XP_Utilities"/>
 	<classpathentry sourcepath="WEB-INF/lib/velocity-1.4-src.jar" kind="lib" path="WEB-INF/lib/velocity-1.4.jar"/>
 	<classpathentry kind="src" path="/qixweb"/>
 	<classpathentry kind="lib" path="/qixweb/lib/commons-lang-2.0.jar"/>
