@@ -58,6 +58,6 @@ public class StringUtil
 		    return matcher.group();
 		else
 		    return null;
-    }	
-	
+    }
+
 }

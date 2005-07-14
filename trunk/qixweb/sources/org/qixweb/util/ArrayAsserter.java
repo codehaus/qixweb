@@ -3,7 +3,7 @@ package org.qixweb.util;
 import java.util.Iterator;
 import java.util.List;
 
-import junit.framework.TestCase;
+import junit.framework.Assert;
 
 public class ArrayAsserter
 {
@@ -21,7 +21,7 @@ public class ArrayAsserter
         CompareFailureListenerWithMessage failureListener = new CompareFailureListenerWithMessage();
 
         boolean areEquals = ArrayComparator.areEquals(someExpectedData, someReceivedData, failureListener);
-        TestCase.assertTrue(composeMessage(aMessage, failureListener.getFailureMessage()), areEquals);
+        Assert.assertTrue(composeMessage(aMessage, failureListener.getFailureMessage()), areEquals);
     }
 
     public static void assertEquals(String aMessage, Iterator someExpectedData, Iterator someReceivedData)
@@ -29,7 +29,7 @@ public class ArrayAsserter
         CompareFailureListenerWithMessage failureListener = new CompareFailureListenerWithMessage();
 
         boolean areEquals = ArrayComparator.areEquals(someExpectedData, someReceivedData, failureListener);
-        TestCase.assertTrue(composeMessage(aMessage, failureListener.getFailureMessage()), areEquals);
+        Assert.assertTrue(composeMessage(aMessage, failureListener.getFailureMessage()), areEquals);
     }
 
     public static void assertEquals(Iterator[] someExpectedData, Iterator[] someReceivedData)
@@ -47,7 +47,7 @@ public class ArrayAsserter
         CompareFailureListenerWithMessage failureListener = new CompareFailureListenerWithMessage();
 
         boolean areEquals = ArrayComparator.areEquals(someExpectedData, someReceivedData, failureListener);
-        TestCase.assertTrue(composeMessage(aMessage, failureListener.getFailureMessage()), areEquals);
+        Assert.assertTrue(composeMessage(aMessage, failureListener.getFailureMessage()), areEquals);
     }
 
     public static void assertEquals(Object[][] someExpectedData, Object[][] someReceivedData)
@@ -60,7 +60,7 @@ public class ArrayAsserter
         CompareMatrixFailureListenerWithMessage failureListener = new CompareMatrixFailureListenerWithMessage();
 
         boolean areEquals = ArrayComparator.areEquals(someExpectedData, someReceivedData, failureListener);
-        TestCase.assertTrue(composeMessage(aMessage, failureListener.getFailureMessage()), areEquals);
+        Assert.assertTrue(composeMessage(aMessage, failureListener.getFailureMessage()), areEquals);
     }
 
     private static String composeMessage(String aMessage, String cause)
@@ -80,7 +80,7 @@ public class ArrayAsserter
         CompareFailureListenerWithMessage failureListener = new CompareFailureListenerWithMessage();
 
         boolean areEquals = ArrayComparator.areEqualsIgnoringOrder(someExpectedData, someReceivedData, failureListener);
-        TestCase.assertTrue(composeMessage(aMessage, failureListener.getFailureMessage()), areEquals);
+        Assert.assertTrue(composeMessage(aMessage, failureListener.getFailureMessage()), areEquals);
     }
 
     public static void assertEqualsIgnoringOrder(String aMessage, Object[] someExpectedData, final Object[] someReceivedData)
@@ -88,7 +88,7 @@ public class ArrayAsserter
         CompareFailureListenerWithMessage failureListener = new CompareFailureListenerWithMessage();
 
         boolean areEquals = ArrayComparator.areEqualsIgnoringOrder(someExpectedData, someReceivedData, failureListener);
-        TestCase.assertTrue(composeMessage(aMessage, failureListener.getFailureMessage()), areEquals);
+        Assert.assertTrue(composeMessage(aMessage, failureListener.getFailureMessage()), areEquals);
     }
 
     public static void assertObjectContainedIn(Object anObject, Object[] someObjects)
@@ -101,7 +101,7 @@ public class ArrayAsserter
         CompareFailureListenerWithMessage failureListener = new CompareFailureListenerWithMessage();
 
         boolean isContained = ArrayComparator.isObjectContainedIn(anObject, someObjects, failureListener);
-        TestCase.assertTrue(composeMessage(aMessage, failureListener.getFailureMessage()), isContained);
+        Assert.assertTrue(composeMessage(aMessage, failureListener.getFailureMessage()), isContained);
 
     }
 
@@ -110,7 +110,7 @@ public class ArrayAsserter
         CompareFailureListenerWithMessage failureListener = new CompareFailureListenerWithMessage();
 
         boolean isContained = ArrayComparator.isObjectContainedIn(anObject, someObjects, failureListener);
-        TestCase.assertFalse(composeMessage(aMessage, anObject + " should not be present in array"), isContained);
+        Assert.assertFalse(composeMessage(aMessage, anObject + " should not be present in array"), isContained);
     }
 
     public static void assertObjectNotContainedIn(Object anObject, Object[] someObjects)
@@ -123,7 +123,7 @@ public class ArrayAsserter
         CompareFailureListenerWithMessage failureListener = new CompareFailureListenerWithMessage();
 
         boolean areEquals = ArrayComparator.areEquals(expected, received, failureListener);
-        TestCase.assertTrue(composeMessage(aMessage, failureListener.getFailureMessage()), areEquals);
+        Assert.assertTrue(composeMessage(aMessage, failureListener.getFailureMessage()), areEquals);
     }
 
     public static void assertEquals(String aMessage, byte[] expected, byte[] received)
@@ -131,7 +131,7 @@ public class ArrayAsserter
         CompareFailureListenerWithMessage failureListener = new CompareFailureListenerWithMessage();
 
         boolean areEquals = ArrayComparator.areEquals(expected, received, failureListener);
-        TestCase.assertTrue(composeMessage(aMessage, failureListener.getFailureMessage()), areEquals);
+        Assert.assertTrue(composeMessage(aMessage, failureListener.getFailureMessage()), areEquals);
     }
 
     public static void assertOnlyOneElementEquals(String aMessage, Object anExpectedData, Object[] someReceivedData)
@@ -152,7 +152,7 @@ public class ArrayAsserter
     public static void assertDoesNotContainNullElements(Object[] anArray)
     {
         for (int i = 0; i < anArray.length; i++)
-            TestCase.assertNotNull(anArray[i]);
+            Assert.assertNotNull(anArray[i]);
     }
 
 }
