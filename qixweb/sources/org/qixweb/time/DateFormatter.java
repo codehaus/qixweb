@@ -23,116 +23,98 @@ public class DateFormatter
         itsDefaultLocale = aLocale;
     }
     
-    public static String formatDD_MMM_YYYY(Calendar aCalendar)
+    public static String formatDD_MMM_YYYY(QixwebCalendar aCalendar)
     {
         return formatDD_MMM_YYYY(aCalendar, defaultLocale());
     }
     
-	public static String formatDD_MMM_YYYY(Calendar aCalendar, Locale aLocale)
+	public static String formatDD_MMM_YYYY(QixwebCalendar aCalendar, Locale aLocale)
 	{
-        if (aCalendar == null)
-            return "";
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", aLocale);
-		return dateFormat.format(aCalendar.getTime());
+		return format(aCalendar, new SimpleDateFormat("dd-MMM-yyyy", aLocale));
 	}
 	
-	public static String formatDD_MM_YYYY(Calendar aCalendar)
+	public static String formatDD_MM_YYYY(QixwebCalendar aCalendar)
 	{
-        if (aCalendar == null)
-            return "";
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		return dateFormat.format(aCalendar.getTime());
+        return format(aCalendar, new SimpleDateFormat("dd/MM/yyyy"));
 	}
 
-	public static String formatDD_MM_YYYY_HH_mm(Calendar aCalendar)
+	public static String formatDD_MM_YYYY_HH_mm(QixwebCalendar aCalendar)
 	{
-        if (aCalendar == null)
-            return "";
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-		return dateFormat.format(aCalendar.getTime());
+        return format(aCalendar, new SimpleDateFormat("dd/MM/yyyy HH:mm"));
 	}
 	
-	public static String formatDD_MM_YYYY_HH_mm_ss(Calendar aCalendar)
+	public static String formatDD_MM_YYYY_HH_mm_ss(QixwebCalendar aCalendar)
 	{
-        if (aCalendar == null)
-            return "";
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-		return dateFormat.format(aCalendar.getTime());
+        return format(aCalendar, new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"));
 	}	
 
-	public static String formatyyyyMMdd_HHmmss(Calendar aCalendar)
+	public static String formatyyyyMMdd_HHmmss(QixwebCalendar aCalendar)
 	{
-        if (aCalendar == null)
-            return "";
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd-HHmmss");
-		return dateFormat.format(aCalendar.getTime());
+        return format(aCalendar, new SimpleDateFormat("yyyyMMdd-HHmmss"));
 	}
 
-    public static String formatMMM_YY(Calendar aCalendar)
+    public static String formatMMM_YY(QixwebCalendar aCalendar)
     {
         return formatMMM_YY(aCalendar, defaultLocale());
     }
     
-	public static String formatMMM_YY(Calendar aCalendar, Locale aLocale)
+	public static String formatMMM_YY(QixwebCalendar aCalendar, Locale aLocale)
 	{
-        if (aCalendar == null)
-            return "";
-		SimpleDateFormat dateFormat = new SimpleDateFormat("MMM-yy", aLocale);
-		return dateFormat.format(aCalendar.getTime());
+        return format(aCalendar, new SimpleDateFormat("MMM-yy", aLocale));
 	}
+
+    public static String formatyyyyMMdd(QixwebCalendar aCalendar)
+    {
+        return format(aCalendar, new SimpleDateFormat("yyyyMMdd"));
+    }
+
+    public static String formatyyyyMM(QixwebCalendar aCalendar)
+    {
+        return format(aCalendar, new SimpleDateFormat("yyyyMM"));
+    }
+
+    private static String format(QixwebCalendar aCalendar, SimpleDateFormat aDateFormat) {
+        return aCalendar.format(aDateFormat);
+    }
 
 	public static Calendar parseMMM_YY(String aDateAsString, Locale aLocale) throws ParseException
 	{
 		Date date = new SimpleDateFormat("MMM-yy", aLocale).parse(aDateAsString);
-
-		return convertToCalendar(date);
+		return toCalendar(date);
 	}
     
     public static Calendar parseMMM_YY(String aDateAsString) throws ParseException
     {
         return  parseMMM_YY(aDateAsString, defaultLocale());
     }
-
-	private static Calendar convertToCalendar(Date aDate)
-	{
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(aDate);
-		return calendar;
-	}
 	
 	public static Calendar parseDD_MM_YYYY(String aDateAsString) throws ParseException
 	{
 		Date date = new SimpleDateFormat("dd/MM/yyyy").parse(aDateAsString);
-		return convertToCalendar(date);
+		return toCalendar(date);
 	}
 
-    public static CalendarDate parseDD_MM_YYYYasCalendarDate(String aDateAsString)
+    public static QixwebCalendar parseDD_MM_YYYYasQixwebCalendar(String aDateAsString)
     {
         try
         {
-            return new CalendarDate(parseDD_MM_YYYY(aDateAsString));
+            return new QixwebDate(parseDD_MM_YYYY(aDateAsString));
         }
         catch (ParseException e)
         {
-            return null;
+            return QixwebCalendar.NULL;
         }
     }
 
 	public static Calendar parseyyyyMMdd_HHmmss(String aDateAsString) throws ParseException
 	{
 		Date date = new SimpleDateFormat("yyyyMMdd-HHmmss", Locale.ITALY).parse(aDateAsString);
-		return convertToCalendar(date);
+		return toCalendar(date);
 	}
 
-	public static String formatyyyyMMdd(Calendar aCalendar)
-	{
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-		return dateFormat.format(aCalendar.getTime());
-	}
-
-	public static String formatyyyyMM(Calendar aCalendar)
-	{
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMM");
-		return dateFormat.format(aCalendar.getTime());
-	}
-}
+    private static Calendar toCalendar(Date aDate)
+    {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(aDate);
+        return calendar;
+    }}
