@@ -5,7 +5,7 @@ import java.util.Calendar;
 import org.apache.commons.lang.StringUtils;
 import org.qixweb.core.*;
 import org.qixweb.sample.command.SetGuestCommand;
-import org.qixweb.time.DateFormatter;
+import org.qixweb.time.*;
 
 
 
@@ -22,7 +22,7 @@ public class HelloNode extends WebNode
 
     public String currentTime()
     {
-        return DateFormatter.formatDD_MM_YYYY_HH_mm_ss(Calendar.getInstance());
+        return DateFormatter.formatDD_MM_YYYY_HH_mm_ss(new QixwebTime(Calendar.getInstance()));
     }
     public WebAppUrl setGuestNameUrl()
     {
