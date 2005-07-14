@@ -118,4 +118,8 @@ public class TestQixwebUser extends ExtendedTestCase
         assertEquals("The password should have 10 chars", 10, QixwebUser.generateRandomPassword().length()); 
     }
     
+    public void testNullUser()
+    {
+        assertTrue(QixwebUser.NULL.hasWritePermission());
+    }
 }
