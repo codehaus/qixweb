@@ -20,6 +20,7 @@ public class TestQixwebServlet extends ExtendedTestCase
     private ConcreteQixwebServlet itsServlet;
     private FakeHttpServletRequest itsFakeRequest;
     private FakeHttpServletResponse itsFakeResponse;
+
     public class ConcreteQixwebServlet extends QixwebServlet
     {
         public ConcreteQixwebServlet() throws ServletException
@@ -171,12 +172,11 @@ public class TestQixwebServlet extends ExtendedTestCase
     
     protected void setUp() throws Exception
     {
-        super.setUp();
         itsServlet = new ConcreteQixwebServlet();
         itsFakeRequest = new FakeHttpServletRequest();
         itsFakeResponse = new FakeHttpServletResponse();
-        systemErr = System.err;
     }
+
     public void testService()
     {
         itsFakeRequest.simulateParameter("node", "AnyNode");
@@ -184,19 +184,5 @@ public class TestQixwebServlet extends ExtendedTestCase
         itsFakeRequest.simulateSession(new FakeHttpSession());
         itsServlet.service(itsFakeRequest, itsFakeResponse);
         assert_contains(itsFakeResponse.outputAsString(), "<A href=\"/servlet/WebAppServlet?command=AnyCommand\">Click here to execute Any Command</A>");
-    }
-    
-    public void testException() throws ServletException
-    {
-        grabSystemErr();
-        itsServlet = new ConcreteQixwebServlet() 
-        {
-            protected QixwebEnvironment instantiateEnvironment()
-            {
-                throw new RuntimeException("Fake generated exception");
-            }
-        };
-        itsServlet.service(itsFakeRequest, itsFakeResponse);
-        assert_contains(grabbedErr(), "Fake generated exception");
     }
 }

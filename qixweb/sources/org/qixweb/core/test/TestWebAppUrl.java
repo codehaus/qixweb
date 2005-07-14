@@ -44,11 +44,9 @@ public class TestWebAppUrl extends ExtendedTestCase
 	
 	public void testMaterializeTargetCommand()
 	{
-		AnyCommand expectedCommand = new AnyCommand("materializeTest");
+		AnyCommand expectedCommand = new AnyCommand();
 		
 		WebAppUrl url = new WebAppUrl(AnyCommand.class, "");
-        url.setParameter("state", "materializeTest");
-        itsUserData.store("state", "materializeTest");
 		WebCommand command = url.materializeTargetCommandWith(itsUserData);
 	
 		assertEquals(expectedCommand, command);
@@ -84,7 +82,10 @@ public class TestWebAppUrl extends ExtendedTestCase
 		itsWebUrlForAnyCommand = new WebAppUrl(AnyCommand.class, itsBaseUrlBeforeParameters);
 		
 		itsUserData = new UserData();
-		itsSystem = new TheSystem() {};
+		itsSystem = new TheSystem()
+		{
+		};
+		
     }
     
     public void testIsEnabled()

@@ -9,9 +9,9 @@ public class FakeTimeProvider implements TimeProvider
 {
 	private Calendar itsDate;
 
-    public QixwebTime now()
+    public CalendarDateTime now()
     {
-        return new QixwebTime(itsDate);
+        return new CalendarDateTime(itsDate);
     }
 
 	public void simulateTime(Calendar aDate)
@@ -21,7 +21,7 @@ public class FakeTimeProvider implements TimeProvider
 
 	public void simulateTime(int aDay, int aMonth, int aYear, int hour, int min, int sec)
 	{
-		itsDate = Calendar.getInstance();
+		itsDate = GregorianCalendar.getInstance();
 		itsDate.set(aYear, aMonth - 1, aDay, hour, min, sec);
 	}
 
@@ -30,9 +30,9 @@ public class FakeTimeProvider implements TimeProvider
 		simulateTime(aDay, aMonth, aYear, 0, 0, 0);
 	}
 	
-	public QixwebDate calendarDate()
+	public CalendarDate calendarDate()
 	{
-		return new QixwebDate(itsDate);
+		return new CalendarDate(itsDate);
 	}
 
     public void advance(int numberOfMinutes)

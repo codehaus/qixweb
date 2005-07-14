@@ -79,7 +79,10 @@ public class ServletResponseHandler implements ResponseHandler
             {
                 writer.close();
             }
-            catch (IOException ioex) { /*never*/ }
+            catch (IOException ioex)
+            {
+                XpLogger.logException(ioex);
+            }
         }
 
         return html;
@@ -90,7 +93,6 @@ public class ServletResponseHandler implements ResponseHandler
         Template template = null;
         try
         {
-        	//TODO: there is just 1 call that can be used => check!
             String nodeFullyQualifiedName = node.getClass().getName();
             String nodeClassName = nodeFullyQualifiedName.substring(nodeFullyQualifiedName.lastIndexOf(".") + 1);
 

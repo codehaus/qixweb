@@ -2,7 +2,6 @@ package org.qixweb.util.test;
 import java.util.*;
 
 import org.qixweb.util.StringUtil;
-
 public class TestStringUtil extends ExtendedTestCase
 {
 	public void testStringContains()
@@ -70,4 +69,5 @@ public class TestStringUtil extends ExtendedTestCase
         aCollectionOfNames.add("Paperino");
         assertEquals("Pippo:Pluto:Paperino", StringUtil.join(aCollectionOfNames, ":"));
     }   
+    
 }

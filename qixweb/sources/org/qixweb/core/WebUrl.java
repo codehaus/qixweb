@@ -136,14 +136,9 @@ public class WebUrl
         itsParameters.put(key, Integer.toString(value));
     }
 
-    public void setParameter(String key, boolean value)
-    {
-        itsParameters.put(key, Boolean.toString(value));
-    }
-
-    public void setParameter(String key, String[] someValues)
+    public void setParameter(String aKey, String[] someValues)
 	{
-		itsParameters.put(key, someValues);
+		itsParameters.put(aKey, someValues);
 	}
 
 	public void setParameters(Map newParametersMap)
