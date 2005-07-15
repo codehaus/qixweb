@@ -1,6 +1,5 @@
 package org.qixweb.core.test;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
 import org.qixweb.core.*;
 import org.qixweb.util.test.ExtendedTestCase;
 
@@ -15,6 +14,9 @@ public class TestDefaultWebForm extends ExtendedTestCase
         public String field1 = "val1";
         public String field2 = "val2";
         
+        public MyDefaultWebForm()
+        {
+        }
         public MyDefaultWebForm(QixwebUser user)
         {
             super(user);
@@ -29,12 +31,12 @@ public class TestDefaultWebForm extends ExtendedTestCase
     
     protected void setUp() throws Exception
     {
-        itsForm = new MyDefaultWebForm(RWUSER);
+        itsForm = new MyDefaultWebForm();
     }
 
     public void testEquals()
     {
-        assertEquals(itsForm, new MyDefaultWebForm(RWUSER));
+        assertEquals(itsForm, new MyDefaultWebForm());
     }
     
     public void testToString()
@@ -54,6 +56,7 @@ public class TestDefaultWebForm extends ExtendedTestCase
     
     public void testDisableIfReadOnlyUser()
     {
+        itsForm = new MyDefaultWebForm(RWUSER);
         assertTrue(itsForm.isEnabled());
         itsForm = new MyDefaultWebForm(ROUSER);
         assertFalse(itsForm.isEnabled());

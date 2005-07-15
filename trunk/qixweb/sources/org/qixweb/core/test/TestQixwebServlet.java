@@ -176,6 +176,7 @@ public class TestQixwebServlet extends ExtendedTestCase
         itsFakeRequest = new FakeHttpServletRequest();
         itsFakeResponse = new FakeHttpServletResponse();
         systemErr = System.err;
+        systemOut = System.out;
     }
     public void testService()
     {
@@ -188,6 +189,7 @@ public class TestQixwebServlet extends ExtendedTestCase
     
     public void testException() throws ServletException
     {
+        grabSystemOutResettingLogger();
         grabSystemErr();
         itsServlet = new ConcreteQixwebServlet() 
         {
@@ -198,5 +200,16 @@ public class TestQixwebServlet extends ExtendedTestCase
         };
         itsServlet.service(itsFakeRequest, itsFakeResponse);
         assert_contains(grabbedErr(), "Fake generated exception");
+        assert_contains(grabbedOut(), "Fake generated exception");
+    }
+    
+    public void testExceptionReportingException()
+    {
+        grabSystemOutResettingLogger();
+        grabSystemErr();
+
+        QixwebServlet.reportException(itsFakeResponse, /*nullRefInOrderToGenerateNullPointerException=*/null);
+        assert_contains(grabbedOut(), "NullPointerException");
+
     }
 }
