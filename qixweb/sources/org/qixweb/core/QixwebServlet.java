@@ -20,7 +20,7 @@ public abstract class QixwebServlet extends HttpServlet
 		catch (Exception ex)
 		{
 			XpLogger.logException(ex);
-			ServletUtil.reportException(response, ex);
+			QixwebServlet.reportException(response, ex);
 		}
 	}
 
@@ -35,6 +35,19 @@ public abstract class QixwebServlet extends HttpServlet
 
         ServletResponseHandler responseHandler = new ServletResponseHandler(response, request.getServletPath(), sessionID.nextPageID(), templatePath);    
         return new QixwebBrowser(responseHandler, userSessionData, environment, true);
+    }
+
+    public static void reportException(HttpServletResponse response, Exception ex)
+    {
+    	try
+    	{
+    		ex.printStackTrace();
+    		ex.printStackTrace(response.getWriter());
+    	}
+    	catch (Exception e)
+    	{
+    		XpLogger.logException(e);
+    	}
     }
 
    
