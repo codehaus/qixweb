@@ -3,7 +3,7 @@ package org.qixweb.core;
 import org.qixweb.util.DeepEquals;
 
 
-public class Choice
+public class Choice implements Comparable
 {
 	private String itsValue;
 	private String itsLabel;
@@ -40,5 +40,15 @@ public class Choice
 	{
 		return DeepEquals.equals(this, aChoice);
 	}
+
+    public int compareTo(Object anObject)
+    {
+        if (anObject instanceof Choice)
+        {
+            Choice anotherChoice = (Choice) anObject;
+            return itsLabel.compareTo(anotherChoice.itsLabel);
+        }
+        return 0;
+    }
 	
 }
