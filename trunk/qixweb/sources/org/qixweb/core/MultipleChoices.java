@@ -1,6 +1,7 @@
 package org.qixweb.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.qixweb.util.DeepEquals;
 
@@ -47,4 +48,9 @@ public class MultipleChoices
 	{
 		return "[name: " + name() + " - isEnabled: " + isEnabled() + " - itsChoices: " + itsChoices + "]"; 
 	}
+
+    public void sortByLabel()
+    {
+        Collections.sort(itsChoices);
+    }
 }
