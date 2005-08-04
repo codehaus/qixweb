@@ -4,6 +4,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+import org.qixweb.block.LightInternalIterator;
+import org.qixweb.block.Procedure;
 import org.qixweb.util.XpLogger;
 
 
@@ -22,6 +24,7 @@ public class WebAppUrl extends WebUrl
 	public WebAppUrl(Class aTarget, String anUrl)
 	{
 		super(anUrl);
+        resetParameters();
 		itsTargetClass = aTarget;
 		isEnabled = true;
 		setClassNameParameterFor(aTarget);
@@ -191,4 +194,23 @@ public class WebAppUrl extends WebUrl
 
 		return (WebRefreshableCommand) callCreateOnTargetWith(createParameterTypes, createParameters);
 	}
+
+    public void copyOptionalParametersFrom(final WebUrl aUrl)
+    {
+        LightInternalIterator.createOn(aUrl.itsParameters.keySet()).forEach(new Procedure()
+        {
+            public void run(Object aEach)
+            {
+                String key = (String)aEach;
+                boolean isOptional =    !key.equals(PARAMETER_COMMAND_TO_EXECUTE) &&
+                                        !key.equals(PARAMETER_REFRESHABLE_COMMAND_TO_EXECUTE) && 
+                                        !key.equals(PARAMETER_NODE_TO_DISPLAY);
+                if (isOptional)
+                {
+                    Object object = aUrl.itsParameters.get(key);
+                    itsParameters.put(key, object);
+                }
+            }
+        });
+    }
 }

@@ -14,7 +14,7 @@ public class WebUrl
 {
 	private static final String ENCONDING_ISO_8859_1 = "ISO-8859-1";
 	
-    private Map itsParameters;
+    protected Map itsParameters;
 	private String itsUrlBeforeParameters;
 
 	public static String encode(String parameterValue)
@@ -63,7 +63,12 @@ public class WebUrl
 	public String[] getParameterValuesOf(String key)
 	{
 		if (itsParameters.get(key) != null)
-			return (String[]) itsParameters.get(key);
+        {
+            if (itsParameters.get(key).getClass().isArray())
+                return (String[]) itsParameters.get(key);
+            else
+                return new String[] { (String) itsParameters.get(key) };
+        }
 		else
 			return new String[0];
 	}
@@ -203,5 +208,10 @@ public class WebUrl
     public int parametersLength()
     {
         return itsParameters.size();
+    }
+    
+    protected void resetParameters()
+    {
+        itsParameters.clear();
     }
 }

@@ -7,7 +7,18 @@ import org.qixweb.util.test.ExtendedTestCase;
 
 public class TestWebAppUrl extends ExtendedTestCase
 {
-	public void testMaterializeTargetNode()
+    protected void setUp() throws Exception
+    {
+        itsBaseUrlBeforeParameters = "baseUrl";
+        
+        itsWebUrlForAnyNode = new WebAppUrl(AnyNode.class, itsBaseUrlBeforeParameters);
+        itsWebUrlForAnyCommand = new WebAppUrl(AnyCommand.class, itsBaseUrlBeforeParameters);
+        
+        itsUserData = new UserData();
+        itsSystem = new TheSystem() {};
+    }
+
+    public void testMaterializeTargetNode()
 	{
 		AnyNode expectedNode = new AnyNode();
 		
@@ -16,6 +27,7 @@ public class TestWebAppUrl extends ExtendedTestCase
 	
 		assertEquals(expectedNode, node);
 	}
+    
 	public void testMaterializeNotExistentNode()
 	{
 		XpLogger.off();
@@ -74,17 +86,6 @@ public class TestWebAppUrl extends ExtendedTestCase
     public static String encodeAmpersand(String aStringToEncode)
     {
         return aStringToEncode.replaceAll("&", "&amp;");
-    }
-    
-    protected void setUp() throws Exception
-    {
-    	itsBaseUrlBeforeParameters = "baseUrl";
-		
-		itsWebUrlForAnyNode = new WebAppUrl(AnyNode.class, itsBaseUrlBeforeParameters);
-		itsWebUrlForAnyCommand = new WebAppUrl(AnyCommand.class, itsBaseUrlBeforeParameters);
-		
-		itsUserData = new UserData();
-		itsSystem = new TheSystem() {};
     }
     
     public void testIsEnabled()
@@ -158,5 +159,44 @@ public class TestWebAppUrl extends ExtendedTestCase
 		assert_contains("wrong parameter", returnedDestination, expectedFirstParameter);     
 		assert_contains("wrong parameter", returnedDestination, expectedSecondParameter);     
 	}
-	        
+
+    public void testCostructorKeepOnlyBaseUrl()
+    {
+        WebAppUrl url = new WebAppUrl(AnyRefreshableCommand.class, "http://localhost:8080/MyWebApp/servlet/MyServlet?param1=value1&param2=value2");
+        assertEquals
+        (
+                "It should keep only the baseurl of the url passed in the costructor", 
+                "http://localhost:8080/MyWebApp/servlet/MyServlet?refreshableCommand=AnyRefreshableCommand", 
+                url.destination()
+        );
+    }
+    
+    public void testCopyOptionalParameters()
+    {
+        WebAppUrl orginUrl = new WebAppUrl(AnyRefreshableCommand.class, "http://localhost:8080/MyWebApp/servlet/MyServlet");
+        orginUrl.setParameter("param1", "value1");
+        orginUrl.setParameter("param2", "value2");
+        WebAppUrl targetCommandUrl = new WebAppUrl(AnyCommand.class, "http://localhost:8080/MyWebApp/servlet/MyServlet");
+        WebAppUrl expectedCommandUrl = new WebAppUrl(AnyCommand.class, "http://localhost:8080/MyWebApp/servlet/MyServlet");
+        expectedCommandUrl.setParameter("param1", "value1");
+        expectedCommandUrl.setParameter("param2", "value2");
+        targetCommandUrl.copyOptionalParametersFrom(orginUrl);
+        assertEquals(expectedCommandUrl, targetCommandUrl);
+
+        targetCommandUrl = new WebAppUrl(AnyRefreshableCommand.class, "http://localhost:8080/MyWebApp/servlet/MyServlet");
+        expectedCommandUrl = new WebAppUrl(AnyRefreshableCommand.class, "http://localhost:8080/MyWebApp/servlet/MyServlet");
+        expectedCommandUrl.setParameter("param1", "value1");
+        expectedCommandUrl.setParameter("param2", "value2");
+        targetCommandUrl.copyOptionalParametersFrom(orginUrl);
+        assertEquals(expectedCommandUrl, targetCommandUrl);
+
+        targetCommandUrl = new WebAppUrl(AnyNode.class, "http://localhost:8080/MyWebApp/servlet/MyServlet");
+        expectedCommandUrl = new WebAppUrl(AnyNode.class, "http://localhost:8080/MyWebApp/servlet/MyServlet");
+        expectedCommandUrl.setParameter("param1", "value1");
+        expectedCommandUrl.setParameter("param2", "value2");
+        targetCommandUrl.copyOptionalParametersFrom(orginUrl);
+        assertEquals(expectedCommandUrl, targetCommandUrl);
+        
+    }
+    
 }
