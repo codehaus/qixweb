@@ -6,12 +6,12 @@ import org.qixweb.util.DeepEquals;
 
 public class AnyRefreshableCommand implements WebRefreshableCommand
 {
-	public static WebRefreshableCommand create(WebAppUrl webUrl)
+	public static AnyRefreshableCommand create(WebAppUrl webUrl, UserData userData)
 	{
 		return new AnyRefreshableCommand();
 	}
 	
-	public WebNode execute(QixwebEnvironment environment)
+	public Browsable execute(QixwebEnvironment environment)
 	{
 		return new AnyNode();
 	}

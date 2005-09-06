@@ -1,5 +1,6 @@
 package org.qixweb.core;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -10,12 +11,11 @@ import org.qixweb.util.XpLogger;
 
 
 
-public class WebAppUrl extends WebUrl
+public class WebAppUrl extends WebUrl implements Browsable
 {
 	public static final WebAppUrl EMPTY_URL = new WebAppUrl(Object.class, "");
 
 	public static final String PARAMETER_COMMAND_TO_EXECUTE = "command";
-	public static final String PARAMETER_REFRESHABLE_COMMAND_TO_EXECUTE = "refreshableCommand";
 	public static final String PARAMETER_NODE_TO_DISPLAY = "node";
 
 	private Class itsTargetClass;
@@ -40,18 +40,21 @@ public class WebAppUrl extends WebUrl
 	{
 		return itsTargetClass;
 	}
+    
+    public void displayThrough(ResponseHandler aResponseHandler) throws IOException
+    {
+        aResponseHandler.redirectTo(this);
+    }
 
 	private void setClassNameParameterFor(Class aTargetClass)
 	{
 		String fullName = aTargetClass.getName();
 		String className = fullName.substring(fullName.lastIndexOf(".") + 1);
 
-		if (WebCommand.class.isAssignableFrom(aTargetClass))
+		if (WebRefreshableCommand.class.isAssignableFrom(aTargetClass))
 			setParameter(WebAppUrl.PARAMETER_COMMAND_TO_EXECUTE, className);
 		else if (WebNode.class.isAssignableFrom(aTargetClass))
 			setParameter(WebAppUrl.PARAMETER_NODE_TO_DISPLAY, className);
-		else if (WebRefreshableCommand.class.isAssignableFrom(aTargetClass))
-			setParameter(WebAppUrl.PARAMETER_REFRESHABLE_COMMAND_TO_EXECUTE, className);
 	}
 
 	// @PMD:REVIEWED:OverrideBothEqualsAndHashcode: by bop on 3/8/05 12:38 PM
@@ -84,10 +87,6 @@ public class WebAppUrl extends WebUrl
 	public boolean isExecutingACommand()
 	{
 		return getParameter(PARAMETER_COMMAND_TO_EXECUTE) != null;
-	}
-	public boolean isExecutingARefreshableCommand()
-	{
-		return getParameter(PARAMETER_REFRESHABLE_COMMAND_TO_EXECUTE) != null;
 	}
 	public boolean isGoingToANode()
 	{
@@ -128,12 +127,12 @@ public class WebAppUrl extends WebUrl
 		return node;
 	}
 
-	public WebCommand materializeTargetCommandWith(UserData userData)
+	public WebRefreshableCommand materializeTargetCommandWith(UserData userData)
 	{
 		Class[] createParameterTypes = new Class[] { WebAppUrl.class, UserData.class };
 		Object[] createParameters = new Object[] { this, userData };
 
-		return (WebCommand) callCreateOnTargetWith(createParameterTypes, createParameters);
+		return (WebRefreshableCommand) callCreateOnTargetWith(createParameterTypes, createParameters);
 	}
 
 	private static String extractDestinationFrom(Map parametersMap, String aNodePackage, String aCommandPackage)
@@ -148,11 +147,6 @@ public class WebAppUrl extends WebUrl
 		else if (parametersMap.get(WebAppUrl.PARAMETER_COMMAND_TO_EXECUTE) != null)
 		{
 			String commandClassName = ((String[]) parametersMap.get(WebAppUrl.PARAMETER_COMMAND_TO_EXECUTE))[0];
-			destination = aCommandPackage + commandClassName;
-		}
-		else if (parametersMap.get(WebAppUrl.PARAMETER_REFRESHABLE_COMMAND_TO_EXECUTE) != null)
-		{
-			String commandClassName = ((String[]) parametersMap.get(WebAppUrl.PARAMETER_REFRESHABLE_COMMAND_TO_EXECUTE))[0];
 			destination = aCommandPackage + commandClassName;
 		}
 		return destination;
@@ -187,15 +181,7 @@ public class WebAppUrl extends WebUrl
 		return mapAsUrl;
 	}
 
-	public WebRefreshableCommand materializeTargetRefrashableCommand()
-	{
-		Class[] createParameterTypes = new Class[] { WebAppUrl.class };
-		Object[] createParameters = new Object[] { this};
-
-		return (WebRefreshableCommand) callCreateOnTargetWith(createParameterTypes, createParameters);
-	}
-
-    public void copyOptionalParametersFrom(final WebUrl aUrl)
+	public void copyOptionalParametersFrom(final WebUrl aUrl)
     {
         LightInternalIterator.createOn(aUrl.itsParameters.keySet()).forEach(new Procedure()
         {
@@ -203,7 +189,6 @@ public class WebAppUrl extends WebUrl
             {
                 String key = (String)aEach;
                 boolean isOptional =    !key.equals(PARAMETER_COMMAND_TO_EXECUTE) &&
-                                        !key.equals(PARAMETER_REFRESHABLE_COMMAND_TO_EXECUTE) && 
                                         !key.equals(PARAMETER_NODE_TO_DISPLAY);
                 if (isOptional)
                 {

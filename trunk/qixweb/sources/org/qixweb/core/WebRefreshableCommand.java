@@ -3,5 +3,5 @@ package org.qixweb.core;
 
 public interface WebRefreshableCommand
 {
-	WebNode execute(QixwebEnvironment environment);
+	Browsable execute(QixwebEnvironment environment) throws Exception;
 }

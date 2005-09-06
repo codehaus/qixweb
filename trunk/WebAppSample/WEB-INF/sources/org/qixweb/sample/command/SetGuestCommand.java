@@ -20,7 +20,7 @@ public class SetGuestCommand implements WebCommand
         itsGuestName = guestName;
     }
     
-    public WebAppUrl execute(QixwebEnvironment aEnvironment) throws Exception
+    public Browsable execute(QixwebEnvironment aEnvironment) throws Exception
     {
         return HelloNode.urlToMe(aEnvironment, itsGuestName);
     }
