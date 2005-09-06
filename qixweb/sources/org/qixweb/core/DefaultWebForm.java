@@ -5,18 +5,7 @@ import org.qixweb.util.DeepEquals;
 
 public abstract class DefaultWebForm implements WebForm
 {
-    private boolean isEnabled;
-    
-    public DefaultWebForm()
-    {
-        isEnabled = true;
-    }
-    
-    public DefaultWebForm(QixwebUser user)
-    {
-        isEnabled = user.hasWritePermission();
-    }
-
+    private boolean isEnabled = true;
     public boolean equals(Object otherForm)
     {
         return DeepEquals.equals(this, otherForm);
@@ -32,6 +21,12 @@ public abstract class DefaultWebForm implements WebForm
     public boolean isEnabled()
     {
         return isEnabled;
+    }
+    public DefaultWebForm disableIfUserCannotWrite(QixwebUser user)
+    {
+        if (!user.hasWritePermission())
+            disable();
+        return this;
     }
     public WebAppUrl actionUrl()
     {

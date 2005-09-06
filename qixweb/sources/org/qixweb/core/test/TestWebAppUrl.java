@@ -7,18 +7,7 @@ import org.qixweb.util.test.ExtendedTestCase;
 
 public class TestWebAppUrl extends ExtendedTestCase
 {
-    protected void setUp() throws Exception
-    {
-        itsBaseUrlBeforeParameters = "baseUrl";
-        
-        itsWebUrlForAnyNode = new WebAppUrl(AnyNode.class, itsBaseUrlBeforeParameters);
-        itsWebUrlForAnyCommand = new WebAppUrl(AnyCommand.class, itsBaseUrlBeforeParameters);
-        
-        itsUserData = new UserData();
-        itsSystem = new TheSystem() {};
-    }
-
-    public void testMaterializeTargetNode()
+	public void testMaterializeTargetNode()
 	{
 		AnyNode expectedNode = new AnyNode();
 		
@@ -27,7 +16,6 @@ public class TestWebAppUrl extends ExtendedTestCase
 	
 		assertEquals(expectedNode, node);
 	}
-    
 	public void testMaterializeNotExistentNode()
 	{
 		XpLogger.off();
@@ -48,7 +36,7 @@ public class TestWebAppUrl extends ExtendedTestCase
 		Class notExistentCommand = Integer.class;
 		WebAppUrl urlToNotExistentTarget = new WebAppUrl(notExistentCommand, "");
 	
-        WebRefreshableCommand command = urlToNotExistentTarget.materializeTargetCommandWith(itsUserData);
+		WebCommand command = urlToNotExistentTarget.materializeTargetCommandWith(itsUserData);
 		assertNull("It is NOT possible to materialize a not existent command", command);
 	
 		XpLogger.resume();	
@@ -61,10 +49,21 @@ public class TestWebAppUrl extends ExtendedTestCase
 		WebAppUrl url = new WebAppUrl(AnyCommand.class, "");
         url.setParameter("state", "materializeTest");
         itsUserData.store("state", "materializeTest");
-        WebRefreshableCommand command = url.materializeTargetCommandWith(itsUserData);
+		WebCommand command = url.materializeTargetCommandWith(itsUserData);
 	
 		assertEquals(expectedCommand, command);
 	}
+	
+	public void testMaterializeTargetRefreshableCommand()
+	{
+		AnyRefreshableCommand expectedCommand = new AnyRefreshableCommand();
+		
+		WebAppUrl url = new WebAppUrl(AnyRefreshableCommand.class, "");
+		WebRefreshableCommand command = url.materializeTargetRefrashableCommand();
+	
+		assertEquals(expectedCommand, command);
+	}	
+
 	
     private UserData itsUserData;
 	private TheSystem itsSystem;
@@ -75,6 +74,17 @@ public class TestWebAppUrl extends ExtendedTestCase
     public static String encodeAmpersand(String aStringToEncode)
     {
         return aStringToEncode.replaceAll("&", "&amp;");
+    }
+    
+    protected void setUp() throws Exception
+    {
+    	itsBaseUrlBeforeParameters = "baseUrl";
+		
+		itsWebUrlForAnyNode = new WebAppUrl(AnyNode.class, itsBaseUrlBeforeParameters);
+		itsWebUrlForAnyCommand = new WebAppUrl(AnyCommand.class, itsBaseUrlBeforeParameters);
+		
+		itsUserData = new UserData();
+		itsSystem = new TheSystem() {};
     }
     
     public void testIsEnabled()
@@ -128,10 +138,10 @@ public class TestWebAppUrl extends ExtendedTestCase
 	public void testDestinationForWebRefreshableCommand()
 	{
 		WebAppUrl url = new WebAppUrl(AnyRefreshableCommand.class, itsBaseUrlBeforeParameters);
-		String expectedDestination = itsBaseUrlBeforeParameters + "?" + WebAppUrl.PARAMETER_COMMAND_TO_EXECUTE+"=AnyRefreshableCommand";
+		String expectedDestination = itsBaseUrlBeforeParameters + "?" + WebAppUrl.PARAMETER_REFRESHABLE_COMMAND_TO_EXECUTE+"=AnyRefreshableCommand";
 		String returnedDestination = url.destination();
 		assertEquals("wrong destination composition", expectedDestination, returnedDestination);
-		assertTrue("should execute a command", url.isExecutingACommand());
+		assertTrue("should execute a refreshable command", url.isExecutingARefreshableCommand());
 	}
 	
 	public void testDestinationWithParametersAndTargetClass()
@@ -148,44 +158,5 @@ public class TestWebAppUrl extends ExtendedTestCase
 		assert_contains("wrong parameter", returnedDestination, expectedFirstParameter);     
 		assert_contains("wrong parameter", returnedDestination, expectedSecondParameter);     
 	}
-
-    public void testCostructorKeepOnlyBaseUrl()
-    {
-        WebAppUrl url = new WebAppUrl(AnyRefreshableCommand.class, "http://localhost:8080/MyWebApp/servlet/MyServlet?param1=value1&param2=value2");
-        assertEquals
-        (
-                "It should keep only the baseurl of the url passed in the costructor", 
-                "http://localhost:8080/MyWebApp/servlet/MyServlet?command=AnyRefreshableCommand", 
-                url.destination()
-        );
-    }
-    
-    public void testCopyOptionalParameters()
-    {
-        WebAppUrl orginUrl = new WebAppUrl(AnyRefreshableCommand.class, "http://localhost:8080/MyWebApp/servlet/MyServlet");
-        orginUrl.setParameter("param1", "value1");
-        orginUrl.setParameter("param2", "value2");
-        WebAppUrl targetCommandUrl = new WebAppUrl(AnyCommand.class, "http://localhost:8080/MyWebApp/servlet/MyServlet");
-        WebAppUrl expectedCommandUrl = new WebAppUrl(AnyCommand.class, "http://localhost:8080/MyWebApp/servlet/MyServlet");
-        expectedCommandUrl.setParameter("param1", "value1");
-        expectedCommandUrl.setParameter("param2", "value2");
-        targetCommandUrl.copyOptionalParametersFrom(orginUrl);
-        assertEquals(expectedCommandUrl, targetCommandUrl);
-
-        targetCommandUrl = new WebAppUrl(AnyRefreshableCommand.class, "http://localhost:8080/MyWebApp/servlet/MyServlet");
-        expectedCommandUrl = new WebAppUrl(AnyRefreshableCommand.class, "http://localhost:8080/MyWebApp/servlet/MyServlet");
-        expectedCommandUrl.setParameter("param1", "value1");
-        expectedCommandUrl.setParameter("param2", "value2");
-        targetCommandUrl.copyOptionalParametersFrom(orginUrl);
-        assertEquals(expectedCommandUrl, targetCommandUrl);
-
-        targetCommandUrl = new WebAppUrl(AnyNode.class, "http://localhost:8080/MyWebApp/servlet/MyServlet");
-        expectedCommandUrl = new WebAppUrl(AnyNode.class, "http://localhost:8080/MyWebApp/servlet/MyServlet");
-        expectedCommandUrl.setParameter("param1", "value1");
-        expectedCommandUrl.setParameter("param2", "value2");
-        targetCommandUrl.copyOptionalParametersFrom(orginUrl);
-        assertEquals(expectedCommandUrl, targetCommandUrl);
-        
-    }
-    
+	        
 }

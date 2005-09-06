@@ -12,10 +12,8 @@ public class EqualsBehaviourVerifier
     public static void check(String message, Object target, Object sameTarget, Object differentTarget)
     {
         Assert.assertEquals(message + ": an object must be equals to itself", target, target);
-        Assert.assertEquals(message + ": two objects with the same data must be equal", target, sameTarget);
-        Assert.assertEquals(message + ": equality should be reflexive", sameTarget, target);
-        Assert.assertTrue(message + ": two objects with different data must be different", !target.equals(differentTarget));
-        Assert.assertTrue(message + ": disequality should be reflexive", !differentTarget.equals(target));
+        Assert.assertEquals(message + ": two objects with the same data must be equals", target, sameTarget);
+        Assert.assertTrue(message + ": two objects with the different data must be different", !target.equals(differentTarget));
     }
 
     public static void checkHashCode(Object target, Object sameTarget)

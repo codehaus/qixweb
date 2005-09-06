@@ -40,7 +40,7 @@ public class TestWebAppUrlCreation extends ExtendedTestCase
 	public void testCreateFromMapWithRefreshableCommandDestination()
 	{
 		Map map = new HashMap();
-		map.put(WebAppUrl.PARAMETER_COMMAND_TO_EXECUTE, new String[] { "AnyRefreshableCommand" });
+		map.put(WebAppUrl.PARAMETER_REFRESHABLE_COMMAND_TO_EXECUTE, new String[] { "AnyRefreshableCommand" });
 		WebAppUrl url = WebAppUrl.createFrom(map, itsNodePackage, itsCommandPackage, itsBaseUrl);
 
 		WebAppUrl expectedUrl = new WebAppUrl(AnyRefreshableCommand.class, itsBaseUrl);
@@ -53,6 +53,10 @@ public class TestWebAppUrlCreation extends ExtendedTestCase
 		XpLogger.off();
 
 		Map map = new HashMap();
+		map.put(WebAppUrl.PARAMETER_REFRESHABLE_COMMAND_TO_EXECUTE, new String[] { "NotExistentRefreshableCommand" });
+		assertEquals(WebAppUrl.EMPTY_URL, WebAppUrl.createFrom(map, itsNodePackage, itsCommandPackage, itsBaseUrl));
+
+		map = new HashMap();
 		map.put(WebAppUrl.PARAMETER_COMMAND_TO_EXECUTE, new String[] { "NotExistentCommand" });
 		assertEquals(WebAppUrl.EMPTY_URL, WebAppUrl.createFrom(map, itsNodePackage, itsCommandPackage, itsBaseUrl));
 

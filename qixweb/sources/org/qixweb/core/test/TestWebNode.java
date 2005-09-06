@@ -20,7 +20,7 @@ public class TestWebNode extends ExtendedTestCase
 
         try
         {
-            new AnyNode().displayThrough(itsFakeResponseHandler);
+            new AnyNode().display(itsFakeResponseHandler);
             fail("Exception raised rendering a node should re-thrown");
         }
         catch (IOException expectedException)
@@ -35,7 +35,7 @@ public class TestWebNode extends ExtendedTestCase
         itsFakeResponseHandler.simulateFailureInTemplateMergingFor(AnyNode.class);
         try
         {
-            new AnyNode().displayThrough(itsFakeResponseHandler);
+            new AnyNode().display(itsFakeResponseHandler);
             fail("Exception raised when rendering a node should be re-thrown");
         }
         catch (RuntimeException expectedException)
@@ -49,7 +49,7 @@ public class TestWebNode extends ExtendedTestCase
     {
         AnyNode expectedNode = new AnyNode();
 
-        expectedNode.displayThrough(itsFakeResponseHandler);
+        expectedNode.display(itsFakeResponseHandler);
 
         assertEquals(expectedNode, itsFakeResponseHandler.displayedNode());
     }

@@ -23,15 +23,15 @@ public class QixwebBrowser
 	
 	protected void executeCommand(WebAppUrl anUrl) throws Exception
 	{
-		WebRefreshableCommand command = anUrl.materializeTargetCommandWith(itsUserData);
+		WebCommand command = anUrl.materializeTargetCommandWith(itsUserData);
 		if (validateExecutionOf(command))
         {
-            Browsable browsable = command.execute(itsEnvironment);
-            browsable.displayThrough(responseHandler());
+            WebAppUrl url = command.execute(itsEnvironment);
+            responseHandler().redirectTo(url);
         }
 	}
 
-	protected boolean validateExecutionOf(WebRefreshableCommand aCommand) throws Exception
+	protected boolean validateExecutionOf(WebCommand aCommand) throws Exception
     {
         return true;
     }
@@ -46,7 +46,7 @@ public class QixwebBrowser
     
     protected void goToNode(WebAppUrl aUrl) throws Exception
 	{
-		instantiate(aUrl).displayThrough(itsResponseHandler);
+		instantiate(aUrl).display(itsResponseHandler);
 	}
 
 	public void goTo(WebAppUrl aUrl) throws Exception
@@ -55,6 +55,8 @@ public class QixwebBrowser
 			goToNode(aUrl);
 		else if (aUrl.isExecutingACommand())
 			executeCommand(aUrl);
+		else if (aUrl.isExecutingARefreshableCommand())
+			executeRefreshableCommand(aUrl);
 		else
 		    gotoWarningNode();
 	}
@@ -62,6 +64,24 @@ public class QixwebBrowser
 	protected void gotoWarningNode() throws Exception
     {
     }
+
+
+
+    protected void executeRefreshableCommand(WebAppUrl aUrl) throws Exception
+	{
+		WebRefreshableCommand command = aUrl.materializeTargetRefrashableCommand();
+		if (validateExecutionOf(command))
+        {
+			WebNode targetNode = command.execute(itsEnvironment);
+			targetNode.display(itsResponseHandler);
+        }		
+	}
+	
+    protected boolean validateExecutionOf(WebRefreshableCommand aCommand) throws Exception
+    {
+        return true;
+    }
+
     public UserData userData()
     {
         return itsUserData;

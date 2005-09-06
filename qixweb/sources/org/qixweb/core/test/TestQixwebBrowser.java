@@ -59,7 +59,7 @@ public class TestQixwebBrowser extends ExtendedTestCase
     {
         itsBrowser = new QixwebBrowser(itsFakeResponseHandler, new UserData(), new FakeEnvironment())
         {
-            protected boolean validateExecutionOf(WebRefreshableCommand aCommand) throws Exception
+            protected boolean validateExecutionOf(WebCommand aCommand) throws Exception
             {
                 return false;
             }

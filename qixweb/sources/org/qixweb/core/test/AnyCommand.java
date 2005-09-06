@@ -20,7 +20,7 @@ public class AnyCommand implements WebCommand
         return new AnyCommand(StringUtils.defaultString((String) state));
 	}
 
-	public Browsable execute(QixwebEnvironment system)
+	public WebAppUrl execute(QixwebEnvironment system)
 	{
 		WebAppUrl webAppUrl = new WebAppUrl(AnyNode.class, FakeSystem.BASE_URL);
         webAppUrl.setParameter("state", itsState);

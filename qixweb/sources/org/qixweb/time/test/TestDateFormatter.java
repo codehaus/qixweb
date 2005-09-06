@@ -1,14 +1,10 @@
 package org.qixweb.time.test;
 import java.text.ParseException;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Locale;
+import java.util.*;
 
 import junit.framework.TestCase;
 
-import org.qixweb.time.QixwebCalendar;
-import org.qixweb.time.QixwebDate;
-import org.qixweb.time.QixwebTime;
+import org.qixweb.time.CalendarDate;
 import org.qixweb.time.DateFormatter;
 
 
@@ -16,13 +12,15 @@ public class TestDateFormatter extends TestCase
 {
 	public void testFormatMMM_YY()
 	{
-        QixwebDate theDate = new QixwebDate(22, 2, 2002);
+		Calendar theDate = Calendar.getInstance();
+
+		theDate.set(2002, Calendar.FEBRUARY, 22);
 		assertEquals("feb-02", DateFormatter.formatMMM_YY(theDate));
         assertEquals("Feb-02", DateFormatter.formatMMM_YY(theDate, Locale.US));
 
-        QixwebDate anotherDate = new QixwebDate(31, 12, 1999);
-		assertEquals("dic-99", DateFormatter.formatMMM_YY(anotherDate));
-        assertEquals("Dec-99", DateFormatter.formatMMM_YY(anotherDate, Locale.US));
+		theDate.set(1999, Calendar.DECEMBER, 31);
+		assertEquals("dic-99", DateFormatter.formatMMM_YY(theDate));
+        assertEquals("Dec-99", DateFormatter.formatMMM_YY(theDate, Locale.US));
 	}
 	
 	public void testParseMMM_YY() throws ParseException
@@ -45,20 +43,19 @@ public class TestDateFormatter extends TestCase
 	
 	public void testFormatyyyyMMdd_HHmmss() throws ParseException
 	{
-        QixwebTime aDate = new QixwebTime(DateFormatter.parseyyyyMMdd_HHmmss("20020923-103022"));
-        assertEquals("Wrong format", "20020923-103022", DateFormatter.formatyyyyMMdd_HHmmss(aDate));
+		assertEquals("Wrong format", "20020923-103022", DateFormatter.formatyyyyMMdd_HHmmss(DateFormatter.parseyyyyMMdd_HHmmss("20020923-103022")));
 	}	
 
 	public void testFormatyyyyMMdd()
 	{
-        QixwebTime aDate = new QixwebTime(new GregorianCalendar(2002, Calendar.SEPTEMBER, 23, 10, 30, 22));		
-		assertEquals("Wrong format", "20020923", DateFormatter.formatyyyyMMdd(aDate));
+		Calendar date =  new GregorianCalendar(2002, Calendar.SEPTEMBER, 23, 10, 30, 22);		
+		assertEquals("Wrong format", "20020923", DateFormatter.formatyyyyMMdd(date));
 	}	
 
 	public void testFormatyyyyMM()
 	{
-        QixwebTime aDate = new QixwebTime(new GregorianCalendar(2002, Calendar.SEPTEMBER, 23, 10, 30, 22));     
-		assertEquals("Wrong format", "200209", DateFormatter.formatyyyyMM(aDate));
+		Calendar date =  new GregorianCalendar(2002, Calendar.SEPTEMBER, 23, 10, 30, 22);		
+		assertEquals("Wrong format", "200209", DateFormatter.formatyyyyMM(date));
 	}	
 	
 	public void testParseDD_MM_YYYY() throws ParseException
@@ -67,6 +64,7 @@ public class TestDateFormatter extends TestCase
 		
 		assertEquals("Wrong parsing for first date", expectedDate, DateFormatter.parseDD_MM_YYYY("26/07/2003"));
 		assertEquals("Wrong parsing for one digit month", expectedDate, DateFormatter.parseDD_MM_YYYY("26/7/2003"));		
+
 
 		expectedDate = new GregorianCalendar(1999, Calendar.DECEMBER, 1, 0, 0, 0);
 		assertEquals("Wrong parsing for second date", expectedDate, DateFormatter.parseDD_MM_YYYY("01/12/1999"));
@@ -84,11 +82,11 @@ public class TestDateFormatter extends TestCase
 		
     public void testParseDD_MM_YYYYasCalendarDate()
     {
-        QixwebDate expectedDate =  new QixwebDate(26, 7, 2003);
-        assertEquals("Wrong parsing for a valid date", expectedDate, DateFormatter.parseDD_MM_YYYYasQixwebCalendar("26/07/2003"));
+        CalendarDate expectedDate =  new CalendarDate(26, 7, 2003);
+        assertEquals("Wrong parsing for a valid date", expectedDate, DateFormatter.parseDD_MM_YYYYasCalendarDate("26/07/2003"));
 
-        assertEquals("Wrong parsing for invalid string", QixwebCalendar.NULL, DateFormatter.parseDD_MM_YYYYasQixwebCalendar("sfklgkjlg h9u897"));
-        assertEquals("Wrong parsing for empty string", QixwebCalendar.NULL, DateFormatter.parseDD_MM_YYYYasQixwebCalendar(""));
+        assertNull("Wrong parsing for invalid string", DateFormatter.parseDD_MM_YYYYasCalendarDate("sfklgkjlg h9u897"));
+        assertNull("Wrong parsing for empty string", DateFormatter.parseDD_MM_YYYYasCalendarDate(""));
     }
 
 	public TestDateFormatter(String name)
@@ -98,13 +96,15 @@ public class TestDateFormatter extends TestCase
 
 	public void testFormatDD_MMM_YYYY()
 	{
-        QixwebDate theDate = new QixwebDate(22, 2, 2002);
+		Calendar theDate = Calendar.getInstance();
+
+		theDate.set(2002, Calendar.FEBRUARY, 22);
 		assertEquals("22-feb-2002", DateFormatter.formatDD_MMM_YYYY(theDate));
         assertEquals("22-Feb-2002", DateFormatter.formatDD_MMM_YYYY(theDate, Locale.US));
 
-        QixwebDate anotherDate = new QixwebDate(31, 12, 1999);
-		assertEquals("31-dic-1999", DateFormatter.formatDD_MMM_YYYY(anotherDate));
-        assertEquals("31-Dec-1999", DateFormatter.formatDD_MMM_YYYY(anotherDate, Locale.US));
+		theDate.set(1999, Calendar.DECEMBER, 31);
+		assertEquals("31-dic-1999", DateFormatter.formatDD_MMM_YYYY(theDate));
+        assertEquals("31-Dec-1999", DateFormatter.formatDD_MMM_YYYY(theDate, Locale.US));
 	}
     
     public void testDefaultLocale() throws Exception
@@ -122,38 +122,44 @@ public class TestDateFormatter extends TestCase
 
 	public void testFormatDD_MM_YYYY()
 	{
-		QixwebDate theDate = new QixwebDate(22, 2, 2002);
+		Calendar theDate = Calendar.getInstance();
+
+		theDate.set(2002, Calendar.FEBRUARY, 22);
 		assertEquals("Wrong format", "22/02/2002", DateFormatter.formatDD_MM_YYYY(theDate));
 	}
 
-    public void testFormatWithNullDate()
+    public void testFormatWithNullCalendar()
     {
-        assertEquals("Wrong formatDD_MM_YYYY", "", DateFormatter.formatDD_MM_YYYY(QixwebCalendar.NULL));
-        assertEquals("Wrong formatDD_MM_YYYY_HH_mm", "", DateFormatter.formatDD_MM_YYYY_HH_mm(QixwebCalendar.NULL));
-        assertEquals("Wrong formatDD_MM_YYYY_HH_mm_ss", "", DateFormatter.formatDD_MM_YYYY_HH_mm_ss(QixwebCalendar.NULL));
-        assertEquals("Wrong formatMMM_YY", "", DateFormatter.formatMMM_YY(QixwebCalendar.NULL));
-        assertEquals("Wrong formatMMM_YY with Locale", "", DateFormatter.formatMMM_YY(QixwebCalendar.NULL, Locale.US));
-        assertEquals("Wrong formatDD_MMM_YYYY with Locale", "", DateFormatter.formatDD_MMM_YYYY(QixwebCalendar.NULL, Locale.US));
-        assertEquals("Wrong formatDD_MMM_YYYY", "", DateFormatter.formatDD_MMM_YYYY(QixwebCalendar.NULL));
+        assertEquals("Wrong formatDD_MM_YYYY", "", DateFormatter.formatDD_MM_YYYY(null));
+        assertEquals("Wrong formatDD_MM_YYYY_HH_mm", "", DateFormatter.formatDD_MM_YYYY_HH_mm(null));
+        assertEquals("Wrong formatDD_MM_YYYY_HH_mm_ss", "", DateFormatter.formatDD_MM_YYYY_HH_mm_ss(null));
+        assertEquals("Wrong formatMMM_YY", "", DateFormatter.formatMMM_YY(null));
+        assertEquals("Wrong formatMMM_YY with Locale", "", DateFormatter.formatMMM_YY(null, Locale.US));
+        assertEquals("Wrong formatDD_MMM_YYYY with Locale", "", DateFormatter.formatDD_MMM_YYYY(null, Locale.US));
+        assertEquals("Wrong formatDD_MMM_YYYY", "", DateFormatter.formatDD_MMM_YYYY(null));
     }
 
 	public void testFormatDD_MM_YYYY_HH_mm()
 	{
-        QixwebCalendar theDate = new QixwebTime(22, 2, 2002, 11, 40, 00);
+		Calendar theDate = Calendar.getInstance();
+
+		theDate.set(2002, Calendar.FEBRUARY, 22, 11, 40);
 		assertEquals("Wrong format", "22/02/2002 11:40", DateFormatter.formatDD_MM_YYYY_HH_mm(theDate));
 
-        QixwebCalendar anotherDate = new QixwebTime(22, 2, 2002, 13, 40, 00);
-		assertEquals("Wrong format not 24 hours", "22/02/2002 13:40", DateFormatter.formatDD_MM_YYYY_HH_mm(anotherDate));
+		theDate.set(2002, Calendar.FEBRUARY, 22, 13, 40);
+		assertEquals("Wrong format not 24 hours", "22/02/2002 13:40", DateFormatter.formatDD_MM_YYYY_HH_mm(theDate));
 
 	}
 
     public void testFormatDD_MM_YYYY_HH_mm_ss()
     {
-        QixwebCalendar theDate = new QixwebTime(22, 2, 2002, 11, 40, 13);
+        Calendar theDate = Calendar.getInstance();
+
+        theDate.set(2002, Calendar.FEBRUARY, 22, 11, 40, 13);
         assertEquals("Wrong format", "22/02/2002 11:40:13", DateFormatter.formatDD_MM_YYYY_HH_mm_ss(theDate));
 
-        QixwebCalendar anotherDate = new QixwebTime(22, 2, 2002, 13, 40, 23);
-        assertEquals("Wrong format not 24 hours", "22/02/2002 13:40:23", DateFormatter.formatDD_MM_YYYY_HH_mm_ss(anotherDate));
+        theDate.set(2002, Calendar.FEBRUARY, 22, 13, 40, 23);
+        assertEquals("Wrong format not 24 hours", "22/02/2002 13:40:23", DateFormatter.formatDD_MM_YYYY_HH_mm_ss(theDate));
 
     }
 }

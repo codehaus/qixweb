@@ -5,9 +5,9 @@ import java.util.Calendar;
 
 public class RealTimeProvider implements TimeProvider
 {
-	public QixwebTime now()
+	public CalendarDateTime now()
 	{
-		return new QixwebTime(Calendar.getInstance());
+		return new CalendarDateTime(Calendar.getInstance());
 	}
 	
 	

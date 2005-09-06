@@ -9,7 +9,7 @@ import org.qixweb.block.*;
 import org.qixweb.util.CollectionTransformer;
 
 
-public abstract class WebNode implements Browsable
+public abstract class WebNode
 {
 	public WebAppUrl[] connections()
 	{
@@ -174,7 +174,7 @@ public abstract class WebNode implements Browsable
 		aClazz);
 	}
 	
-	public void displayThrough(ResponseHandler aResponseHandler) throws IOException
+	public void display(ResponseHandler aResponseHandler) throws IOException
 	{
 		aResponseHandler.display(this);
 	}	
