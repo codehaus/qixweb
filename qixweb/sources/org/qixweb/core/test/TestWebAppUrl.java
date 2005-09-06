@@ -48,7 +48,7 @@ public class TestWebAppUrl extends ExtendedTestCase
 		Class notExistentCommand = Integer.class;
 		WebAppUrl urlToNotExistentTarget = new WebAppUrl(notExistentCommand, "");
 	
-		WebCommand command = urlToNotExistentTarget.materializeTargetCommandWith(itsUserData);
+        WebRefreshableCommand command = urlToNotExistentTarget.materializeTargetCommandWith(itsUserData);
 		assertNull("It is NOT possible to materialize a not existent command", command);
 	
 		XpLogger.resume();	
@@ -61,21 +61,10 @@ public class TestWebAppUrl extends ExtendedTestCase
 		WebAppUrl url = new WebAppUrl(AnyCommand.class, "");
         url.setParameter("state", "materializeTest");
         itsUserData.store("state", "materializeTest");
-		WebCommand command = url.materializeTargetCommandWith(itsUserData);
+        WebRefreshableCommand command = url.materializeTargetCommandWith(itsUserData);
 	
 		assertEquals(expectedCommand, command);
 	}
-	
-	public void testMaterializeTargetRefreshableCommand()
-	{
-		AnyRefreshableCommand expectedCommand = new AnyRefreshableCommand();
-		
-		WebAppUrl url = new WebAppUrl(AnyRefreshableCommand.class, "");
-		WebRefreshableCommand command = url.materializeTargetRefrashableCommand();
-	
-		assertEquals(expectedCommand, command);
-	}	
-
 	
     private UserData itsUserData;
 	private TheSystem itsSystem;
@@ -139,10 +128,10 @@ public class TestWebAppUrl extends ExtendedTestCase
 	public void testDestinationForWebRefreshableCommand()
 	{
 		WebAppUrl url = new WebAppUrl(AnyRefreshableCommand.class, itsBaseUrlBeforeParameters);
-		String expectedDestination = itsBaseUrlBeforeParameters + "?" + WebAppUrl.PARAMETER_REFRESHABLE_COMMAND_TO_EXECUTE+"=AnyRefreshableCommand";
+		String expectedDestination = itsBaseUrlBeforeParameters + "?" + WebAppUrl.PARAMETER_COMMAND_TO_EXECUTE+"=AnyRefreshableCommand";
 		String returnedDestination = url.destination();
 		assertEquals("wrong destination composition", expectedDestination, returnedDestination);
-		assertTrue("should execute a refreshable command", url.isExecutingARefreshableCommand());
+		assertTrue("should execute a command", url.isExecutingACommand());
 	}
 	
 	public void testDestinationWithParametersAndTargetClass()
@@ -166,7 +155,7 @@ public class TestWebAppUrl extends ExtendedTestCase
         assertEquals
         (
                 "It should keep only the baseurl of the url passed in the costructor", 
-                "http://localhost:8080/MyWebApp/servlet/MyServlet?refreshableCommand=AnyRefreshableCommand", 
+                "http://localhost:8080/MyWebApp/servlet/MyServlet?command=AnyRefreshableCommand", 
                 url.destination()
         );
     }
