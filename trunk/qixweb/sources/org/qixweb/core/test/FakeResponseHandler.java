@@ -11,6 +11,7 @@ public class FakeResponseHandler implements ResponseHandler
 	private String itsFailureNodeInTemplateMerging;
 	protected WebAppUrl itsDestinationUrl;
 	private WebNode itsNodeToDisplay;
+    private Browsable itsLastBrowsable;
 
 	public FakeResponseHandler()
 	{
@@ -28,7 +29,7 @@ public class FakeResponseHandler implements ResponseHandler
 			throw new IOException("Simulated IOException");
 		}
 		
-		itsNodeToDisplay = aDestinationNode;
+		itsLastBrowsable = itsNodeToDisplay = aDestinationNode;
 	}
 	public void simulateExceptionSendingHTMLOnlyOnce()
 	{
@@ -37,7 +38,7 @@ public class FakeResponseHandler implements ResponseHandler
 
 	public void redirectTo(WebAppUrl aDestinationUrl) throws IOException
 	{
-		itsDestinationUrl = aDestinationUrl;
+        itsLastBrowsable = itsDestinationUrl = aDestinationUrl;
 	}
 
 	public WebAppUrl redirectedDestination()
@@ -59,5 +60,10 @@ public class FakeResponseHandler implements ResponseHandler
 	{
 		itsFailureNodeInTemplateMerging = anXpTrackingNode.getName();
 	}
+
+    public Browsable lastBrowsed()
+    {
+        return itsLastBrowsable;
+    }
 
 }

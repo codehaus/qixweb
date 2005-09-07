@@ -1,5 +1,7 @@
 package org.qixweb.core.test;
 
+import java.io.IOException;
+
 import org.qixweb.core.*;
 import org.qixweb.util.EqualsBehaviourVerifier;
 import org.qixweb.util.XpLogger;
@@ -187,5 +189,13 @@ public class TestWebAppUrl extends ExtendedTestCase
         assertEquals(expectedCommandUrl, targetCommandUrl);
         
     }
-    
+
+    public void testDisplay() throws IOException
+    {
+        FakeResponseHandler fakeResponseHandler = new FakeResponseHandler();
+        itsWebUrlForAnyNode.displayThrough(fakeResponseHandler);
+        assertEquals(itsWebUrlForAnyNode, fakeResponseHandler.redirectedDestination());
+    }
+
+
 }
