@@ -53,6 +53,7 @@ public class TestQixwebBrowser extends ExtendedTestCase
         itsBrowser.goTo(commandUrl);
 
         assertEquals("Wrong destination url after command execution", expectedDestination, itsFakeResponseHandler.redirectedDestination());
+        assertSame(itsFakeResponseHandler.lastBrowsed(), itsFakeResponseHandler.redirectedDestination());
     }
 
     public void testValidateExecutionOfCommand() throws Exception
@@ -89,6 +90,7 @@ public class TestQixwebBrowser extends ExtendedTestCase
         itsBrowser.goTo(webRefreshableCommandUrl);
 
         assertEquals("Wrong displayed node after command execution", new AnyNode(), itsFakeResponseHandler.displayedNode());
+        assertSame(itsFakeResponseHandler.lastBrowsed(), itsFakeResponseHandler.displayedNode());
     }
     
     public void testUseEnvironmentWhenGoingToNode() throws Exception

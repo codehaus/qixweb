@@ -45,7 +45,7 @@ public class TestWebNode extends ExtendedTestCase
         XpLogger.resume();
     }
 
-    public void testDisplayNode() throws IOException
+    public void testDisplay() throws IOException
     {
         AnyNode expectedNode = new AnyNode();
 
