@@ -29,23 +29,11 @@ public class TestWebAppUrlCreation extends ExtendedTestCase
 	{
 		Map map = new HashMap();
 		map.put(WebAppUrl.PARAMETER_COMMAND_TO_EXECUTE, new String[] { "AnyCommand" });
-
 		WebAppUrl url = WebAppUrl.createFrom(map, itsNodePackage, itsCommandPackage, itsBaseUrl);
 
 		WebAppUrl expectedUrl = new WebAppUrl(AnyCommand.class, itsBaseUrl);
 
 		assertEquals("in the url, the command target class should be set (as string)", expectedUrl, url);
-	}
-
-	public void testCreateFromMapWithRefreshableCommandDestination()
-	{
-		Map map = new HashMap();
-		map.put(WebAppUrl.PARAMETER_COMMAND_TO_EXECUTE, new String[] { "AnyRefreshableCommand" });
-		WebAppUrl url = WebAppUrl.createFrom(map, itsNodePackage, itsCommandPackage, itsBaseUrl);
-
-		WebAppUrl expectedUrl = new WebAppUrl(AnyRefreshableCommand.class, itsBaseUrl);
-
-		assertEquals("in the url, the refreshable command target class should be set (as string)", expectedUrl, url);
 	}
 
 	public void testCreateFromMapWithNotExistentDestination() throws Exception

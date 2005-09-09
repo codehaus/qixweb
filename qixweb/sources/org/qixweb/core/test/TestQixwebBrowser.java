@@ -60,7 +60,7 @@ public class TestQixwebBrowser extends ExtendedTestCase
     {
         itsBrowser = new QixwebBrowser(itsFakeResponseHandler, new UserData(), new FakeEnvironment())
         {
-            protected boolean validateExecutionOf(WebRefreshableCommand aCommand) throws Exception
+            protected boolean validateExecutionOf(WebCommand aCommand) throws Exception
             {
                 return false;
             }
@@ -70,20 +70,6 @@ public class TestQixwebBrowser extends ExtendedTestCase
         assertNull("Wrong destination url after invalid command execution", itsFakeResponseHandler.redirectedDestination());
     }
     
-    public void testValidateExecutionOfRefreshableCommand() throws Exception
-    {
-        itsBrowser = new QixwebBrowser(itsFakeResponseHandler, new UserData(), new FakeEnvironment())
-        {
-            protected boolean validateExecutionOf(WebRefreshableCommand aCommand) throws Exception
-            {
-                return false;
-            }
-        };
-
-        itsBrowser.goTo(new WebAppUrl(AnyRefreshableCommand.class, FakeSystem.BASE_URL));
-        assertNull("Wrong destination url after invalid command execution", itsFakeResponseHandler.displayedNode());
-    }    
-
     public void testExecuteWebRefreshableCommand() throws Exception
     {
         WebAppUrl webRefreshableCommandUrl = new WebAppUrl(AnyRefreshableCommand.class, FakeSystem.BASE_URL);

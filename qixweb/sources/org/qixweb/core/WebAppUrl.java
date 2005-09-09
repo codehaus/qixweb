@@ -51,7 +51,7 @@ public class WebAppUrl extends WebUrl implements Browsable
 		String fullName = aTargetClass.getName();
 		String className = fullName.substring(fullName.lastIndexOf(".") + 1);
 
-		if (WebRefreshableCommand.class.isAssignableFrom(aTargetClass))
+		if (WebCommand.class.isAssignableFrom(aTargetClass))
 			setParameter(WebAppUrl.PARAMETER_COMMAND_TO_EXECUTE, className);
 		else if (WebNode.class.isAssignableFrom(aTargetClass))
 			setParameter(WebAppUrl.PARAMETER_NODE_TO_DISPLAY, className);
@@ -127,12 +127,12 @@ public class WebAppUrl extends WebUrl implements Browsable
 		return node;
 	}
 
-	public WebRefreshableCommand materializeTargetCommandWith(UserData userData)
+	public WebCommand materializeTargetCommandWith(UserData userData)
 	{
 		Class[] createParameterTypes = new Class[] { WebAppUrl.class, UserData.class };
 		Object[] createParameters = new Object[] { this, userData };
 
-		return (WebRefreshableCommand) callCreateOnTargetWith(createParameterTypes, createParameters);
+		return (WebCommand) callCreateOnTargetWith(createParameterTypes, createParameters);
 	}
 
 	private static String extractDestinationFrom(Map parametersMap, String aNodePackage, String aCommandPackage)

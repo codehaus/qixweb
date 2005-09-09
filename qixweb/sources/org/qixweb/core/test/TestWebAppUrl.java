@@ -50,7 +50,7 @@ public class TestWebAppUrl extends ExtendedTestCase
 		Class notExistentCommand = Integer.class;
 		WebAppUrl urlToNotExistentTarget = new WebAppUrl(notExistentCommand, "");
 	
-        WebRefreshableCommand command = urlToNotExistentTarget.materializeTargetCommandWith(itsUserData);
+        WebCommand command = urlToNotExistentTarget.materializeTargetCommandWith(itsUserData);
 		assertNull("It is NOT possible to materialize a not existent command", command);
 	
 		XpLogger.resume();	
@@ -63,7 +63,7 @@ public class TestWebAppUrl extends ExtendedTestCase
 		WebAppUrl url = new WebAppUrl(AnyCommand.class, "");
         url.setParameter("state", "materializeTest");
         itsUserData.store("state", "materializeTest");
-        WebRefreshableCommand command = url.materializeTargetCommandWith(itsUserData);
+        WebCommand command = url.materializeTargetCommandWith(itsUserData);
 	
 		assertEquals(expectedCommand, command);
 	}
@@ -127,15 +127,6 @@ public class TestWebAppUrl extends ExtendedTestCase
         assertTrue("should execute a command", itsWebUrlForAnyCommand.isExecutingACommand());
     }
      
-	public void testDestinationForWebRefreshableCommand()
-	{
-		WebAppUrl url = new WebAppUrl(AnyRefreshableCommand.class, itsBaseUrlBeforeParameters);
-		String expectedDestination = itsBaseUrlBeforeParameters + "?" + WebAppUrl.PARAMETER_COMMAND_TO_EXECUTE+"=AnyRefreshableCommand";
-		String returnedDestination = url.destination();
-		assertEquals("wrong destination composition", expectedDestination, returnedDestination);
-		assertTrue("should execute a command", url.isExecutingACommand());
-	}
-	
 	public void testDestinationWithParametersAndTargetClass()
 	{
 		String expectedDestination = itsBaseUrlBeforeParameters;
