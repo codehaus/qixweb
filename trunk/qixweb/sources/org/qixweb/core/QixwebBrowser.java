@@ -23,7 +23,7 @@ public class QixwebBrowser
 	
 	protected void executeCommand(WebAppUrl anUrl) throws Exception
 	{
-		WebRefreshableCommand command = anUrl.materializeTargetCommandWith(itsUserData);
+		WebCommand command = anUrl.materializeTargetCommandWith(itsUserData);
 		if (validateExecutionOf(command))
         {
             Browsable browsable = command.execute(itsEnvironment);
@@ -31,7 +31,7 @@ public class QixwebBrowser
         }
 	}
 
-	protected boolean validateExecutionOf(WebRefreshableCommand aCommand) throws Exception
+	protected boolean validateExecutionOf(WebCommand aCommand) throws Exception
     {
         return true;
     }
