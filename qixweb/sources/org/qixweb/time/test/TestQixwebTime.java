@@ -31,7 +31,7 @@ public class TestQixwebTime extends TestQixwebCalendar
         assertFalse(tomorrow.beforeOrEquals(today));
     }
     
-    public void testCustomDateForma()
+    public void testCustomDateFormat()
     {
         QixwebTime anydate = new QixwebTime(22, 2, 2004, 11, 23, 24);
         assertEquals("2004-02-22 11:23:24AM", anydate.asStringCustomDateFormat("yyyy-MM-dd hh:mm:ssaaa"));
