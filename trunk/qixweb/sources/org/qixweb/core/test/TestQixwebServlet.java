@@ -207,8 +207,8 @@ public class TestQixwebServlet extends ExtendedTestCase
     {
         grabSystemOutResettingLogger();
         grabSystemErr();
-
-        QixwebServlet.reportException(itsFakeResponse, /*nullRefInOrderToGenerateNullPointerException=*/null);
+        
+        QixwebServlet.reportException(itsFakeResponse, null); // nullRefInOrderToGenerateNullPointerException
         assert_contains(grabbedOut(), "NullPointerException");
 
     }
