@@ -21,6 +21,8 @@ public class TestCollectionTransformer extends TestCase
 	{
 		List emptyList = new ArrayList();
 		ArrayAsserter.assertEqualsIgnoringOrder(new String[0], CollectionTransformer.toArray(emptyList, String.class));
+        
+        ArrayAsserter.assertEqualsIgnoringOrder(new Object[0], CollectionTransformer.toArray(emptyList));
 	}
     
     public void testVectorToArray()
@@ -128,6 +130,8 @@ public class TestCollectionTransformer extends TestCase
 		list.add(expectedArray[1]);
 		list.add(expectedArray[2]);
 		ArrayAsserter.assertEqualsIgnoringOrder(expectedArray, CollectionTransformer.toArray(list, String.class));
+        
+        ArrayAsserter.assertEqualsIgnoringOrder(expectedArray, CollectionTransformer.toArray(list));
 	}
     
     public void testIntArrayToIntegerList()

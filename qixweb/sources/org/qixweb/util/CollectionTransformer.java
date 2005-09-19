@@ -33,6 +33,16 @@ public class CollectionTransformer
 		Object[] sameElementsArray = (Object[])Array.newInstance(aType, aList.size());
 		return aList.toArray(sameElementsArray);
 	}
+    
+    public static Object[] toArray(List aList)
+    {
+        if (aList.isEmpty())
+            return new Object[0];
+        
+        Class type = aList.get(0).getClass();
+        Object[] sameElementsArray = (Object[])Array.newInstance(type, aList.size());
+        return aList.toArray(sameElementsArray);
+    }    
 	
 	public static Object[] toArray(Iterator anIterator, Class eachElementType)
 	{
