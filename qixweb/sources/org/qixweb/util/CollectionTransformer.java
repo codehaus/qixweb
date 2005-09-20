@@ -34,7 +34,7 @@ public class CollectionTransformer
 		return aList.toArray(sameElementsArray);
 	}
     
-    public static Object[] toArray(List aList)
+    public static Object[] toArrayOnListOfSameType(List aList)
     {
         if (aList.isEmpty())
             return new Object[0];
