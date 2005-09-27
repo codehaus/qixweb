@@ -92,7 +92,7 @@ public class TestWebAppUrl extends ExtendedTestCase
         WebAppUrl aDifferentUrl = new WebAppUrl(AnyCommand.class, itsBaseUrlBeforeParameters);
         
         EqualsBehaviourVerifier.check("different type of url", itsWebUrlForAnyNode, sameUrl, aDifferentUrl);
-        EqualsBehaviourVerifier.check("different type of url", new Integer(itsWebUrlForAnyNode.hashCode()), new Integer(sameUrl.hashCode()), new Integer(aDifferentUrl.hashCode()));
+        EqualsBehaviourVerifier.checkHashCode(itsWebUrlForAnyNode, sameUrl);
         
         sameUrl.destination();
 		EqualsBehaviourVerifier.check("calling destination should not affect equals", itsWebUrlForAnyNode, sameUrl, aDifferentUrl);        
@@ -188,5 +188,10 @@ public class TestWebAppUrl extends ExtendedTestCase
         assertEquals(itsWebUrlForAnyNode, fakeResponseHandler.redirectedDestination());
     }
 
-
+    public void testWithoutClass()
+    {
+        WebAppUrl url = new WebAppUrl("base");
+        assertNull(url.target());
+        assertEquals("base", url.destination());
+    }
 }
