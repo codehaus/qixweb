@@ -17,6 +17,8 @@ public class WebUrl
     protected Map itsParameters;
 	private String itsUrlBeforeParameters;
 
+    private boolean isEnabled;
+
 	public static String encode(String parameterValue)
 	{
 		try
@@ -47,6 +49,7 @@ public class WebUrl
 	{
 		itsUrlBeforeParameters = anUrl.split("\\?")[0];
 		itsParameters = extractParametersFrom(anUrl);
+        isEnabled = true;
 	}
 
 	public String getParameter(String key)
@@ -167,7 +170,7 @@ public class WebUrl
 		if (anotherObject instanceof WebUrl)
 		{
 			WebUrl anotherUrl = (WebUrl) anotherObject;
-			return destination().equals(anotherUrl.destination());
+			return destination().equals(anotherUrl.destination()) && isEnabled() == anotherUrl.isEnabled();
 		}
 		else
 			return false;
@@ -180,7 +183,7 @@ public class WebUrl
 	
     public String toString()
 	{
-		return destination();
+		return destination() + " enabled = " + isEnabled;
 	}
 
 	protected static Map extractParametersFrom(String anUrl)
@@ -213,5 +216,15 @@ public class WebUrl
     protected void resetParameters()
     {
         itsParameters.clear();
+    }
+
+    public boolean isEnabled()
+    {
+    	return isEnabled;
+    }
+
+    public void disable()
+    {
+    	isEnabled = false;
     }
 }

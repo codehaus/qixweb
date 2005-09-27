@@ -79,13 +79,6 @@ public class TestWebAppUrl extends ExtendedTestCase
         return aStringToEncode.replaceAll("&", "&amp;");
     }
     
-    public void testIsEnabled()
-    {
-    	assertTrue("By default an url is enabled", itsWebUrlForAnyNode.isEnabled());
-		itsWebUrlForAnyNode.disable();
-		assertFalse("The url should be disabled", itsWebUrlForAnyNode.isEnabled());
-    }
-    
     public void testEquals()
     {
         WebAppUrl sameUrl = new WebAppUrl(AnyNode.class, itsBaseUrlBeforeParameters);
@@ -186,12 +179,5 @@ public class TestWebAppUrl extends ExtendedTestCase
         FakeResponseHandler fakeResponseHandler = new FakeResponseHandler();
         itsWebUrlForAnyNode.displayThrough(fakeResponseHandler);
         assertEquals(itsWebUrlForAnyNode, fakeResponseHandler.redirectedDestination());
-    }
-
-    public void testWithoutClass()
-    {
-        WebAppUrl url = new WebAppUrl("base");
-        assertNull(url.target());
-        assertEquals("base", url.destination());
     }
 }

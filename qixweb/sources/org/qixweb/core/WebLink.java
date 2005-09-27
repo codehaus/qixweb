@@ -6,8 +6,7 @@ public class WebLink extends WebAppUrl
 
     public WebLink(String anUrl, String aLabel)
     {
-        super(anUrl);
-        itsLabel = aLabel;
+        this(Object.class, anUrl, aLabel);
     }
 
     public WebLink(Class aTarget, String anUrl, String aLabel)

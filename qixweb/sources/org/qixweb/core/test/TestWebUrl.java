@@ -118,9 +118,12 @@ public class TestWebUrl extends ExtendedTestCase
 		WebUrl differentBaseUrl = new WebUrl("www.yahoo.com");
 		
 		EqualsBehaviourVerifier.check("url with different base url should differ", url, sameBaseUrl, differentBaseUrl);
-        EqualsBehaviourVerifier.check("url with different base url should have different hashcodes", new Integer(url.hashCode()), new Integer(sameBaseUrl.hashCode()), new Integer(differentBaseUrl.hashCode()));
+        EqualsBehaviourVerifier.checkHashCode(url, sameBaseUrl);
 		
-		url.setParameter("param", "value");
+        WebUrl disabledUrl = new WebUrl("www.google.it");   disabledUrl.disable();
+        assertNotEquals("disabled url should differ", url, disabledUrl);
+
+        url.setParameter("param", "value");
 		sameBaseUrl.setParameter("param", "value");
 		differentBaseUrl.setParameter("anotherParam", "value");
 		
@@ -169,4 +172,11 @@ public class TestWebUrl extends ExtendedTestCase
 	    WebUrl url = new WebUrl("asdfasd?x=&y=");
 	    assertEquals(0, url.parametersLength());
 	}
+
+    public void testIsEnabled()
+    {
+        assertTrue("By default an url is enabled", itsUrl.isEnabled());
+        itsUrl.disable();
+        assertFalse("The url should be disabled", itsUrl.isEnabled());
+    }
 }
