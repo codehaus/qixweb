@@ -19,23 +19,14 @@ public class WebAppUrl extends WebUrl implements Browsable
 	public static final String PARAMETER_NODE_TO_DISPLAY = "node";
 
 	private Class itsTargetClass;
-	private boolean isEnabled;
-
 	public WebAppUrl(Class aTarget, String anUrl)
 	{
 		super(anUrl);
         resetParameters();
 		itsTargetClass = aTarget;
-		isEnabled = true;
 		setClassNameParameterFor(aTarget);
 	}
 
-	public WebAppUrl(String anUrl)
-	{
-		super(anUrl);
-
-		isEnabled = true;
-	}
 	public Class target()
 	{
 		return itsTargetClass;
@@ -55,33 +46,6 @@ public class WebAppUrl extends WebUrl implements Browsable
 			setParameter(WebAppUrl.PARAMETER_COMMAND_TO_EXECUTE, className);
 		else if (WebNode.class.isAssignableFrom(aTargetClass))
 			setParameter(WebAppUrl.PARAMETER_NODE_TO_DISPLAY, className);
-	}
-
-	// @PMD:REVIEWED:OverrideBothEqualsAndHashcode: by bop on 3/8/05 12:38 PM
-	public boolean equals(Object anotherObject)
-	{
-		if (anotherObject instanceof WebAppUrl)
-		{
-			WebAppUrl anotherUrl = (WebAppUrl) anotherObject;
-			return super.equals(anotherObject) && isEnabled() == anotherUrl.isEnabled();
-		}
-		else
-			return false;
-	}
-
-	public String toString()
-	{
-		return super.toString() + " enabled = " + isEnabled;
-	}
-
-	public boolean isEnabled()
-	{
-		return isEnabled;
-	}
-
-	public void disable()
-	{
-		isEnabled = false;
 	}
 
 	public boolean isExecutingACommand()
