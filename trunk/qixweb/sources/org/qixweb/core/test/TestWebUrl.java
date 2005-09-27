@@ -1,11 +1,9 @@
 package org.qixweb.core.test;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import org.qixweb.core.WebUrl;
-import org.qixweb.util.ArrayAsserter;
-import org.qixweb.util.EqualsBehaviourVerifier;
+import org.qixweb.util.*;
 import org.qixweb.util.test.ExtendedTestCase;
 
 
@@ -154,6 +152,17 @@ public class TestWebUrl extends ExtendedTestCase
 		assertEquals("value2", url.getParameter("parameter2"));
         assertEquals(null, url.getParameter("parameter3"));
 	}
+    
+    public void testGetArrayParameter()
+    {
+        WebUrl url = new WebUrl("www.myserv.com?par=val1,val2");
+        assertEquals(1, url.parametersLength());
+        ArrayAsserter.assertEquals("Not the right way, keep concatenated", new String[] {"val1,val2"}, url.getParameterValuesOf("par"));
+
+        url = new WebUrl("www.myserv.com?par=val1&par=val2");
+        assertEquals(1, url.parametersLength());
+        ArrayAsserter.assertEquals("Not the right way again, only last retained", new String[] {"val2"}, url.getParameterValuesOf("par"));
+    }
 
 	public void testBadConstruction()
 	{

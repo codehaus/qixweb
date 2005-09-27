@@ -18,9 +18,17 @@ public class TestWebLink extends ExtendedTestCase
         WebLink sameLink = new WebLink(Object.class, "url", "pippo");
         WebLink differentLink = new WebLink(Object.class, "url", "pluto");
         EqualsBehaviourVerifier.check(link, sameLink, differentLink);
+        EqualsBehaviourVerifier.checkHashCode(link, sameLink);
 
         WebLink sameLinkButDisabled = new WebLink(Object.class, "url", "pippo");
         sameLinkButDisabled.disable();
         assertNotEquals(link, sameLinkButDisabled);
+    }
+    
+    public void testGhostLink()
+    {
+        WebLink expected = new WebLink("", "label");
+        expected.disable();
+        assertEquals(expected, WebLink.createGhostLink("label"));
     }
 }
