@@ -5,8 +5,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.*;
 
-import org.qixweb.util.StringUtil;
-import org.qixweb.util.XpLogger;
+import org.qixweb.util.*;
 
 
 
@@ -48,7 +47,7 @@ public class WebUrl
 	public WebUrl(String anUrl)
 	{
 		itsUrlBeforeParameters = anUrl.split("\\?")[0];
-		itsParameters = extractParametersFrom(anUrl);
+		itsParameters = new UrlParametersExtractor(anUrl).run();
         isEnabled = true;
 	}
 
@@ -112,7 +111,7 @@ public class WebUrl
 				else
 					appendParameter(buf, key, getParameterValuesOf(key));
 			}
-			buf.setCharAt(0, '?');
+			buf.setCharAt(0, UrlParametersExtractor.QUESTION_MARK.charAt(0));
 
 			return buf.toString();
 		}
@@ -122,9 +121,9 @@ public class WebUrl
 
 	private void appendParameter(StringBuffer buf, String key, String parameterValue)
 	{
-		buf.append("&");
+		buf.append(UrlParametersExtractor.AMPERSAND);
 		buf.append(key);
-		buf.append("=");
+		buf.append(UrlParametersExtractor.EQUAL);
 		buf.append(encode(parameterValue));
 	}
 
@@ -186,29 +185,7 @@ public class WebUrl
 		return destination() + " enabled = " + isEnabled;
 	}
 
-	protected static Map extractParametersFrom(String anUrl)
-	{
-		HashMap parameters = new HashMap();
-		
-		if (StringUtil.string_contains(anUrl, "?"))
-		{
-			String fromQuestionMark = anUrl.split("\\?")[1];
-			String[] allKeyValues = fromQuestionMark.split("&");
-	
-			for (int i = 0; i < allKeyValues.length; i++)
-				put_into(allKeyValues[i], parameters);
-		}
-		return parameters;
-	}
-
-	private static void put_into(String aKeyValuePair, Map aParametersMap)
-	{
-		String[] keyValue = aKeyValuePair.split("=");
-		if (keyValue.length == 2)
-		    aParametersMap.put(keyValue[0], new String[] {decode(keyValue[1])});
-	}
-
-    public int parametersLength()
+	public int parametersLength()
     {
         return itsParameters.size();
     }

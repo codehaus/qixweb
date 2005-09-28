@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.qixweb.block.LightInternalIterator;
 import org.qixweb.block.Procedure;
+import org.qixweb.util.UrlParametersExtractor;
 import org.qixweb.util.XpLogger;
 
 
@@ -132,7 +133,7 @@ public class WebAppUrl extends WebUrl implements Browsable
 	
 	public static WebAppUrl createWithTarget(String aDestination, String aNodePackage, String aCommandPackage, String aBaseUrl)
 	{
-		Map parameters = extractParametersFrom(aDestination);
+		Map parameters = new UrlParametersExtractor(aDestination).run();
 		return WebAppUrl.createFrom(parameters, aNodePackage, aCommandPackage, aBaseUrl);
 	}	
 	
