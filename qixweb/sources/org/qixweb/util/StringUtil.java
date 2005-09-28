@@ -8,11 +8,6 @@ import org.apache.commons.lang.StringUtils;
 
 public class StringUtil
 {	
-	public static boolean string_contains(String aString, String aSubstring)
-	{
-		return aString.indexOf(aSubstring) != -1;
-	}
-
 	public static boolean string_containsRegex(String text, String regex)
 	{
 		Pattern pattern = Pattern.compile(regex);

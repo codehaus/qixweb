@@ -146,33 +146,6 @@ public class TestWebUrl extends ExtendedTestCase
 		assertEquals(expectedMap, map);
 	}
 
-	public void testGetParameter()
-	{
-		WebUrl url = new WebUrl("www.myserv.com?parameter1=value1&parameter2=value2&parameter3=");
-	    
-	    assertEquals(2, url.parametersLength());
-		assertEquals("value1", url.getParameter("parameter1"));
-		assertEquals("value2", url.getParameter("parameter2"));
-        assertEquals(null, url.getParameter("parameter3"));
-	}
-    
-    public void testGetArrayParameter()
-    {
-        WebUrl url = new WebUrl("www.myserv.com?par=val1,val2");
-        assertEquals(1, url.parametersLength());
-        ArrayAsserter.assertEquals("Not the right way, keep concatenated", new String[] {"val1,val2"}, url.getParameterValuesOf("par"));
-
-        url = new WebUrl("www.myserv.com?par=val1&par=val2");
-        assertEquals(1, url.parametersLength());
-        ArrayAsserter.assertEquals("Not the right way again, only last retained", new String[] {"val2"}, url.getParameterValuesOf("par"));
-    }
-
-	public void testBadConstruction()
-	{
-	    WebUrl url = new WebUrl("asdfasd?x=&y=");
-	    assertEquals(0, url.parametersLength());
-	}
-
     public void testIsEnabled()
     {
         assertTrue("By default an url is enabled", itsUrl.isEnabled());

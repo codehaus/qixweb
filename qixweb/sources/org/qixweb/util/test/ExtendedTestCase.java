@@ -3,6 +3,7 @@ package org.qixweb.util.test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.WriterAppender;
 import org.qixweb.util.StringUtil;
@@ -57,7 +58,7 @@ public abstract class ExtendedTestCase extends TestCase
 
 	public static void assert_contains(String aMessage, String aString, String aSubstring)
 	{
-		assertTrue(aMessage +": '" + aString + "' should contains '" + aSubstring + "'", StringUtil.string_contains(aString, aSubstring));
+		assertTrue(aMessage +": '" + aString + "' should contains '" + aSubstring + "'", StringUtils.contains(aString, aSubstring));
 	}
 
 	public static void assert_matchesRegex(String aMessage, String aString, String aRegex)
@@ -77,7 +78,7 @@ public abstract class ExtendedTestCase extends TestCase
 
 	public static void assert_notContains(String aMessage, String aString, String aSubstring)
 	{
-		assertFalse(aMessage, StringUtil.string_contains(aString, aSubstring));
+		assertFalse(aMessage, StringUtils.contains(aString, aSubstring));
 	}
 
 	public static void assert_notContains(String aString, String aSubstring)
