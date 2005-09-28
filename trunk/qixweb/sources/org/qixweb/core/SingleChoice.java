@@ -2,7 +2,7 @@ package org.qixweb.core;
 
 
 
-public class SingleChoice extends MultipleChoices
+public class SingleChoice extends AbstractChoice
 {
     public SingleChoice(String aName, boolean enabledState)
     {
@@ -11,10 +11,15 @@ public class SingleChoice extends MultipleChoices
     
     public Choice choice()
     {
-        if (choices().size() == 1)
+        if (choices().size() > 0)
             return (Choice)choices().get(0);
-        else 
-            throw new IllegalStateException("Invalid Choice - should contains just one choice");
+        else
+            return null;
     }
 
+    public void set(Choice aChoice)
+    {
+        choices().clear();
+        choices().add(aChoice);
+    }
 }
