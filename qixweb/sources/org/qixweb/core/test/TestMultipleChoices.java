@@ -3,30 +3,21 @@ package org.qixweb.core.test;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.TestCase;
-
-import org.qixweb.core.Choice;
-import org.qixweb.core.MultipleChoices;
+import org.qixweb.core.*;
 
 
 
-public class TestMultipleChoices extends TestCase
+public class TestMultipleChoices extends TestAbstractChoices
 {
-    public void testCreation()
+    protected void add_to(Choice addedChoice, AbstractChoice multipleChoices)
     {
-        boolean isEnabled = true;
-        MultipleChoices multipleChoices = new MultipleChoices("multiplechoices name", isEnabled);
-        
-        assertEquals("multiplechoices name", multipleChoices.name());
-        assertTrue(multipleChoices.isEnabled().booleanValue());
-        assertEquals(0, multipleChoices.choices().size());
-
-        Choice addedChoice = new Choice("a choice value", "a choice label", false);
-        multipleChoices.add(addedChoice);
-        assertEquals(1, multipleChoices.choices().size());
-        assertEquals(addedChoice, multipleChoices.choices().get(0));
+        ((MultipleChoices)multipleChoices).add(addedChoice);
     }
-    
+
+    protected AbstractChoice create(String name, boolean isEnabled)
+    {
+        return new MultipleChoices(name, isEnabled);
+    }
     public void testSortByLabel()
     {
         MultipleChoices multipleChoices = new MultipleChoices("name", true);

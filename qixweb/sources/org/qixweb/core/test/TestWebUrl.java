@@ -105,10 +105,18 @@ public class TestWebUrl extends ExtendedTestCase
 	{
 		assertEquals("A not set parameter should return an empty array", 0, itsUrl.getParameterValuesOf("colors").length);
 		
-		itsUrl.setParameter("colors", new String[]{"red", "blue", "yellow"});
-	    assertEquals(1, itsUrl.parametersLength());
-		ArrayAsserter.assertEquals("Wrong returned values", new String[]{"red", "blue", "yellow"}, itsUrl.getParameterValuesOf("colors"));		
+        itsUrl.setParameter("colors", "red");
+        verifyColorsParameterReturns(new String[]{"red"});      
+
+        itsUrl.setParameter("colors", new String[]{"red", "blue", "yellow"});
+        verifyColorsParameterReturns(new String[]{"red", "blue", "yellow"});      
 	}
+
+    private void verifyColorsParameterReturns(String[] colorArray)
+    {
+        assertEquals(1, itsUrl.parametersLength());
+        ArrayAsserter.assertEquals("Wrong returned values", colorArray, itsUrl.getParameterValuesOf("colors"));
+    }
 
 				
 	public void testEquals()

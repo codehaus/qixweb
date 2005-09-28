@@ -1,8 +1,5 @@
 package org.qixweb.core;
 
-import org.qixweb.util.DeepEquals;
-
-
 public class Choice implements Comparable
 {
 	private String itsValue;
@@ -38,9 +35,17 @@ public class Choice implements Comparable
 
 	public boolean equals(Object aChoice)
 	{
-		return DeepEquals.equals(this, aChoice);
+        if (aChoice instanceof Choice)
+            return itsLabel.equals(((Choice)aChoice).itsLabel);
+        else
+            return false;
 	}
 
+    public int hashCode()
+    {
+        return itsLabel.hashCode();
+    }
+    
     public int compareTo(Object anObject)
     {
         if (anObject instanceof Choice)
@@ -48,7 +53,7 @@ public class Choice implements Comparable
             Choice anotherChoice = (Choice) anObject;
             return itsLabel.compareTo(anotherChoice.itsLabel);
         }
-        return 0;
+        return -1;
     }
 	
 }
