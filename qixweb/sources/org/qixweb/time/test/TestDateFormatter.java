@@ -55,6 +55,18 @@ public class TestDateFormatter extends TestCase
 		assertEquals("Wrong format", "20020923", DateFormatter.formatyyyyMMdd(aDate));
 	}	
 
+    public void testFormatyyyy_MM_dd()
+    {
+        QixwebTime aDate = new QixwebTime(new GregorianCalendar(2002, Calendar.SEPTEMBER, 23, 10, 30, 22));     
+        assertEquals("Wrong format", "2002-09-23", DateFormatter.formatyyyy_MM_dd(aDate));
+    }   
+
+    public void testFormatyyyy_MM_dd_HH_mm_ss()
+    {
+        QixwebTime aDate = new QixwebTime(new GregorianCalendar(2002, Calendar.SEPTEMBER, 23, 10, 30, 22));     
+        assertEquals("Wrong format", "2002-09-23_10:30:22", DateFormatter.formatyyyy_MM_dd_HH_mm_ss(aDate));
+    }   
+
 	public void testFormatyyyyMM()
 	{
         QixwebTime aDate = new QixwebTime(new GregorianCalendar(2002, Calendar.SEPTEMBER, 23, 10, 30, 22));     

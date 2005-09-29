@@ -4,13 +4,13 @@ import java.io.IOException;
 
 import org.qixweb.core.*;
 import org.qixweb.util.EqualsBehaviourVerifier;
-import org.qixweb.util.XpLogger;
 import org.qixweb.util.test.ExtendedTestCase;
 
 public class TestWebAppUrl extends ExtendedTestCase
 {
     protected void setUp() throws Exception
     {
+        super.setUp();
         itsBaseUrlBeforeParameters = "baseUrl";
         
         itsWebUrlForAnyNode = new WebAppUrl(AnyNode.class, itsBaseUrlBeforeParameters);
@@ -32,29 +32,32 @@ public class TestWebAppUrl extends ExtendedTestCase
     
 	public void testMaterializeNotExistentNode()
 	{
-		XpLogger.off();
-		
+        grabSystemOutResettingLogger();
 		Class notExistentNode = Integer.class;
 		WebAppUrl urlToNotExistentTarget = new WebAppUrl(notExistentNode, "");
 		
 		WebNode node = urlToNotExistentTarget.materializeTargetNodeWith(itsUserData, itsSystem);
 		assertNull("It is NOT possible to materialize a not existent node", node);
-		
-		XpLogger.resume();	
+        assert_contains("Exception expected", grabbedOut(), NoSuchMethodException.class.getName());
 	}
 	
 	public void testMaterializeNotExistentCommand()
 	{
-		XpLogger.off();
-	
+        grabSystemOutResettingLogger();
 		Class notExistentCommand = Integer.class;
 		WebAppUrl urlToNotExistentTarget = new WebAppUrl(notExistentCommand, "");
 	
         WebCommand command = urlToNotExistentTarget.materializeTargetCommandWith(itsUserData);
 		assertNull("It is NOT possible to materialize a not existent command", command);
-	
-		XpLogger.resume();	
+        assert_contains("Exception expected", grabbedOut(), NoSuchMethodException.class.getName());
 	}
+    
+    public void testCommandThrowingExceptionOnCreateIsLoggedWithoutInterruptingNormalFlow()
+    {
+        grabSystemOutResettingLogger();
+        new WebAppUrl(BadCreateCommand.class, "").materializeTargetCommandWith(itsUserData);
+        assert_contains("Exception expected", grabbedOut(), BadCreateCommand.FAKE_MESSAGE);
+    }
 	
 	public void testMaterializeTargetCommand()
 	{
