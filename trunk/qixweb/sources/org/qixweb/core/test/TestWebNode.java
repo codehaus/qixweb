@@ -79,6 +79,16 @@ public class TestWebNode extends ExtendedTestCase
         }
     }
 
+    public class ThrowingExceptionOnUrlNode extends WebNode
+    {
+        public final IllegalStateException GENERATED_EXCEPTION = new IllegalStateException("fake generated exception");
+
+        public WebAppUrl url()
+        {
+            throw GENERATED_EXCEPTION;
+        }
+    }
+
     public class ReturningFormNode extends WebNode
     {
         private WebAppUrl itsUrl;
@@ -401,6 +411,20 @@ public class TestWebNode extends ExtendedTestCase
         ArrayAsserter.assertEqualsIgnoringOrder(node.someUrls(), node.connections());
     }
 
+    public void testGettingAnExceptionOnConnectionsIsEncapsulatedInRuntimeException()
+    {
+        ThrowingExceptionOnUrlNode node = new ThrowingExceptionOnUrlNode();
+        try
+        {
+            node.connections();
+            fail("An exception is expected");
+        }
+        catch (RuntimeException re)
+        {
+            assertTrue(re.getCause().getCause().equals(node.GENERATED_EXCEPTION));
+        }
+    }
+    
     public void testAllMethods()
     {
         WebAppUrl url = new ReturningUrlNode().url();

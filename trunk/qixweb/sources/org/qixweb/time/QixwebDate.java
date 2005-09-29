@@ -60,15 +60,7 @@ public class QixwebDate extends QixwebCalendar
 	
 	public String key()
 	{
-		String month = Integer.toString(month());
-		if (month() < 10)
-			month = "0" + month;
-
-		String day = Integer.toString(day());
-		if (day() < 10)
-			day = "0" + day;
-			
-		return Integer.toString(year())+"-"+month + "-" + day;
+        return DateFormatter.formatyyyy_MM_dd(this);
 	}    
 
     public String toString()

@@ -26,7 +26,7 @@ public class WebUrl
 		}
 		catch (UnsupportedEncodingException uee)
 		{
-			XpLogger.logException(uee);
+			XpLogger.logException(ENCONDING_ISO_8859_1+" no longer supported?!?", uee);
 			return parameterValue;
 		}
 	}
@@ -39,7 +39,7 @@ public class WebUrl
 		}
 		catch (UnsupportedEncodingException uee)
 		{
-			XpLogger.logException(uee);
+			XpLogger.logException(ENCONDING_ISO_8859_1+" no longer supported?!?", uee);
 			return parameterValue;
 		}
 	}

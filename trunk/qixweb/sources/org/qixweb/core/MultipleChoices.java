@@ -17,4 +17,9 @@ public class MultipleChoices extends AbstractChoice
 	{
 		choices().add(aChoice);
 	}
+
+    public void sortByLabel()
+    {
+        Collections.sort(choices());
+    }
 }

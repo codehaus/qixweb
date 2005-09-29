@@ -1,5 +1,7 @@
 package org.qixweb.core;
 
+import java.util.Collections;
+
 
 
 public class SingleChoice extends AbstractChoice

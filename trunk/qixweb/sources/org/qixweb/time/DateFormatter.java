@@ -53,6 +53,11 @@ public class DateFormatter
         return format(aCalendar, new SimpleDateFormat("yyyyMMdd-HHmmss"));
 	}
 
+    public static String formatyyyy_MM_dd_HH_mm_ss(QixwebCalendar aCalendar)
+    {
+        return format(aCalendar, new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss"));
+    }
+
     public static String formatMMM_YY(QixwebCalendar aCalendar)
     {
         return formatMMM_YY(aCalendar, defaultLocale());
@@ -62,6 +67,11 @@ public class DateFormatter
 	{
         return format(aCalendar, new SimpleDateFormat("MMM-yy", aLocale));
 	}
+
+    public static String formatyyyy_MM_dd(QixwebCalendar aCalendar)
+    {
+        return format(aCalendar, new SimpleDateFormat("yyyy-MM-dd"));
+    }
 
     public static String formatyyyyMMdd(QixwebCalendar aCalendar)
     {

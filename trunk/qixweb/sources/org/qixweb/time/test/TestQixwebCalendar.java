@@ -61,6 +61,14 @@ public abstract class TestQixwebCalendar extends ExtendedTestCase
         QixwebCalendar aDate = concreteInstance(11, 2, 2003);
         assertEquals(aCalendar.getTime(), aDate.getTime());
     }
+    
+    public void testNull()
+    {
+        assertEquals(new GregorianCalendar(0,0,0), QixwebCalendar.NULL.toGregorianCalendar());
+        assertTrue(concreteInstance(1,1,1).after(QixwebCalendar.NULL));
+        assertEquals(QixwebCalendar.NULL.toString(), QixwebCalendar.NULL.key());
+    }
+    
     public void testAfter()
     {
         QixwebCalendar date = concreteInstance(1, 2, 2003);
