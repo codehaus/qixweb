@@ -1,5 +1,7 @@
 package org.qixweb.core;
 
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 public class WebLink extends WebAppUrl
 {
     protected String itsLabel;
@@ -31,6 +33,11 @@ public class WebLink extends WebAppUrl
         }
         else
             return false;
+    }
+    
+    public int hashCode()
+    {
+        return new HashCodeBuilder().appendSuper(super.hashCode()).append(itsLabel).toHashCode();       
     }
 
     public String toString()
