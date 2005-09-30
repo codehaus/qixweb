@@ -146,6 +146,16 @@ public abstract class ExtendedTestCase extends TestCase
     public void assertEqualsOnlyIgnoringOrder(List firstList, List secondList)
     {
         assertNotEquals("Lists should not be equals considering order", firstList, secondList);
-        assertEquals("Normalizing order the lists should be equal", new HashSet(firstList), new HashSet(secondList)); 
+        assertEqualsIgnoringOrder("Normalizing order the lists should be equal", firstList, secondList); 
+    }
+    
+    public void assertEqualsIgnoringOrder(String message, List firstList, List secondList)
+    {
+        assertEquals(message, new HashSet(firstList), new HashSet(secondList)); 
+    }
+
+    public void assertEqualsIgnoringOrder(List firstList, List secondList)
+    {
+        assertEqualsIgnoringOrder("", firstList, secondList); 
     }
 }
