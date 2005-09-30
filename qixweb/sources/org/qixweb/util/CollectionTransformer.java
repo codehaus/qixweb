@@ -95,8 +95,8 @@ public class CollectionTransformer
 		return invertedArray;
 	}
 
-    public static ArrayList toArrayList(Set aSet)
+    public static ArrayList toArrayList(Collection aCollection)
     {
-        return toArrayList(aSet.iterator());
+        return toArrayList(aCollection.iterator());
     }
 }
