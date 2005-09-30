@@ -2,6 +2,8 @@ package org.qixweb.util.test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.HashSet;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.ConsoleAppender;
@@ -139,5 +141,11 @@ public abstract class ExtendedTestCase extends TestCase
     {
         itsGrabbedOut = new ByteArrayOutputStream();
         System.setOut(new PrintStream(itsGrabbedOut));
+    }
+
+    public void assertEqualsOnlyIgnoringOrder(List firstList, List secondList)
+    {
+        assertNotEquals("Lists should not be equals considering order", firstList, secondList);
+        assertEquals("Normalizing order the lists should be equal", new HashSet(firstList), new HashSet(secondList)); 
     }
 }
