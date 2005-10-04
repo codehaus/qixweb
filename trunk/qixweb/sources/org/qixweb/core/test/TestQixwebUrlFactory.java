@@ -27,12 +27,12 @@ public class TestQixwebUrlFactory extends TestCase
         Map map = new HashMap();
         map.put(WebAppUrl.PARAMETER_NODE_TO_DISPLAY, new String[] { "AnyNode" });
 
-        assertEquals(WebAppUrl.createFrom(map, env.nodePackage(), env.commandPackage(), env.servletPath()), urlFactory.createFrom(map));
+        assertEquals(WebAppUrl.createFrom(map, env.nodePackage(), env.commandPackage()), urlFactory.createFrom(map));
     }
     
     public void testCreateUrlWithClass() throws Exception
     {
-        assertEquals(new WebAppUrl(AnyCommand.class, env.servletPath()), urlFactory.createUrlWith(AnyCommand.class));
+        assertEquals(WebAppUrl.createFor(AnyCommand.class), urlFactory.createUrlWith(AnyCommand.class));
     }
 
 

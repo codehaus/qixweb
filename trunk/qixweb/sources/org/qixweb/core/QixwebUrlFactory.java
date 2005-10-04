@@ -15,11 +15,11 @@ public class QixwebUrlFactory
     
 	public WebAppUrl createFrom(Map parametersMap)
 	{
-		return WebAppUrl.createFrom(parametersMap, itsEnvironment.nodePackage(), itsEnvironment.commandPackage(), itsEnvironment.servletPath());
+		return WebAppUrl.createFrom(parametersMap, itsEnvironment.nodePackage(), itsEnvironment.commandPackage());
 	}
 
     public WebAppUrl createUrlWith(Class aClazz)
     {
-        return new WebAppUrl(aClazz, itsEnvironment.servletPath());
+        return WebAppUrl.createFor(aClazz);
     }
 }

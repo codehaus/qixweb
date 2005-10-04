@@ -6,20 +6,20 @@ public class WebLink extends WebAppUrl
 {
     protected String itsLabel;
 
-    public WebLink(String anUrl, String aLabel)
+    public WebLink(String aLabel)
     {
-        this(Object.class, anUrl, aLabel);
+        this(Object.class, aLabel);
     }
 
-    public WebLink(Class aTarget, String anUrl, String aLabel)
+    public WebLink(Class aTarget, String aLabel)
     {
-        super(aTarget, anUrl);
+        super(aTarget);
         itsLabel = aLabel;
     }
 
     public static WebLink createGhostLink(String label)
     {
-        WebLink ghostLink = new WebLink("", label);
+        WebLink ghostLink = new WebLink(label);
         ghostLink.disable();
         return ghostLink;
     }
