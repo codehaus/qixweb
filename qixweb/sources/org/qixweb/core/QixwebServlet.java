@@ -1,28 +1,39 @@
 package org.qixweb.core;
+
 import javax.servlet.http.*;
 
 import org.qixweb.util.XpLogger;
 
-
 public abstract class QixwebServlet extends HttpServlet
 {
-	public void service(HttpServletRequest request, HttpServletResponse response)
-	{
-		try
-		{
-            QixwebEnvironment environment = instantiateEnvironment();
+
+    public void service(HttpServletRequest request, HttpServletResponse response)
+    {
+        QixwebEnvironment environment = null;
+        
+        try
+        {
+            environment = instantiateEnvironment();
             String templatePath = getServletContext().getRealPath(environment.velocityTemplateDir());
             QixwebBrowser browser = buildBrowser(request, response, environment, templatePath);
-                    
-			WebAppUrl url = new QixwebUrlFactory(environment).createFrom(request.getParameterMap());
-			browser.goTo(url);
-		}
-		catch (Exception ex)
-		{
-			XpLogger.logException(ex);
-			QixwebServlet.reportException(response, ex);
-		}
-	}
+
+            WebAppUrl url = new QixwebUrlFactory(environment).createFrom(request.getParameterMap());
+            browser.goTo(url);
+        }
+        catch (Exception ex)
+        {
+            XpLogger.logException(ex);
+            QixwebServlet.reportException(response, ex);
+        }
+        finally
+        {
+            freeResourcesOn(environment);
+        }
+    }
+
+    protected void freeResourcesOn(QixwebEnvironment aEnvironment)
+    {
+    }
 
     protected abstract QixwebEnvironment instantiateEnvironment();
 
@@ -33,22 +44,21 @@ public abstract class QixwebServlet extends HttpServlet
         SessionID sessionID = new SessionID(userSessionID, request.getPathInfo());
         UserData userSessionData = environment.sessionManager().userDataFor(sessionID);
 
-        ServletResponseHandler responseHandler = new ServletResponseHandler(response, request.getServletPath(), sessionID.nextPageID(), templatePath);    
+        ServletResponseHandler responseHandler = new ServletResponseHandler(response, request.getServletPath(), sessionID.nextPageID(), templatePath);
         return new QixwebBrowser(responseHandler, userSessionData, environment, true);
     }
 
     public static void reportException(HttpServletResponse response, Exception ex)
     {
-    	try
-    	{
-    		ex.printStackTrace();
-    		ex.printStackTrace(response.getWriter());
-    	}
-    	catch (Exception e)
-    	{
-    		XpLogger.logException(e);
-    	}
+        try
+        {
+            ex.printStackTrace();
+            ex.printStackTrace(response.getWriter());
+        }
+        catch (Exception e)
+        {
+            XpLogger.logException(e);
+        }
     }
 
-   
 }
