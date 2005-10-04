@@ -17,7 +17,8 @@ public class TestServletResponseHandler extends ExtendedTestCase
         super.setUp();
 		itsHttpResponse = new FakeHttpServletResponse();
 		itsPageID = "1234567";
-		itsServletPath = "/servlet/WebAppServlet";
+		itsServletPath = "servlet/WebAppServlet";
+        WebAppUrl.initServletPath(itsServletPath);
 		
 		itsResponseHandler = new ServletResponseHandler(itsHttpResponse, itsServletPath, itsPageID, "./templateVelocity/");
     }
@@ -35,10 +36,10 @@ public class TestServletResponseHandler extends ExtendedTestCase
 	
 	public void testRedirectToUrl() throws Exception
 	{
-		WebAppUrl url = new WebAppUrl(AnyNode.class, "/webapp" + itsServletPath); 
+		WebAppUrl url = WebAppUrl.createFor(AnyNode.class); 
 		itsResponseHandler.redirectTo(url);
 
-		assertEquals("Wrong redirect", "/webapp/servlet/WebAppServlet/"+ itsPageID +"?node=AnyNode", itsHttpResponse.redirectedUrl());
+		assertEquals("Wrong redirect", itsServletPath + "/" + itsPageID +"?node=AnyNode", itsHttpResponse.redirectedUrl());
 		assert_contains("Wrong page id", itsHttpResponse.redirectedUrl(), itsPageID);
 	}
     

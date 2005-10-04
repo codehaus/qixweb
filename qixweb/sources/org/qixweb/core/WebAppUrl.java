@@ -14,15 +14,22 @@ import org.qixweb.util.XpLogger;
 
 public class WebAppUrl extends WebUrl implements Browsable
 {
-	public static final WebAppUrl EMPTY_URL = new WebAppUrl(Object.class, "");
-
+    private static String itsServletPath = "";
+	public static final WebAppUrl EMPTY_URL = createFor(Object.class);
 	public static final String PARAMETER_COMMAND_TO_EXECUTE = "command";
 	public static final String PARAMETER_NODE_TO_DISPLAY = "node";
+    
 
 	private Class itsTargetClass;
-	public WebAppUrl(Class aTarget, String servletPath)
+    
+    public static void initServletPath(String servletPath)
+    {
+        itsServletPath = servletPath;
+    }
+    
+	protected WebAppUrl(Class aTarget)
 	{
-		super(servletPath);
+		super(itsServletPath);
         resetParameters();
 		itsTargetClass = aTarget;
 		setClassNameParameterFor(aTarget);
@@ -117,13 +124,12 @@ public class WebAppUrl extends WebUrl implements Browsable
 		return destination;
 	}
 
-	private static WebAppUrl tryToCreateUrlWithDestination(Map parametersMap, String aNodePackage, String aCommandPackage, String aBaseUrl)
+	private static WebAppUrl tryToCreateUrlWithDestination(Map parametersMap, String aNodePackage, String aCommandPackage)
 	{
 		try
 		{
 			String targetClassName = extractDestinationFrom(parametersMap, aNodePackage, aCommandPackage);
-			WebAppUrl webAppUrl = new WebAppUrl(Class.forName(targetClassName), aBaseUrl);
-            webAppUrl.setUrlBeforeParameters(aBaseUrl);
+			WebAppUrl webAppUrl = createFor(Class.forName(targetClassName));
             return webAppUrl;
 		}
 		catch (Exception commandOrNodeNotFound)
@@ -133,22 +139,27 @@ public class WebAppUrl extends WebUrl implements Browsable
 		}
 	}
 	
-	public static WebAppUrl createWithTarget(String aDestination, String aNodePackage, String aCommandPackage, String aBaseUrl)
+	public static WebAppUrl createWithTarget(String aDestination, String aNodePackage, String aCommandPackage)
 	{
 		Map parameters = new UrlParametersExtractor(aDestination).run();
-		return WebAppUrl.createFrom(parameters, aNodePackage, aCommandPackage, aBaseUrl);
+		return WebAppUrl.createFrom(parameters, aNodePackage, aCommandPackage);
 	}	
 	
 
-	public static WebAppUrl createFrom(Map parametersMap, String aNodePackage, String aCommandPackage, String aBaseUrl)
+	public static WebAppUrl createFrom(Map parametersMap, String aNodePackage, String aCommandPackage)
 	{
-		WebAppUrl mapAsUrl = tryToCreateUrlWithDestination(parametersMap, aNodePackage, aCommandPackage, aBaseUrl);
+		WebAppUrl mapAsUrl = tryToCreateUrlWithDestination(parametersMap, aNodePackage, aCommandPackage);
 		mapAsUrl.setParameters(parametersMap);
 
 		return mapAsUrl;
 	}
 
-	public void copyOptionalParametersFrom(final WebUrl aUrl)
+	public static WebAppUrl createFor(Class aTarget)
+    {
+        return new WebAppUrl(aTarget);
+    }
+
+    public void copyOptionalParametersFrom(final WebUrl aUrl)
     {
         LightInternalIterator.createOn(aUrl.itsParameters.keySet()).forEach(new Procedure()
         {

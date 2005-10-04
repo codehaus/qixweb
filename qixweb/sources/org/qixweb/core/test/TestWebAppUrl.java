@@ -8,13 +8,21 @@ import org.qixweb.util.test.ExtendedTestCase;
 
 public class TestWebAppUrl extends ExtendedTestCase
 {
+    private UserData itsUserData;
+    private TheSystem itsSystem;
+    private String itsServletPath;
+    private WebAppUrl itsWebUrlForAnyCommand;
+    private WebAppUrl itsWebUrlForAnyNode;
+
+    
     protected void setUp() throws Exception
     {
         super.setUp();
-        itsBaseUrlBeforeParameters = "baseUrl";
+        itsServletPath = "servletPath";
+        WebAppUrl.initServletPath(itsServletPath);
         
-        itsWebUrlForAnyNode = new WebAppUrl(AnyNode.class, itsBaseUrlBeforeParameters);
-        itsWebUrlForAnyCommand = new WebAppUrl(AnyCommand.class, itsBaseUrlBeforeParameters);
+        itsWebUrlForAnyNode = WebAppUrl.createFor(AnyNode.class);
+        itsWebUrlForAnyCommand = WebAppUrl.createFor(AnyCommand.class);
         
         itsUserData = new UserData();
         itsSystem = new TheSystem() {};
@@ -24,7 +32,7 @@ public class TestWebAppUrl extends ExtendedTestCase
 	{
 		AnyNode expectedNode = new AnyNode();
 		
-		WebAppUrl url = new WebAppUrl(AnyNode.class, "");
+		WebAppUrl url = WebAppUrl.createFor(AnyNode.class);
 		WebNode node = url.materializeTargetNodeWith(itsUserData, itsSystem);
 	
 		assertEquals(expectedNode, node);
@@ -34,7 +42,7 @@ public class TestWebAppUrl extends ExtendedTestCase
 	{
         grabSystemOutResettingLogger();
 		Class notExistentNode = Integer.class;
-		WebAppUrl urlToNotExistentTarget = new WebAppUrl(notExistentNode, "");
+		WebAppUrl urlToNotExistentTarget = WebAppUrl.createFor(notExistentNode);
 		
 		WebNode node = urlToNotExistentTarget.materializeTargetNodeWith(itsUserData, itsSystem);
 		assertNull("It is NOT possible to materialize a not existent node", node);
@@ -45,7 +53,7 @@ public class TestWebAppUrl extends ExtendedTestCase
 	{
         grabSystemOutResettingLogger();
 		Class notExistentCommand = Integer.class;
-		WebAppUrl urlToNotExistentTarget = new WebAppUrl(notExistentCommand, "");
+		WebAppUrl urlToNotExistentTarget = WebAppUrl.createFor(notExistentCommand);
 	
         WebCommand command = urlToNotExistentTarget.materializeTargetCommandWith(itsUserData);
 		assertNull("It is NOT possible to materialize a not existent command", command);
@@ -55,7 +63,7 @@ public class TestWebAppUrl extends ExtendedTestCase
     public void testCommandThrowingExceptionOnCreateIsLoggedWithoutInterruptingNormalFlow()
     {
         grabSystemOutResettingLogger();
-        new WebAppUrl(BadCreateCommand.class, "").materializeTargetCommandWith(itsUserData);
+        WebAppUrl.createFor(BadCreateCommand.class).materializeTargetCommandWith(itsUserData);
         assert_contains("Exception expected", grabbedOut(), BadCreateCommand.FAKE_MESSAGE);
     }
 	
@@ -63,7 +71,7 @@ public class TestWebAppUrl extends ExtendedTestCase
 	{
 		AnyCommand expectedCommand = new AnyCommand("materializeTest");
 		
-		WebAppUrl url = new WebAppUrl(AnyCommand.class, "");
+		WebAppUrl url = WebAppUrl.createFor(AnyCommand.class);
         url.setParameter("state", "materializeTest");
         itsUserData.store("state", "materializeTest");
         WebCommand command = url.materializeTargetCommandWith(itsUserData);
@@ -71,12 +79,6 @@ public class TestWebAppUrl extends ExtendedTestCase
 		assertEquals(expectedCommand, command);
 	}
 	
-    private UserData itsUserData;
-	private TheSystem itsSystem;
-	private String itsBaseUrlBeforeParameters;
-	private WebAppUrl itsWebUrlForAnyCommand;
-	private WebAppUrl itsWebUrlForAnyNode;
-
     public static String encodeAmpersand(String aStringToEncode)
     {
         return aStringToEncode.replaceAll("&", "&amp;");
@@ -84,8 +86,8 @@ public class TestWebAppUrl extends ExtendedTestCase
     
     public void testEquals()
     {
-        WebAppUrl sameUrl = new WebAppUrl(AnyNode.class, itsBaseUrlBeforeParameters);
-        WebAppUrl aDifferentUrl = new WebAppUrl(AnyCommand.class, itsBaseUrlBeforeParameters);
+        WebAppUrl sameUrl = WebAppUrl.createFor(AnyNode.class);
+        WebAppUrl aDifferentUrl = WebAppUrl.createFor(AnyCommand.class);
         
         EqualsBehaviourVerifier.check("different type of url", itsWebUrlForAnyNode, sameUrl, aDifferentUrl);
         EqualsBehaviourVerifier.checkHashCode(itsWebUrlForAnyNode, sameUrl);
@@ -102,14 +104,14 @@ public class TestWebAppUrl extends ExtendedTestCase
 		String commandToExecuteParameter = itsWebUrlForAnyCommand.getParameter(WebAppUrl.PARAMETER_COMMAND_TO_EXECUTE);
 		assertEquals("wrong command name", "AnyCommand", commandToExecuteParameter);
 
-		WebAppUrl neitherCommandNorNodeUrl = new WebAppUrl(Object.class, itsBaseUrlBeforeParameters);
+		WebAppUrl neitherCommandNorNodeUrl = WebAppUrl.createFor(Object.class);
 		assertNull("No command name should be set", neitherCommandNorNodeUrl.getParameter(WebAppUrl.PARAMETER_COMMAND_TO_EXECUTE));
 		assertNull("No node name should be set", neitherCommandNorNodeUrl.getParameter(WebAppUrl.PARAMETER_NODE_TO_DISPLAY));
 	}
 	
     public void testDestinationForNode()
     {
-        String expectedDestination = itsBaseUrlBeforeParameters + "?" + WebAppUrl.PARAMETER_NODE_TO_DISPLAY+"=AnyNode";
+        String expectedDestination = itsServletPath + "?" + WebAppUrl.PARAMETER_NODE_TO_DISPLAY+"=AnyNode";
         String returnedDestination = itsWebUrlForAnyNode.destination();
         assertEquals("wrong destination composition", expectedDestination, returnedDestination);
         assertTrue("should go the a node", itsWebUrlForAnyNode.isGoingToANode());
@@ -117,7 +119,7 @@ public class TestWebAppUrl extends ExtendedTestCase
 
     public void testDestinationForCommand()
     {
-        String expectedDestination = itsBaseUrlBeforeParameters + "?" + WebAppUrl.PARAMETER_COMMAND_TO_EXECUTE+"=AnyCommand";
+        String expectedDestination = itsServletPath + "?" + WebAppUrl.PARAMETER_COMMAND_TO_EXECUTE+"=AnyCommand";
         String returnedDestination = itsWebUrlForAnyCommand.destination();
         assertEquals("wrong destination composition", expectedDestination, returnedDestination);
         assertTrue("should execute a command", itsWebUrlForAnyCommand.isExecutingACommand());
@@ -125,7 +127,7 @@ public class TestWebAppUrl extends ExtendedTestCase
      
 	public void testDestinationWithParametersAndTargetClass()
 	{
-		String expectedDestination = itsBaseUrlBeforeParameters;
+		String expectedDestination = itsServletPath;
 		String expectedFirstParameter = WebAppUrl.PARAMETER_NODE_TO_DISPLAY+"=AnyNode";
 	    
 		String expectedSecondParameter = "parameter=value";
@@ -138,38 +140,27 @@ public class TestWebAppUrl extends ExtendedTestCase
 		assert_contains("wrong parameter", returnedDestination, expectedSecondParameter);     
 	}
 
-    public void testCostructorKeepOnlyBaseUrl()
-    {
-        WebAppUrl url = new WebAppUrl(AnyRefreshableCommand.class, "http://localhost:8080/MyWebApp/servlet/MyServlet?param1=value1&param2=value2");
-        assertEquals
-        (
-                "It should keep only the baseurl of the url passed in the costructor", 
-                "http://localhost:8080/MyWebApp/servlet/MyServlet?command=AnyRefreshableCommand", 
-                url.destination()
-        );
-    }
-    
     public void testCopyOptionalParameters()
     {
-        WebAppUrl orginUrl = new WebAppUrl(AnyRefreshableCommand.class, "http://localhost:8080/MyWebApp/servlet/MyServlet");
+        WebAppUrl orginUrl = WebAppUrl.createFor(AnyRefreshableCommand.class);
         orginUrl.setParameter("param1", "value1");
         orginUrl.setParameter("param2", "value2");
-        WebAppUrl targetCommandUrl = new WebAppUrl(AnyCommand.class, "http://localhost:8080/MyWebApp/servlet/MyServlet");
-        WebAppUrl expectedCommandUrl = new WebAppUrl(AnyCommand.class, "http://localhost:8080/MyWebApp/servlet/MyServlet");
+        WebAppUrl targetCommandUrl = WebAppUrl.createFor(AnyCommand.class);
+        WebAppUrl expectedCommandUrl = WebAppUrl.createFor(AnyCommand.class);
         expectedCommandUrl.setParameter("param1", "value1");
         expectedCommandUrl.setParameter("param2", "value2");
         targetCommandUrl.copyOptionalParametersFrom(orginUrl);
         assertEquals(expectedCommandUrl, targetCommandUrl);
 
-        targetCommandUrl = new WebAppUrl(AnyRefreshableCommand.class, "http://localhost:8080/MyWebApp/servlet/MyServlet");
-        expectedCommandUrl = new WebAppUrl(AnyRefreshableCommand.class, "http://localhost:8080/MyWebApp/servlet/MyServlet");
+        targetCommandUrl = WebAppUrl.createFor(AnyRefreshableCommand.class);
+        expectedCommandUrl = WebAppUrl.createFor(AnyRefreshableCommand.class);
         expectedCommandUrl.setParameter("param1", "value1");
         expectedCommandUrl.setParameter("param2", "value2");
         targetCommandUrl.copyOptionalParametersFrom(orginUrl);
         assertEquals(expectedCommandUrl, targetCommandUrl);
 
-        targetCommandUrl = new WebAppUrl(AnyNode.class, "http://localhost:8080/MyWebApp/servlet/MyServlet");
-        expectedCommandUrl = new WebAppUrl(AnyNode.class, "http://localhost:8080/MyWebApp/servlet/MyServlet");
+        targetCommandUrl = WebAppUrl.createFor(AnyNode.class);
+        expectedCommandUrl = WebAppUrl.createFor(AnyNode.class);
         expectedCommandUrl.setParameter("param1", "value1");
         expectedCommandUrl.setParameter("param2", "value2");
         targetCommandUrl.copyOptionalParametersFrom(orginUrl);

@@ -8,8 +8,7 @@ import java.util.Set;
 
 import javax.servlet.*;
 
-import org.qixweb.core.QixwebEnvironment;
-import org.qixweb.core.QixwebServlet;
+import org.qixweb.core.*;
 import org.qixweb.util.test.ExtendedTestCase;
 
 
@@ -180,11 +179,12 @@ public class TestQixwebServlet extends ExtendedTestCase
     }
     public void testService()
     {
+        String servletPath = new FakeEnvironment().servletPath();
         itsFakeRequest.simulateParameter("node", "AnyNode");
-        itsFakeRequest.simulateServletPath(new FakeEnvironment().servletPath());
+        itsFakeRequest.simulateServletPath(servletPath);
         itsFakeRequest.simulateSession(new FakeHttpSession());
         itsServlet.service(itsFakeRequest, itsFakeResponse);
-        assert_contains(itsFakeResponse.outputAsString(), "<A href=\"/servlet/WebAppServlet?command=AnyCommand\">Click here to execute Any Command</A>");
+        assert_matchesRegex(itsFakeResponse.outputAsString(), "<A href=\"home/\\d+\\?command=AnyCommand\">Click here to execute Any Command</A>");
     }
     
     public void testException() throws ServletException

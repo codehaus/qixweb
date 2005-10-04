@@ -24,7 +24,7 @@ public class AnyNode extends WebNode
     
     public WebAppUrl anyCommandLink()
     {
-        return new WebAppUrl(AnyCommand.class, "/servlet/WebAppServlet");
+        return WebAppUrl.createFor(AnyCommand.class);
     }
     
     public static WebNode create(WebAppUrl anUrl, UserData aUserData, TheSystem system)
