@@ -20,9 +20,9 @@ public class WebAppUrl extends WebUrl implements Browsable
 	public static final String PARAMETER_NODE_TO_DISPLAY = "node";
 
 	private Class itsTargetClass;
-	public WebAppUrl(Class aTarget, String anUrl)
+	public WebAppUrl(Class aTarget, String servletPath)
 	{
-		super(anUrl);
+		super(servletPath);
         resetParameters();
 		itsTargetClass = aTarget;
 		setClassNameParameterFor(aTarget);
@@ -122,7 +122,9 @@ public class WebAppUrl extends WebUrl implements Browsable
 		try
 		{
 			String targetClassName = extractDestinationFrom(parametersMap, aNodePackage, aCommandPackage);
-			return new WebAppUrl(Class.forName(targetClassName), aBaseUrl);
+			WebAppUrl webAppUrl = new WebAppUrl(Class.forName(targetClassName), aBaseUrl);
+            webAppUrl.setUrlBeforeParameters(aBaseUrl);
+            return webAppUrl;
 		}
 		catch (Exception commandOrNodeNotFound)
 		{
