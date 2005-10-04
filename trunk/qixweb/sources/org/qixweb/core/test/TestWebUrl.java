@@ -64,7 +64,17 @@ public class TestWebUrl extends ExtendedTestCase
 	    assertEquals(webUrl.getParameter("parameter1"), "value1 with spaces");
 	    assertEquals(webUrl.getParameter("parameter2"), " value2 with other spaces");
 	}
-	
+
+    public void testSetUrlBeforeParameters()
+    {
+        WebUrl webUrl = new WebUrl("www.myserv.com?param1=pippo");
+        assertEquals("www.myserv.com?param1=pippo", webUrl.destination());
+        webUrl.setUrlBeforeParameters("www.google.com");
+        assertEquals("www.google.com?param1=pippo", webUrl.destination());
+        webUrl.setUrlBeforeParameters("www.tiscali.it?param2=pluto");
+        assertEquals("www.tiscali.it?param1=pippo", webUrl.destination());
+    }
+    
 	public void testEncodingParameters()
 	{
 		String expectedParameter = "parameter=value+with+spaces";

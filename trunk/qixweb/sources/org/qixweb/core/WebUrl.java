@@ -15,7 +15,6 @@ public class WebUrl
 	
     protected Map itsParameters;
 	private String itsUrlBeforeParameters;
-
     private boolean isEnabled;
 
 	public static String encode(String parameterValue)
@@ -46,12 +45,12 @@ public class WebUrl
 
 	public WebUrl(String anUrl)
 	{
-		itsUrlBeforeParameters = anUrl.split("\\?")[0];
+		setUrlBeforeParameters(anUrl);
 		itsParameters = new UrlParametersExtractor(anUrl).run();
         isEnabled = true;
 	}
 
-	public String getParameter(String key)
+    public String getParameter(String key)
 	{
 		Object value = itsParameters.get(key);
 		if (value == null)
@@ -203,5 +202,10 @@ public class WebUrl
     public void disable()
     {
     	isEnabled = false;
+    }
+
+    public void setUrlBeforeParameters(String url)
+    {
+        itsUrlBeforeParameters = url.split("\\?")[0];
     }
 }
