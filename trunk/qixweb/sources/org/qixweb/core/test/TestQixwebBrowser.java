@@ -16,7 +16,7 @@ public class TestQixwebBrowser extends ExtendedTestCase
 
     public void testGoToNode() throws Exception
     {
-        WebAppUrl nodeUrl = WebAppUrl.createFor(AnyNode.class);
+        WebAppUrl nodeUrl = new WebAppUrl(AnyNode.class);
         itsBrowser.goTo(nodeUrl);
 
         assertEquals("Wrong displayed node", new AnyNode(), itsFakeResponseHandler.displayedNode());
@@ -28,10 +28,10 @@ public class TestQixwebBrowser extends ExtendedTestCase
         {
             protected void gotoWarningNode() throws Exception
             {
-                goTo(WebAppUrl.createFor(WrongLinkNodeForTest.class));
+                goTo(new WebAppUrl(WrongLinkNodeForTest.class));
             }            
         };
-        WebAppUrl wrongLink = WebAppUrl.createFor(Object.class);
+        WebAppUrl wrongLink = new WebAppUrl(Object.class);
         itsBrowser.goTo(wrongLink);
 
         assertEquals(new WrongLinkNodeForTest(), itsFakeResponseHandler.displayedNode());
@@ -39,16 +39,16 @@ public class TestQixwebBrowser extends ExtendedTestCase
 
     public void testDefaultGotoWarningNodeDoesNothing() throws Exception
     {
-        WebAppUrl wrongLink = WebAppUrl.createFor(Object.class);
+        WebAppUrl wrongLink = new WebAppUrl(Object.class);
         itsBrowser.goTo(wrongLink);
         assertNull(itsFakeResponseHandler.displayedNode());
     }
     public void testExecuteCommand() throws Exception
     {
-        WebAppUrl expectedDestination = WebAppUrl.createFor(AnyNode.class);
+        WebAppUrl expectedDestination = new WebAppUrl(AnyNode.class);
         expectedDestination.setParameter("state", "test");
 
-        WebAppUrl commandUrl = WebAppUrl.createFor(AnyCommand.class);
+        WebAppUrl commandUrl = new WebAppUrl(AnyCommand.class);
         itsBrowser.userData().store("state", "test");
         itsBrowser.goTo(commandUrl);
 
@@ -66,13 +66,13 @@ public class TestQixwebBrowser extends ExtendedTestCase
             }
         };
 
-        itsBrowser.goTo(WebAppUrl.createFor(AnyCommand.class));
+        itsBrowser.goTo(new WebAppUrl(AnyCommand.class));
         assertNull("Wrong destination url after invalid command execution", itsFakeResponseHandler.redirectedDestination());
     }
     
     public void testExecuteWebRefreshableCommand() throws Exception
     {
-        WebAppUrl webRefreshableCommandUrl = WebAppUrl.createFor(AnyRefreshableCommand.class);
+        WebAppUrl webRefreshableCommandUrl = new WebAppUrl(AnyRefreshableCommand.class);
         itsBrowser.goTo(webRefreshableCommandUrl);
 
         assertEquals("Wrong displayed node after command execution", new AnyNode(), itsFakeResponseHandler.displayedNode());

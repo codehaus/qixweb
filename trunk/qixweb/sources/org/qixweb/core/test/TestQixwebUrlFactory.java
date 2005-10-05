@@ -32,7 +32,7 @@ public class TestQixwebUrlFactory extends TestCase
     
     public void testCreateUrlWithClass() throws Exception
     {
-        assertEquals(WebAppUrl.createFor(AnyCommand.class), urlFactory.createUrlWith(AnyCommand.class));
+        assertEquals(new WebAppUrl(AnyCommand.class), urlFactory.createUrlWith(AnyCommand.class));
     }
 
 

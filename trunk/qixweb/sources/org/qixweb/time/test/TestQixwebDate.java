@@ -38,7 +38,7 @@ public class TestQixwebDate extends TestQixwebCalendar
     public void testCreateFromUrl() 
     {
         QixwebDate firstOfApril2003 = new QixwebDate("1", "4", "2003");
-        WebAppUrl url = WebAppUrl.createFor(Object.class);
+        WebAppUrl url = new WebAppUrl(Object.class);
         url.setParameter("prefix"+QixwebDate.DAY_PARAM, 1);
         url.setParameter("prefix"+QixwebDate.MONTH_PARAM, 4);
         url.setParameter("prefix"+QixwebDate.YEAR_PARAM, 2003);

@@ -15,19 +15,20 @@ import org.qixweb.util.XpLogger;
 public class WebAppUrl extends WebUrl implements Browsable
 {
     private static String itsServletPath = "";
-	public static final WebAppUrl EMPTY_URL = createFor(Object.class);
+    public static final WebAppUrl EMPTY_LINK = new WebAppUrl(Object.class, "");
+    
+	public static final WebAppUrl EMPTY_URL = new WebAppUrl(Object.class);
 	public static final String PARAMETER_COMMAND_TO_EXECUTE = "command";
 	public static final String PARAMETER_NODE_TO_DISPLAY = "node";
     
 
 	private Class itsTargetClass;
-    
     public static void initServletPath(String servletPath)
     {
         itsServletPath = servletPath;
     }
     
-	protected WebAppUrl(Class aTarget)
+	public WebAppUrl(Class aTarget)
 	{
 		super(itsServletPath);
         resetParameters();
@@ -35,6 +36,14 @@ public class WebAppUrl extends WebUrl implements Browsable
 		setClassNameParameterFor(aTarget);
 	}
 
+    public WebAppUrl(Class aTarget, String label)
+    {
+        super(itsServletPath, label);
+        resetParameters();
+        itsTargetClass = aTarget;
+        setClassNameParameterFor(aTarget);
+    }
+    
 	public Class target()
 	{
 		return itsTargetClass;
@@ -129,7 +138,7 @@ public class WebAppUrl extends WebUrl implements Browsable
 		try
 		{
 			String targetClassName = extractDestinationFrom(parametersMap, aNodePackage, aCommandPackage);
-			WebAppUrl webAppUrl = createFor(Class.forName(targetClassName));
+			WebAppUrl webAppUrl = new WebAppUrl(Class.forName(targetClassName));
             return webAppUrl;
 		}
 		catch (Exception commandOrNodeNotFound)
@@ -154,9 +163,11 @@ public class WebAppUrl extends WebUrl implements Browsable
 		return mapAsUrl;
 	}
 
-	public static WebAppUrl createFor(Class aTarget)
+	public static WebAppUrl createGhost(String label)
     {
-        return new WebAppUrl(aTarget);
+        WebAppUrl ghostUrl = new WebAppUrl(Object.class, label);
+        ghostUrl.disable();
+        return ghostUrl;
     }
 
     public void copyOptionalParametersFrom(final WebUrl aUrl)

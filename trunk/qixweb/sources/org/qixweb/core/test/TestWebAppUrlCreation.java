@@ -20,7 +20,7 @@ public class TestWebAppUrlCreation extends ExtendedTestCase
 
 		WebAppUrl url = WebAppUrl.createFrom(map, itsNodePackage, itsCommandPackage);
 
-		WebAppUrl expectedUrl = WebAppUrl.createFor(AnyNode.class);
+		WebAppUrl expectedUrl = new WebAppUrl(AnyNode.class);
 		assertEquals("in the url, the node target class should be set", expectedUrl, url);
 	}
 
@@ -30,7 +30,7 @@ public class TestWebAppUrlCreation extends ExtendedTestCase
 		map.put(WebAppUrl.PARAMETER_COMMAND_TO_EXECUTE, new String[] { "AnyCommand" });
 		WebAppUrl url = WebAppUrl.createFrom(map, itsNodePackage, itsCommandPackage);
 
-		WebAppUrl expectedUrl = WebAppUrl.createFor(AnyCommand.class);
+		WebAppUrl expectedUrl = new WebAppUrl(AnyCommand.class);
 
 		assertEquals("in the url, the command target class should be set (as string)", expectedUrl, url);
 	}
@@ -64,7 +64,7 @@ public class TestWebAppUrlCreation extends ExtendedTestCase
 
 	public void testCreateFromDestination()
 	{
-		WebAppUrl simpleUrl = WebAppUrl.createFor(AnyNode.class);
+		WebAppUrl simpleUrl = new WebAppUrl(AnyNode.class);
 		assertEquals("Wrong Url from " + simpleUrl.toString(), simpleUrl, WebAppUrl.createWithTarget(simpleUrl.destination(), itsNodePackage, itsCommandPackage));
 	}
     
@@ -114,7 +114,7 @@ public class TestWebAppUrlCreation extends ExtendedTestCase
     public void testCostructor()
     {
         WebAppUrl.initServletPath("");
-        WebAppUrl url = WebAppUrl.createFor(AnyRefreshableCommand.class);
+        WebAppUrl url = new WebAppUrl(AnyRefreshableCommand.class);
         assertEquals
         (
                 "the url should be composed without servlet path", 
@@ -122,7 +122,7 @@ public class TestWebAppUrlCreation extends ExtendedTestCase
                 url.destination()
         );
         WebAppUrl.initServletPath("http://localhost/MyWebApp/servlet/MyServlet");
-        url = WebAppUrl.createFor(AnyRefreshableCommand.class);
+        url = new WebAppUrl(AnyRefreshableCommand.class);
         assertEquals
         (
                 "the url should be composed using the servlet path", 

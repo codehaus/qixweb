@@ -20,6 +20,6 @@ public class QixwebUrlFactory
 
     public WebAppUrl createUrlWith(Class aClazz)
     {
-        return WebAppUrl.createFor(aClazz);
+        return new WebAppUrl(aClazz);
     }
 }
