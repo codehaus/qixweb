@@ -70,7 +70,7 @@ public class TestWebNode extends ExtendedTestCase
 
         public ReturningUrlNode()
         {
-            this(WebAppUrl.createFor(AnyNode.class));
+            this(new WebAppUrl(AnyNode.class));
         }
 
         public WebAppUrl url()
@@ -100,7 +100,7 @@ public class TestWebNode extends ExtendedTestCase
 
         public ReturningFormNode()
         {
-            this(WebAppUrl.createFor(AnyNode.class));
+            this(new WebAppUrl(AnyNode.class));
         }
 
         public WebForm form()
@@ -131,7 +131,7 @@ public class TestWebNode extends ExtendedTestCase
 
         public ReturningUrlArrayNode()
         {
-            this(WebAppUrl.createFor(AnyNode.class));
+            this(new WebAppUrl(AnyNode.class));
         }
 
         public WebAppUrl[] someUrls()
@@ -152,7 +152,7 @@ public class TestWebNode extends ExtendedTestCase
         public ReturningUrlListNode()
         {
             itsUrlList = new ArrayList();
-            itsUrlList.add(WebAppUrl.createFor(AnyNode.class));
+            itsUrlList.add(new WebAppUrl(AnyNode.class));
         }
 
         public List someUrls()
@@ -177,7 +177,7 @@ public class TestWebNode extends ExtendedTestCase
 
         public ReturningUrlIteratorNode()
         {
-            this(WebAppUrl.createFor(AnyNode.class));
+            this(new WebAppUrl(AnyNode.class));
         }
 
         public Iterator someUrls()
@@ -277,7 +277,7 @@ public class TestWebNode extends ExtendedTestCase
 
     public static class ReturningNotValidUrlNode extends WebNode
     {
-        final WebAppUrl neverReturnedUrl = WebAppUrl.createFor(getClass());
+        final WebAppUrl neverReturnedUrl = new WebAppUrl(getClass());
 
         WebAppUrl defaultVisibility()
         {
@@ -301,7 +301,7 @@ public class TestWebNode extends ExtendedTestCase
 
         public static WebAppUrl staticModifier()
         {
-            return WebAppUrl.createFor(Object.class);
+            return new WebAppUrl(Object.class);
         }
 
         public Iterator oneParameterIterator(String aString)
@@ -391,16 +391,16 @@ public class TestWebNode extends ExtendedTestCase
 
     public void testMethodsReturningUrlArraysMixedWithNulls()
     {
-        WebAppUrl validUrl1 = WebAppUrl.createFor(getClass());
-        WebAppUrl validUrl2 = WebAppUrl.createFor(getClass());
+        WebAppUrl validUrl1 = new WebAppUrl(getClass());
+        WebAppUrl validUrl2 = new WebAppUrl(getClass());
         ReturningUrlArrayNode node = new ReturningUrlArrayNode(new WebAppUrl[] { validUrl2, null, validUrl1 });
         ArrayAsserter.assertEqualsIgnoringOrder(new WebAppUrl[] { validUrl1, validUrl2 }, node.connections());
     }
 
     public void testMethodsReturningUrlIteratorMixedWithNulls()
     {
-        WebAppUrl validUrl1 = WebAppUrl.createFor(getClass());
-        WebAppUrl validUrl2 = WebAppUrl.createFor(getClass());
+        WebAppUrl validUrl1 = new WebAppUrl(getClass());
+        WebAppUrl validUrl2 = new WebAppUrl(getClass());
         ReturningUrlIteratorNode node = new ReturningUrlIteratorNode(new WebAppUrl[] { validUrl2, null, validUrl1 });
         ArrayAsserter.assertEqualsIgnoringOrder(new WebAppUrl[] { validUrl1, validUrl2 }, node.connections());
     }
@@ -446,9 +446,9 @@ public class TestWebNode extends ExtendedTestCase
 
     public void testMethodsReturningArrayOfIteratorsWithTwoIteratorsAndMixedWithNullElements()
     {
-        WebAppUrl validUrl1 = WebAppUrl.createFor(getClass());
-        WebAppUrl validUrl2 = WebAppUrl.createFor(getClass());
-        WebAppUrl validUrl3 = WebAppUrl.createFor(getClass());
+        WebAppUrl validUrl1 = new WebAppUrl(getClass());
+        WebAppUrl validUrl2 = new WebAppUrl(getClass());
+        WebAppUrl validUrl3 = new WebAppUrl(getClass());
         ReturningUrlIteratorNode node1 = new ReturningUrlIteratorNode(new WebAppUrl[] { null, validUrl1 });
         ReturningUrlIteratorNode node2 = new ReturningUrlIteratorNode(new WebAppUrl[] { validUrl2, null, validUrl3 });
         ReturningUrlViaArrayOfIteratorsNode node = new ReturningUrlViaArrayOfIteratorsNode(new ReturningUrlIteratorNode[] { node1, node2 });

@@ -1,9 +1,11 @@
 package org.qixweb.core.test;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.qixweb.core.WebUrl;
-import org.qixweb.util.*;
+import org.qixweb.util.ArrayAsserter;
+import org.qixweb.util.EqualsBehaviourVerifier;
 import org.qixweb.util.test.ExtendedTestCase;
 
 
@@ -170,4 +172,13 @@ public class TestWebUrl extends ExtendedTestCase
         itsUrl.disable();
         assertFalse("The url should be disabled", itsUrl.isEnabled());
     }
+    
+    public void testLabel()
+    {
+        WebUrl url = new WebUrl("url", "label");
+        assertEquals("label", url.label());
+        url.label("new label");
+        assertEquals("new label", url.label());
+    }
+    
 }

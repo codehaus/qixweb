@@ -22,7 +22,7 @@ public class AnyCommand implements WebCommand
 
 	public Browsable execute(QixwebEnvironment system)
 	{
-		WebAppUrl webAppUrl = WebAppUrl.createFor(AnyNode.class);
+		WebAppUrl webAppUrl = new WebAppUrl(AnyNode.class);
         webAppUrl.setParameter("state", itsState);
         return webAppUrl;
 	}

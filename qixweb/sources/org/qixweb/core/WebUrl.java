@@ -16,6 +16,7 @@ public class WebUrl
     protected Map itsParameters;
 	private String itsUrlBeforeParameters;
     private boolean isEnabled;
+    protected String itsLabel;
 
 	public static String encode(String parameterValue)
 	{
@@ -45,10 +46,16 @@ public class WebUrl
 
 	public WebUrl(String anUrl)
 	{
-		setUrlBeforeParameters(anUrl);
-		itsParameters = new UrlParametersExtractor(anUrl).run();
-        isEnabled = true;
+        this(anUrl, anUrl);
 	}
+    
+    public WebUrl(String anUrl, String label)
+    {
+        setUrlBeforeParameters(anUrl);
+        itsParameters = new UrlParametersExtractor(anUrl).run();
+        itsLabel = label;
+        isEnabled = true;
+    }
 
     public String getParameter(String key)
 	{
@@ -168,7 +175,9 @@ public class WebUrl
 		if (anotherObject instanceof WebUrl)
 		{
 			WebUrl anotherUrl = (WebUrl) anotherObject;
-			return destination().equals(anotherUrl.destination()) && isEnabled() == anotherUrl.isEnabled();
+			return destination().equals(anotherUrl.destination()) && 
+                    isEnabled() == anotherUrl.isEnabled() &&
+                    label().equals(anotherUrl.label());
 		}
 		else
 			return false;
@@ -181,7 +190,7 @@ public class WebUrl
 	
     public String toString()
 	{
-		return destination() + " enabled = " + isEnabled;
+		return destination() + " enabled = " + isEnabled() + " label = " + label();
 	}
 
 	public int parametersLength()
@@ -207,5 +216,15 @@ public class WebUrl
     public void setUrlBeforeParameters(String url)
     {
         itsUrlBeforeParameters = url.split("\\?")[0];
+    }
+
+    public String label()
+    {
+        return itsLabel;
+    }
+
+    public void label(String newLabel)
+    {
+        itsLabel = newLabel;
     }
 }

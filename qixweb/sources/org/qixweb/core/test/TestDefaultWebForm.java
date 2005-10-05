@@ -23,7 +23,7 @@ public class TestDefaultWebForm extends ExtendedTestCase
         }
         protected WebAppUrl concreteActionUrl()
         {
-            return WebAppUrl.createFor(Object.class);
+            return new WebAppUrl(Object.class);
         }
     }
 

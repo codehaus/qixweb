@@ -36,7 +36,7 @@ public class TestServletResponseHandler extends ExtendedTestCase
 	
 	public void testRedirectToUrl() throws Exception
 	{
-		WebAppUrl url = WebAppUrl.createFor(AnyNode.class); 
+		WebAppUrl url = new WebAppUrl(AnyNode.class); 
 		itsResponseHandler.redirectTo(url);
 
 		assertEquals("Wrong redirect", itsServletPath + "/" + itsPageID +"?node=AnyNode", itsHttpResponse.redirectedUrl());
