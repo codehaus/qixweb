@@ -4,6 +4,8 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 
 public class WebLink extends WebAppUrl
 {
+    public static final WebLink EMPTY_LINK = new WebLink("");
+    
     protected String itsLabel;
 
     public WebLink(String aLabel)
@@ -48,5 +50,10 @@ public class WebLink extends WebAppUrl
     public String label()
     {
         return itsLabel;
+    }
+
+    public void label(String newLabel)
+    {
+        itsLabel = newLabel;
     }
 }
