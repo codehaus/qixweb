@@ -22,16 +22,16 @@ public class AnyNode extends WebNode
         return itsTitle;
     }
     
-    public WebAppUrl anyCommandLink()
+    public QixwebUrl anyCommandLink()
     {
-        return new WebAppUrl(AnyCommand.class);
+        return new QixwebUrl(AnyCommand.class);
     }
     
-    public static WebNode create(WebAppUrl anUrl, UserData aUserData, TheSystem system)
+    public static WebNode create(QixwebUrl anUrl, UserData aUserData, TheSystem system)
 	{
 		return new AnyNode();
 	}
-    public static WebNode create(WebAppUrl anUrl, UserData aUserData, QixwebEnvironment environment)
+    public static WebNode create(QixwebUrl anUrl, UserData aUserData, QixwebEnvironment environment)
     {
         return new AnyNode();
     }

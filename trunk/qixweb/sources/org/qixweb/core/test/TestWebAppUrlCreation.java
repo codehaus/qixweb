@@ -3,7 +3,7 @@ package org.qixweb.core.test;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.qixweb.core.WebAppUrl;
+import org.qixweb.core.QixwebUrl;
 import org.qixweb.util.ArrayAsserter;
 import org.qixweb.util.XpLogger;
 import org.qixweb.util.test.ExtendedTestCase;
@@ -16,21 +16,21 @@ public class TestWebAppUrlCreation extends ExtendedTestCase
     public void testCreateFromMapWithNodeDestination()
 	{
 		Map map = new HashMap();
-		map.put(WebAppUrl.PARAMETER_NODE_TO_DISPLAY, new String[] { "AnyNode" });
+		map.put(QixwebUrl.PARAMETER_NODE_TO_DISPLAY, new String[] { "AnyNode" });
 
-		WebAppUrl url = WebAppUrl.createFrom(map, itsNodePackage, itsCommandPackage);
+		QixwebUrl url = QixwebUrl.createAsRequestFrom(map, itsNodePackage, itsCommandPackage);
 
-		WebAppUrl expectedUrl = new WebAppUrl(AnyNode.class);
+		QixwebUrl expectedUrl = new QixwebUrl(AnyNode.class);
 		assertEquals("in the url, the node target class should be set", expectedUrl, url);
 	}
 
 	public void testCreateFromMapWithCommandDestination()
 	{
 		Map map = new HashMap();
-		map.put(WebAppUrl.PARAMETER_COMMAND_TO_EXECUTE, new String[] { "AnyCommand" });
-		WebAppUrl url = WebAppUrl.createFrom(map, itsNodePackage, itsCommandPackage);
+		map.put(QixwebUrl.PARAMETER_COMMAND_TO_EXECUTE, new String[] { "AnyCommand" });
+		QixwebUrl url = QixwebUrl.createAsRequestFrom(map, itsNodePackage, itsCommandPackage);
 
-		WebAppUrl expectedUrl = new WebAppUrl(AnyCommand.class);
+		QixwebUrl expectedUrl = new QixwebUrl(AnyCommand.class);
 
 		assertEquals("in the url, the command target class should be set (as string)", expectedUrl, url);
 	}
@@ -40,12 +40,12 @@ public class TestWebAppUrlCreation extends ExtendedTestCase
 		XpLogger.off();
 
 		Map map = new HashMap();
-		map.put(WebAppUrl.PARAMETER_COMMAND_TO_EXECUTE, new String[] { "NotExistentCommand" });
-		assertEquals(WebAppUrl.EMPTY_URL, WebAppUrl.createFrom(map, itsNodePackage, itsCommandPackage));
+		map.put(QixwebUrl.PARAMETER_COMMAND_TO_EXECUTE, new String[] { "NotExistentCommand" });
+		assertEquals(QixwebUrl.EMPTY_URL, QixwebUrl.createAsRequestFrom(map, itsNodePackage, itsCommandPackage));
 
 		map = new HashMap();
-		map.put(WebAppUrl.PARAMETER_NODE_TO_DISPLAY, new String[] { "NotExistentNode" });
-		assertEquals(WebAppUrl.EMPTY_URL, WebAppUrl.createFrom(map, itsNodePackage, itsCommandPackage));
+		map.put(QixwebUrl.PARAMETER_NODE_TO_DISPLAY, new String[] { "NotExistentNode" });
+		assertEquals(QixwebUrl.EMPTY_URL, QixwebUrl.createAsRequestFrom(map, itsNodePackage, itsCommandPackage));
 
 		XpLogger.resume();
 	}
@@ -57,15 +57,15 @@ public class TestWebAppUrlCreation extends ExtendedTestCase
 		Map map = new HashMap();
 		map.put("param1", new String[] { "param1 value" });
 
-		WebAppUrl url = WebAppUrl.createFrom(map, itsNodePackage, itsCommandPackage);
+		QixwebUrl url = QixwebUrl.createAsRequestFrom(map, itsNodePackage, itsCommandPackage);
 
-		assertEquals(WebAppUrl.EMPTY_URL, url);
+		assertEquals(QixwebUrl.EMPTY_URL, url);
 	}
 
 	public void testCreateFromDestination()
 	{
-		WebAppUrl simpleUrl = new WebAppUrl(AnyNode.class);
-		assertEquals("Wrong Url from " + simpleUrl.toString(), simpleUrl, WebAppUrl.createWithTarget(simpleUrl.destination(), itsNodePackage, itsCommandPackage));
+		QixwebUrl simpleUrl = new QixwebUrl(AnyNode.class);
+		assertEquals("Wrong Url from " + simpleUrl.toString(), simpleUrl, QixwebUrl.createAsRequestWithTarget(simpleUrl.destination(), itsNodePackage, itsCommandPackage));
 	}
     
     protected void setUp() 
@@ -78,10 +78,10 @@ public class TestWebAppUrlCreation extends ExtendedTestCase
 	public void testCreateFromMapWithMultipleValues()
 	{
 		Map map = new HashMap();
-		map.put(WebAppUrl.PARAMETER_NODE_TO_DISPLAY, new String[] { "AnyNode" });
+		map.put(QixwebUrl.PARAMETER_NODE_TO_DISPLAY, new String[] { "AnyNode" });
 		map.put("single", new String[] { "singleValue" });
 		map.put("multiple", new String[] { "firstValue", "secondValue" });
-		WebAppUrl url = WebAppUrl.createFrom(map, itsNodePackage, itsCommandPackage);
+		QixwebUrl url = QixwebUrl.createAsRequestFrom(map, itsNodePackage, itsCommandPackage);
 
 		assertEquals("Wrong target", AnyNode.class, url.target());
 		assertEquals("Wrong single parameter", "singleValue", url.getParameter("single"));
@@ -91,10 +91,10 @@ public class TestWebAppUrlCreation extends ExtendedTestCase
 	public void testCreateFromMapGettingParameterWithPrefix()
 	{
 		Map map = new HashMap();
-		map.put(WebAppUrl.PARAMETER_NODE_TO_DISPLAY, new String[] { "AnyNode" });
+		map.put(QixwebUrl.PARAMETER_NODE_TO_DISPLAY, new String[] { "AnyNode" });
 		map.put("prefix_single", new String[] { "singleValue" });
 
-		WebAppUrl url = WebAppUrl.createFrom(map, itsNodePackage, itsCommandPackage);
+		QixwebUrl url = QixwebUrl.createAsRequestFrom(map, itsNodePackage, itsCommandPackage);
 
 		Map parametersMatchingPrefix = url.parametersBeginningWith("prefix_");
 		assertEquals("singleValue", (String) parametersMatchingPrefix.get("single"));
@@ -103,7 +103,7 @@ public class TestWebAppUrlCreation extends ExtendedTestCase
     public void testCreateFromNullMap() 
     {
         XpLogger.off();
-        assertEquals(WebAppUrl.EMPTY_URL, WebAppUrl.createFrom(null, itsNodePackage, itsCommandPackage));
+        assertEquals(QixwebUrl.EMPTY_URL, QixwebUrl.createAsRequestFrom(null, itsNodePackage, itsCommandPackage));
     }
     
     protected void tearDown()
@@ -113,16 +113,16 @@ public class TestWebAppUrlCreation extends ExtendedTestCase
 
     public void testCostructor()
     {
-        WebAppUrl.initServletPath("");
-        WebAppUrl url = new WebAppUrl(AnyRefreshableCommand.class);
+        QixwebUrl.initServletPath("");
+        QixwebUrl url = new QixwebUrl(AnyRefreshableCommand.class);
         assertEquals
         (
                 "the url should be composed without servlet path", 
                 "?command=AnyRefreshableCommand", 
                 url.destination()
         );
-        WebAppUrl.initServletPath("http://localhost/MyWebApp/servlet/MyServlet");
-        url = new WebAppUrl(AnyRefreshableCommand.class);
+        QixwebUrl.initServletPath("http://localhost/MyWebApp/servlet/MyServlet");
+        url = new QixwebUrl(AnyRefreshableCommand.class);
         assertEquals
         (
                 "the url should be composed using the servlet path", 

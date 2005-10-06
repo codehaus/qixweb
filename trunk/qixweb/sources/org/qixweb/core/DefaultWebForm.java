@@ -33,13 +33,13 @@ public abstract class DefaultWebForm implements WebForm
     {
         return isEnabled;
     }
-    public WebAppUrl actionUrl()
+    public QixwebUrl actionUrl()
     {
-        WebAppUrl url = concreteActionUrl();
+        QixwebUrl url = concreteActionUrl();
         if (!isEnabled())
             url.disable();
         
         return url;
     }
-    protected abstract WebAppUrl concreteActionUrl();
+    protected abstract QixwebUrl concreteActionUrl();
 }

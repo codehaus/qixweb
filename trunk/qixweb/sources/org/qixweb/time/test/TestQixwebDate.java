@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import org.qixweb.core.WebAppUrl;
+import org.qixweb.core.QixwebUrl;
 import org.qixweb.time.QixwebCalendar;
 import org.qixweb.time.QixwebDate;
 import org.qixweb.util.EqualsBehaviourVerifier;
@@ -38,7 +38,7 @@ public class TestQixwebDate extends TestQixwebCalendar
     public void testCreateFromUrl() 
     {
         QixwebDate firstOfApril2003 = new QixwebDate("1", "4", "2003");
-        WebAppUrl url = new WebAppUrl(Object.class);
+        QixwebUrl url = new QixwebUrl(Object.class);
         url.setParameter("prefix"+QixwebDate.DAY_PARAM, 1);
         url.setParameter("prefix"+QixwebDate.MONTH_PARAM, 4);
         url.setParameter("prefix"+QixwebDate.YEAR_PARAM, 2003);

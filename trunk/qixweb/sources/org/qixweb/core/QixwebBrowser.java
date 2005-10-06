@@ -21,7 +21,7 @@ public class QixwebBrowser
         instantiateUrlWithEnvironment = useEnvironment;
     }
 	
-	protected void executeCommand(WebAppUrl anUrl) throws Exception
+	protected void executeCommand(QixwebUrl anUrl) throws Exception
 	{
 		WebCommand command = anUrl.materializeTargetCommandWith(itsUserData);
 		if (validateExecutionOf(command))
@@ -36,7 +36,7 @@ public class QixwebBrowser
         return true;
     }
 
-    private WebNode instantiate(WebAppUrl aUrl)
+    private WebNode instantiate(QixwebUrl aUrl)
     {
         if (instantiateUrlWithEnvironment)
             return aUrl.materializeTargetNodeWith(itsUserData, itsEnvironment);
@@ -44,12 +44,12 @@ public class QixwebBrowser
             return aUrl.materializeTargetNodeWith(itsUserData, itsEnvironment.system());
     }
     
-    protected void goToNode(WebAppUrl aUrl) throws Exception
+    protected void goToNode(QixwebUrl aUrl) throws Exception
 	{
 		instantiate(aUrl).displayThrough(itsResponseHandler);
 	}
 
-	public void goTo(WebAppUrl aUrl) throws Exception
+	public void goTo(QixwebUrl aUrl) throws Exception
 	{
 		if (aUrl.isGoingToANode())
 			goToNode(aUrl);

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.qixweb.core.QixwebUrlFactory;
-import org.qixweb.core.WebAppUrl;
+import org.qixweb.core.QixwebUrl;
 
 import junit.framework.TestCase;
 
@@ -25,14 +25,14 @@ public class TestQixwebUrlFactory extends TestCase
     public void testCreateFromMap() throws Exception
     {
         Map map = new HashMap();
-        map.put(WebAppUrl.PARAMETER_NODE_TO_DISPLAY, new String[] { "AnyNode" });
+        map.put(QixwebUrl.PARAMETER_NODE_TO_DISPLAY, new String[] { "AnyNode" });
 
-        assertEquals(WebAppUrl.createFrom(map, env.nodePackage(), env.commandPackage()), urlFactory.createFrom(map));
+        assertEquals(QixwebUrl.createAsRequestFrom(map, env.nodePackage(), env.commandPackage()), urlFactory.createFrom(map));
     }
     
     public void testCreateUrlWithClass() throws Exception
     {
-        assertEquals(new WebAppUrl(AnyCommand.class), urlFactory.createUrlWith(AnyCommand.class));
+        assertEquals(new QixwebUrl(AnyCommand.class), urlFactory.createUrlWith(AnyCommand.class));
     }
 
 

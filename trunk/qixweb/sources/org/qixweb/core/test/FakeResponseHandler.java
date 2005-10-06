@@ -9,7 +9,7 @@ public class FakeResponseHandler implements ResponseHandler
 {
 	private boolean throwExceptionDisplayingNode;
 	private String itsFailureNodeInTemplateMerging;
-	protected WebAppUrl itsDestinationUrl;
+	protected QixwebUrl itsDestinationUrl;
 	private WebNode itsNodeToDisplay;
     private Browsable itsLastBrowsable;
 
@@ -36,12 +36,12 @@ public class FakeResponseHandler implements ResponseHandler
 		throwExceptionDisplayingNode = true;
 	}
 
-	public void redirectTo(WebAppUrl aDestinationUrl) throws IOException
+	public void redirectTo(QixwebUrl aDestinationUrl) throws IOException
 	{
         itsLastBrowsable = itsDestinationUrl = aDestinationUrl;
 	}
 
-	public WebAppUrl redirectedDestination()
+	public QixwebUrl redirectedDestination()
 	{
 		return itsDestinationUrl;
 	}

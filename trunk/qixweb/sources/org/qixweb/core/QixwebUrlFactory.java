@@ -13,13 +13,13 @@ public class QixwebUrlFactory
         itsEnvironment = anEnvironment;
     }
     
-	public WebAppUrl createFrom(Map parametersMap)
+	public QixwebUrl createFrom(Map parametersMap)
 	{
-		return WebAppUrl.createFrom(parametersMap, itsEnvironment.nodePackage(), itsEnvironment.commandPackage());
+		return QixwebUrl.createAsRequestFrom(parametersMap, itsEnvironment.nodePackage(), itsEnvironment.commandPackage());
 	}
 
-    public WebAppUrl createUrlWith(Class aClazz)
+    public QixwebUrl createUrlWith(Class aClazz)
     {
-        return new WebAppUrl(aClazz);
+        return new QixwebUrl(aClazz);
     }
 }

@@ -61,19 +61,19 @@ public class TestWebNode extends ExtendedTestCase
 
     public class ReturningUrlNode extends WebNode
     {
-        private WebAppUrl itsUrl;
+        private QixwebUrl itsUrl;
 
-        public ReturningUrlNode(WebAppUrl anUrl)
+        public ReturningUrlNode(QixwebUrl anUrl)
         {
             itsUrl = anUrl;
         }
 
         public ReturningUrlNode()
         {
-            this(new WebAppUrl(AnyNode.class));
+            this(new QixwebUrl(AnyNode.class));
         }
 
-        public WebAppUrl url()
+        public QixwebUrl url()
         {
             return itsUrl;
         }
@@ -83,7 +83,7 @@ public class TestWebNode extends ExtendedTestCase
     {
         public final IllegalStateException GENERATED_EXCEPTION = new IllegalStateException("fake generated exception");
 
-        public WebAppUrl url()
+        public QixwebUrl url()
         {
             throw GENERATED_EXCEPTION;
         }
@@ -91,23 +91,23 @@ public class TestWebNode extends ExtendedTestCase
 
     public class ReturningFormNode extends WebNode
     {
-        private WebAppUrl itsUrl;
+        private QixwebUrl itsUrl;
 
-        public ReturningFormNode(WebAppUrl anUrl)
+        public ReturningFormNode(QixwebUrl anUrl)
         {
             itsUrl = anUrl;
         }
 
         public ReturningFormNode()
         {
-            this(new WebAppUrl(AnyNode.class));
+            this(new QixwebUrl(AnyNode.class));
         }
 
         public WebForm form()
         {
             return new WebForm()
             {
-                public WebAppUrl actionUrl()
+                public QixwebUrl actionUrl()
                 {
                     return itsUrl;
                 }
@@ -117,24 +117,24 @@ public class TestWebNode extends ExtendedTestCase
 
     public class ReturningUrlArrayNode extends WebNode
     {
-        private WebAppUrl[] itsUrlArray;
+        private QixwebUrl[] itsUrlArray;
 
-        public ReturningUrlArrayNode(WebAppUrl[] someUrls)
+        public ReturningUrlArrayNode(QixwebUrl[] someUrls)
         {
             itsUrlArray = someUrls;
         }
 
-        public ReturningUrlArrayNode(WebAppUrl anUrl)
+        public ReturningUrlArrayNode(QixwebUrl anUrl)
         {
-            itsUrlArray = new WebAppUrl[] { anUrl };
+            itsUrlArray = new QixwebUrl[] { anUrl };
         }
 
         public ReturningUrlArrayNode()
         {
-            this(new WebAppUrl(AnyNode.class));
+            this(new QixwebUrl(AnyNode.class));
         }
 
-        public WebAppUrl[] someUrls()
+        public QixwebUrl[] someUrls()
         {
             return itsUrlArray;
         }
@@ -152,7 +152,7 @@ public class TestWebNode extends ExtendedTestCase
         public ReturningUrlListNode()
         {
             itsUrlList = new ArrayList();
-            itsUrlList.add(new WebAppUrl(AnyNode.class));
+            itsUrlList.add(new QixwebUrl(AnyNode.class));
         }
 
         public List someUrls()
@@ -165,19 +165,19 @@ public class TestWebNode extends ExtendedTestCase
     {
         private ReturningUrlArrayNode itsEncapsulatedNode;
 
-        public ReturningUrlIteratorNode(WebAppUrl[] someUrls)
+        public ReturningUrlIteratorNode(QixwebUrl[] someUrls)
         {
             itsEncapsulatedNode = new ReturningUrlArrayNode(someUrls);
         }
 
-        public ReturningUrlIteratorNode(WebAppUrl anUrl)
+        public ReturningUrlIteratorNode(QixwebUrl anUrl)
         {
-            this(new WebAppUrl[] { anUrl });
+            this(new QixwebUrl[] { anUrl });
         }
 
         public ReturningUrlIteratorNode()
         {
-            this(new WebAppUrl(AnyNode.class));
+            this(new QixwebUrl(AnyNode.class));
         }
 
         public Iterator someUrls()
@@ -248,12 +248,12 @@ public class TestWebNode extends ExtendedTestCase
             itsReturningUrlViaArrayOfIteratorsNode = new ReturningUrlViaArrayOfIteratorsNode();
         }
 
-        public WebAppUrl url()
+        public QixwebUrl url()
         {
             return itsReturningUrlNode.url();
         }
 
-        public WebAppUrl[] urls()
+        public QixwebUrl[] urls()
         {
             return itsReturningUrlArrayNode.someUrls();
         }
@@ -277,36 +277,36 @@ public class TestWebNode extends ExtendedTestCase
 
     public static class ReturningNotValidUrlNode extends WebNode
     {
-        final WebAppUrl neverReturnedUrl = new WebAppUrl(getClass());
+        final QixwebUrl neverReturnedUrl = new QixwebUrl(getClass());
 
-        WebAppUrl defaultVisibility()
+        QixwebUrl defaultVisibility()
         {
             return neverReturnedUrl;
         }
 
-        private WebAppUrl privateVisibility()
+        private QixwebUrl privateVisibility()
         {
             return neverReturnedUrl;
         }
 
-        protected WebAppUrl protectedVisibility()
+        protected QixwebUrl protectedVisibility()
         {
             return neverReturnedUrl;
         }
 
-        public WebAppUrl oneParameter(String aString)
+        public QixwebUrl oneParameter(String aString)
         {
             return neverReturnedUrl;
         }
 
-        public static WebAppUrl staticModifier()
+        public static QixwebUrl staticModifier()
         {
-            return new WebAppUrl(Object.class);
+            return new QixwebUrl(Object.class);
         }
 
         public Iterator oneParameterIterator(String aString)
         {
-            return CollectionTransformer.toArrayList(new WebAppUrl[] { neverReturnedUrl }).iterator();
+            return CollectionTransformer.toArrayList(new QixwebUrl[] { neverReturnedUrl }).iterator();
         }
     }
 
@@ -326,13 +326,13 @@ public class TestWebNode extends ExtendedTestCase
 
     public void testNoConnectionsWithMethodsReturningEmptyUrlArrays()
     {
-        ReturningUrlArrayNode node = new ReturningUrlArrayNode(new WebAppUrl[0]);
+        ReturningUrlArrayNode node = new ReturningUrlArrayNode(new QixwebUrl[0]);
         assertEmpty(node.connections());
     }
 
     public void testNoConnectionsWithMethodsReturningNullUrlArrays()
     {
-        ReturningUrlArrayNode node = new ReturningUrlArrayNode((WebAppUrl[]) null);
+        ReturningUrlArrayNode node = new ReturningUrlArrayNode((QixwebUrl[]) null);
         assertEmpty(node.connections());
     }
 
@@ -356,13 +356,13 @@ public class TestWebNode extends ExtendedTestCase
 
     public void testNoConnectionsWithMethodsReturningArrayOfIteratorsWithoutElements()
     {
-        ReturningUrlViaArrayOfIteratorsNode node = new ReturningUrlViaArrayOfIteratorsNode(new ReturningUrlIteratorNode[] { new ReturningUrlIteratorNode(new WebAppUrl[0]) });
+        ReturningUrlViaArrayOfIteratorsNode node = new ReturningUrlViaArrayOfIteratorsNode(new ReturningUrlIteratorNode[] { new ReturningUrlIteratorNode(new QixwebUrl[0]) });
         assertEmpty(node.connections());
     }
 
     public void testNoConnectionsWithMethodsReturningArrayOfIteratorsWithNullElements()
     {
-        ReturningUrlViaArrayOfIteratorsNode node = new ReturningUrlViaArrayOfIteratorsNode(new ReturningUrlIteratorNode[] { new ReturningUrlIteratorNode(new WebAppUrl[] { null }) });
+        ReturningUrlViaArrayOfIteratorsNode node = new ReturningUrlViaArrayOfIteratorsNode(new ReturningUrlIteratorNode[] { new ReturningUrlIteratorNode(new QixwebUrl[] { null }) });
         assertEmpty(node.connections());
     }
 
@@ -373,36 +373,36 @@ public class TestWebNode extends ExtendedTestCase
 
     public void testNoConnectionsWithMethodsReturningIteratorWithNullElements()
     {
-        ReturningUrlIteratorNode node = new ReturningUrlIteratorNode(new WebAppUrl[] { null });
+        ReturningUrlIteratorNode node = new ReturningUrlIteratorNode(new QixwebUrl[] { null });
         assertEmpty(node.connections());
     }
 
     public void testNoConnectionsWithMethodsReturningIteratorWithoutElements()
     {
-        ReturningUrlIteratorNode node = new ReturningUrlIteratorNode(new WebAppUrl[0]);
+        ReturningUrlIteratorNode node = new ReturningUrlIteratorNode(new QixwebUrl[0]);
         assertEmpty(node.connections());
     }
 
     public void testNoConnectionsWithMethodsReturningUrlArraysWithNullElements()
     {
-        ReturningUrlArrayNode node = new ReturningUrlArrayNode((WebAppUrl) null);
+        ReturningUrlArrayNode node = new ReturningUrlArrayNode((QixwebUrl) null);
         assertEmpty(node.connections());
     }
 
     public void testMethodsReturningUrlArraysMixedWithNulls()
     {
-        WebAppUrl validUrl1 = new WebAppUrl(getClass());
-        WebAppUrl validUrl2 = new WebAppUrl(getClass());
-        ReturningUrlArrayNode node = new ReturningUrlArrayNode(new WebAppUrl[] { validUrl2, null, validUrl1 });
-        ArrayAsserter.assertEqualsIgnoringOrder(new WebAppUrl[] { validUrl1, validUrl2 }, node.connections());
+        QixwebUrl validUrl1 = new QixwebUrl(getClass());
+        QixwebUrl validUrl2 = new QixwebUrl(getClass());
+        ReturningUrlArrayNode node = new ReturningUrlArrayNode(new QixwebUrl[] { validUrl2, null, validUrl1 });
+        ArrayAsserter.assertEqualsIgnoringOrder(new QixwebUrl[] { validUrl1, validUrl2 }, node.connections());
     }
 
     public void testMethodsReturningUrlIteratorMixedWithNulls()
     {
-        WebAppUrl validUrl1 = new WebAppUrl(getClass());
-        WebAppUrl validUrl2 = new WebAppUrl(getClass());
-        ReturningUrlIteratorNode node = new ReturningUrlIteratorNode(new WebAppUrl[] { validUrl2, null, validUrl1 });
-        ArrayAsserter.assertEqualsIgnoringOrder(new WebAppUrl[] { validUrl1, validUrl2 }, node.connections());
+        QixwebUrl validUrl1 = new QixwebUrl(getClass());
+        QixwebUrl validUrl2 = new QixwebUrl(getClass());
+        ReturningUrlIteratorNode node = new ReturningUrlIteratorNode(new QixwebUrl[] { validUrl2, null, validUrl1 });
+        ArrayAsserter.assertEqualsIgnoringOrder(new QixwebUrl[] { validUrl1, validUrl2 }, node.connections());
     }
 
     public void testMethodsReturningUrlArrays()
@@ -427,43 +427,43 @@ public class TestWebNode extends ExtendedTestCase
     
     public void testAllMethods()
     {
-        WebAppUrl url = new ReturningUrlNode().url();
+        QixwebUrl url = new ReturningUrlNode().url();
         ReturningUrlComprehensiveNode node = new ReturningUrlComprehensiveNode();
-        ArrayAsserter.assertEquals(new WebAppUrl[] { url, url, url, url, url }, node.connections());
+        ArrayAsserter.assertEquals(new QixwebUrl[] { url, url, url, url, url }, node.connections());
     }
     
     public void testMethodsReturningUrlIterator()
     {
         ReturningUrlIteratorNode node = new ReturningUrlIteratorNode();
-        ArrayAsserter.assertEqualsIgnoringOrder(new WebAppUrl[] { (WebAppUrl) node.someUrls().next() }, node.connections());
+        ArrayAsserter.assertEqualsIgnoringOrder(new QixwebUrl[] { (QixwebUrl) node.someUrls().next() }, node.connections());
     }
 
     public void testMethodsReturningArrayOfIterators()
     {
         ReturningUrlViaArrayOfIteratorsNode node = new ReturningUrlViaArrayOfIteratorsNode();
-        ArrayAsserter.assertEqualsIgnoringOrder(new WebAppUrl[] { (WebAppUrl) node.someUrls()[0].next() }, node.connections());
+        ArrayAsserter.assertEqualsIgnoringOrder(new QixwebUrl[] { (QixwebUrl) node.someUrls()[0].next() }, node.connections());
     }
 
     public void testMethodsReturningArrayOfIteratorsWithTwoIteratorsAndMixedWithNullElements()
     {
-        WebAppUrl validUrl1 = new WebAppUrl(getClass());
-        WebAppUrl validUrl2 = new WebAppUrl(getClass());
-        WebAppUrl validUrl3 = new WebAppUrl(getClass());
-        ReturningUrlIteratorNode node1 = new ReturningUrlIteratorNode(new WebAppUrl[] { null, validUrl1 });
-        ReturningUrlIteratorNode node2 = new ReturningUrlIteratorNode(new WebAppUrl[] { validUrl2, null, validUrl3 });
+        QixwebUrl validUrl1 = new QixwebUrl(getClass());
+        QixwebUrl validUrl2 = new QixwebUrl(getClass());
+        QixwebUrl validUrl3 = new QixwebUrl(getClass());
+        ReturningUrlIteratorNode node1 = new ReturningUrlIteratorNode(new QixwebUrl[] { null, validUrl1 });
+        ReturningUrlIteratorNode node2 = new ReturningUrlIteratorNode(new QixwebUrl[] { validUrl2, null, validUrl3 });
         ReturningUrlViaArrayOfIteratorsNode node = new ReturningUrlViaArrayOfIteratorsNode(new ReturningUrlIteratorNode[] { node1, node2 });
-        ArrayAsserter.assertEqualsIgnoringOrder(new WebAppUrl[] { validUrl1, validUrl2, validUrl3 }, node.connections());
+        ArrayAsserter.assertEqualsIgnoringOrder(new QixwebUrl[] { validUrl1, validUrl2, validUrl3 }, node.connections());
     }
 
     public void testMethodsReturningUrl()
     {
         ReturningUrlNode node = new ReturningUrlNode();
-        ArrayAsserter.assertEqualsIgnoringOrder(new WebAppUrl[] { node.url() }, node.connections());
+        ArrayAsserter.assertEqualsIgnoringOrder(new QixwebUrl[] { node.url() }, node.connections());
     }
 
     public void testMethodsReturningForm()
     {
         ReturningFormNode node = new ReturningFormNode();
-        ArrayAsserter.assertEqualsIgnoringOrder(new WebAppUrl[] { node.form().actionUrl() }, node.connections());
+        ArrayAsserter.assertEqualsIgnoringOrder(new QixwebUrl[] { node.form().actionUrl() }, node.connections());
     }
 }

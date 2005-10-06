@@ -14,11 +14,11 @@ public abstract class QixwebServlet extends HttpServlet
 		{
             environment = instantiateEnvironment();
             String servletPath = environment.servletPath();
-            WebAppUrl.initServletPath(servletPath);
+            QixwebUrl.initServletPath(servletPath);
             String templatePath = getServletContext().getRealPath(environment.velocityTemplateDir());
             QixwebBrowser browser = buildBrowser(request, response, environment, templatePath);
                     
-			WebAppUrl url = new QixwebUrlFactory(environment).createFrom(request.getParameterMap());
+			QixwebUrl url = new QixwebUrlFactory(environment).createFrom(request.getParameterMap());
 			browser.goTo(url);
 		}
 		catch (Exception ex)

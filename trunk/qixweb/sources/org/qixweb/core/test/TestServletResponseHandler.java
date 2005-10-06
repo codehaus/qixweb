@@ -18,7 +18,7 @@ public class TestServletResponseHandler extends ExtendedTestCase
 		itsHttpResponse = new FakeHttpServletResponse();
 		itsPageID = "1234567";
 		itsServletPath = "servlet/WebAppServlet";
-        WebAppUrl.initServletPath(itsServletPath);
+        QixwebUrl.initServletPath(itsServletPath);
 		
 		itsResponseHandler = new ServletResponseHandler(itsHttpResponse, itsServletPath, itsPageID, "./templateVelocity/");
     }
@@ -36,7 +36,7 @@ public class TestServletResponseHandler extends ExtendedTestCase
 	
 	public void testRedirectToUrl() throws Exception
 	{
-		WebAppUrl url = new WebAppUrl(AnyNode.class); 
+		QixwebUrl url = new QixwebUrl(AnyNode.class); 
 		itsResponseHandler.redirectTo(url);
 
 		assertEquals("Wrong redirect", itsServletPath + "/" + itsPageID +"?node=AnyNode", itsHttpResponse.redirectedUrl());
@@ -51,9 +51,9 @@ public class TestServletResponseHandler extends ExtendedTestCase
             itsResponseHandler.display(new WebNode()
             {
             
-                public WebAppUrl[] connections()
+                public QixwebUrl[] connections()
                 {
-                    return new WebAppUrl[0];
+                    return new QixwebUrl[0];
                 }
             
             });
