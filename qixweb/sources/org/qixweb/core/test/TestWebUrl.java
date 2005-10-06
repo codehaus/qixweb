@@ -175,10 +175,12 @@ public class TestWebUrl extends ExtendedTestCase
     
     public void testLabel()
     {
-        WebUrl url = new WebUrl("url", "label");
-        assertEquals("label", url.label());
-        url.label("new label");
-        assertEquals("new label", url.label());
+        WebUrl urlWithoutLabelInCostruction = new WebUrl("url");
+        assertEquals("If label is not specified, the label is the url", "url", urlWithoutLabelInCostruction.label());
+        WebUrl urlWithLabelInCostruction = new WebUrl("url", "label");
+        assertEquals("label", urlWithLabelInCostruction.label());
+        urlWithLabelInCostruction.label("new label");
+        assertEquals("new label", urlWithLabelInCostruction.label());
     }
     
 }

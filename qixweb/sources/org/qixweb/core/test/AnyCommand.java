@@ -14,7 +14,7 @@ public class AnyCommand implements WebCommand
         itsState = state;
     }
     
-	public static WebCommand create(WebAppUrl anUrl, UserData aUserData)
+	public static WebCommand create(QixwebUrl anUrl, UserData aUserData)
 	{
 		Object state = aUserData.valueFor("state");
         return new AnyCommand(StringUtils.defaultString((String) state));
@@ -22,7 +22,7 @@ public class AnyCommand implements WebCommand
 
 	public Browsable execute(QixwebEnvironment system)
 	{
-		WebAppUrl webAppUrl = new WebAppUrl(AnyNode.class);
+		QixwebUrl webAppUrl = new QixwebUrl(AnyNode.class);
         webAppUrl.setParameter("state", itsState);
         return webAppUrl;
 	}

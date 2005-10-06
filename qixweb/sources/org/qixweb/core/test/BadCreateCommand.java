@@ -8,7 +8,7 @@ public class BadCreateCommand implements WebCommand
     public static final String FAKE_MESSAGE = "fake generated exception on create";
 
 
-    public static WebCommand create(WebAppUrl anUrl, UserData aUserData)
+    public static WebCommand create(QixwebUrl anUrl, UserData aUserData)
     {
         throw new RuntimeException(FAKE_MESSAGE);
     }

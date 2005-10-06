@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import org.qixweb.core.WebAppUrl;
+import org.qixweb.core.QixwebUrl;
 
 public class QixwebDate extends QixwebCalendar
 {
@@ -68,7 +68,7 @@ public class QixwebDate extends QixwebCalendar
         return DateFormatter.formatDD_MM_YYYY_HH_mm(this);
     }
 
-    public static QixwebDate createFrom(WebAppUrl anUrl, String aPrefix)
+    public static QixwebDate createFrom(QixwebUrl anUrl, String aPrefix)
     {
         return new QixwebDate(
                 Integer.parseInt(anUrl.getParameter(aPrefix+DAY_PARAM)),

@@ -12,15 +12,12 @@ import org.qixweb.util.XpLogger;
 
 
 
-public class WebAppUrl extends WebUrl implements Browsable
+public class QixwebUrl extends WebUrl implements Browsable
 {
     private static String itsServletPath = "";
-    public static final WebAppUrl EMPTY_LINK = new WebAppUrl(Object.class, "");
-    
-	public static final WebAppUrl EMPTY_URL = new WebAppUrl(Object.class);
-	public static final String PARAMETER_COMMAND_TO_EXECUTE = "command";
+    public static final QixwebUrl EMPTY_URL = new QixwebUrl(Object.class);
+    public static final String PARAMETER_COMMAND_TO_EXECUTE = "command";
 	public static final String PARAMETER_NODE_TO_DISPLAY = "node";
-    
 
 	private Class itsTargetClass;
     public static void initServletPath(String servletPath)
@@ -28,17 +25,20 @@ public class WebAppUrl extends WebUrl implements Browsable
         itsServletPath = servletPath;
     }
     
-	public WebAppUrl(Class aTarget)
+	public QixwebUrl(Class aTarget)
 	{
 		super(itsServletPath);
-        resetParameters();
-		itsTargetClass = aTarget;
-		setClassNameParameterFor(aTarget);
+        initialize(aTarget);
 	}
 
-    public WebAppUrl(Class aTarget, String label)
+    public QixwebUrl(Class aTarget, String label)
     {
         super(itsServletPath, label);
+        initialize(aTarget);
+    }
+
+    private void initialize(Class aTarget)
+    {
         resetParameters();
         itsTargetClass = aTarget;
         setClassNameParameterFor(aTarget);
@@ -60,9 +60,9 @@ public class WebAppUrl extends WebUrl implements Browsable
 		String className = fullName.substring(fullName.lastIndexOf(".") + 1);
 
 		if (WebCommand.class.isAssignableFrom(aTargetClass))
-			setParameter(WebAppUrl.PARAMETER_COMMAND_TO_EXECUTE, className);
+			setParameter(QixwebUrl.PARAMETER_COMMAND_TO_EXECUTE, className);
 		else if (WebNode.class.isAssignableFrom(aTargetClass))
-			setParameter(WebAppUrl.PARAMETER_NODE_TO_DISPLAY, className);
+			setParameter(QixwebUrl.PARAMETER_NODE_TO_DISPLAY, className);
 	}
 
 	public boolean isExecutingACommand()
@@ -76,14 +76,14 @@ public class WebAppUrl extends WebUrl implements Browsable
 
 	public WebNode materializeTargetNodeWith(UserData userData, TheSystem system)
 	{
-		Class[] createParameterTypes = new Class[] { WebAppUrl.class, UserData.class, TheSystem.class };
+		Class[] createParameterTypes = new Class[] { QixwebUrl.class, UserData.class, TheSystem.class };
 		Object[] createParameters = new Object[] { this, userData, system };
 
 		return (WebNode) callCreateOnTargetWith(createParameterTypes, createParameters);
 	}
     public WebNode materializeTargetNodeWith(UserData userData, QixwebEnvironment environment)
     {
-        Class[] createParameterTypes = new Class[] { WebAppUrl.class, UserData.class, QixwebEnvironment.class };
+        Class[] createParameterTypes = new Class[] { QixwebUrl.class, UserData.class, QixwebEnvironment.class };
         Object[] createParameters = new Object[] { this, userData, environment };
 
         return (WebNode) callCreateOnTargetWith(createParameterTypes, createParameters);
@@ -110,7 +110,7 @@ public class WebAppUrl extends WebUrl implements Browsable
 
 	public WebCommand materializeTargetCommandWith(UserData userData)
 	{
-		Class[] createParameterTypes = new Class[] { WebAppUrl.class, UserData.class };
+		Class[] createParameterTypes = new Class[] { QixwebUrl.class, UserData.class };
 		Object[] createParameters = new Object[] { this, userData };
 
 		return (WebCommand) callCreateOnTargetWith(createParameterTypes, createParameters);
@@ -120,52 +120,52 @@ public class WebAppUrl extends WebUrl implements Browsable
 	{
 		String destination = null;
 
-		if (parametersMap.get(WebAppUrl.PARAMETER_NODE_TO_DISPLAY) != null)
+		if (parametersMap.get(QixwebUrl.PARAMETER_NODE_TO_DISPLAY) != null)
 		{
-			String nodeClassName = ((String[]) parametersMap.get(WebAppUrl.PARAMETER_NODE_TO_DISPLAY))[0];
+			String nodeClassName = ((String[]) parametersMap.get(QixwebUrl.PARAMETER_NODE_TO_DISPLAY))[0];
 			destination = aNodePackage + nodeClassName;
 		}
-		else if (parametersMap.get(WebAppUrl.PARAMETER_COMMAND_TO_EXECUTE) != null)
+		else if (parametersMap.get(QixwebUrl.PARAMETER_COMMAND_TO_EXECUTE) != null)
 		{
-			String commandClassName = ((String[]) parametersMap.get(WebAppUrl.PARAMETER_COMMAND_TO_EXECUTE))[0];
+			String commandClassName = ((String[]) parametersMap.get(QixwebUrl.PARAMETER_COMMAND_TO_EXECUTE))[0];
 			destination = aCommandPackage + commandClassName;
 		}
 		return destination;
 	}
 
-	private static WebAppUrl tryToCreateUrlWithDestination(Map parametersMap, String aNodePackage, String aCommandPackage)
+	private static QixwebUrl tryToCreateUrlWithDestination(Map parametersMap, String aNodePackage, String aCommandPackage)
 	{
 		try
 		{
 			String targetClassName = extractDestinationFrom(parametersMap, aNodePackage, aCommandPackage);
-			WebAppUrl webAppUrl = new WebAppUrl(Class.forName(targetClassName));
+			QixwebUrl webAppUrl = new QixwebUrl(Class.forName(targetClassName));
             return webAppUrl;
 		}
 		catch (Exception commandOrNodeNotFound)
 		{
 			XpLogger.logException(commandOrNodeNotFound);
-			return WebAppUrl.EMPTY_URL;
+			return QixwebUrl.EMPTY_URL;
 		}
 	}
 	
-	public static WebAppUrl createWithTarget(String aDestination, String aNodePackage, String aCommandPackage)
+	public static QixwebUrl createAsRequestWithTarget(String aDestination, String aNodePackage, String aCommandPackage)
 	{
 		Map parameters = new UrlParametersExtractor(aDestination).run();
-		return WebAppUrl.createFrom(parameters, aNodePackage, aCommandPackage);
+		return QixwebUrl.createAsRequestFrom(parameters, aNodePackage, aCommandPackage);
 	}	
 	
 
-	public static WebAppUrl createFrom(Map parametersMap, String aNodePackage, String aCommandPackage)
+	public static QixwebUrl createAsRequestFrom(Map parametersMap, String aNodePackage, String aCommandPackage)
 	{
-		WebAppUrl mapAsUrl = tryToCreateUrlWithDestination(parametersMap, aNodePackage, aCommandPackage);
+		QixwebUrl mapAsUrl = tryToCreateUrlWithDestination(parametersMap, aNodePackage, aCommandPackage);
 		mapAsUrl.setParameters(parametersMap);
 
 		return mapAsUrl;
 	}
 
-	public static WebAppUrl createGhost(String label)
+	public static QixwebUrl createGhost(String label)
     {
-        WebAppUrl ghostUrl = new WebAppUrl(Object.class, label);
+        QixwebUrl ghostUrl = new QixwebUrl(Object.class, label);
         ghostUrl.disable();
         return ghostUrl;
     }

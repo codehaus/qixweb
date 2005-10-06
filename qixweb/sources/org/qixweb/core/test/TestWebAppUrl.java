@@ -11,18 +11,18 @@ public class TestWebAppUrl extends ExtendedTestCase
     private UserData itsUserData;
     private TheSystem itsSystem;
     private String itsServletPath;
-    private WebAppUrl itsWebUrlForAnyCommand;
-    private WebAppUrl itsWebUrlForAnyNode;
+    private QixwebUrl itsWebUrlForAnyCommand;
+    private QixwebUrl itsWebUrlForAnyNode;
 
     
     protected void setUp() throws Exception
     {
         super.setUp();
         itsServletPath = "servletPath";
-        WebAppUrl.initServletPath(itsServletPath);
+        QixwebUrl.initServletPath(itsServletPath);
         
-        itsWebUrlForAnyNode = new WebAppUrl(AnyNode.class);
-        itsWebUrlForAnyCommand = new WebAppUrl(AnyCommand.class);
+        itsWebUrlForAnyNode = new QixwebUrl(AnyNode.class);
+        itsWebUrlForAnyCommand = new QixwebUrl(AnyCommand.class);
         
         itsUserData = new UserData();
         itsSystem = new TheSystem() {};
@@ -32,7 +32,7 @@ public class TestWebAppUrl extends ExtendedTestCase
 	{
 		AnyNode expectedNode = new AnyNode();
 		
-		WebAppUrl url = new WebAppUrl(AnyNode.class);
+		QixwebUrl url = new QixwebUrl(AnyNode.class);
 		WebNode node = url.materializeTargetNodeWith(itsUserData, itsSystem);
 	
 		assertEquals(expectedNode, node);
@@ -42,7 +42,7 @@ public class TestWebAppUrl extends ExtendedTestCase
 	{
         grabSystemOutResettingLogger();
 		Class notExistentNode = Integer.class;
-		WebAppUrl urlToNotExistentTarget = new WebAppUrl(notExistentNode);
+		QixwebUrl urlToNotExistentTarget = new QixwebUrl(notExistentNode);
 		
 		WebNode node = urlToNotExistentTarget.materializeTargetNodeWith(itsUserData, itsSystem);
 		assertNull("It is NOT possible to materialize a not existent node", node);
@@ -53,7 +53,7 @@ public class TestWebAppUrl extends ExtendedTestCase
 	{
         grabSystemOutResettingLogger();
 		Class notExistentCommand = Integer.class;
-		WebAppUrl urlToNotExistentTarget = new WebAppUrl(notExistentCommand);
+		QixwebUrl urlToNotExistentTarget = new QixwebUrl(notExistentCommand);
 	
         WebCommand command = urlToNotExistentTarget.materializeTargetCommandWith(itsUserData);
 		assertNull("It is NOT possible to materialize a not existent command", command);
@@ -63,7 +63,7 @@ public class TestWebAppUrl extends ExtendedTestCase
     public void testCommandThrowingExceptionOnCreateIsLoggedWithoutInterruptingNormalFlow()
     {
         grabSystemOutResettingLogger();
-        new WebAppUrl(BadCreateCommand.class).materializeTargetCommandWith(itsUserData);
+        new QixwebUrl(BadCreateCommand.class).materializeTargetCommandWith(itsUserData);
         assert_contains("Exception expected", grabbedOut(), BadCreateCommand.FAKE_MESSAGE);
     }
 	
@@ -71,7 +71,7 @@ public class TestWebAppUrl extends ExtendedTestCase
 	{
 		AnyCommand expectedCommand = new AnyCommand("materializeTest");
 		
-		WebAppUrl url = new WebAppUrl(AnyCommand.class);
+		QixwebUrl url = new QixwebUrl(AnyCommand.class);
         url.setParameter("state", "materializeTest");
         itsUserData.store("state", "materializeTest");
         WebCommand command = url.materializeTargetCommandWith(itsUserData);
@@ -86,9 +86,9 @@ public class TestWebAppUrl extends ExtendedTestCase
     
     public void testEquals()
     {
-        WebAppUrl url = new WebAppUrl(AnyNode.class);
-        WebAppUrl sameUrl = new WebAppUrl(AnyNode.class);
-        WebAppUrl aDifferentUrl = new WebAppUrl(AnyCommand.class);
+        QixwebUrl url = new QixwebUrl(AnyNode.class);
+        QixwebUrl sameUrl = new QixwebUrl(AnyNode.class);
+        QixwebUrl aDifferentUrl = new QixwebUrl(AnyCommand.class);
         
         EqualsBehaviourVerifier.check("different type of url", url, sameUrl, aDifferentUrl);
         EqualsBehaviourVerifier.checkHashCode(url, sameUrl);
@@ -99,20 +99,20 @@ public class TestWebAppUrl extends ExtendedTestCase
     
 	public void testClassNameParameter()
 	{
-		String nodeToDisplayParameter = itsWebUrlForAnyNode.getParameter(WebAppUrl.PARAMETER_NODE_TO_DISPLAY);
+		String nodeToDisplayParameter = itsWebUrlForAnyNode.getParameter(QixwebUrl.PARAMETER_NODE_TO_DISPLAY);
 		assertEquals("wrong node name ", "AnyNode", nodeToDisplayParameter);
 		
-		String commandToExecuteParameter = itsWebUrlForAnyCommand.getParameter(WebAppUrl.PARAMETER_COMMAND_TO_EXECUTE);
+		String commandToExecuteParameter = itsWebUrlForAnyCommand.getParameter(QixwebUrl.PARAMETER_COMMAND_TO_EXECUTE);
 		assertEquals("wrong command name", "AnyCommand", commandToExecuteParameter);
 
-		WebAppUrl neitherCommandNorNodeUrl = new WebAppUrl(Object.class);
-		assertNull("No command name should be set", neitherCommandNorNodeUrl.getParameter(WebAppUrl.PARAMETER_COMMAND_TO_EXECUTE));
-		assertNull("No node name should be set", neitherCommandNorNodeUrl.getParameter(WebAppUrl.PARAMETER_NODE_TO_DISPLAY));
+		QixwebUrl neitherCommandNorNodeUrl = new QixwebUrl(Object.class);
+		assertNull("No command name should be set", neitherCommandNorNodeUrl.getParameter(QixwebUrl.PARAMETER_COMMAND_TO_EXECUTE));
+		assertNull("No node name should be set", neitherCommandNorNodeUrl.getParameter(QixwebUrl.PARAMETER_NODE_TO_DISPLAY));
 	}
 	
     public void testDestinationForNode()
     {
-        String expectedDestination = itsServletPath + "?" + WebAppUrl.PARAMETER_NODE_TO_DISPLAY+"=AnyNode";
+        String expectedDestination = itsServletPath + "?" + QixwebUrl.PARAMETER_NODE_TO_DISPLAY+"=AnyNode";
         String returnedDestination = itsWebUrlForAnyNode.destination();
         assertEquals("wrong destination composition", expectedDestination, returnedDestination);
         assertTrue("should go the a node", itsWebUrlForAnyNode.isGoingToANode());
@@ -120,7 +120,7 @@ public class TestWebAppUrl extends ExtendedTestCase
 
     public void testDestinationForCommand()
     {
-        String expectedDestination = itsServletPath + "?" + WebAppUrl.PARAMETER_COMMAND_TO_EXECUTE+"=AnyCommand";
+        String expectedDestination = itsServletPath + "?" + QixwebUrl.PARAMETER_COMMAND_TO_EXECUTE+"=AnyCommand";
         String returnedDestination = itsWebUrlForAnyCommand.destination();
         assertEquals("wrong destination composition", expectedDestination, returnedDestination);
         assertTrue("should execute a command", itsWebUrlForAnyCommand.isExecutingACommand());
@@ -129,7 +129,7 @@ public class TestWebAppUrl extends ExtendedTestCase
 	public void testDestinationWithParametersAndTargetClass()
 	{
 		String expectedDestination = itsServletPath;
-		String expectedFirstParameter = WebAppUrl.PARAMETER_NODE_TO_DISPLAY+"=AnyNode";
+		String expectedFirstParameter = QixwebUrl.PARAMETER_NODE_TO_DISPLAY+"=AnyNode";
 	    
 		String expectedSecondParameter = "parameter=value";
 		itsWebUrlForAnyNode.setParameter("parameter", "value");
@@ -143,25 +143,25 @@ public class TestWebAppUrl extends ExtendedTestCase
 
     public void testCopyOptionalParameters()
     {
-        WebAppUrl orginUrl = new WebAppUrl(AnyRefreshableCommand.class);
+        QixwebUrl orginUrl = new QixwebUrl(AnyRefreshableCommand.class);
         orginUrl.setParameter("param1", "value1");
         orginUrl.setParameter("param2", "value2");
-        WebAppUrl targetCommandUrl = new WebAppUrl(AnyCommand.class);
-        WebAppUrl expectedCommandUrl = new WebAppUrl(AnyCommand.class);
+        QixwebUrl targetCommandUrl = new QixwebUrl(AnyCommand.class);
+        QixwebUrl expectedCommandUrl = new QixwebUrl(AnyCommand.class);
         expectedCommandUrl.setParameter("param1", "value1");
         expectedCommandUrl.setParameter("param2", "value2");
         targetCommandUrl.copyOptionalParametersFrom(orginUrl);
         assertEquals(expectedCommandUrl, targetCommandUrl);
 
-        targetCommandUrl = new WebAppUrl(AnyRefreshableCommand.class);
-        expectedCommandUrl = new WebAppUrl(AnyRefreshableCommand.class);
+        targetCommandUrl = new QixwebUrl(AnyRefreshableCommand.class);
+        expectedCommandUrl = new QixwebUrl(AnyRefreshableCommand.class);
         expectedCommandUrl.setParameter("param1", "value1");
         expectedCommandUrl.setParameter("param2", "value2");
         targetCommandUrl.copyOptionalParametersFrom(orginUrl);
         assertEquals(expectedCommandUrl, targetCommandUrl);
 
-        targetCommandUrl = new WebAppUrl(AnyNode.class);
-        expectedCommandUrl = new WebAppUrl(AnyNode.class);
+        targetCommandUrl = new QixwebUrl(AnyNode.class);
+        expectedCommandUrl = new QixwebUrl(AnyNode.class);
         expectedCommandUrl.setParameter("param1", "value1");
         expectedCommandUrl.setParameter("param2", "value2");
         targetCommandUrl.copyOptionalParametersFrom(orginUrl);
@@ -178,8 +178,8 @@ public class TestWebAppUrl extends ExtendedTestCase
 
     public void testCreateGhost()
     {
-        WebAppUrl expected = new WebAppUrl(Object.class, "label");
+        QixwebUrl expected = new QixwebUrl(Object.class, "label");
         expected.disable();
-        assertEquals(expected, WebAppUrl.createGhost("label"));
+        assertEquals(expected, QixwebUrl.createGhost("label"));
     }
 }
