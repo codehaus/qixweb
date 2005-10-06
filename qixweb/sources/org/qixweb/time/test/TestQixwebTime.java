@@ -11,13 +11,6 @@ import org.qixweb.util.EqualsBehaviourVerifier;
 
 public class TestQixwebTime extends TestQixwebCalendar
 {
-    public void testHourAndMinuteAndSecond()
-    {
-        QixwebTime time = new QixwebTime(16, 8, 2003, 12, 34, 23);
-        assertEquals(12, time.hour());
-        assertEquals(34, time.minute());
-        assertEquals(23, time.second());
-    }
     public void testEquals()
     {
         QixwebTime today = new QixwebTime(16, 8, 2003, 12, 34, 23);
@@ -38,7 +31,7 @@ public class TestQixwebTime extends TestQixwebCalendar
         assertFalse(tomorrow.beforeOrEquals(today));
     }
     
-    public void testCustomDateFormat()
+    public void testCustomDateForma()
     {
         QixwebTime anydate = new QixwebTime(22, 2, 2004, 11, 23, 24);
         assertEquals("2004-02-22 11:23:24AM", anydate.asStringCustomDateFormat("yyyy-MM-dd hh:mm:ssaaa"));
@@ -83,25 +76,6 @@ public class TestQixwebTime extends TestQixwebCalendar
         QixwebTime anyDate = new QixwebTime(22, 2, 2004, 11, 23, 24);
         GregorianCalendar theSameDate = anyDate.toGregorianCalendar();
         assertEquals(theSameDate.getTimeInMillis(), anyDate.getTimeInMillis());
-    }
-
-    public void testHash()
-    {
-        QixwebTime time = new QixwebTime(1, 2, 2003, 11, 22, 33);
-        Calendar timePlusMilliseconds = time.toGregorianCalendar();
-        timePlusMilliseconds.add(Calendar.MILLISECOND, 1);
-        QixwebTime sameTime = new QixwebTime(timePlusMilliseconds);
-        EqualsBehaviourVerifier.checkHashCode(time, sameTime);
-        assertEquals("same time => same hash", time.hashCode(), sameTime.hashCode());
-
-        QixwebCalendar differentSecond = time.add(Calendar.SECOND, 1);
-        assertEquals("different second => different hash", time.hashCode(), differentSecond.hashCode());
-    }
-    
-    public void testKey()
-    {
-        assertEquals("2003-02-01_11:22:33", new QixwebTime(1, 2, 2003, 11, 22, 33).key());
-        assertEquals("1990-12-27_01:15:04", new QixwebTime(27, 12, 1990, 1, 15, 4).key());
     }
 
     protected QixwebCalendar concreteInstance(int day, int month, int year) {

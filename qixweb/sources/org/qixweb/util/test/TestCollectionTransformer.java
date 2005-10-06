@@ -8,7 +8,7 @@ import org.qixweb.util.CollectionTransformer;
 import junit.framework.TestCase;
 
 
-public class TestCollectionTransformer extends ExtendedTestCase
+public class TestCollectionTransformer extends TestCase
 {
     
     public void testEmptyVectorToArray()
@@ -21,8 +21,6 @@ public class TestCollectionTransformer extends ExtendedTestCase
 	{
 		List emptyList = new ArrayList();
 		ArrayAsserter.assertEqualsIgnoringOrder(new String[0], CollectionTransformer.toArray(emptyList, String.class));
-        
-        ArrayAsserter.assertEqualsIgnoringOrder(new Object[0], CollectionTransformer.toArrayOnListOfSameType(emptyList));
 	}
     
     public void testVectorToArray()
@@ -33,17 +31,6 @@ public class TestCollectionTransformer extends ExtendedTestCase
         vector.addElement(expectedArray[1]);
         vector.addElement(expectedArray[2]);
         ArrayAsserter.assertEqualsIgnoringOrder(expectedArray, CollectionTransformer.toArray(vector, String.class));
-    }
-    
-    public void testSetConvertedToListShouldNotImposeAnyOrder() throws Exception
-    {
-        LinkedHashSet set = new LinkedHashSet();
-        set.add("1");
-        set.add("2");
-        LinkedHashSet sameSetWithDifferentIterationOrder = new LinkedHashSet();
-        sameSetWithDifferentIterationOrder.add("2");
-        sameSetWithDifferentIterationOrder.add("1");
-        assertEqualsOnlyIgnoringOrder(CollectionTransformer.toArrayList(set), CollectionTransformer.toArrayList(sameSetWithDifferentIterationOrder));
     }
     
 	public void testInvert()
@@ -141,11 +128,7 @@ public class TestCollectionTransformer extends ExtendedTestCase
 		list.add(expectedArray[1]);
 		list.add(expectedArray[2]);
 		ArrayAsserter.assertEqualsIgnoringOrder(expectedArray, CollectionTransformer.toArray(list, String.class));
-        
-        ArrayAsserter.assertEqualsIgnoringOrder(expectedArray, CollectionTransformer.toArrayOnListOfSameType(list));
 	}
-    
-
     
     public void testIntArrayToIntegerList()
     {

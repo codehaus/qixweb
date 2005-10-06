@@ -9,20 +9,20 @@ import org.qixweb.block.*;
 import org.qixweb.util.CollectionTransformer;
 
 
-public abstract class WebNode implements Browsable
+public abstract class WebNode
 {
-	public QixwebUrl[] connections()
+	public WebAppUrl[] connections()
 	{
 		ArrayList list = new ArrayList();
 
-		collectResultsFromMethodsReturning_Into(QixwebUrl.class, list);
-		collectResultsFromMethodsReturning_Into(QixwebUrl[].class, list);
+		collectResultsFromMethodsReturning_Into(WebAppUrl.class, list);
+		collectResultsFromMethodsReturning_Into(WebAppUrl[].class, list);
 		collectWebUrlsOfMethodsReturningIteratorInto(list);
-        collectContainedObjectsOfType_FromMethodsReturningListInto(QixwebUrl.class, list);
+        collectContainedObjectsOfType_FromMethodsReturningListInto(WebAppUrl.class, list);
 		collectWebUrlsOfMethodsReturningArrayOfIteratorsInto(list);
 		collectWebUrlsOfMethodsReturningFormInto(list);
 
-		return (QixwebUrl[])CollectionTransformer.toArray(list, QixwebUrl.class);
+		return (WebAppUrl[])CollectionTransformer.toArray(list, WebAppUrl.class);
 	}
     
 	private void collectWebUrlsOfMethodsReturningIteratorInto(ArrayList list)
@@ -98,7 +98,7 @@ public abstract class WebNode implements Browsable
 				WebForm form = (WebForm)each;
 				return form.actionUrl();
 			}
-		}, QixwebUrl.class)));
+		}, WebAppUrl.class)));
 	}
 	private void collectWebUrlsIteratingOver_into(Iterator[] matchingIterators, ArrayList list)
 	{
@@ -132,9 +132,9 @@ public abstract class WebNode implements Browsable
 		{
 			public boolean is(Object each)
 			{
-				return each instanceof QixwebUrl;
+				return each instanceof WebAppUrl;
 			}
-		}, QixwebUrl.class);
+		}, WebAppUrl.class);
 	}
     
 	private void collectResultsFromMethodsReturning_Into(final Class aClazz, final ArrayList list)
@@ -167,14 +167,14 @@ public abstract class WebNode implements Browsable
 				}
 				catch (Exception e)
 				{
-					throw new RuntimeException(e.getMessage(), e);
+					throw new RuntimeException(e);
 				}
 			}
 		},
 		aClazz);
 	}
 	
-	public void displayThrough(ResponseHandler aResponseHandler) throws IOException
+	public void display(ResponseHandler aResponseHandler) throws IOException
 	{
 		aResponseHandler.display(this);
 	}	

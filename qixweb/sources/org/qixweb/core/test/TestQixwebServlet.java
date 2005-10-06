@@ -8,7 +8,8 @@ import java.util.Set;
 
 import javax.servlet.*;
 
-import org.qixweb.core.*;
+import org.qixweb.core.QixwebEnvironment;
+import org.qixweb.core.QixwebServlet;
 import org.qixweb.util.test.ExtendedTestCase;
 
 
@@ -175,21 +176,18 @@ public class TestQixwebServlet extends ExtendedTestCase
         itsFakeRequest = new FakeHttpServletRequest();
         itsFakeResponse = new FakeHttpServletResponse();
         systemErr = System.err;
-        systemOut = System.out;
     }
     public void testService()
     {
-        String servletPath = new FakeEnvironment().servletPath();
         itsFakeRequest.simulateParameter("node", "AnyNode");
-        itsFakeRequest.simulateServletPath(servletPath);
+        itsFakeRequest.simulateServletPath(new FakeEnvironment().servletPath());
         itsFakeRequest.simulateSession(new FakeHttpSession());
         itsServlet.service(itsFakeRequest, itsFakeResponse);
-        assert_matchesRegex(itsFakeResponse.outputAsString(), "<A href=\"home/\\d+\\?command=AnyCommand\">Click here to execute Any Command</A>");
+        assert_contains(itsFakeResponse.outputAsString(), "<A href=\"/servlet/WebAppServlet?command=AnyCommand\">Click here to execute Any Command</A>");
     }
     
     public void testException() throws ServletException
     {
-        grabSystemOutResettingLogger();
         grabSystemErr();
         itsServlet = new ConcreteQixwebServlet() 
         {
@@ -200,16 +198,5 @@ public class TestQixwebServlet extends ExtendedTestCase
         };
         itsServlet.service(itsFakeRequest, itsFakeResponse);
         assert_contains(grabbedErr(), "Fake generated exception");
-        assert_contains(grabbedOut(), "Fake generated exception");
-    }
-    
-    public void testExceptionReportingException()
-    {
-        grabSystemOutResettingLogger();
-        grabSystemErr();
-        
-        QixwebServlet.reportException(itsFakeResponse, null); // nullRefInOrderToGenerateNullPointerException
-        assert_contains(grabbedOut(), "NullPointerException");
-
     }
 }

@@ -1,7 +1,6 @@
 package org.qixweb.util.test;
 import java.util.*;
 
-import org.apache.commons.lang.StringUtils;
 import org.qixweb.util.StringUtil;
 
 public class TestStringUtil extends ExtendedTestCase
@@ -12,8 +11,8 @@ public class TestStringUtil extends ExtendedTestCase
 		String aContainedString = "a";
 		String aNotContainedString = "z";
 
-		assertTrue("'" +aString+ "'" + "should contain" + "'" +aContainedString+ "'", StringUtils.contains(aString, aContainedString));
-		assertFalse("'" +aString+ "'" + "should not contain" + "'" +aNotContainedString+ "'", StringUtils.contains(aString, aNotContainedString));
+		assertTrue("'" +aString+ "'" + "should contain" + "'" +aContainedString+ "'", StringUtil.string_contains(aString, aContainedString));
+		assertFalse("'" +aString+ "'" + "should not contain" + "'" +aNotContainedString+ "'", StringUtil.string_contains(aString, aNotContainedString));
 	}
 	
 	public void testStringExtractFirst()

@@ -5,7 +5,8 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.*;
 
-import org.qixweb.util.*;
+import org.qixweb.util.StringUtil;
+import org.qixweb.util.XpLogger;
 
 
 
@@ -13,10 +14,8 @@ public class WebUrl
 {
 	private static final String ENCONDING_ISO_8859_1 = "ISO-8859-1";
 	
-    protected Map itsParameters;
+    private Map itsParameters;
 	private String itsUrlBeforeParameters;
-    private boolean isEnabled;
-    protected String itsLabel;
 
 	public static String encode(String parameterValue)
 	{
@@ -26,7 +25,7 @@ public class WebUrl
 		}
 		catch (UnsupportedEncodingException uee)
 		{
-			XpLogger.logException(ENCONDING_ISO_8859_1+" no longer supported?!?", uee);
+			XpLogger.logException(uee);
 			return parameterValue;
 		}
 	}
@@ -39,25 +38,18 @@ public class WebUrl
 		}
 		catch (UnsupportedEncodingException uee)
 		{
-			XpLogger.logException(ENCONDING_ISO_8859_1+" no longer supported?!?", uee);
+			XpLogger.logException(uee);
 			return parameterValue;
 		}
 	}
 
 	public WebUrl(String anUrl)
 	{
-        this(anUrl, anUrl);
+		itsUrlBeforeParameters = anUrl.split("\\?")[0];
+		itsParameters = extractParametersFrom(anUrl);
 	}
-    
-    public WebUrl(String anUrl, String label)
-    {
-        setUrlBeforeParameters(anUrl);
-        itsParameters = new UrlParametersExtractor(anUrl).run();
-        itsLabel = label;
-        isEnabled = true;
-    }
 
-    public String getParameter(String key)
+	public String getParameter(String key)
 	{
 		Object value = itsParameters.get(key);
 		if (value == null)
@@ -71,12 +63,7 @@ public class WebUrl
 	public String[] getParameterValuesOf(String key)
 	{
 		if (itsParameters.get(key) != null)
-        {
-            if (itsParameters.get(key).getClass().isArray())
-                return (String[]) itsParameters.get(key);
-            else
-                return new String[] { (String) itsParameters.get(key) };
-        }
+			return (String[]) itsParameters.get(key);
 		else
 			return new String[0];
 	}
@@ -117,7 +104,7 @@ public class WebUrl
 				else
 					appendParameter(buf, key, getParameterValuesOf(key));
 			}
-			buf.setCharAt(0, UrlParametersExtractor.QUESTION_MARK.charAt(0));
+			buf.setCharAt(0, '?');
 
 			return buf.toString();
 		}
@@ -127,9 +114,9 @@ public class WebUrl
 
 	private void appendParameter(StringBuffer buf, String key, String parameterValue)
 	{
-		buf.append(UrlParametersExtractor.AMPERSAND);
+		buf.append("&");
 		buf.append(key);
-		buf.append(UrlParametersExtractor.EQUAL);
+		buf.append("=");
 		buf.append(encode(parameterValue));
 	}
 
@@ -175,9 +162,7 @@ public class WebUrl
 		if (anotherObject instanceof WebUrl)
 		{
 			WebUrl anotherUrl = (WebUrl) anotherObject;
-			return destination().equals(anotherUrl.destination()) && 
-                    isEnabled() == anotherUrl.isEnabled() &&
-                    label().equals(anotherUrl.label());
+			return destination().equals(anotherUrl.destination());
 		}
 		else
 			return false;
@@ -190,41 +175,33 @@ public class WebUrl
 	
     public String toString()
 	{
-		return destination() + " enabled = " + isEnabled() + " label = " + label();
+		return destination();
 	}
 
-	public int parametersLength()
+	protected static Map extractParametersFrom(String anUrl)
+	{
+		HashMap parameters = new HashMap();
+		
+		if (StringUtil.string_contains(anUrl, "?"))
+		{
+			String fromQuestionMark = anUrl.split("\\?")[1];
+			String[] allKeyValues = fromQuestionMark.split("&");
+	
+			for (int i = 0; i < allKeyValues.length; i++)
+				put_into(allKeyValues[i], parameters);
+		}
+		return parameters;
+	}
+
+	private static void put_into(String aKeyValuePair, Map aParametersMap)
+	{
+		String[] keyValue = aKeyValuePair.split("=");
+		if (keyValue.length == 2)
+		    aParametersMap.put(keyValue[0], new String[] {decode(keyValue[1])});
+	}
+
+    public int parametersLength()
     {
         return itsParameters.size();
-    }
-    
-    protected void resetParameters()
-    {
-        itsParameters.clear();
-    }
-
-    public boolean isEnabled()
-    {
-    	return isEnabled;
-    }
-
-    public void disable()
-    {
-    	isEnabled = false;
-    }
-
-    public void setUrlBeforeParameters(String url)
-    {
-        itsUrlBeforeParameters = url.split("\\?")[0];
-    }
-
-    public String label()
-    {
-        return itsLabel;
-    }
-
-    public void label(String newLabel)
-    {
-        itsLabel = newLabel;
     }
 }

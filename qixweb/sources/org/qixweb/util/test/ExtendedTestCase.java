@@ -2,10 +2,7 @@ package org.qixweb.util.test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.HashSet;
-import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.WriterAppender;
 import org.qixweb.util.StringUtil;
@@ -60,7 +57,7 @@ public abstract class ExtendedTestCase extends TestCase
 
 	public static void assert_contains(String aMessage, String aString, String aSubstring)
 	{
-		assertTrue(aMessage +": '" + aString + "' should contains '" + aSubstring + "'", StringUtils.contains(aString, aSubstring));
+		assertTrue(aMessage +": '" + aString + "' should contains '" + aSubstring + "'", StringUtil.string_contains(aString, aSubstring));
 	}
 
 	public static void assert_matchesRegex(String aMessage, String aString, String aRegex)
@@ -80,7 +77,7 @@ public abstract class ExtendedTestCase extends TestCase
 
 	public static void assert_notContains(String aMessage, String aString, String aSubstring)
 	{
-		assertFalse(aMessage, StringUtils.contains(aString, aSubstring));
+		assertFalse(aMessage, StringUtil.string_contains(aString, aSubstring));
 	}
 
 	public static void assert_notContains(String aString, String aSubstring)
@@ -141,21 +138,5 @@ public abstract class ExtendedTestCase extends TestCase
     {
         itsGrabbedOut = new ByteArrayOutputStream();
         System.setOut(new PrintStream(itsGrabbedOut));
-    }
-
-    public void assertEqualsOnlyIgnoringOrder(List firstList, List secondList)
-    {
-        assertNotEquals("Lists should not be equals considering order", firstList, secondList);
-        assertEqualsIgnoringOrder("Normalizing order the lists should be equal", firstList, secondList); 
-    }
-    
-    public void assertEqualsIgnoringOrder(String message, List firstList, List secondList)
-    {
-        assertEquals(message, new HashSet(firstList), new HashSet(secondList)); 
-    }
-
-    public void assertEqualsIgnoringOrder(List firstList, List secondList)
-    {
-        assertEqualsIgnoringOrder("", firstList, secondList); 
     }
 }

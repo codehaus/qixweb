@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import org.qixweb.core.QixwebUrl;
+import org.qixweb.core.WebAppUrl;
 
 public class QixwebDate extends QixwebCalendar
 {
@@ -60,7 +60,15 @@ public class QixwebDate extends QixwebCalendar
 	
 	public String key()
 	{
-        return DateFormatter.formatyyyy_MM_dd(this);
+		String month = Integer.toString(month());
+		if (month() < 10)
+			month = "0" + month;
+
+		String day = Integer.toString(day());
+		if (day() < 10)
+			day = "0" + day;
+			
+		return Integer.toString(year())+"-"+month + "-" + day;
 	}    
 
     public String toString()
@@ -68,7 +76,7 @@ public class QixwebDate extends QixwebCalendar
         return DateFormatter.formatDD_MM_YYYY_HH_mm(this);
     }
 
-    public static QixwebDate createFrom(QixwebUrl anUrl, String aPrefix)
+    public static QixwebDate createFrom(WebAppUrl anUrl, String aPrefix)
     {
         return new QixwebDate(
                 Integer.parseInt(anUrl.getParameter(aPrefix+DAY_PARAM)),

@@ -35,7 +35,7 @@ public class ServletResponseHandler implements ResponseHandler
             itsVelocityEngine = VelocityInitializer.init(aTemplatePath);
     }
 
-    public void redirectTo(QixwebUrl aDestinationUrl) throws IOException
+    public void redirectTo(WebAppUrl aDestinationUrl) throws IOException
     {
         itsResponse.sendRedirect(addPageIdToAllUrlsOf(aDestinationUrl.destination()));
     }
