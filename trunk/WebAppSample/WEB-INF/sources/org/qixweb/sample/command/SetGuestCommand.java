@@ -10,7 +10,7 @@ public class SetGuestCommand implements WebCommand
 
     private String itsGuestName;
 
-    public static WebCommand create(WebAppUrl someProperties, UserData userData)
+    public static WebCommand create(QixwebUrl someProperties, UserData userData)
     {
         return new SetGuestCommand(someProperties.getParameter(HelloNode.parameterNameForGuestName()));
     }

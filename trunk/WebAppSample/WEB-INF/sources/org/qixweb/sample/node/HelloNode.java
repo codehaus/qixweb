@@ -14,7 +14,7 @@ public class HelloNode extends WebNode
     private String itsName;
     private QixwebEnvironment itsEnvironment;
 
-    public static WebNode create(WebAppUrl anUrl, UserData aUserData, QixwebEnvironment environment)
+    public static WebNode create(QixwebUrl anUrl, UserData aUserData, QixwebEnvironment environment)
     {
         String guestName = anUrl.getParameter(parameterNameForGuestName());
         return new HelloNode(environment, StringUtils.isEmpty(guestName) ? "unknown" : guestName);
@@ -24,14 +24,14 @@ public class HelloNode extends WebNode
     {
         return DateFormatter.formatDD_MM_YYYY_HH_mm_ss(new QixwebTime(Calendar.getInstance()));
     }
-    public WebAppUrl setGuestNameUrl()
+    public QixwebUrl setGuestNameUrl()
     {
         return new QixwebUrlFactory(itsEnvironment).createUrlWith(SetGuestCommand.class);
     }
     
-    public static WebAppUrl urlToMe(QixwebEnvironment environment, String guestName)
+    public static QixwebUrl urlToMe(QixwebEnvironment environment, String guestName)
     {
-        WebAppUrl url = new QixwebUrlFactory(environment).createUrlWith(HelloNode.class);
+        QixwebUrl url = new QixwebUrlFactory(environment).createUrlWith(HelloNode.class);
         url.setParameter(parameterNameForGuestName(), guestName);
         return url;
     }
