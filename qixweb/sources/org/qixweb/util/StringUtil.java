@@ -55,4 +55,9 @@ public class StringUtil
 		    return null;
     }
 
+    public static boolean containsIgnoringCase(String container, String contained)
+    {
+        return StringUtils.contains(container.toLowerCase(), contained.toLowerCase());
+    }
+
 }
