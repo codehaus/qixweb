@@ -5,8 +5,6 @@ import java.util.*;
 import org.qixweb.util.ArrayAsserter;
 import org.qixweb.util.CollectionTransformer;
 
-import junit.framework.TestCase;
-
 
 public class TestCollectionTransformer extends ExtendedTestCase
 {

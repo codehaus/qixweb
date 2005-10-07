@@ -5,13 +5,11 @@ import java.io.PrintStream;
 import java.util.HashSet;
 import java.util.List;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.WriterAppender;
 import org.qixweb.util.StringUtil;
 import org.qixweb.util.XpLogger;
-
-import junit.framework.TestCase;
 
 
 public abstract class ExtendedTestCase extends TestCase
@@ -62,7 +60,17 @@ public abstract class ExtendedTestCase extends TestCase
 	{
 		assertTrue(aMessage +": '" + aString + "' should contains '" + aSubstring + "'", StringUtils.contains(aString, aSubstring));
 	}
-
+    
+    public static void assertEqualsIgnoringCase(String aMessage, String expected, String actual)
+    {
+        assertTrue(aMessage +": '" + expected + "' should be equals (ignoring case) to '" + actual + "'", StringUtils.equalsIgnoreCase(expected, actual));
+    }
+    
+    public static void assertEqualsIgnoringCase(String expected, String actual)
+    {
+        assertEqualsIgnoringCase("", expected, actual);
+    }    
+    
 	public static void assert_matchesRegex(String aMessage, String aString, String aRegex)
 	{
 		assertTrue(aMessage +": '" + aString + "' should contains regex '" + aRegex +"'", StringUtil.string_containsRegex(aString, aRegex));
