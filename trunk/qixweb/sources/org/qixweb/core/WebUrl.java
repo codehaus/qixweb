@@ -224,4 +224,8 @@ public class WebUrl
         return itsLabel;
     }
 
+    protected void label(String newLabel)
+    {
+        itsLabel = newLabel;
+    }
 }

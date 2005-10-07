@@ -188,6 +188,19 @@ public class TestWebUrl extends ExtendedTestCase
         assertEquals("If given label is null, the label should be the url", "http://url.com", urlWithNullLabelInCostruction.label());        
     }
     
+    public class WebUrlDerived extends WebUrl
+    {
+        public WebUrlDerived(String anUrl)
+        {
+            super(anUrl);
+            label("a new label");
+        }
+    }
     
+    public void testLabelCanChangeInHierarchyConstructors()
+    {
+        WebUrl derived = new WebUrlDerived("http://foo.test");
+        assertNotEquals("http://foo.test", derived.label());
+    }
     
 }
