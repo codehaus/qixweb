@@ -5,6 +5,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.*;
 
+import org.apache.commons.lang.StringUtils;
 import org.qixweb.util.*;
 
 
@@ -49,11 +50,11 @@ public class WebUrl
         this(anUrl, anUrl);
 	}
     
-    public WebUrl(String anUrl, String label)
+    public WebUrl(String anUrl, String aLabel)
     {
         setUrlBeforeParameters(anUrl);
         itsParameters = new UrlParametersExtractor(anUrl).run();
-        itsLabel = label;
+        itsLabel = StringUtils.isEmpty(aLabel) ? anUrl : aLabel;
         isEnabled = true;
     }
 
@@ -223,8 +224,4 @@ public class WebUrl
         return itsLabel;
     }
 
-    public void label(String newLabel)
-    {
-        itsLabel = newLabel;
-    }
 }
