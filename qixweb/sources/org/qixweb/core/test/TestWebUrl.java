@@ -173,14 +173,21 @@ public class TestWebUrl extends ExtendedTestCase
         assertFalse("The url should be disabled", itsUrl.isEnabled());
     }
     
-    public void testLabel()
+    public void testLabelInConstruction()
     {
-        WebUrl urlWithoutLabelInCostruction = new WebUrl("url");
-        assertEquals("If label is not specified, the label is the url", "url", urlWithoutLabelInCostruction.label());
-        WebUrl urlWithLabelInCostruction = new WebUrl("url", "label");
+        WebUrl urlWithLabelInCostruction = new WebUrl("http://url.com", "label");
         assertEquals("label", urlWithLabelInCostruction.label());
-        urlWithLabelInCostruction.label("new label");
-        assertEquals("new label", urlWithLabelInCostruction.label());
+        
+        WebUrl urlWithoutLabelInCostruction = new WebUrl("http://url.com");
+        assertEquals("If label is not specified, the label should be the url", "http://url.com", urlWithoutLabelInCostruction.label());
+        
+        WebUrl urlWithEmptyLabelInCostruction = new WebUrl("http://url.com", "");
+        assertEquals("If given label is empty, the label should be the url", "http://url.com", urlWithEmptyLabelInCostruction.label());
+        
+        WebUrl urlWithNullLabelInCostruction = new WebUrl("http://url.com", null);
+        assertEquals("If given label is null, the label should be the url", "http://url.com", urlWithNullLabelInCostruction.label());        
     }
+    
+    
     
 }
