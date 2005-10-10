@@ -14,8 +14,8 @@ import org.qixweb.util.XpLogger;
 
 public abstract class ExtendedTestCase extends TestCase
 {
-	protected PrintStream systemErr;
-    protected PrintStream systemOut;
+	private PrintStream systemErr;
+    private PrintStream systemOut;
     private ByteArrayOutputStream itsGrabbedErr;
     private ByteArrayOutputStream itsGrabbedOut;
 

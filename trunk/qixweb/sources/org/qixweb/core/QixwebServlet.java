@@ -23,8 +23,7 @@ public abstract class QixwebServlet extends HttpServlet
 		}
 		catch (Exception ex)
 		{
-			XpLogger.logException(ex);
-			QixwebServlet.reportException(response, ex);
+			handleException(response, ex);
 		}
         finally
         {
@@ -49,11 +48,16 @@ public abstract class QixwebServlet extends HttpServlet
         return new QixwebBrowser(responseHandler, userSessionData, environment, true);
     }
 
-    public static void reportException(HttpServletResponse response, Exception ex)
+    protected void handleException(HttpServletResponse response, Exception ex)
+    {
+        defaultHandleException(response, ex);
+    }
+    
+    protected void defaultHandleException(HttpServletResponse response, Exception ex)
     {
     	try
     	{
-    		ex.printStackTrace();
+            XpLogger.logException(ex);
     		ex.printStackTrace(response.getWriter());
     	}
     	catch (Exception e)
@@ -61,6 +65,4 @@ public abstract class QixwebServlet extends HttpServlet
     		XpLogger.logException(e);
     	}
     }
-
-   
 }

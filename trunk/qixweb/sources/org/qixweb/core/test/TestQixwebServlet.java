@@ -1,5 +1,6 @@
 package org.qixweb.core.test;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -7,6 +8,7 @@ import java.util.Enumeration;
 import java.util.Set;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletResponse;
 
 import org.qixweb.core.QixwebEnvironment;
 import org.qixweb.core.QixwebServlet;
@@ -14,7 +16,6 @@ import org.qixweb.util.test.ExtendedTestCase;
 
 public class TestQixwebServlet extends ExtendedTestCase
 {
-
     private ConcreteQixwebServlet itsServlet;
     private FakeHttpServletRequest itsFakeRequest;
     private FakeHttpServletResponse itsFakeResponse;
@@ -175,8 +176,6 @@ public class TestQixwebServlet extends ExtendedTestCase
         itsServlet = new ConcreteQixwebServlet();
         itsFakeRequest = new FakeHttpServletRequest();
         itsFakeResponse = new FakeHttpServletResponse();
-        systemErr = System.err;
-        systemOut = System.out;
     }
 
     public void testService()
@@ -210,14 +209,52 @@ public class TestQixwebServlet extends ExtendedTestCase
         assert_contains(grabbedOut(), "Fake generated exception");
     }
 
-    public void testExceptionReportingException()
+    public void testExceptionWithCustomHandleException() throws ServletException
+    {
+        grabSystemOutResettingLogger();
+        
+        itsServlet = new ConcreteQixwebServlet()
+        {
+            protected QixwebEnvironment instantiateEnvironment()
+            {
+                throw new RuntimeException("Fake generated exception");
+            }
+
+            protected void handleException(HttpServletResponse aResponse, Exception aEx)
+            {
+                try
+                {
+                    aResponse.getWriter().print("Custom Error page");
+                }
+                catch (IOException e){}
+            }
+        };
+
+        itsServlet.service(itsFakeRequest, itsFakeResponse);
+
+        assertEquals("Custom Error page", itsFakeResponse.outputAsString());
+    }
+    
+    public void testExceptionReportingException() throws ServletException
     {
         grabSystemOutResettingLogger();
         grabSystemErr();
 
-        QixwebServlet.reportException(itsFakeResponse, null); // nullRefInOrderToGenerateNullPointerException
-        assert_contains(grabbedOut(), "NullPointerException");
+        itsServlet = new ConcreteQixwebServlet()
+        {
+            protected QixwebEnvironment instantiateEnvironment()
+            {
+                throw new RuntimeException("Fake generated exception");
+            }
 
+            protected void handleException(HttpServletResponse aResponse, Exception aEx)
+            {
+                super.defaultHandleException(itsFakeResponse, null);
+            }
+        };
+        itsServlet.service(itsFakeRequest, itsFakeResponse);
+        
+        assert_contains(grabbedOut(), "NullPointerException");
     }
 
     public void testFreeResources() throws Exception
