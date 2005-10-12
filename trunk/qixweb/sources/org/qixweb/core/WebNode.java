@@ -8,38 +8,37 @@ import java.util.*;
 import org.qixweb.block.*;
 import org.qixweb.util.CollectionUtil;
 
-
 public abstract class WebNode implements Browsable
 {
-	public QixwebUrl[] connections()
-	{
-		ArrayList list = new ArrayList();
+    public QixwebUrl[] connections()
+    {
+        ArrayList connections = new ArrayList();
 
-		collectResultsFromMethodsReturning_Into(QixwebUrl.class, list);
-		collectResultsFromMethodsReturning_Into(QixwebUrl[].class, list);
-		collectWebUrlsOfMethodsReturningIteratorInto(list);
-        collectContainedObjectsOfType_FromMethodsReturningListInto(QixwebUrl.class, list);
-		collectWebUrlsOfMethodsReturningArrayOfIteratorsInto(list);
-		collectWebUrlsOfMethodsReturningFormInto(list);
+        collectResultsFromMethodsReturning_Into(QixwebUrl.class, connections);
+        collectResultsFromMethodsReturning_Into(QixwebUrl[].class, connections);
+        collectWebUrlsOfMethodsReturningIteratorInto(connections);
+        collectContainedObjectsOfType_FromMethodsReturningListInto(QixwebUrl.class, connections);
+        collectWebUrlsOfMethodsReturningArrayOfIteratorsInto(connections);
+        collectWebUrlsOfMethodsReturningFormInto(connections);
 
-		return (QixwebUrl[])CollectionUtil.toArray(list, QixwebUrl.class);
-	}
-    
-	private void collectWebUrlsOfMethodsReturningIteratorInto(ArrayList list)
-	{
-		Method[] publicMethods = getClass().getMethods();
-		Method[] matchingMethods = (Method[]) LightInternalIterator.createOn(publicMethods).select(new Predicate()
-		{
-			public boolean is(Object each)
-			{
-				Method method = (Method)each;
-				return method.getReturnType().equals(Iterator.class) && method.getParameterTypes().length == 0;
-			}
-		}, Method.class);
-		Iterator[] matchingIterators = (Iterator[]) executeVoidParameterMethods(matchingMethods, Iterator.class);
-		collectWebUrlsIteratingOver_into(matchingIterators, list);
-	}
-    
+        return (QixwebUrl[]) CollectionUtil.toArray(connections, QixwebUrl.class);
+    }
+
+    private void collectWebUrlsOfMethodsReturningIteratorInto(ArrayList list)
+    {
+        Method[] publicMethods = getClass().getMethods();
+        Method[] matchingMethods = (Method[]) LightInternalIterator.createOn(publicMethods).select(new Predicate()
+        {
+            public boolean is(Object each)
+            {
+                Method method = (Method) each;
+                return method.getReturnType().equals(Iterator.class) && method.getParameterTypes().length == 0;
+            }
+        }, Method.class);
+        Iterator[] matchingIterators = (Iterator[]) executeVoidParameterMethods(matchingMethods, Iterator.class);
+        collectWebUrlsIteratingOver_into(matchingIterators, list);
+    }
+
     protected void collectContainedObjectsOfType_FromMethodsReturningListInto(Class clazz, ArrayList list)
     {
         Method[] publicMethods = getClass().getMethods();
@@ -47,7 +46,7 @@ public abstract class WebNode implements Browsable
         {
             public boolean is(Object each)
             {
-                Method method = (Method)each;
+                Method method = (Method) each;
                 return List.class.isAssignableFrom(method.getReturnType()) && method.getParameterTypes().length == 0;
             }
         }, Method.class);
@@ -61,11 +60,11 @@ public abstract class WebNode implements Browsable
         {
             public Object eval(Object each)
             {
-                return selectOnlyObjectsOfType_From(clazz, (List)each);
+                return selectOnlyObjectsOfType_From(clazz, (List) each);
             }
         }, Object[].class), Object.class);
         list.addAll(CollectionUtil.toArrayList(elementsToAdd));
-    }    
+    }
 
     private Object[] selectOnlyObjectsOfType_From(final Class clazz, List list)
     {
@@ -76,106 +75,104 @@ public abstract class WebNode implements Browsable
                 return clazz.isAssignableFrom(each.getClass());
             }
         }, clazz);
-    }    
-    
-    
-	private void collectWebUrlsOfMethodsReturningFormInto(ArrayList list)
-	{
-		Method[] publicMethods = getClass().getMethods();
-		Method[] matchingMethods = (Method[]) LightInternalIterator.createOn(publicMethods).select(new Predicate()
-		{
-			public boolean is(Object each)
-			{
-				Method method = (Method)each;
-				return WebForm.class.isAssignableFrom(method.getReturnType()) && method.getParameterTypes().length == 0;
-			}
-		}, Method.class);
-		WebForm[] matchingWebForms = (WebForm[]) executeVoidParameterMethods(matchingMethods, WebForm.class);
-		list.addAll(CollectionUtil.toArrayList(LightInternalIterator.createOn(matchingWebForms).collect(new Function()
-		{
-			public Object eval(Object each)
-			{
-				WebForm form = (WebForm)each;
-				return form.actionUrl();
-			}
-		}, QixwebUrl.class)));
-	}
-	private void collectWebUrlsIteratingOver_into(Iterator[] matchingIterators, ArrayList list)
-	{
-		list.addAll(CollectionUtil.toArrayList(CollectionUtil.flatWithoutNulls(LightInternalIterator.createOn(matchingIterators).collect(new Function()
-		{
-			public Object eval(Object each)
-			{
-				return selectOnlyWebUrlsFrom((Iterator)each);
-			}
-		}, Object[].class), Object.class)));
-	}
-    
-	private void collectWebUrlsOfMethodsReturningArrayOfIteratorsInto(ArrayList list)
-	{
-		Method[] publicMethods = getClass().getMethods();
-		Method[] matchingMethods = (Method[]) LightInternalIterator.createOn(publicMethods).select(new Predicate()
-		{
-			public boolean is(Object each)
-			{
-				Method method = (Method)each;
-				return method.getReturnType().equals(Iterator[].class);
-			}
-		}, Method.class);
-		Iterator[] matchingIterators = (Iterator[]) CollectionUtil.flatWithoutNulls(executeVoidParameterMethods(matchingMethods, Iterator[].class), Iterator.class);
-		collectWebUrlsIteratingOver_into(matchingIterators, list);
-	}
+    }
 
-	private Object[] selectOnlyWebUrlsFrom(Iterator iterator)
-	{
-		return LightInternalIterator.createOn(iterator).select(new Predicate()
-		{
-			public boolean is(Object each)
-			{
-				return each instanceof QixwebUrl;
-			}
-		}, QixwebUrl.class);
-	}
-    
-	private void collectResultsFromMethodsReturning_Into(final Class aClazz, final ArrayList list)
-	{
-		Method[] publicMethods = getClass().getMethods();
-		Method[] matchingMethods = (Method[]) LightInternalIterator.createOn(publicMethods).select(new Predicate()
-		{
-			public boolean is(Object each)
-			{
-				Method method = (Method)each;
-                return aClazz.isAssignableFrom(method.getReturnType()) && 
-						method.getParameterTypes().length == 0 && 
-						!Modifier.isStatic(method.getModifiers()) &&
-						!method.getName().equals("connections");
-			}
-		}, Method.class);
-		list.addAll(CollectionUtil.toArrayList(CollectionUtil.flatWithoutNulls(executeVoidParameterMethods(matchingMethods, aClazz), Object.class)));
-	}
-    
-	private Object[] executeVoidParameterMethods(Method[] someVoidParameterMethods, Class aClazz)
-	{
-		return LightInternalIterator.createOn(someVoidParameterMethods).collect(new Function()
-		{
-			public Object eval(Object each)
-			{
-				Method method = (Method)each;
-				try
-				{
-					return method.invoke(WebNode.this, new Object[0]);
-				}
-				catch (Exception e)
-				{
-					throw new RuntimeException(e.getMessage(), e);
-				}
-			}
-		},
-		aClazz);
-	}
-	
-	public void displayThrough(ResponseHandler aResponseHandler) throws IOException
-	{
-		aResponseHandler.display(this);
-	}	
+    private void collectWebUrlsOfMethodsReturningFormInto(ArrayList list)
+    {
+        Method[] publicMethods = getClass().getMethods();
+        Method[] matchingMethods = (Method[]) LightInternalIterator.createOn(publicMethods).select(new Predicate()
+        {
+            public boolean is(Object each)
+            {
+                Method method = (Method) each;
+                return WebForm.class.isAssignableFrom(method.getReturnType()) && method.getParameterTypes().length == 0;
+            }
+        }, Method.class);
+        WebForm[] matchingWebForms = (WebForm[]) executeVoidParameterMethods(matchingMethods, WebForm.class);
+        List allMatchingWebForms = LightInternalIterator.createOn(matchingWebForms).collectAsList(new Function()
+        {
+            public Object eval(Object each)
+            {
+                WebForm form = (WebForm) each;
+                return form.actionUrl();
+            }
+        }, QixwebUrl.class);
+
+        list.addAll(allMatchingWebForms);
+    }
+
+    private void collectWebUrlsIteratingOver_into(Iterator[] matchingIterators, ArrayList list)
+    {
+        list.addAll(CollectionUtil.toArrayList(CollectionUtil.flatWithoutNulls(LightInternalIterator.createOn(matchingIterators).collect(new Function()
+        {
+            public Object eval(Object each)
+            {
+                return selectOnlyWebUrlsFrom((Iterator) each);
+            }
+        }, Object[].class), Object.class)));
+    }
+
+    private void collectWebUrlsOfMethodsReturningArrayOfIteratorsInto(ArrayList list)
+    {
+        Method[] publicMethods = getClass().getMethods();
+        Method[] matchingMethods = (Method[]) LightInternalIterator.createOn(publicMethods).select(new Predicate()
+        {
+            public boolean is(Object each)
+            {
+                Method method = (Method) each;
+                return method.getReturnType().equals(Iterator[].class);
+            }
+        }, Method.class);
+        Iterator[] matchingIterators = (Iterator[]) CollectionUtil.flatWithoutNulls(executeVoidParameterMethods(matchingMethods, Iterator[].class), Iterator.class);
+        collectWebUrlsIteratingOver_into(matchingIterators, list);
+    }
+
+    private Object[] selectOnlyWebUrlsFrom(Iterator iterator)
+    {
+        return LightInternalIterator.createOn(iterator).select(new Predicate()
+        {
+            public boolean is(Object each)
+            {
+                return each instanceof QixwebUrl;
+            }
+        }, QixwebUrl.class);
+    }
+
+    private void collectResultsFromMethodsReturning_Into(final Class aClazz, final ArrayList list)
+    {
+        Method[] publicMethods = getClass().getMethods();
+        Method[] matchingMethods = (Method[]) LightInternalIterator.createOn(publicMethods).select(new Predicate()
+        {
+            public boolean is(Object each)
+            {
+                Method method = (Method) each;
+                return aClazz.isAssignableFrom(method.getReturnType()) && method.getParameterTypes().length == 0 && !Modifier.isStatic(method.getModifiers()) && !method.getName().equals("connections");
+            }
+        }, Method.class);
+        list.addAll(CollectionUtil.toArrayList(CollectionUtil.flatWithoutNulls(executeVoidParameterMethods(matchingMethods, aClazz), Object.class)));
+    }
+
+    private Object[] executeVoidParameterMethods(Method[] someVoidParameterMethods, Class aClazz)
+    {
+        return LightInternalIterator.createOn(someVoidParameterMethods).collect(new Function()
+        {
+            public Object eval(Object each)
+            {
+                Method method = (Method) each;
+                try
+                {
+                    return method.invoke(WebNode.this, new Object[0]);
+                }
+                catch (Exception e)
+                {
+                    throw new RuntimeException(e.getMessage(), e);
+                }
+            }
+        }, aClazz);
+    }
+
+    public void displayThrough(ResponseHandler aResponseHandler) throws IOException
+    {
+        aResponseHandler.display(this);
+    }
 }
