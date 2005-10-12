@@ -147,7 +147,7 @@ public class ArrayComparator
 		}
 		else
 		{
-			ArrayList present = CollectionTransformer.toArrayList(resultObjects);
+			ArrayList present = CollectionUtil.toArrayList(resultObjects);
 
 			for (int i = 0; i < expectedObjects.length; i++)
 			{

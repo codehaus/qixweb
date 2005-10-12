@@ -6,7 +6,7 @@ import java.lang.reflect.Modifier;
 import java.util.*;
 
 import org.qixweb.block.*;
-import org.qixweb.util.CollectionTransformer;
+import org.qixweb.util.CollectionUtil;
 
 
 public abstract class WebNode implements Browsable
@@ -22,7 +22,7 @@ public abstract class WebNode implements Browsable
 		collectWebUrlsOfMethodsReturningArrayOfIteratorsInto(list);
 		collectWebUrlsOfMethodsReturningFormInto(list);
 
-		return (QixwebUrl[])CollectionTransformer.toArray(list, QixwebUrl.class);
+		return (QixwebUrl[])CollectionUtil.toArray(list, QixwebUrl.class);
 	}
     
 	private void collectWebUrlsOfMethodsReturningIteratorInto(ArrayList list)
@@ -57,14 +57,14 @@ public abstract class WebNode implements Browsable
 
     private void collectObjectsOfType_IteratingOver_into(final Class clazz, List[] matchingList, ArrayList list)
     {
-        Object[] elementsToAdd = CollectionTransformer.flatWithoutNulls(LightInternalIterator.createOn(matchingList).collect(new Function()
+        Object[] elementsToAdd = CollectionUtil.flatWithoutNulls(LightInternalIterator.createOn(matchingList).collect(new Function()
         {
             public Object eval(Object each)
             {
                 return selectOnlyObjectsOfType_From(clazz, (List)each);
             }
         }, Object[].class), Object.class);
-        list.addAll(CollectionTransformer.toArrayList(elementsToAdd));
+        list.addAll(CollectionUtil.toArrayList(elementsToAdd));
     }    
 
     private Object[] selectOnlyObjectsOfType_From(final Class clazz, List list)
@@ -91,7 +91,7 @@ public abstract class WebNode implements Browsable
 			}
 		}, Method.class);
 		WebForm[] matchingWebForms = (WebForm[]) executeVoidParameterMethods(matchingMethods, WebForm.class);
-		list.addAll(CollectionTransformer.toArrayList(LightInternalIterator.createOn(matchingWebForms).collect(new Function()
+		list.addAll(CollectionUtil.toArrayList(LightInternalIterator.createOn(matchingWebForms).collect(new Function()
 		{
 			public Object eval(Object each)
 			{
@@ -102,7 +102,7 @@ public abstract class WebNode implements Browsable
 	}
 	private void collectWebUrlsIteratingOver_into(Iterator[] matchingIterators, ArrayList list)
 	{
-		list.addAll(CollectionTransformer.toArrayList(CollectionTransformer.flatWithoutNulls(LightInternalIterator.createOn(matchingIterators).collect(new Function()
+		list.addAll(CollectionUtil.toArrayList(CollectionUtil.flatWithoutNulls(LightInternalIterator.createOn(matchingIterators).collect(new Function()
 		{
 			public Object eval(Object each)
 			{
@@ -122,7 +122,7 @@ public abstract class WebNode implements Browsable
 				return method.getReturnType().equals(Iterator[].class);
 			}
 		}, Method.class);
-		Iterator[] matchingIterators = (Iterator[]) CollectionTransformer.flatWithoutNulls(executeVoidParameterMethods(matchingMethods, Iterator[].class), Iterator.class);
+		Iterator[] matchingIterators = (Iterator[]) CollectionUtil.flatWithoutNulls(executeVoidParameterMethods(matchingMethods, Iterator[].class), Iterator.class);
 		collectWebUrlsIteratingOver_into(matchingIterators, list);
 	}
 
@@ -151,7 +151,7 @@ public abstract class WebNode implements Browsable
 						!method.getName().equals("connections");
 			}
 		}, Method.class);
-		list.addAll(CollectionTransformer.toArrayList(CollectionTransformer.flatWithoutNulls(executeVoidParameterMethods(matchingMethods, aClazz), Object.class)));
+		list.addAll(CollectionUtil.toArrayList(CollectionUtil.flatWithoutNulls(executeVoidParameterMethods(matchingMethods, aClazz), Object.class)));
 	}
     
 	private Object[] executeVoidParameterMethods(Method[] someVoidParameterMethods, Class aClazz)
