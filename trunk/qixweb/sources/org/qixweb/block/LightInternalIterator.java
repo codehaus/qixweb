@@ -3,6 +3,8 @@ package org.qixweb.block;
 import java.lang.reflect.Array;
 import java.util.*;
 
+import org.qixweb.util.CollectionUtil;
+
 public abstract class LightInternalIterator
 {
 	private boolean itsAlreadyBeenUsed;
@@ -60,6 +62,11 @@ public abstract class LightInternalIterator
 	{
 		return collectWithoutException(aFunction, aClassType, false);
 	}
+    
+    public List collectAsList(Function aFunction, Class aClassType)
+    {
+        return CollectionUtil.toArrayList(collectWithoutException(aFunction, aClassType, false));
+    }
 
 	public int count(Predicate aPredicate)
 	{
