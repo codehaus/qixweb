@@ -1,9 +1,6 @@
 package org.qixweb.core;
 
-import java.util.ArrayList;
 import java.util.Collections;
-
-import org.qixweb.util.DeepEquals;
 
 
 public class MultipleChoices extends AbstractChoice

@@ -4,7 +4,7 @@ import java.lang.reflect.*;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import org.qixweb.time.*;
+import org.qixweb.time.CalendarUtils;
 import org.qixweb.util.test.ExtendedTestCase;
 
 

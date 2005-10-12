@@ -1,7 +1,7 @@
 package org.qixweb.util.test;
-import org.qixweb.util.EqualsChecker;
-
 import junit.framework.TestCase;
+
+import org.qixweb.util.EqualsChecker;
 
 
 public class TestEqualsChecker extends TestCase  

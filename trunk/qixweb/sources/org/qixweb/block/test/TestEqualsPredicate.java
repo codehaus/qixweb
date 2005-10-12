@@ -1,7 +1,7 @@
 package org.qixweb.block.test;
-import org.qixweb.block.EqualsPredicate;
-
 import junit.framework.TestCase;
+
+import org.qixweb.block.EqualsPredicate;
 
 
 public class TestEqualsPredicate extends TestCase

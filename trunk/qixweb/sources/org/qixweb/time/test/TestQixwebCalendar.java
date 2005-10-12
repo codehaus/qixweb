@@ -1,13 +1,9 @@
 package org.qixweb.time.test;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Locale;
+import java.util.*;
 
-import org.qixweb.time.QixwebCalendar;
-import org.qixweb.time.QixwebDate;
-import org.qixweb.time.QixwebTime;
+import org.qixweb.time.*;
 import org.qixweb.util.EqualsBehaviourVerifier;
 import org.qixweb.util.test.ExtendedTestCase;
 

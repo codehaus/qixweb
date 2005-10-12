@@ -2,9 +2,9 @@ package org.qixweb.block.test;
 
 import java.lang.reflect.InvocationTargetException;
 
-import org.qixweb.block.CallGetter;
-
 import junit.framework.TestCase;
+
+import org.qixweb.block.CallGetter;
 
 
 

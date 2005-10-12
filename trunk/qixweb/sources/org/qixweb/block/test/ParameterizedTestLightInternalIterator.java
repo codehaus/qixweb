@@ -1,9 +1,9 @@
 package org.qixweb.block.test;
 
+import junit.framework.TestCase;
+
 import org.qixweb.block.*;
 import org.qixweb.util.ArrayAsserter;
-
-import junit.framework.TestCase;
 
 
 public abstract class ParameterizedTestLightInternalIterator extends TestCase

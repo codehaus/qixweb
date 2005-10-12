@@ -1,6 +1,6 @@
 package org.qixweb.core.test;
 
-import java.io.*;
+import java.io.IOException;
 
 import org.qixweb.core.*;
 import org.qixweb.util.test.ExtendedTestCase;

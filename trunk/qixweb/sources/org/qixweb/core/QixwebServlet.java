@@ -45,7 +45,7 @@ public abstract class QixwebServlet extends HttpServlet
         UserData userSessionData = environment.sessionManager().userDataFor(sessionID);
 
         ServletResponseHandler responseHandler = new ServletResponseHandler(response, request.getServletPath(), sessionID.nextPageID(), templatePath);    
-        return new QixwebBrowser(responseHandler, userSessionData, environment, true);
+        return QixwebBrowser.usingEnvironment(responseHandler, userSessionData, environment);
     }
 
     protected void handleException(HttpServletResponse response, Exception ex)

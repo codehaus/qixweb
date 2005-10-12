@@ -1,6 +1,5 @@
 package org.qixweb.core.test;
 
-import org.apache.commons.lang.StringUtils;
 import org.qixweb.core.*;
 
 public class BadCreateCommand implements WebCommand

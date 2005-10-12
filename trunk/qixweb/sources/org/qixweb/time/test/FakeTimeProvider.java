@@ -1,6 +1,6 @@
 package org.qixweb.time.test;
 
-import java.util.*;
+import java.util.Calendar;
 
 import org.qixweb.time.*;
 

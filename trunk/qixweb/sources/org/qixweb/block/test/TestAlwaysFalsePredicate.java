@@ -1,9 +1,9 @@
 package org.qixweb.block.test;
 
+import junit.framework.TestCase;
+
 import org.qixweb.block.AlwaysFalsePredicate;
 import org.qixweb.block.Predicate;
-
-import junit.framework.TestCase;
 
 
 public class TestAlwaysFalsePredicate extends TestCase
