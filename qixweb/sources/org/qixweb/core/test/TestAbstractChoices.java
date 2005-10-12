@@ -1,11 +1,9 @@
 package org.qixweb.core.test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import junit.framework.TestCase;
 
-import org.qixweb.core.*;
+import org.qixweb.core.AbstractChoice;
+import org.qixweb.core.Choice;
 import org.qixweb.util.EqualsBehaviourVerifier;
 
 

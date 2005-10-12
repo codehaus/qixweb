@@ -1,8 +1,8 @@
 package org.qixweb.block.test;
 
-import org.qixweb.block.EqualsOnMethod;
-
 import junit.framework.TestCase;
+
+import org.qixweb.block.EqualsOnMethod;
 
 
 public class TestEqualsOnMethod extends TestCase

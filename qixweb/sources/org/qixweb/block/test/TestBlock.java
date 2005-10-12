@@ -1,8 +1,8 @@
 package org.qixweb.block.test;
 
-import org.qixweb.block.Block;
-
 import junit.framework.TestCase;
+
+import org.qixweb.block.Block;
 
 
 public class TestBlock extends TestCase

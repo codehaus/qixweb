@@ -1,15 +1,10 @@
 package org.qixweb.time.test;
 import java.text.ParseException;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Locale;
+import java.util.*;
 
 import junit.framework.TestCase;
 
-import org.qixweb.time.QixwebCalendar;
-import org.qixweb.time.QixwebDate;
-import org.qixweb.time.QixwebTime;
-import org.qixweb.time.DateFormatter;
+import org.qixweb.time.*;
 
 
 public class TestDateFormatter extends TestCase

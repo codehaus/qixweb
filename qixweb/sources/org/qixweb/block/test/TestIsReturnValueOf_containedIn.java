@@ -1,9 +1,9 @@
 package org.qixweb.block.test;
 
+import junit.framework.TestCase;
+
 import org.qixweb.block.IsReturnValueOf_containedIn;
 import org.qixweb.block.LightInternalIterator;
-
-import junit.framework.TestCase;
 
 
 

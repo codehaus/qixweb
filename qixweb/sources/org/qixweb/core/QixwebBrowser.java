@@ -8,19 +8,24 @@ public class QixwebBrowser
 	private UserData itsUserData;
     private boolean instantiateUrlWithEnvironment;
 
-	public QixwebBrowser(ResponseHandler aResponseHandler, UserData aUserData, QixwebEnvironment environment)
-	{
-        this(aResponseHandler, aUserData, environment, false);
-	}
-    public QixwebBrowser(ResponseHandler aResponseHandler, UserData aUserData, QixwebEnvironment environment, boolean useEnvironment)
+    protected QixwebBrowser(ResponseHandler aResponseHandler, UserData aUserData, QixwebEnvironment environment, boolean useEnvironment)
     {
-        
         itsResponseHandler = aResponseHandler;
         itsUserData = aUserData;        
         itsEnvironment = environment;
         instantiateUrlWithEnvironment = useEnvironment;
     }
-	
+
+    public static QixwebBrowser usingSystem(ResponseHandler aResponseHandler, UserData aUserData, QixwebEnvironment environment)
+    {
+        return new QixwebBrowser(aResponseHandler, aUserData, environment, false);
+    }
+
+    public static QixwebBrowser usingEnvironment(ResponseHandler aResponseHandler, UserData aUserData, QixwebEnvironment environment)
+    {
+        return new QixwebBrowser(aResponseHandler, aUserData, environment, true);
+    }
+    
 	protected void executeCommand(QixwebUrl anUrl) throws Exception
 	{
 		WebCommand command = anUrl.materializeTargetCommandWith(itsUserData);

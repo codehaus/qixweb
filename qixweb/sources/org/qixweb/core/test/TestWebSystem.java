@@ -1,8 +1,8 @@
 package org.qixweb.core.test;
 
-import org.qixweb.core.*;
-
 import junit.framework.TestCase;
+
+import org.qixweb.core.*;
 
 public class TestWebSystem extends TestCase
 {

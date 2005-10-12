@@ -1,8 +1,8 @@
 package org.qixweb.block.test;
+import junit.framework.TestCase;
+
 import org.qixweb.block.Predicate;
 import org.qixweb.block.SamePredicate;
-
-import junit.framework.TestCase;
 
 
 public class TestSamePredicate extends TestCase

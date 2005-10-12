@@ -3,9 +3,9 @@ package org.qixweb.block.test;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import org.qixweb.block.*;
-
 import junit.framework.TestCase;
+
+import org.qixweb.block.*;
 
 
 public class TestLightInternalIteratorCreation extends TestCase

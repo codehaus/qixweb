@@ -8,28 +8,29 @@ public class TestQixwebBrowser extends ExtendedTestCase
 {
     private QixwebBrowser itsBrowser;
     private FakeResponseHandler itsFakeResponseHandler;
+    private FakeEnvironment itsFakeEnvironment;
+    
     protected void setUp() throws Exception
     {
         itsFakeResponseHandler = new FakeResponseHandler();
-        itsBrowser = new QixwebBrowser(itsFakeResponseHandler, new UserData(), new FakeEnvironment());
+        itsFakeEnvironment = new FakeEnvironment();
+        itsBrowser = QixwebBrowser.usingSystem(itsFakeResponseHandler, new UserData(), itsFakeEnvironment);
     }
 
-    public void testGoToNode() throws Exception
+    public void testGoToNodeWithABrowserUsingSystem() throws Exception
     {
-        QixwebUrl nodeUrl = new QixwebUrl(AnyNode.class);
-        itsBrowser.goTo(nodeUrl);
-
-        assertEquals("Wrong displayed node", new AnyNode(), itsFakeResponseHandler.displayedNode());
+        verifyDisplayedNode();
+        assertTrue("When using System, Environment should not be used", itsFakeEnvironment.hasSystemBeenInvoked());
     }
 
     public void testGotoWarningNode() throws Exception
     {
-        itsBrowser = new QixwebBrowser(itsFakeResponseHandler, new UserData(), new FakeEnvironment())
+        itsBrowser = new QixwebBrowser(itsFakeResponseHandler, new UserData(), new FakeEnvironment(), false) 
         {
             protected void gotoWarningNode() throws Exception
             {
                 goTo(new QixwebUrl(WrongLinkNodeForTest.class));
-            }            
+            } 
         };
         QixwebUrl wrongLink = new QixwebUrl(Object.class);
         itsBrowser.goTo(wrongLink);
@@ -43,6 +44,7 @@ public class TestQixwebBrowser extends ExtendedTestCase
         itsBrowser.goTo(wrongLink);
         assertNull(itsFakeResponseHandler.displayedNode());
     }
+
     public void testExecuteCommand() throws Exception
     {
         QixwebUrl expectedDestination = new QixwebUrl(AnyNode.class);
@@ -58,7 +60,7 @@ public class TestQixwebBrowser extends ExtendedTestCase
 
     public void testValidateExecutionOfCommand() throws Exception
     {
-        itsBrowser = new QixwebBrowser(itsFakeResponseHandler, new UserData(), new FakeEnvironment())
+        itsBrowser = new QixwebBrowser(itsFakeResponseHandler, new UserData(), new FakeEnvironment(), false)
         {
             protected boolean validateExecutionOf(WebCommand aCommand) throws Exception
             {
@@ -79,10 +81,22 @@ public class TestQixwebBrowser extends ExtendedTestCase
         assertSame(itsFakeResponseHandler.lastBrowsed(), itsFakeResponseHandler.displayedNode());
     }
     
-    public void testUseEnvironmentWhenGoingToNode() throws Exception
+    public void testGoToNodeWithABrowserUsingEnvironment() throws Exception
     {
-        itsBrowser = new QixwebBrowser(itsFakeResponseHandler, new UserData(), new FakeEnvironment(), true);
-        testGoToNode();
+        FakeEnvironment fakeEnvironment = new FakeEnvironment();
+        itsBrowser = QixwebBrowser.usingEnvironment(itsFakeResponseHandler, new UserData(), fakeEnvironment);
+
+        verifyDisplayedNode();
+        assertFalse("When using Environment, the System should not be used", fakeEnvironment.hasSystemBeenInvoked());
+
+    }
+
+    private void verifyDisplayedNode() throws Exception
+    {
+        QixwebUrl nodeUrl = new QixwebUrl(AnyNode.class);
+        itsBrowser.goTo(nodeUrl);
+        
+        assertEquals("Wrong displayed node", new AnyNode(), itsFakeResponseHandler.displayedNode());
     }
 
 }

@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.util.*;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.qixweb.block.*;
+import org.qixweb.block.CallGetter;
+import org.qixweb.block.LightInternalIterator;
 import org.qixweb.util.ArrayComparator;
 import org.qixweb.util.StringUtil;
 

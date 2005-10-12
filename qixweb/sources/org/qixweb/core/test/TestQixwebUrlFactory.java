@@ -3,10 +3,10 @@ package org.qixweb.core.test;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.qixweb.core.QixwebUrlFactory;
-import org.qixweb.core.QixwebUrl;
-
 import junit.framework.TestCase;
+
+import org.qixweb.core.QixwebUrl;
+import org.qixweb.core.QixwebUrlFactory;
 
 
 
