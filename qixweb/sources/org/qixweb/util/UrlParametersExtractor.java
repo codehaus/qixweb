@@ -48,7 +48,7 @@ public class UrlParametersExtractor
             public void run(Object eachKey)
             {
                 ArrayList list = (ArrayList)aParameters.get(eachKey);
-                aParameters.put(eachKey, CollectionTransformer.toArray(list, String.class));
+                aParameters.put(eachKey, CollectionUtil.toArray(list, String.class));
             }
         });
     }
