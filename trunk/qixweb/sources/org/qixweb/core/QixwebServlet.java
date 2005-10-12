@@ -58,6 +58,7 @@ public abstract class QixwebServlet extends HttpServlet
     	try
     	{
             XpLogger.logException(ex);
+            ex.printStackTrace();
     		ex.printStackTrace(response.getWriter());
     	}
     	catch (Exception e)
