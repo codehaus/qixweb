@@ -41,7 +41,7 @@ public class TestCollectionUtil extends ExtendedTestCase
         LinkedHashSet sameSetWithDifferentIterationOrder = new LinkedHashSet();
         sameSetWithDifferentIterationOrder.add("2");
         sameSetWithDifferentIterationOrder.add("1");
-        assertEqualsOnlyIgnoringOrder(CollectionUtil.toArrayList(set), CollectionUtil.toArrayList(sameSetWithDifferentIterationOrder));
+        assertEqualsOnlyIgnoringOrder(CollectionUtil.toList(set), CollectionUtil.toList(sameSetWithDifferentIterationOrder));
     }
     
 	public void testInvert()
@@ -95,10 +95,10 @@ public class TestCollectionUtil extends ExtendedTestCase
 		vector.addElement(expectedArray[2]);
 		ArrayAsserter.assertEqualsIgnoringOrder(expectedArray, CollectionUtil.toArray(vector.iterator(), String.class));
 	}
-	public void testIteratorToArrayList()
+	public void testIteratorToList()
 	{
-		ArrayList expectedArrayList = new ArrayList(CollectionUtil.toArrayList(new String[] { "first", "second", "third" }));
-		assertEquals(expectedArrayList, CollectionUtil.toArrayList(expectedArrayList.iterator()));
+		List expectedList = new ArrayList(CollectionUtil.toList(new String[] { "first", "second", "third" }));
+		assertEquals(expectedList, CollectionUtil.toList(expectedList.iterator()));
 	}
 	
 	public void testIteratorArrayToMatrix()
@@ -118,7 +118,7 @@ public class TestCollectionUtil extends ExtendedTestCase
 		assertEquals("The allocated matrix hasn't the specified type", (new String[0][0]).getClass(), CollectionUtil.toMatrix(iteratorArray, String.class).getClass());		
 	}    
     
-	public void testArrayToArrayList()
+	public void testArrayToList()
 	{
 		String[] array = new String[] { "first", "second", "third" };
 		
@@ -127,7 +127,7 @@ public class TestCollectionUtil extends ExtendedTestCase
 		expectedArrayList.add(array[1]);
 		expectedArrayList.add(array[2]);
 		
-		assertEquals(expectedArrayList, CollectionUtil.toArrayList(array));
+		assertEquals(expectedArrayList, CollectionUtil.toList(array));
 						
 	}    
     
