@@ -183,7 +183,7 @@ public class TestWebNode extends ExtendedTestCase
         public Iterator someUrls()
         {
             if (itsEncapsulatedNode != null)
-                return CollectionUtil.toArrayList(itsEncapsulatedNode.someUrls()).iterator();
+                return CollectionUtil.toList(itsEncapsulatedNode.someUrls()).iterator();
             else
                 return null;
         }
@@ -306,7 +306,7 @@ public class TestWebNode extends ExtendedTestCase
 
         public Iterator oneParameterIterator(String aString)
         {
-            return CollectionUtil.toArrayList(new QixwebUrl[] { neverReturnedUrl }).iterator();
+            return CollectionUtil.toList(new QixwebUrl[] { neverReturnedUrl }).iterator();
         }
     }
 

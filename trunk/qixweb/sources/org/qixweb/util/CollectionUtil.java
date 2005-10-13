@@ -82,17 +82,17 @@ public class CollectionUtil
         return list;
     }
 
-    public static ArrayList toArrayList(Object[] anArray)
+    public static List toList(Object[] anArray)
     {
     	return	new ArrayList(Arrays.asList(anArray));
     }
 
-    public static ArrayList toArrayList(Iterator anIterator)
+    public static List toList(Iterator anIterator)
     {
-    	return toArrayList(LightInternalIterator.createOn(anIterator).select(new AlwaysTruePredicate(), Object.class));
+    	return toList(LightInternalIterator.createOn(anIterator).select(new AlwaysTruePredicate(), Object.class));
     }
 
-    public static ArrayList toList(int[] anIntArray)
+    public static List toList(int[] anIntArray)
     {
         Integer[] asIntegers = new Integer[anIntArray.length];
         for (int i = 0; i < asIntegers.length; i++)
@@ -146,7 +146,7 @@ public class CollectionUtil
     			if (each instanceof Object[])
     			{
     				Object[] subCollection = (Object[]) each;
-    				list.addAll(CollectionUtil.toArrayList(flatWithoutNulls(subCollection, commonSuperClass)));
+    				list.addAll(CollectionUtil.toList(flatWithoutNulls(subCollection, commonSuperClass)));
     			}
     			else if (each != null)
     				list.add(each);
@@ -168,9 +168,9 @@ public class CollectionUtil
     	return invertedArray;
     }
 
-    public static ArrayList toArrayList(Collection aCollection)
+    public static List toList(Collection aCollection)
     {
-        return toArrayList(aCollection.iterator());
+        return toList(aCollection.iterator());
     }    
 
 }

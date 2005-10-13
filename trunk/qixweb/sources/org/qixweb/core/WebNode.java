@@ -63,7 +63,7 @@ public abstract class WebNode implements Browsable
                 return selectOnlyObjectsOfType_From(clazz, (List) each);
             }
         }, Object[].class), Object.class);
-        list.addAll(CollectionUtil.toArrayList(elementsToAdd));
+        list.addAll(CollectionUtil.toList(elementsToAdd));
     }
 
     private Object[] selectOnlyObjectsOfType_From(final Class clazz, List list)
@@ -103,7 +103,7 @@ public abstract class WebNode implements Browsable
 
     private void collectWebUrlsIteratingOver_into(Iterator[] matchingIterators, ArrayList list)
     {
-        list.addAll(CollectionUtil.toArrayList(CollectionUtil.flatWithoutNulls(LightInternalIterator.createOn(matchingIterators).collect(new Function()
+        list.addAll(CollectionUtil.toList(CollectionUtil.flatWithoutNulls(LightInternalIterator.createOn(matchingIterators).collect(new Function()
         {
             public Object eval(Object each)
             {
@@ -149,7 +149,7 @@ public abstract class WebNode implements Browsable
                 return aClazz.isAssignableFrom(method.getReturnType()) && method.getParameterTypes().length == 0 && !Modifier.isStatic(method.getModifiers()) && !method.getName().equals("connections");
             }
         }, Method.class);
-        list.addAll(CollectionUtil.toArrayList(CollectionUtil.flatWithoutNulls(executeVoidParameterMethods(matchingMethods, aClazz), Object.class)));
+        list.addAll(CollectionUtil.toList(CollectionUtil.flatWithoutNulls(executeVoidParameterMethods(matchingMethods, aClazz), Object.class)));
     }
 
     private Object[] executeVoidParameterMethods(Method[] someVoidParameterMethods, Class aClazz)
