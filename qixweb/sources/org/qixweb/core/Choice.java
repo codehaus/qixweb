@@ -3,17 +3,17 @@ package org.qixweb.core;
 public class Choice implements Comparable
 {
 	private String itsValue;
-	private Comparable itsLabel;
+	private Comparable itsItem;
 	private boolean isSelected;
 
 	public String toString()
 	{
-		return "'" + itsLabel + "' (" + itsValue + ") => " + isSelected;
+		return "'" + itsItem + "' (" + itsValue + ") => " + isSelected;
 	}
 	
-	public Choice(String aValue, Comparable aLabel, boolean isSelected)
+	public Choice(String aValue, Comparable anItem, boolean isSelected)
 	{
-		itsLabel = aLabel;
+		itsItem = anItem;
 		itsValue = aValue;
 		this.isSelected = isSelected;
 	}
@@ -23,9 +23,9 @@ public class Choice implements Comparable
 		return new Boolean(isSelected);
 	}
 
-	public Object label()
+	public Object item()
 	{
-		return itsLabel;
+		return itsItem;
 	}
 
 	public String value()
@@ -36,14 +36,14 @@ public class Choice implements Comparable
 	public boolean equals(Object aChoice)
 	{
         if (aChoice instanceof Choice)
-            return itsLabel.equals(((Choice)aChoice).itsLabel);
+            return itsItem.equals(((Choice)aChoice).itsItem);
         else
             return false;
 	}
 
     public int hashCode()
     {
-        return itsLabel.hashCode();
+        return itsItem.hashCode();
     }
     
     public int compareTo(Object anObject)
@@ -51,7 +51,7 @@ public class Choice implements Comparable
         if (anObject instanceof Choice)
         {
             Choice anotherChoice = (Choice) anObject;
-            return itsLabel.compareTo(anotherChoice.itsLabel);
+            return itsItem.compareTo(anotherChoice.itsItem);
         }
         return -1;
     }
