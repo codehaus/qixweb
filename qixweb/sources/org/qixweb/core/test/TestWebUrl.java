@@ -202,5 +202,11 @@ public class TestWebUrl extends ExtendedTestCase
         WebUrl derived = new WebUrlDerived("http://foo.test");
         assertNotEquals("http://foo.test", derived.label());
     }
-    
+
+    public void testCompare() throws Exception
+    {
+        assertEquals(0, new WebUrl("url", "aaa").compareTo(new WebUrl("different url", "aaa")));
+        assertEquals(-1, new WebUrl("url", "aaa").compareTo(new WebUrl("different url", "bbb")));
+        assertEquals(1, new WebUrl("url", "bbb").compareTo(new WebUrl("different url", "aaa")));
+    }
 }

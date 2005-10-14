@@ -11,7 +11,7 @@ import org.qixweb.util.XpLogger;
 
 
 
-public class WebUrl
+public class WebUrl implements Comparable
 {
 	private static final String ENCONDING_ISO_8859_1 = "ISO-8859-1";
 	
@@ -228,5 +228,15 @@ public class WebUrl
     protected void label(String newLabel)
     {
         itsLabel = newLabel;
+    }
+
+    public int compareTo(Object anObject)
+    {
+        if (anObject instanceof WebUrl)
+        {
+            WebUrl anotherWebUrl = (WebUrl) anObject;
+            return itsLabel.compareTo(anotherWebUrl.itsLabel);
+        }
+        return -1;
     }
 }
