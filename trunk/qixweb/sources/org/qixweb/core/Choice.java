@@ -3,7 +3,7 @@ package org.qixweb.core;
 public class Choice implements Comparable
 {
 	private String itsValue;
-	private String itsLabel;
+	private Comparable itsLabel;
 	private boolean isSelected;
 
 	public String toString()
@@ -11,7 +11,7 @@ public class Choice implements Comparable
 		return "'" + itsLabel + "' (" + itsValue + ") => " + isSelected;
 	}
 	
-	public Choice(String aValue, String aLabel, boolean isSelected)
+	public Choice(String aValue, Comparable aLabel, boolean isSelected)
 	{
 		itsLabel = aLabel;
 		itsValue = aValue;
@@ -23,7 +23,7 @@ public class Choice implements Comparable
 		return new Boolean(isSelected);
 	}
 
-	public String label()
+	public Object label()
 	{
 		return itsLabel;
 	}
