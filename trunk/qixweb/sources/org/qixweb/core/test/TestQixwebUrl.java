@@ -6,7 +6,7 @@ import org.qixweb.core.*;
 import org.qixweb.util.EqualsBehaviourVerifier;
 import org.qixweb.util.test.ExtendedTestCase;
 
-public class TestWebAppUrl extends ExtendedTestCase
+public class TestQixwebUrl extends ExtendedTestCase
 {
     private UserData itsUserData;
     private TheSystem itsSystem;
@@ -178,8 +178,6 @@ public class TestWebAppUrl extends ExtendedTestCase
 
     public void testCreateGhost()
     {
-        QixwebUrl expected = new QixwebUrl(Object.class, "label");
-        expected.disable();
-        assertEquals(expected, QixwebUrl.createGhost("label"));
+        assertFalse(QixwebUrl.createGhost("not available link").isEnabled());
     }
 }
