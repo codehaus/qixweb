@@ -8,7 +8,7 @@ import org.qixweb.util.ArrayAsserter;
 import org.qixweb.util.XpLogger;
 import org.qixweb.util.test.ExtendedTestCase;
 
-public class TestWebAppUrlCreation extends ExtendedTestCase
+public class TestQixwebUrlCreation extends ExtendedTestCase
 {
     private String itsNodePackage;
     private String itsCommandPackage;
