@@ -13,8 +13,8 @@ public abstract class QixwebServlet extends HttpServlet
 		try
 		{
             environment = instantiateEnvironment();
-            String servletPath = environment.servletPath();
-            QixwebUrl.initServletPath(servletPath);
+            QixwebUrl.initWith(environment.servletPath(), environment.nodePackage());
+            
             String templatePath = getServletContext().getRealPath(environment.velocityTemplateDir());
             QixwebBrowser browser = buildBrowser(request, response, environment, templatePath);
                     

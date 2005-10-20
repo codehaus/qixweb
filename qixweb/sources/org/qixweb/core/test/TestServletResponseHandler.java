@@ -18,7 +18,7 @@ public class TestServletResponseHandler extends ExtendedTestCase
 		itsHttpResponse = new FakeHttpServletResponse();
 		itsPageID = "1234567";
 		itsServletPath = "servlet/WebAppServlet";
-        QixwebUrl.initServletPath(itsServletPath);
+        QixwebUrl.initServletPathAndDefaultNodePackage(itsServletPath);
 		
 		itsResponseHandler = new ServletResponseHandler(itsHttpResponse, itsServletPath, itsPageID, "./templateVelocity/");
     }
