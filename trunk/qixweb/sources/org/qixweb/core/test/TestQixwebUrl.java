@@ -18,8 +18,8 @@ public class TestQixwebUrl extends ExtendedTestCase
     protected void setUp() throws Exception
     {
         super.setUp();
-        itsServletPath = "servletPath";
-        QixwebUrl.initServletPath(itsServletPath);
+        itsServletPath = "servletPath"; 
+        QixwebUrl.initServletPathAndDefaultNodePackage(itsServletPath);
         
         itsWebUrlForAnyNode = new QixwebUrl(AnyNode.class);
         itsWebUrlForAnyCommand = new QixwebUrl(AnyCommand.class);
@@ -38,7 +38,29 @@ public class TestQixwebUrl extends ExtendedTestCase
 		assertEquals(expectedNode, node);
 	}
     
-	public void testMaterializeNotExistentNode()
+    public void testDestinationForNodeWhenNodePackageIsSpecified()
+    {    
+        QixwebUrl.initWith(itsServletPath, "org.qixweb.core.test.");
+        QixwebUrl url = new QixwebUrl(AnyNode.class);
+        assert_contains(url.destination(), itsServletPath + "?" + QixwebUrl.PARAMETER_NODE_TO_DISPLAY+ "=AnyNode");
+        
+        QixwebUrl.initWith(itsServletPath, "org.qixweb.core.");
+        url = new QixwebUrl(AnyNode.class);
+        assert_contains(url.destination(), itsServletPath + "?" + QixwebUrl.PARAMETER_NODE_TO_DISPLAY+ "=test.AnyNode");
+       
+        QixwebUrl.initWith(itsServletPath, "org.qixweb.");
+        url = new QixwebUrl(AnyNode.class);
+        assert_contains(url.destination(), itsServletPath + "?" + QixwebUrl.PARAMETER_NODE_TO_DISPLAY+ "=core.test.AnyNode");
+    }
+    
+    protected void tearDown() throws Exception
+    {
+        QixwebUrl.initServletPathAndDefaultNodePackage("");
+        super.tearDown();
+    }
+    
+    
+    public void testMaterializeNotExistentNode()
 	{
         grabSystemOutResettingLogger();
 		Class notExistentNode = Integer.class;
@@ -110,7 +132,7 @@ public class TestQixwebUrl extends ExtendedTestCase
 		assertNull("No node name should be set", neitherCommandNorNodeUrl.getParameter(QixwebUrl.PARAMETER_NODE_TO_DISPLAY));
 	}
 	
-    public void testDestinationForNode()
+    public void testDefaultDestinationForNode()
     {
         String expectedDestination = itsServletPath + "?" + QixwebUrl.PARAMETER_NODE_TO_DISPLAY+"=AnyNode";
         String returnedDestination = itsWebUrlForAnyNode.destination();
@@ -125,7 +147,7 @@ public class TestQixwebUrl extends ExtendedTestCase
         assertEquals("wrong destination composition", expectedDestination, returnedDestination);
         assertTrue("should execute a command", itsWebUrlForAnyCommand.isExecutingACommand());
     }
-     
+    
 	public void testDestinationWithParametersAndTargetClass()
 	{
 		String expectedDestination = itsServletPath;
