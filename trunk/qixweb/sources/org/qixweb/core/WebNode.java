@@ -96,7 +96,7 @@ public abstract class WebNode implements Browsable
                 WebForm form = (WebForm) each;
                 return form.actionUrl();
             }
-        }, QixwebUrl.class);
+        });
 
         list.addAll(allMatchingWebForms);
     }

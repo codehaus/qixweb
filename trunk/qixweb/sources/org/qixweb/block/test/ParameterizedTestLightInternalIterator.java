@@ -205,7 +205,7 @@ public abstract class ParameterizedTestLightInternalIterator extends TestCase
     {
         Object[] theElements = { new Integer(1), new Integer(2) };
 
-        List theCollectedElementsAsList = createIterator(theElements).collectAsList(functionForTest(), Object.class);
+        List theCollectedElementsAsList = createIterator(theElements).collectAsList(functionForTest());
         Object[] theCollectedElements = createIterator(theElements).collect(functionForTest(), Object.class);
 
         assertEquals("Should be collected as List", Arrays.asList(theCollectedElements), theCollectedElementsAsList);
