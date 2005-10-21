@@ -63,9 +63,9 @@ public abstract class LightInternalIterator
 		return collectWithoutException(aFunction, aClassType, false);
 	}
     
-    public List collectAsList(Function aFunction, Class aClassType)
+    public List collectAsList(Function aFunction)
     {
-        return CollectionUtil.toList(collectWithoutException(aFunction, aClassType, false));
+        return CollectionUtil.toList(collectWithoutException(aFunction, Object.class, false));
     }
 
 	public int count(Predicate aPredicate)
