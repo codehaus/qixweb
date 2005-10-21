@@ -3,217 +3,223 @@ package org.qixweb.block;
 import java.lang.reflect.Array;
 import java.util.*;
 
-import org.qixweb.util.CollectionUtil;
-
 public abstract class LightInternalIterator
 {
-	private boolean itsAlreadyBeenUsed;
-	
-	protected LightInternalIterator()
-	{
-		itsAlreadyBeenUsed = false;
-	}
+    private boolean itsAlreadyBeenUsed;
 
-	protected void checkAlreadyBeenUsed()
-	{
-		if (itsAlreadyBeenUsed)
-			throw new IllegalStateException("LightInternalIterator can be used just once");
-		itsAlreadyBeenUsed = true;
-	}
+    protected LightInternalIterator()
+    {
+        itsAlreadyBeenUsed = false;
+    }
 
-	public static LightInternalIterator createOn(Object[] aCollection)
-	{
-		return new LightInternalIteratorOnArray(aCollection);
-	}
-	
-	public static LightInternalIterator createOn(Object[] firstCollection, Object[] secondCollection)
-	{
-		int index = 0;
-		Object[][] product = new Object[firstCollection.length * secondCollection.length][2];
+    protected void checkAlreadyBeenUsed()
+    {
+        if (itsAlreadyBeenUsed)
+            throw new IllegalStateException("LightInternalIterator can be used just once");
+        itsAlreadyBeenUsed = true;
+    }
 
-		for (int i = 0; i < firstCollection.length; i++)
-			for (int j = 0; j < secondCollection.length; j++)
-				product[index++] = new Object[] { firstCollection[i], secondCollection[j] };
-		
-		return new LightInternalIteratorOnArray(product);
-	}
+    public static LightInternalIterator createOn(Object[] aCollection)
+    {
+        return new LightInternalIteratorOnArray(aCollection);
+    }
 
+    public static LightInternalIterator createOn(Object[] firstCollection, Object[] secondCollection)
+    {
+        int index = 0;
+        Object[][] product = new Object[firstCollection.length * secondCollection.length][2];
 
-	public static LightInternalIterator createOn(Enumeration anEnumeration)
-	{
-		return new LightInternalIteratorOnEnumeration(anEnumeration);
-	}
+        for (int i = 0; i < firstCollection.length; i++)
+            for (int j = 0; j < secondCollection.length; j++)
+                product[index++] = new Object[] { firstCollection[i], secondCollection[j] };
 
-	public static LightInternalIterator createOn(Iterator anIterator)
-	{
-		return new LightInternalIteratorOnIterator(anIterator);
-	}
+        return new LightInternalIteratorOnArray(product);
+    }
+
+    public static LightInternalIterator createOn(Enumeration anEnumeration)
+    {
+        return new LightInternalIteratorOnEnumeration(anEnumeration);
+    }
+
+    public static LightInternalIterator createOn(Iterator anIterator)
+    {
+        return new LightInternalIteratorOnIterator(anIterator);
+    }
 
     public static LightInternalIterator createOn(Collection aCollection)
     {
         return new LightInternalIteratorOnIterator(aCollection.iterator());
     }
-    
-	public abstract Object currentValue();
 
-	public abstract boolean hasNext();
+    public abstract Object currentValue();
 
-	public Object[] collect(Function aFunction, Class aClassType)
-	{
-		return collectWithoutException(aFunction, aClassType, false);
-	}
-    
-    public List collectAsList(Function aFunction)
+    public abstract boolean hasNext();
+
+    public Object[] collect(Function aFunction, Class aClassType)
     {
-        return CollectionUtil.toList(collectWithoutException(aFunction, Object.class, false));
+        return collectWithoutException(aFunction, aClassType, false);
     }
 
-	public int count(Predicate aPredicate)
-	{
-		checkAlreadyBeenUsed();
+    public List collectAsList(Function aFunction)
+    {
+        checkAlreadyBeenUsed();
 
-		int accumulated = 0;
-		while (hasNext())
-		{
-			if (aPredicate.is(currentValue()))
-				accumulated++;
-		}
-		return accumulated;
-	}
+        List theCollectedElements = new ArrayList();
+        while (hasNext())
+        {
+            Object theEvaluedObject = aFunction.eval(currentValue());
+            if (theEvaluedObject != null)
+                theCollectedElements.add(theEvaluedObject);
+        }
 
-	public Object detect(Predicate aPredicate)
-	{
-		checkAlreadyBeenUsed();
+        return theCollectedElements;
+    }
 
-		Object theDetectedObject = null;
+    public int count(Predicate aPredicate)
+    {
+        checkAlreadyBeenUsed();
 
-		while (hasNext())
-		{
-			Object theObject = currentValue();
-			if (aPredicate.is(theObject))
-			{
-				theDetectedObject = theObject;
-				break;
-			}
-		}
-		return theDetectedObject;
-	}
+        int accumulated = 0;
+        while (hasNext())
+        {
+            if (aPredicate.is(currentValue()))
+                accumulated++;
+        }
+        return accumulated;
+    }
 
-	public void forEach(Procedure aProcedure)
-	{
-		checkAlreadyBeenUsed();
+    public Object detect(Predicate aPredicate)
+    {
+        checkAlreadyBeenUsed();
 
-		while (hasNext())
-			aProcedure.run(currentValue());
-	}
+        Object theDetectedObject = null;
 
-	public Object[] select(Predicate aPredicate, Class aClassType)
-	{
-		checkAlreadyBeenUsed();
+        while (hasNext())
+        {
+            Object theObject = currentValue();
+            if (aPredicate.is(theObject))
+            {
+                theDetectedObject = theObject;
+                break;
+            }
+        }
+        return theDetectedObject;
+    }
 
-		Vector theSelectedElements = new Vector();
+    public void forEach(Procedure aProcedure)
+    {
+        checkAlreadyBeenUsed();
 
-		while (hasNext())
-		{
-			Object each = currentValue();
-			if (aPredicate.is(each))
-				theSelectedElements.add(each);
-		}
+        while (hasNext())
+            aProcedure.run(currentValue());
+    }
 
-		Object[] theSelectedElementsArray = (Object[]) Array.newInstance(aClassType, theSelectedElements.size());
-		theSelectedElements.copyInto(theSelectedElementsArray);
+    public Object[] select(Predicate aPredicate, Class aClassType)
+    {
+        checkAlreadyBeenUsed();
 
-		return theSelectedElementsArray;
-	}
+        Vector theSelectedElements = new Vector();
 
-	public Object sumUp(Object aRunningValue, BinaryFunction aFunction)
-	{
-		checkAlreadyBeenUsed();
+        while (hasNext())
+        {
+            Object each = currentValue();
+            if (aPredicate.is(each))
+                theSelectedElements.add(each);
+        }
 
-		Object theAccumulatedValue = aRunningValue;
-		while (hasNext())
-			theAccumulatedValue = aFunction.eval(theAccumulatedValue, currentValue());
+        Object[] theSelectedElementsArray = (Object[]) Array.newInstance(aClassType, theSelectedElements.size());
+        theSelectedElements.copyInto(theSelectedElementsArray);
 
-		return theAccumulatedValue;
-	}
+        return theSelectedElementsArray;
+    }
 
-	public int intSumUp(int aRunningValue, IntBinaryFunction aFunction)
-	{
-		checkAlreadyBeenUsed();
+    public Object sumUp(Object aRunningValue, BinaryFunction aFunction)
+    {
+        checkAlreadyBeenUsed();
 
-		int theAccumulatedValue = aRunningValue;
-		while (hasNext())
-			theAccumulatedValue = aFunction.eval(theAccumulatedValue, currentValue());
+        Object theAccumulatedValue = aRunningValue;
+        while (hasNext())
+            theAccumulatedValue = aFunction.eval(theAccumulatedValue, currentValue());
 
-		return theAccumulatedValue;
-	}
-	
-	public double doubleSumUp(double aRunningValue, DoubleBinaryFunction aFunction)
-	{
-		checkAlreadyBeenUsed();
+        return theAccumulatedValue;
+    }
 
-		double theAccumulatedValue = aRunningValue;
-		while (hasNext())
-			theAccumulatedValue = aFunction.eval(theAccumulatedValue, currentValue());
+    public int intSumUp(int aRunningValue, IntBinaryFunction aFunction)
+    {
+        checkAlreadyBeenUsed();
 
-		return theAccumulatedValue;
-	}
+        int theAccumulatedValue = aRunningValue;
+        while (hasNext())
+            theAccumulatedValue = aFunction.eval(theAccumulatedValue, currentValue());
 
-	public Object[] collectWithoutDuplications(Function aFunction, Class aClassType)
-	{
-		return collectWithoutException(aFunction, aClassType, true);
-	}
-	
-	public Object[] collectWithoutDuplicationsWithException(FunctionWithException aFunction, Class aClassType) throws Exception
-	{
-		return collectWithException(aFunction, aClassType, true);
-	}	
-	
-	
-	private Object[] collectWithoutException(final Function aFunction, Class aClassType, final boolean withoutDuplications)
-	{
-		FunctionWithException functionWithException = new FunctionWithException()
-		{
-			public Object eval(Object each) throws Exception
-			{
-				return aFunction.eval(each);
-			}
-		};
+        return theAccumulatedValue;
+    }
 
-		try
-		{
-			return collectWithException(functionWithException, aClassType, withoutDuplications);
-		}
-		catch (Exception mustBeRunTimeException)
-		{
-			throw (RuntimeException) mustBeRunTimeException;			
-		}
-	}
-	
-	private Object[] collectWithException(FunctionWithException aFunction, Class aClassType, boolean withoutDuplications) throws Exception
-	{
-		checkAlreadyBeenUsed();
+    public double doubleSumUp(double aRunningValue, DoubleBinaryFunction aFunction)
+    {
+        checkAlreadyBeenUsed();
 
-		Vector theCollectedElements = new Vector();
+        double theAccumulatedValue = aRunningValue;
+        while (hasNext())
+            theAccumulatedValue = aFunction.eval(theAccumulatedValue, currentValue());
 
-		while (hasNext())
-		{
-			Object theEvaluedObject = aFunction.eval(currentValue());
-			if (theEvaluedObject != null)
-				if (withoutDuplications && theCollectedElements.contains(theEvaluedObject))
-					continue;
-				else
-					theCollectedElements.add(theEvaluedObject);
-		}
+        return theAccumulatedValue;
+    }
 
-		Object[] theCollectedElementsArray = (Object[]) Array.newInstance(aClassType, theCollectedElements.size());
-		theCollectedElements.copyInto(theCollectedElementsArray);
+    public Object[] collectWithoutDuplications(Function aFunction, Class aClassType)
+    {
+        return collectWithoutException(aFunction, aClassType, true);
+    }
 
-		return theCollectedElementsArray;
-	}	
+    public Object[] collectWithoutDuplicationsWithException(FunctionWithException aFunction, Class aClassType) throws Exception
+    {
+        return collectWithException(aFunction, aClassType, true);
+    }
 
-	public Object[] collectWithException(FunctionWithException aFunction, Class aClassType) throws Exception
-	{
-		return collectWithException(aFunction, aClassType, false);
-	}
+    private Object[] collectWithoutException(final Function aFunction, Class aClassType, final boolean withoutDuplications)
+    {
+        FunctionWithException functionWithException = new FunctionWithException()
+        {
+            public Object eval(Object each) throws Exception
+            {
+                return aFunction.eval(each);
+            }
+        };
+
+        try
+        {
+            return collectWithException(functionWithException, aClassType, withoutDuplications);
+        }
+        catch (Exception mustBeRunTimeException)
+        {
+            throw (RuntimeException) mustBeRunTimeException;
+        }
+    }
+
+    private Object[] collectWithException(FunctionWithException aFunction, Class aClassType, boolean withoutDuplications) throws Exception
+    {
+        checkAlreadyBeenUsed();
+
+        Vector theCollectedElements = new Vector();
+
+        while (hasNext())
+        {
+            Object theEvaluedObject = aFunction.eval(currentValue());
+            if (theEvaluedObject != null)
+                if (withoutDuplications && theCollectedElements.contains(theEvaluedObject))
+                    continue;
+                else
+                    theCollectedElements.add(theEvaluedObject);
+        }
+
+        Object[] theCollectedElementsArray = (Object[]) Array.newInstance(aClassType, theCollectedElements.size());
+        theCollectedElements.copyInto(theCollectedElementsArray);
+
+        return theCollectedElementsArray;
+    }
+
+    public Object[] collectWithException(FunctionWithException aFunction, Class aClassType) throws Exception
+    {
+        return collectWithException(aFunction, aClassType, false);
+    }
 }
