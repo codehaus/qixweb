@@ -36,4 +36,19 @@ public class TestMultipleChoices extends TestAbstractChoices
         multipleChoices.sortByLabel();
         assertEquals("Choices should be sorted by label", sortedChoices, multipleChoices.choices());
     }
+    
+    public void testSelectedItem()
+    {
+        MultipleChoices multipleChoices = new MultipleChoices("name", true);
+        assertNull("Empty multiple choices has no selection", multipleChoices.selectedChoice());
+        Choice selectedChoice = new Choice("selval", "selitem", true);
+        multipleChoices.add(selectedChoice);
+        assertEquals("Selected choice should be returned", selectedChoice, multipleChoices.selectedChoice());
+        Choice otherChoice = new Choice("othval", "othitem", false);
+        multipleChoices.add(otherChoice);
+        assertEquals("Another non selected choice doesn't change return", selectedChoice, multipleChoices.selectedChoice());
+        Choice anotherSelectedChoice = new Choice("anoval", "anoitem", true);
+        multipleChoices.add(anotherSelectedChoice);
+        assertEquals("Even another selected choice doesn't change return", selectedChoice, multipleChoices.selectedChoice());
+    }
 }
