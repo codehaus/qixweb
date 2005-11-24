@@ -104,6 +104,12 @@ public class TestQixwebDate extends TestQixwebCalendar
 		assertEquals("2003-12-23", new QixwebDate(23,12,2003).key());		
 	}
     
+    public void testTodayIfNull()
+    {
+        assertEquals(QixwebDate.today(), QixwebDate.todayIfNull(QixwebCalendar.NULL));
+        assertEquals(new QixwebDate(12, 3, 2004), QixwebDate.todayIfNull(new QixwebDate(12, 3, 2004)));
+    }
+    
 	public void testBack()
 	{
 		QixwebDate date = new QixwebDate(1, 1, 2003);

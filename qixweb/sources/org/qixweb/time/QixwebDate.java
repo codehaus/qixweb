@@ -43,6 +43,14 @@ public class QixwebDate extends QixwebCalendar
 		return new QixwebDate(Calendar.getInstance());
 	}
 	
+    public static QixwebDate todayIfNull(QixwebCalendar date)
+    {
+        if (NULL.equals(date))
+            return today();
+        else
+            return new QixwebDate(date.toGregorianCalendar());
+    }
+    
 	public boolean beforeOrEquals(QixwebDate anotherDate)
 	{
 		if (anotherDate == null)
