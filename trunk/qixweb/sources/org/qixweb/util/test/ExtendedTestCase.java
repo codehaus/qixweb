@@ -166,4 +166,13 @@ public abstract class ExtendedTestCase extends TestCase
     {
         assertEqualsIgnoringOrder("", firstList, secondList); 
     }
+    
+    public void assertEquals(String message, Object[] someObjects, Object[] otherObjects)
+    {
+        if (someObjects.length != otherObjects.length)
+            fail(message + " - lenghts are different");
+
+        for (int i = 0; i < someObjects.length; i++)
+            assertEquals(message, someObjects[i], otherObjects[i]);
+    }
 }
