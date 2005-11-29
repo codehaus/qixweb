@@ -133,6 +133,20 @@ public abstract class LightInternalIterator
         return theSelectedElementsArray;
     }
 
+    public List selectAsList(Predicate aPredicate)
+    {
+        checkAlreadyBeenUsed();
+        List theSelectedElements = new ArrayList();
+
+        while (hasNext())
+        {
+            Object each = currentValue();
+            if (aPredicate.is(each))
+                theSelectedElements.add(each);
+        }
+        return theSelectedElements;
+    }
+    
     public Object sumUp(Object aRunningValue, BinaryFunction aFunction)
     {
         checkAlreadyBeenUsed();

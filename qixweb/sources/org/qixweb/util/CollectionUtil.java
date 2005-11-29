@@ -40,10 +40,10 @@ public class CollectionUtil
         return asSet;
     }
 
-    public static List listWith(Object anElement)
+    public static List listWith(Object aFirstObject)
     {
         List list = new ArrayList();
-        list.add(anElement);
+        list.add(aFirstObject);
         return list;
     }    
 

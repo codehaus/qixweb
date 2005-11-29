@@ -1,14 +1,13 @@
 package org.qixweb.block.test;
 
-import java.util.Arrays;
-import java.util.List;
-
-import junit.framework.TestCase;
+import java.util.*;
 
 import org.qixweb.block.*;
 import org.qixweb.util.ArrayAsserter;
+import org.qixweb.util.CollectionUtil;
+import org.qixweb.util.test.ExtendedTestCase;
 
-public abstract class ParameterizedTestLightInternalIterator extends TestCase
+public abstract class TestLightInternalIterator extends ExtendedTestCase
 {
 
     private void assertCollectOn(LightInternalIterator anIterator, String aMethodName)
@@ -558,32 +557,41 @@ public abstract class ParameterizedTestLightInternalIterator extends TestCase
         assertSame(theElements[3], theSelectedElements[1]);
     }
 
-    public void testSelectNoElements()
+    public void testSelect()
     {
-        Object[] theEmptyArray = new Object[0];
-        LightInternalIterator theIterator = createIterator(theEmptyArray);
-        Object[] theSelectedElements = theIterator.select(new Predicate()
-        {
-            public boolean is(Object anObject)
+        Object[] theElements = { "one", "two" };
+        Object[] returnedObjects = createIterator(theElements).select(new AlwaysTruePredicate(), Object.class);
+        assertEquals("Should mantains all the elements", theElements, returnedObjects);
+        
+        returnedObjects = createIterator(theElements).select(new AlwaysFalsePredicate(), Object.class);
+        assertEquals("Should remove all the elements", new Object[0], returnedObjects);
+
+        returnedObjects = createIterator(theElements).select(new Predicate(){
+            public boolean is(Object aEach)
             {
-                fail("Empty collection: the is method shouldn't be executed");
-                return false;
+                return aEach.equals("two");
             }
         }, Object.class);
-
-        assertEquals(0, theSelectedElements.length);
+        assertEquals("Should keep only 'two'", new Object[] {"two"}, returnedObjects);
     }
-
-    public void testSelectOneElement()
+    
+    public void testSelectAsList()
     {
-        Object[] theElements = { new Object() };
+        Object[] theElements = { "one", "two" };
+        List returnedObjects = createIterator(theElements).selectAsList(new AlwaysTruePredicate());
+        assertEquals("Should mantains all the elements", CollectionUtil.toList(theElements), returnedObjects);
+        
+        returnedObjects = createIterator(theElements).selectAsList(new AlwaysFalsePredicate());
+        assertEquals("Should remove all the elements", new ArrayList(), returnedObjects);
 
-        LightInternalIterator theIterator = createIterator(theElements);
-        Object[] theSelectedElements = theIterator.select(new AlwaysTruePredicate(), Object.class);
-
-        assertEquals(1, theSelectedElements.length);
-        assertSame(theElements[0], theSelectedElements[0]);
-    }
+        returnedObjects = createIterator(theElements).selectAsList(new Predicate() {
+            public boolean is(Object aEach)
+            {
+                return aEach.equals("two");
+            }
+        });
+        assertEquals("Should keep only 'two'", CollectionUtil.listWith("two"), returnedObjects);
+    }    
 
     public void testSumUpOnManyElements()
     {
