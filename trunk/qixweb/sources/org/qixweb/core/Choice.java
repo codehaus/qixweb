@@ -23,7 +23,7 @@ public class Choice implements Comparable
 		return new Boolean(isSelected);
 	}
 
-	public Object item()
+	public Comparable item()
 	{
 		return itsItem;
 	}
@@ -55,5 +55,15 @@ public class Choice implements Comparable
         }
         return -1;
     }
-	
+
+    public void select()
+    {
+        isSelected = true;
+    }
+
+    public void deselect()
+    {
+        isSelected = false;
+    }
+
 }

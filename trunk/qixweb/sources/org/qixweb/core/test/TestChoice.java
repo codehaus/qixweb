@@ -29,4 +29,13 @@ public class TestChoice extends ExtendedTestCase
         assertEquals(-differentChoice.compareTo(choice), choice.compareTo(differentChoice));
         assertTrue(choice.compareTo(new Object()) != 0);
     }
+    
+    public void testSelection()
+    {
+        assertTrue(choice.isSelected().booleanValue());
+        choice.deselect();
+        assertFalse(choice.isSelected().booleanValue());
+        choice.select();
+        assertTrue(choice.isSelected().booleanValue());
+    }
 }
