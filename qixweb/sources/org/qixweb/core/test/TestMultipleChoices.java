@@ -51,4 +51,20 @@ public class TestMultipleChoices extends TestAbstractChoices
         multipleChoices.add(anotherSelectedChoice);
         assertEquals("Even another selected choice doesn't change return", selectedChoice, multipleChoices.selectedChoice());
     }
+    
+    public void testSelectExclusively()
+    {
+        MultipleChoices multipleChoices = new MultipleChoices("name", true);
+        Choice choice1 = new Choice("val1", "it1", false);
+        multipleChoices.add(choice1);
+        Choice choice2 = new Choice("val2", "it2", false);
+        multipleChoices.add(choice2);
+        multipleChoices.selectExclusivelyBy("it1");
+        assertTrue("choice1 should be selected", choice1.isSelected().booleanValue());
+        assertFalse("choice2 should NOT be selected", choice2.isSelected().booleanValue());
+
+        multipleChoices.selectExclusivelyBy("it2");
+        assertFalse("choice1 should NOT be selected", choice1.isSelected().booleanValue());
+        assertTrue("choice2 should be selected", choice2.isSelected().booleanValue());
+    }
 }

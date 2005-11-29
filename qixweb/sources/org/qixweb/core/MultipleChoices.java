@@ -2,8 +2,7 @@ package org.qixweb.core;
 
 import java.util.Collections;
 
-import org.qixweb.block.LightInternalIterator;
-import org.qixweb.block.Predicate;
+import org.qixweb.block.*;
 
 
 public class MultipleChoices extends AbstractChoice
@@ -39,5 +38,20 @@ public class MultipleChoices extends AbstractChoice
             return (selectedChoices)[0];
         else
             return null;
+    }
+
+    public void selectExclusivelyBy(final Comparable anItem)
+    {
+        LightInternalIterator.createOn(choices()).forEach(new Procedure()
+        {
+            public void run(Object each)
+            {
+                Choice choice = (Choice)each;
+                if (choice.item().compareTo(anItem) == 0)
+                    choice.select();
+                else
+                    choice.deselect();
+            }
+        });
     }
 }
