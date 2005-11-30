@@ -49,6 +49,13 @@ public class TestWebUrl extends ExtendedTestCase
 		assertEquals("val2", itsUrl.getParameter("key2"));
 		assertEquals("val3", itsUrl.getParameter("key3"));
 	}
+    
+    public void testCreateDisabledUrlInCaseOfNull() throws Exception
+    {
+        WebUrl url = new WebUrl(null);
+        assertFalse(url.isEnabled());
+        assertEquals("", url.destination());
+    }
 
 	public void testDestinationWithParameters()
 	{
