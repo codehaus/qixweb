@@ -53,10 +53,19 @@ public class WebUrl implements Comparable
     
     public WebUrl(String anUrl, String aLabel)
     {
-        setUrlBeforeParameters(anUrl);
-        itsParameters = new UrlParametersExtractor(anUrl).run();
-        itsLabel = StringUtils.isEmpty(aLabel) ? anUrl : aLabel;
-        isEnabled = true;
+        if (anUrl == null)
+        {
+            itsUrlBeforeParameters = "";
+            itsParameters = new HashMap();
+            isEnabled = false;
+        }
+        else 
+        {
+            setUrlBeforeParameters(anUrl);
+            itsParameters = new UrlParametersExtractor(anUrl).run();
+            itsLabel = StringUtils.isEmpty(aLabel) ? anUrl : aLabel;
+            isEnabled = true;
+        }
     }
 
     public String getParameter(String key)
