@@ -4,14 +4,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Enumeration;
-import java.util.Set;
+import java.util.*;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.qixweb.core.QixwebEnvironment;
-import org.qixweb.core.QixwebServlet;
+import org.qixweb.core.*;
 import org.qixweb.util.test.ExtendedTestCase;
 
 public class TestQixwebServlet extends ExtendedTestCase
@@ -22,6 +21,8 @@ public class TestQixwebServlet extends ExtendedTestCase
 
     public class ConcreteQixwebServlet extends QixwebServlet
     {
+        UserData userDataForTest = null;
+        
         public ConcreteQixwebServlet() throws ServletException
         {
             init(new ServletConfig()
@@ -180,12 +181,12 @@ public class TestQixwebServlet extends ExtendedTestCase
 
     public void testService()
     {
-        prepareRequestAndResponse();
+        prepareRequestWithAnyNode();
         itsServlet.service(itsFakeRequest, itsFakeResponse);
         assert_matchesRegex(itsFakeResponse.outputAsString(), "<A href=\"home/\\d+\\?command=AnyCommand\">Click here to execute Any Command</A>");
     }
 
-    private void prepareRequestAndResponse()
+    private void prepareRequestWithAnyNode()
     {
         String servletPath = new FakeEnvironment().servletPath();
         itsFakeRequest.simulateParameter("node", "AnyNode");
@@ -212,7 +213,7 @@ public class TestQixwebServlet extends ExtendedTestCase
     public void testExceptionWithCustomHandleException() throws ServletException
     {
         grabSystemOutResettingLogger();
-        
+
         itsServlet = new ConcreteQixwebServlet()
         {
             protected QixwebEnvironment instantiateEnvironment()
@@ -226,7 +227,9 @@ public class TestQixwebServlet extends ExtendedTestCase
                 {
                     aResponse.getWriter().print("Custom Error page");
                 }
-                catch (IOException e){}
+                catch (IOException e)
+                {
+                }
             }
         };
 
@@ -234,7 +237,7 @@ public class TestQixwebServlet extends ExtendedTestCase
 
         assertEquals("Custom Error page", itsFakeResponse.outputAsString());
     }
-    
+
     public void testExceptionReportingException() throws ServletException
     {
         grabSystemOutResettingLogger();
@@ -253,7 +256,7 @@ public class TestQixwebServlet extends ExtendedTestCase
             }
         };
         itsServlet.service(itsFakeRequest, itsFakeResponse);
-        
+
         assert_contains(grabbedOut(), "NullPointerException");
     }
 
@@ -284,5 +287,23 @@ public class TestQixwebServlet extends ExtendedTestCase
         assertTrue("Before the request resources should be free", environment.areResourcesFree());
         itsServlet.service(itsFakeRequest, itsFakeResponse);
         assertTrue("At the end of the request resources should be free again", environment.areResourcesFree());
+    }
+
+    public void testAddDataFrom_To() throws Exception
+    {
+        prepareRequestWithAnyNode();
+        itsFakeRequest.simulateParameter("aCustomParameter", "aValue");
+                
+        itsServlet = new ConcreteQixwebServlet()
+        {           
+            protected void addDataFrom_To(HttpServletRequest aRequest, UserData aUserData)
+            {
+                aUserData.store("aKey", aRequest.getParameter("aCustomParameter"));
+                userDataForTest = aUserData;
+            }
+        };
+
+        itsServlet.service(itsFakeRequest, itsFakeResponse);
+        assertEquals("A value should be found in UserData", "aValue", itsServlet.userDataForTest.valueFor("aKey"));
     }
 }
