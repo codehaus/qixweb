@@ -33,7 +33,7 @@ public class TestQixwebDate extends TestQixwebCalendar
         assertEquals(2003, firstOfApril2003.year());    
     }
     
-    public void testCreateFromUrl() 
+    public void testCreateFromUrlWithPrefix() 
     {
         QixwebDate firstOfApril2003 = new QixwebDate("1", "4", "2003");
         QixwebUrl url = new QixwebUrl(Object.class);

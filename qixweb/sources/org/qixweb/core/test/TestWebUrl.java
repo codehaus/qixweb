@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.qixweb.core.WebUrl;
+import org.qixweb.time.QixwebCalendar;
+import org.qixweb.time.QixwebDate;
 import org.qixweb.util.ArrayAsserter;
 import org.qixweb.util.EqualsBehaviourVerifier;
 import org.qixweb.util.test.ExtendedTestCase;
@@ -215,5 +217,73 @@ public class TestWebUrl extends ExtendedTestCase
         assertEquals(0, new WebUrl("url", "aaa").compareTo(new WebUrl("different url", "aaa")));
         assertEquals(-1, new WebUrl("url", "aaa").compareTo(new WebUrl("different url", "bbb")));
         assertEquals(1, new WebUrl("url", "bbb").compareTo(new WebUrl("different url", "aaa")));
+    }
+    
+    public void testExtractingNullParametersAsIntCausesNumberFormatException()
+    {
+        try
+        {
+            new WebUrl("url").getParameterAsInt("k");
+            fail("NumberFormatException should be raised");
+        }
+        catch (NumberFormatException e)
+        {
+            return;
+        }
+    }
+    
+    public void testExtractingParameterAsInt()
+    {
+        itsUrl.setParameter("key", 27);
+        assertEquals(27, itsUrl.getParameterAsInt("key"));
+    }
+    
+    public void testExtractingNullParameterAsBooleanReturnsFalse()
+    {
+        assertFalse(new WebUrl("url").getParameterAsBoolean("k"));
+    }
+    
+    public void testExtractingParameterAsBoolean()
+    {
+        itsUrl.setParameter("key", true);
+        assertTrue(itsUrl.getParameterAsBoolean("key"));
+        itsUrl.setParameter("key", "zfockl;");
+        assertFalse(itsUrl.getParameterAsBoolean("key"));
+    }
+    public void testExtractingParameterAsDateWithPrefix()
+    {
+        itsUrl.setParameter("prefDay", 17);
+        itsUrl.setParameter("prefMonth", 11);
+        itsUrl.setParameter("prefYear", 1970);
+        assertEquals(new QixwebDate(17, 11, 1970), itsUrl.getParameterAsDateWithPrefix("pref"));
+    }
+    public void testExtractingNullParameterAsDateWithPrefixCausesNumberFormatException()
+    {
+        try
+        {
+            new WebUrl("url").getParameterAsDateWithPrefix("k");
+            fail("NumberFormatException should be raised");
+        }
+        catch (NumberFormatException e)
+        {
+            return;
+        }
+    }
+    public void testExtractingParameterAsCalendarDD_MM_YYYY()
+    {
+        itsUrl.setParameter("key", "17/11/1970");
+        assertEquals(new QixwebDate(17, 11, 1970), itsUrl.getParameterAsCalendarDD_MM_YYYY("key"));
+    }
+    public void testExtractingNullParameterAsCalendarDD_MM_YYYYCausesNullPointerException()
+    {
+        try
+        {
+            new WebUrl("url").getParameterAsCalendarDD_MM_YYYY("k");
+            fail("NullPointerException should be raised");
+        }
+        catch (NullPointerException e)
+        {
+            return;
+        }
     }
 }

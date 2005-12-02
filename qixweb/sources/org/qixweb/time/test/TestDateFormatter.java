@@ -89,7 +89,7 @@ public class TestDateFormatter extends TestCase
 		}
 	}
 		
-    public void testParseDD_MM_YYYYasCalendarDate()
+    public void testParseDD_MM_YYYYasCalendar()
     {
         QixwebDate expectedDate =  new QixwebDate(26, 7, 2003);
         assertEquals("Wrong parsing for a valid date", expectedDate, DateFormatter.parseDD_MM_YYYYasQixwebCalendar("26/07/2003"));
@@ -133,7 +133,7 @@ public class TestDateFormatter extends TestCase
 		assertEquals("Wrong format", "22/02/2002", DateFormatter.formatDD_MM_YYYY(theDate));
 	}
 
-    public void testFormatWithNullDate()
+    public void testFormatWithNullCalendar()
     {
         assertEquals("Wrong formatDD_MM_YYYY", "", DateFormatter.formatDD_MM_YYYY(QixwebCalendar.NULL));
         assertEquals("Wrong formatDD_MM_YYYY_HH_mm", "", DateFormatter.formatDD_MM_YYYY_HH_mm(QixwebCalendar.NULL));
