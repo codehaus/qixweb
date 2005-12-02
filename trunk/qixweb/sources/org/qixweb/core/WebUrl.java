@@ -6,6 +6,7 @@ import java.net.URLEncoder;
 import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
+import org.qixweb.time.*;
 import org.qixweb.util.UrlParametersExtractor;
 import org.qixweb.util.XpLogger;
 
@@ -79,7 +80,27 @@ public class WebUrl implements Comparable
 			return (String) value;
 	}
 
-	public String[] getParameterValuesOf(String key)
+    public int getParameterAsInt(String key)
+    {
+        return Integer.parseInt(getParameter(key));
+    }
+    
+    public boolean getParameterAsBoolean(String key)
+    {
+        return new Boolean(getParameter(key)).booleanValue();
+    }
+
+    public QixwebDate getParameterAsDateWithPrefix(String keyPrefix)
+    {
+        return QixwebDate.createFrom(this, keyPrefix);
+    }
+    
+    public QixwebCalendar getParameterAsCalendarDD_MM_YYYY(String key)
+    {
+        return DateFormatter.parseDD_MM_YYYYasQixwebCalendar(getParameter(key));
+    }
+    
+    public String[] getParameterValuesOf(String key)
 	{
 		if (itsParameters.get(key) != null)
         {

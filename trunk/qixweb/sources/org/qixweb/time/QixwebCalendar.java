@@ -21,7 +21,7 @@ public abstract class QixwebCalendar implements Serializable
 
         public String toString()
         {
-            return "NullDate";
+            return "NullCalendar";
         }
 
         public String key()
