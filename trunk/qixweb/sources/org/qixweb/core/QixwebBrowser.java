@@ -1,6 +1,7 @@
 package org.qixweb.core;
 
 
+
 public class QixwebBrowser
 {
 	private QixwebEnvironment itsEnvironment;
@@ -41,7 +42,7 @@ public class QixwebBrowser
         return true;
     }
 
-    private WebNode instantiate(QixwebUrl aUrl)
+    protected WebNode instantiate(QixwebUrl aUrl)
     {
         if (instantiateUrlWithEnvironment)
             return aUrl.materializeTargetNodeWith(itsUserData, itsEnvironment);
@@ -51,7 +52,27 @@ public class QixwebBrowser
     
     protected void goToNode(QixwebUrl aUrl) throws Exception
 	{
-		instantiate(aUrl).displayThrough(itsResponseHandler);
+        if (isUserLogged())
+        {
+            WebNode node = instantiate(aUrl);
+            if (node == null)
+                gotoWarningNode();
+            else if (node.canBeDisplayedBy(loggedUser()))
+            {
+                try
+                {
+                    node.displayThrough(responseHandler());
+                }
+                catch (Exception ex)
+                {
+                    gotoWarningNode();
+                }
+            }
+            else
+                goToLogin();
+        }
+        else
+            notLoggedUserDisplayNode(aUrl);
 	}
 
 	public void goTo(QixwebUrl aUrl) throws Exception
@@ -67,6 +88,7 @@ public class QixwebBrowser
 	protected void gotoWarningNode() throws Exception
     {
     }
+
     public UserData userData()
     {
         return itsUserData;
@@ -75,5 +97,29 @@ public class QixwebBrowser
     public ResponseHandler responseHandler()
     {
         return itsResponseHandler;
+    }
+    
+    protected boolean isUserLogged()
+    {
+        return loggedUser() != null;
+    }
+    
+    protected void goToLogin() throws Exception
+    {
+        QixwebUrl returnedUrl = new QixwebUrl(QixwebLoginNode.class);
+        WebNode node = instantiate(returnedUrl);
+        node.displayThrough(responseHandler());
+    }
+    
+    protected QixwebUser loggedUser()
+    {
+        return QixwebUser.createUserWith("", "", "", "", "", "", false, true);
+    }
+
+    protected void notLoggedUserDisplayNode(QixwebUrl aUrl) throws Exception
+    {
+        QixwebUrl returnedUrl = new QixwebUrl(QixwebLoginNode.class);
+        WebNode node = instantiate(returnedUrl);
+        node.displayThrough(responseHandler());
     }
 }

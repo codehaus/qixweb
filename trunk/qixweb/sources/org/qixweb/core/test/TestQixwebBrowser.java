@@ -23,7 +23,7 @@ public class TestQixwebBrowser extends ExtendedTestCase
         assertTrue("When using System, Environment should not be used", itsFakeEnvironment.hasSystemBeenInvoked());
     }
 
-    public void testGotoWarningNode() throws Exception
+    public void testGotoWarningNodeForUrlToNeitherNodeNorCommand() throws Exception
     {
         itsBrowser = new QixwebBrowser(itsFakeResponseHandler, new UserData(), new FakeEnvironment(), false) 
         {
@@ -38,6 +38,58 @@ public class TestQixwebBrowser extends ExtendedTestCase
         assertEquals(new WrongLinkNodeForTest(), itsFakeResponseHandler.displayedNode());
     }
 
+    public void testGotoWarningNodeForProblemsDuringDisplay() throws Exception
+    {
+        itsBrowser = new QixwebBrowser(itsFakeResponseHandler, new UserData(), new FakeEnvironment(), false) 
+        {
+            protected void gotoWarningNode() throws Exception
+            {
+                goTo(new QixwebUrl(WrongLinkNodeForTest.class));
+            } 
+        };
+        QixwebUrl wrongLink = new QixwebUrl(NotDisplayableNode.class);
+        itsBrowser.goTo(wrongLink);
+
+        assertEquals(new WrongLinkNodeForTest(), itsFakeResponseHandler.displayedNode());
+    }
+    
+    public void testGotoWarningNodeForUrlToNotInstanziableNode() throws Exception
+    {
+        itsBrowser = new QixwebBrowser(itsFakeResponseHandler, new UserData(), new FakeEnvironment(), false) 
+        {
+            protected void gotoWarningNode() throws Exception
+            {
+                goTo(new QixwebUrl(WrongLinkNodeForTest.class));
+            } 
+        };
+        QixwebUrl wrongLink = new QixwebUrl(NotInstanziableNode.class);
+        itsBrowser.goTo(wrongLink);
+
+        assertEquals(new WrongLinkNodeForTest(), itsFakeResponseHandler.displayedNode());
+    }
+    
+
+    public void testGoToDefaultNodeForNotLoggedUser() throws Exception
+    {
+        itsBrowser = new QixwebBrowser(itsFakeResponseHandler, new UserData(), new FakeEnvironment(), false) 
+        {
+            protected boolean isUserLogged()
+            {
+                return false;
+            }
+        };
+        itsBrowser.goTo(new QixwebUrl(AnyNode.class));
+
+        assertEquals("If user in not logged should go to default node", new QixwebLoginNode(), itsFakeResponseHandler.displayedNode());
+    }
+    
+    public void testGoToLoginNodeForNotAuthorizedUser() throws Exception
+    {
+        itsBrowser.goTo(new QixwebUrl(NotAuthorizedNode.class));
+
+        assertEquals("If user in not authorized should go to login node", new QixwebLoginNode(), itsFakeResponseHandler.displayedNode());
+    }
+    
     public void testDefaultGotoWarningNodeDoesNothing() throws Exception
     {
         QixwebUrl wrongLink = new QixwebUrl(Object.class);
