@@ -90,14 +90,14 @@ public class WebUrl implements Comparable
         return new Boolean(getParameter(key)).booleanValue();
     }
 
-    public QixwebDate getParameterAsDateWithPrefix(String keyPrefix)
+    public QixwebCalendar getParameterAsDateWithPrefix(String keyPrefix)
     {
         return QixwebDate.createFrom(this, keyPrefix);
     }
     
     public QixwebCalendar getParameterAsCalendarDD_MM_YYYY(String key)
     {
-        return DateFormatter.parseDD_MM_YYYYasQixwebCalendar(getParameter(key));
+        return DateFormatter.parseDD_MM_YYYYasQixwebDate(getParameter(key));
     }
     
     public String[] getParameterValuesOf(String key)

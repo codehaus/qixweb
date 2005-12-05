@@ -89,13 +89,13 @@ public class TestDateFormatter extends TestCase
 		}
 	}
 		
-    public void testParseDD_MM_YYYYasCalendar()
+    public void testParseDD_MM_YYYYasQixwebDate()
     {
         QixwebDate expectedDate =  new QixwebDate(26, 7, 2003);
-        assertEquals("Wrong parsing for a valid date", expectedDate, DateFormatter.parseDD_MM_YYYYasQixwebCalendar("26/07/2003"));
+        assertEquals("Wrong parsing for a valid date", expectedDate, DateFormatter.parseDD_MM_YYYYasQixwebDate("26/07/2003"));
 
-        assertEquals("Wrong parsing for invalid string", QixwebCalendar.NULL, DateFormatter.parseDD_MM_YYYYasQixwebCalendar("sfklgkjlg h9u897"));
-        assertEquals("Wrong parsing for empty string", QixwebCalendar.NULL, DateFormatter.parseDD_MM_YYYYasQixwebCalendar(""));
+        assertEquals("Wrong parsing for invalid string", QixwebCalendar.NULL, DateFormatter.parseDD_MM_YYYYasQixwebDate("sfklgkjlg h9u897"));
+        assertEquals("Wrong parsing for empty string", QixwebCalendar.NULL, DateFormatter.parseDD_MM_YYYYasQixwebDate(""));
     }
 
 	public TestDateFormatter(String name)

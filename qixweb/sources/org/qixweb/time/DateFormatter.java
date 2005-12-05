@@ -104,7 +104,7 @@ public class DateFormatter
 		return toCalendar(date);
 	}
 
-    public static QixwebCalendar parseDD_MM_YYYYasQixwebCalendar(String aDateAsString)
+    public static QixwebCalendar parseDD_MM_YYYYasQixwebDate(String aDateAsString)
     {
         try
         {
@@ -127,4 +127,18 @@ public class DateFormatter
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(aDate);
         return calendar;
-    }}
+    }
+
+    public static QixwebCalendar parseDD_MM_YYYY_HH_MM_SSasQixwebTime(String aDateAsString)
+    {
+        try
+        {
+            Date date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(aDateAsString);
+            return new QixwebTime(toCalendar(date));
+        }
+        catch (ParseException e)
+        {
+            return QixwebCalendar.NULL;
+        }
+    }
+}
