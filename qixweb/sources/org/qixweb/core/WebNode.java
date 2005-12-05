@@ -175,4 +175,9 @@ public abstract class WebNode implements Browsable
     {
         aResponseHandler.display(this);
     }
+    
+    protected boolean canBeDisplayedBy(QixwebUser aUser)
+    {
+        return true;
+    }
 }
