@@ -71,10 +71,10 @@ public class QixwebDate extends QixwebCalendar
 
     public String toString()
     {
-        return DateFormatter.formatDD_MM_YYYY_HH_mm(this);
+        return DateFormatter.formatDD_MM_YYYY(this);
     }
 
-    public static QixwebDate createFrom(WebUrl anUrl, String aPrefix)
+    public static QixwebCalendar createFrom(WebUrl anUrl, String aPrefix)
     {
         return new QixwebDate(
                 Integer.parseInt(anUrl.getParameter(aPrefix+DAY_PARAM)),

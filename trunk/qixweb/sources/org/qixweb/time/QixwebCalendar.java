@@ -132,4 +132,13 @@ public abstract class QixwebCalendar implements Serializable
     {
         return toGregorianCalendar().before(aDate.toGregorianCalendar());
     }
+    
+    public static QixwebCalendar parse(String s)
+    {
+        QixwebCalendar time = DateFormatter.parseDD_MM_YYYY_HH_MM_SSasQixwebTime(s);
+        if (NULL.equals(time))
+            return DateFormatter.parseDD_MM_YYYYasQixwebDate(s);
+        else
+            return time;
+    }
 }
