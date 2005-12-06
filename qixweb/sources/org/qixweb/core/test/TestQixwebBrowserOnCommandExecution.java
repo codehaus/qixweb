@@ -32,13 +32,22 @@ public class TestQixwebBrowserOnCommandExecution extends ExtendedTestCase
 
 
     
-    public void testForNotInstantiableCommand() throws Exception
+    public void testGoToWarningNodeForNotInstantiableCommand() throws Exception
     {
         itsBrowser = QixwebBrowser.usingEnvironment(itsFakeResponseHandler, new UserData(), new FakeEnvironment());
 
         itsBrowser.goTo(new QixwebUrl(NotInstantiableCommand.class));
-        assertNull("Wrong destination url after invalid command execution", itsFakeResponseHandler.redirectedDestination());
-        assertNull(itsFakeResponseHandler.displayedNode());
+        assertNull("Shouldn't redirect anywhere", itsFakeResponseHandler.redirectedDestination());
+        assertNull("Should call goToWarningNode (default don't display any node)", itsFakeResponseHandler.displayedNode());
+    }
+    
+    public void testGoToLoginNodeForNotExecutableCommand() throws Exception
+    {
+        itsBrowser = QixwebBrowser.usingEnvironment(itsFakeResponseHandler, new UserData(), new FakeEnvironment());
+
+        itsBrowser.goTo(new QixwebUrl(NotExecutableCommand.class));
+        assertNull("Shouldn't redirect anywhere", itsFakeResponseHandler.redirectedDestination());
+        assertEquals("Should go to login node", new QixwebLoginNode(), itsFakeResponseHandler.displayedNode());
     }    
     
     public void testExecuteWebRefreshableCommand() throws Exception
