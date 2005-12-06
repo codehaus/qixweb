@@ -4,7 +4,7 @@ import org.qixweb.core.*;
 import org.qixweb.util.DeepEquals;
 
 
-public class AnyRefreshableCommand implements WebCommand
+public class AnyRefreshableCommand extends WebCommand
 {
 	public static AnyRefreshableCommand create(QixwebUrl webUrl, UserData userData)
 	{

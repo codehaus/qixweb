@@ -2,7 +2,12 @@ package org.qixweb.core;
 
 import java.io.Serializable;
 
-public interface WebCommand extends Serializable
+public abstract class WebCommand implements Serializable
 {
-	Browsable execute(QixwebEnvironment environment) throws Exception;
+    public abstract Browsable execute(QixwebEnvironment environment) throws Exception;
+    
+    public boolean canBeExecutedBy(QixwebUser aUser)
+    {
+        return true;
+    }
 }

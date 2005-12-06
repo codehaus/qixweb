@@ -2,7 +2,7 @@ package org.qixweb.core.test;
 
 import org.qixweb.core.*;
 
-public class BadCreateCommand implements WebCommand
+public class BadCreateCommand extends WebCommand
 {
     public static final String FAKE_MESSAGE = "fake generated exception on create";
 

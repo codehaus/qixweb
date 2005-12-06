@@ -1,5 +1,7 @@
 package org.qixweb.core;
 
+import org.qixweb.util.XpLogger;
+
 
 
 public class QixwebBrowser
@@ -27,7 +29,7 @@ public class QixwebBrowser
         return new QixwebBrowser(aResponseHandler, aUserData, environment, true);
     }
     
-	protected void executeCommand(QixwebUrl anUrl) throws Exception
+	private void executeCommand(QixwebUrl anUrl) throws Exception
 	{
 		WebCommand command = anUrl.materializeTargetCommandWith(itsUserData);
 		if (validateExecutionOf(command))
@@ -37,9 +39,24 @@ public class QixwebBrowser
         }
 	}
 
-	protected boolean validateExecutionOf(WebCommand aCommand) throws Exception
+    private boolean validateExecutionOf(WebCommand command) throws Exception
     {
-        return true;
+        boolean canExecuteCommand = false;
+        if (command == null)
+            gotoWarningNode();
+        else
+        {
+            XpLogger.info("Executing command (User=" + formattedUserName() + "): " + command.toString());
+
+            if (command.canBeExecutedBy(loggedUser()))
+                canExecuteCommand = true;
+            else
+            {
+                XpLogger.info("User " + formattedUserName() + " cannot execute command: " + command.toString());
+                goToLogin();
+            }
+        }
+        return canExecuteCommand;
     }
 
     protected WebNode instantiate(QixwebUrl aUrl)
@@ -50,7 +67,7 @@ public class QixwebBrowser
             return aUrl.materializeTargetNodeWith(itsUserData, itsEnvironment.system());
     }
     
-    protected void goToNode(QixwebUrl aUrl) throws Exception
+    private void goToNode(QixwebUrl aUrl) throws Exception
 	{
         if (isUserLogged())
         {
@@ -118,8 +135,11 @@ public class QixwebBrowser
 
     protected void notLoggedUserDisplayNode(QixwebUrl aUrl) throws Exception
     {
-        QixwebUrl returnedUrl = new QixwebUrl(QixwebLoginNode.class);
-        WebNode node = instantiate(returnedUrl);
-        node.displayThrough(responseHandler());
+        goToLogin();
+    }
+
+    private String formattedUserName()
+    {
+        return loggedUser() == null ? "<none>" : loggedUser().name();
     }
 }
