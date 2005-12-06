@@ -51,6 +51,11 @@ public abstract class QixwebServlet extends HttpServlet
         addDataFrom_To(request, userSessionData);
         
         ServletResponseHandler responseHandler = new ServletResponseHandler(response, request.getServletPath(), sessionID.nextPageID(), templatePath);
+        return createBrowser(responseHandler, userSessionData, environment);
+    }
+
+    protected QixwebBrowser createBrowser(ServletResponseHandler responseHandler, UserData userSessionData, QixwebEnvironment environment)
+    {
         return QixwebBrowser.usingEnvironment(responseHandler, userSessionData, environment);
     }
 
