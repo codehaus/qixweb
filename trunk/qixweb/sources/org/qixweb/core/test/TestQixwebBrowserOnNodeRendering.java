@@ -4,7 +4,7 @@ import org.qixweb.core.*;
 import org.qixweb.util.test.ExtendedTestCase;
 
 
-public class TestQixwebBrowser extends ExtendedTestCase
+public class TestQixwebBrowserOnNodeRendering extends ExtendedTestCase
 {
     private QixwebBrowser itsBrowser;
     private FakeResponseHandler itsFakeResponseHandler;
@@ -53,7 +53,7 @@ public class TestQixwebBrowser extends ExtendedTestCase
         assertEquals(new WrongLinkNodeForTest(), itsFakeResponseHandler.displayedNode());
     }
     
-    public void testGotoWarningNodeForUrlToNotInstanziableNode() throws Exception
+    public void testGotoWarningNodeForUrlToNotInstantiableNode() throws Exception
     {
         itsBrowser = new QixwebBrowser(itsFakeResponseHandler, new UserData(), new FakeEnvironment(), false) 
         {
@@ -62,7 +62,7 @@ public class TestQixwebBrowser extends ExtendedTestCase
                 goTo(new QixwebUrl(WrongLinkNodeForTest.class));
             } 
         };
-        QixwebUrl wrongLink = new QixwebUrl(NotInstanziableNode.class);
+        QixwebUrl wrongLink = new QixwebUrl(NotInstantiableNode.class);
         itsBrowser.goTo(wrongLink);
 
         assertEquals(new WrongLinkNodeForTest(), itsFakeResponseHandler.displayedNode());
@@ -97,42 +97,6 @@ public class TestQixwebBrowser extends ExtendedTestCase
         assertNull(itsFakeResponseHandler.displayedNode());
     }
 
-    public void testExecuteCommand() throws Exception
-    {
-        QixwebUrl expectedDestination = new QixwebUrl(AnyNode.class);
-        expectedDestination.setParameter("state", "test");
-
-        QixwebUrl commandUrl = new QixwebUrl(AnyCommand.class);
-        itsBrowser.userData().store("state", "test");
-        itsBrowser.goTo(commandUrl);
-
-        assertEquals("Wrong destination url after command execution", expectedDestination, itsFakeResponseHandler.redirectedDestination());
-        assertSame(itsFakeResponseHandler.lastBrowsed(), itsFakeResponseHandler.redirectedDestination());
-    }
-
-    public void testValidateExecutionOfCommand() throws Exception
-    {
-        itsBrowser = new QixwebBrowser(itsFakeResponseHandler, new UserData(), new FakeEnvironment(), false)
-        {
-            protected boolean validateExecutionOf(WebCommand aCommand) throws Exception
-            {
-                return false;
-            }
-        };
-
-        itsBrowser.goTo(new QixwebUrl(AnyCommand.class));
-        assertNull("Wrong destination url after invalid command execution", itsFakeResponseHandler.redirectedDestination());
-    }
-    
-    public void testExecuteWebRefreshableCommand() throws Exception
-    {
-        QixwebUrl webRefreshableCommandUrl = new QixwebUrl(AnyRefreshableCommand.class);
-        itsBrowser.goTo(webRefreshableCommandUrl);
-
-        assertEquals("Wrong displayed node after command execution", new AnyNode(), itsFakeResponseHandler.displayedNode());
-        assertSame(itsFakeResponseHandler.lastBrowsed(), itsFakeResponseHandler.displayedNode());
-    }
-    
     public void testGoToNodeWithABrowserUsingEnvironment() throws Exception
     {
         FakeEnvironment fakeEnvironment = new FakeEnvironment();

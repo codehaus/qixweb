@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 import org.qixweb.core.*;
 
-public class FakeCommandVerifyingResouceLocking implements WebCommand
+public class FakeCommandVerifyingResouceLocking extends WebCommand
 {
     public Browsable execute(QixwebEnvironment anEnvironment)
     {

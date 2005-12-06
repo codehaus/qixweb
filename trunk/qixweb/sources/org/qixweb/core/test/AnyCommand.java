@@ -5,7 +5,7 @@ import org.qixweb.core.*;
 import org.qixweb.util.DeepEquals;
 
 
-public class AnyCommand implements WebCommand
+public class AnyCommand extends WebCommand
 {
     private String itsState;
 
