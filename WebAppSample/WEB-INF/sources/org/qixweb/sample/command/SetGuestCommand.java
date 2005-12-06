@@ -5,7 +5,7 @@ import org.qixweb.sample.node.HelloNode;
 
 
 
-public class SetGuestCommand implements WebCommand
+public class SetGuestCommand extends WebCommand
 {
 
     private String itsGuestName;
