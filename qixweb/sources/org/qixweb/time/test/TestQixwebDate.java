@@ -1,8 +1,10 @@
 package org.qixweb.time.test;
 
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
-import org.qixweb.core.QixwebUrl;
+import org.qixweb.core.WebAppUrl;
 import org.qixweb.time.QixwebCalendar;
 import org.qixweb.time.QixwebDate;
 import org.qixweb.util.EqualsBehaviourVerifier;
@@ -33,10 +35,10 @@ public class TestQixwebDate extends TestQixwebCalendar
         assertEquals(2003, firstOfApril2003.year());    
     }
     
-    public void testCreateFromUrlWithPrefix() 
+    public void testCreateFromUrl() 
     {
         QixwebDate firstOfApril2003 = new QixwebDate("1", "4", "2003");
-        QixwebUrl url = new QixwebUrl(Object.class);
+        WebAppUrl url = new WebAppUrl("");
         url.setParameter("prefix"+QixwebDate.DAY_PARAM, 1);
         url.setParameter("prefix"+QixwebDate.MONTH_PARAM, 4);
         url.setParameter("prefix"+QixwebDate.YEAR_PARAM, 2003);
@@ -103,12 +105,6 @@ public class TestQixwebDate extends TestQixwebCalendar
 		assertEquals("2003-11-09", new QixwebDate(9,11,2003).key());		
 		assertEquals("2003-12-23", new QixwebDate(23,12,2003).key());		
 	}
-    
-    public void testTodayIfNull()
-    {
-        assertEquals(QixwebDate.today(), QixwebDate.todayIfNull(QixwebCalendar.NULL));
-        assertEquals(new QixwebDate(12, 3, 2004), QixwebDate.todayIfNull(new QixwebDate(12, 3, 2004)));
-    }
     
 	public void testBack()
 	{

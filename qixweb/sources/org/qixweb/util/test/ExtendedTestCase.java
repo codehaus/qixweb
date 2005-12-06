@@ -2,20 +2,19 @@ package org.qixweb.util.test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.HashSet;
-import java.util.List;
 
-import junit.framework.TestCase;
-
-import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.WriterAppender;
 import org.qixweb.util.StringUtil;
 import org.qixweb.util.XpLogger;
+
+import junit.framework.TestCase;
 
 
 public abstract class ExtendedTestCase extends TestCase
 {
-	private PrintStream systemErr;
-    private PrintStream systemOut;
+	protected PrintStream systemErr;
+    protected PrintStream systemOut;
     private ByteArrayOutputStream itsGrabbedErr;
     private ByteArrayOutputStream itsGrabbedOut;
 
@@ -58,19 +57,9 @@ public abstract class ExtendedTestCase extends TestCase
 
 	public static void assert_contains(String aMessage, String aString, String aSubstring)
 	{
-		assertTrue(aMessage +": '" + aString + "' should contains '" + aSubstring + "'", StringUtils.contains(aString, aSubstring));
+		assertTrue(aMessage +": '" + aString + "' should contains '" + aSubstring + "'", StringUtil.string_contains(aString, aSubstring));
 	}
-    
-    public static void assertEqualsIgnoringCase(String aMessage, String expected, String actual)
-    {
-        assertTrue(aMessage +": '" + expected + "' should be equals (ignoring case) to '" + actual + "'", StringUtils.equalsIgnoreCase(expected, actual));
-    }
-    
-    public static void assertEqualsIgnoringCase(String expected, String actual)
-    {
-        assertEqualsIgnoringCase("", expected, actual);
-    }    
-    
+
 	public static void assert_matchesRegex(String aMessage, String aString, String aRegex)
 	{
 		assertTrue(aMessage +": '" + aString + "' should contains regex '" + aRegex +"'", StringUtil.string_containsRegex(aString, aRegex));
@@ -88,7 +77,7 @@ public abstract class ExtendedTestCase extends TestCase
 
 	public static void assert_notContains(String aMessage, String aString, String aSubstring)
 	{
-		assertFalse(aMessage, StringUtils.contains(aString, aSubstring));
+		assertFalse(aMessage, StringUtil.string_contains(aString, aSubstring));
 	}
 
 	public static void assert_notContains(String aString, String aSubstring)
@@ -149,30 +138,5 @@ public abstract class ExtendedTestCase extends TestCase
     {
         itsGrabbedOut = new ByteArrayOutputStream();
         System.setOut(new PrintStream(itsGrabbedOut));
-    }
-
-    public void assertEqualsOnlyIgnoringOrder(List firstList, List secondList)
-    {
-        assertNotEquals("Lists should not be equals considering order", firstList, secondList);
-        assertEqualsIgnoringOrder("Normalizing order the lists should be equal", firstList, secondList); 
-    }
-    
-    public void assertEqualsIgnoringOrder(String message, List firstList, List secondList)
-    {
-        assertEquals(message, new HashSet(firstList), new HashSet(secondList)); 
-    }
-
-    public void assertEqualsIgnoringOrder(List firstList, List secondList)
-    {
-        assertEqualsIgnoringOrder("", firstList, secondList); 
-    }
-    
-    public void assertEquals(String message, Object[] someObjects, Object[] otherObjects)
-    {
-        if (someObjects.length != otherObjects.length)
-            fail(message + " - lenghts are different");
-
-        for (int i = 0; i < someObjects.length; i++)
-            assertEquals(message, someObjects[i], otherObjects[i]);
     }
 }

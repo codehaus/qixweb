@@ -2,12 +2,12 @@ package org.qixweb.block;
 
 
 
-public class IsReturnValueOf_containedIn implements Predicate
+public class IsReturnValueContainedIn implements Predicate
 {
 	private String itsMethodToCall;
 	private Object[] itsExpectedReturnedValues;
 
-	public IsReturnValueOf_containedIn(String methodToCall, Object[] expectedReturnedValues)
+	public IsReturnValueContainedIn(String methodToCall, Object[] expectedReturnedValues)
 	{
 		itsExpectedReturnedValues = expectedReturnedValues;
 		itsMethodToCall = methodToCall;

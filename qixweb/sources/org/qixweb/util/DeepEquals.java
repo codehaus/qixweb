@@ -2,11 +2,6 @@ package org.qixweb.util;
 
 import java.lang.reflect.*;
 
-
-/**
- *  Warning! Don't use DeepEquals in inner classes, because it calls equals()
- *  on outer class that, in turn, calls equals() of inner class looping.
- */  
 public class DeepEquals
 {
     private static final Method ARE_VALUES_EQUAL_METHOD = compareMethodNamed("areValuesEqual");
@@ -25,9 +20,8 @@ public class DeepEquals
         }
     }
 
-    
     public static boolean equals(Object firstObject, Object secondObject) 
-    {        
+    {
         try
         {
             return compareConsideringNull(firstObject, secondObject, COMPARE_FIELDS_METHOD);

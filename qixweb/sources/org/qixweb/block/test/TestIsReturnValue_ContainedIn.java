@@ -1,13 +1,13 @@
 package org.qixweb.block.test;
 
-import junit.framework.TestCase;
-
-import org.qixweb.block.IsReturnValueOf_containedIn;
+import org.qixweb.block.IsReturnValueContainedIn;
 import org.qixweb.block.LightInternalIterator;
 
+import junit.framework.TestCase;
 
 
-public class TestIsReturnValueOf_containedIn extends TestCase
+
+public class TestIsReturnValue_ContainedIn extends TestCase
 {
 	public class User
 	{
@@ -26,21 +26,21 @@ public class TestIsReturnValueOf_containedIn extends TestCase
 		
 	public void testNoUserNoName()
 	{
-		int returnedValue = LightInternalIterator.createOn(new User[0]).count(new IsReturnValueOf_containedIn("name", new String[0]));
+		int returnedValue = LightInternalIterator.createOn(new User[0]).count(new IsReturnValueContainedIn("name", new String[0]));
 		assertEquals(0, returnedValue);
 	}
 	
 	public void testSomeUsersNoName()
 	{
 		User[] users = new User[] {new User("qui"), new User("quo"), new User("qua")};
-		int returnedValue = LightInternalIterator.createOn(users).count(new IsReturnValueOf_containedIn("name", new String[0]));
+		int returnedValue = LightInternalIterator.createOn(users).count(new IsReturnValueContainedIn("name", new String[0]));
 		assertEquals(0, returnedValue);
 	}	
 
 	public void testSomeUsersSomeNames()
 	{
 		User[] users = new User[] {new User("qui"), new User("quo"), new User("qua")};
-		int returnedValue = LightInternalIterator.createOn(users).count(new IsReturnValueOf_containedIn("name", new String[] {"qui", "quo", "paperino"}));
+		int returnedValue = LightInternalIterator.createOn(users).count(new IsReturnValueContainedIn("name", new String[] {"qui", "quo", "paperino"}));
 		assertEquals(2, returnedValue);
 	}	
 

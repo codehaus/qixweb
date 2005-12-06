@@ -2,12 +2,14 @@ package org.qixweb.time;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public abstract class QixwebCalendar implements Serializable
 {
 
-    public static final QixwebCalendar NULL = new QixwebCalendar(0, 1, 0, 0, 0, 0)
+    public static final QixwebCalendar NULL = new QixwebCalendar(0, 0, 0, 0, 0, 0)
     {
         protected QixwebCalendar newInstanceOfThis(Calendar aCalendar)
         {
@@ -21,7 +23,7 @@ public abstract class QixwebCalendar implements Serializable
 
         public String toString()
         {
-            return "NullCalendar";
+            return "NullDate";
         }
 
         public String key()
@@ -131,14 +133,5 @@ public abstract class QixwebCalendar implements Serializable
     public boolean before(QixwebCalendar aDate)
     {
         return toGregorianCalendar().before(aDate.toGregorianCalendar());
-    }
-    
-    public static QixwebCalendar parse(String s)
-    {
-        QixwebCalendar time = DateFormatter.parseDD_MM_YYYY_HH_MM_SSasQixwebTime(s);
-        if (NULL.equals(time))
-            return DateFormatter.parseDD_MM_YYYYasQixwebDate(s);
-        else
-            return time;
     }
 }

@@ -38,7 +38,7 @@ public class QixwebTime extends QixwebCalendar
     
     public String key()
     {
-        return DateFormatter.formatyyyy_MM_dd_HH_mm_ss(this);
+        throw new UnsupportedOperationException();
     }
     public String toString()
     {

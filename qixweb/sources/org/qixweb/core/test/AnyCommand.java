@@ -5,7 +5,7 @@ import org.qixweb.core.*;
 import org.qixweb.util.DeepEquals;
 
 
-public class AnyCommand extends WebCommand
+public class AnyCommand implements WebCommand
 {
     private String itsState;
 
@@ -14,15 +14,15 @@ public class AnyCommand extends WebCommand
         itsState = state;
     }
     
-	public static WebCommand create(QixwebUrl anUrl, UserData aUserData)
+	public static WebCommand create(WebAppUrl anUrl, UserData aUserData)
 	{
 		Object state = aUserData.valueFor("state");
         return new AnyCommand(StringUtils.defaultString((String) state));
 	}
 
-	public Browsable execute(QixwebEnvironment system)
+	public WebAppUrl execute(QixwebEnvironment system)
 	{
-		QixwebUrl webAppUrl = new QixwebUrl(AnyNode.class);
+		WebAppUrl webAppUrl = new WebAppUrl(AnyNode.class, FakeSystem.BASE_URL);
         webAppUrl.setParameter("state", itsState);
         return webAppUrl;
 	}
