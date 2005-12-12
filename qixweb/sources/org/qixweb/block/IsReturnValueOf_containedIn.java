@@ -5,11 +5,11 @@ package org.qixweb.block;
 public class IsReturnValueOf_containedIn implements Predicate
 {
 	private String itsMethodToCall;
-	private Object[] itsExpectedReturnedValues;
+	private Object[] itsValues;
 
-	public IsReturnValueOf_containedIn(String methodToCall, Object[] expectedReturnedValues)
+	public IsReturnValueOf_containedIn(String methodToCall, Object[] someValues)
 	{
-		itsExpectedReturnedValues = expectedReturnedValues;
+		itsValues = someValues;
 		itsMethodToCall = methodToCall;
 	}
 
@@ -18,9 +18,9 @@ public class IsReturnValueOf_containedIn implements Predicate
 		CallGetter callGetter = new CallGetter(itsMethodToCall);
 		Object valueToCompare = callGetter.eval(each);	
 
-		for (int i = 0; i < itsExpectedReturnedValues.length; i++)
+		for (int i = 0; i < itsValues.length; i++)
 		{
-			if (valueToCompare.equals(itsExpectedReturnedValues[i]))
+			if (valueToCompare.equals(itsValues[i]))
 				return true;
 		}
 		return false;

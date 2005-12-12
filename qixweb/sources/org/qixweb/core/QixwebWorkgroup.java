@@ -37,7 +37,7 @@ public class QixwebWorkgroup implements Serializable
 
     public boolean add(QixwebUser aNewUser)
     {
-        if (findUserBy(aNewUser.name()) != null)
+        if (!QixwebUser.NULL.equals(findUserBy(aNewUser.name())))
             return false;
         else
         {
@@ -48,7 +48,8 @@ public class QixwebWorkgroup implements Serializable
     
     public QixwebUser findUserBy(final String aUserName)
     {
-        return (QixwebUser) itsUsers.get(aUserName);
+        QixwebUser user = (QixwebUser) itsUsers.get(aUserName);
+        return user != null ? user : QixwebUser.NULL;
     }
 
     public List allUsers()

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.qixweb.core.WebUrl;
-import org.qixweb.time.QixwebCalendar;
 import org.qixweb.time.QixwebDate;
 import org.qixweb.util.ArrayAsserter;
 import org.qixweb.util.EqualsBehaviourVerifier;
