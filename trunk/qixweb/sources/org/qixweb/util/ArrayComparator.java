@@ -1,5 +1,6 @@
 package org.qixweb.util;
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
 
 import org.qixweb.block.EqualsPredicate;
 import org.qixweb.block.LightInternalIterator;

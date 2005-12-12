@@ -69,18 +69,25 @@ public class TestQixwebBrowserOnNodeRendering extends ExtendedTestCase
     }
     
 
-    public void testGoToDefaultNodeForNotLoggedUser() throws Exception
+    public void testGoToLoginNodeForNotLoggedUser() throws Exception
+    {
+        itsBrowser.goTo(new QixwebUrl(OnlyLoggedUserNode.class));
+
+        assertEquals("If user is not logged should go to default node", new QixwebLoginNode(), itsFakeResponseHandler.displayedNode());
+    }
+    
+    public void testGoToNodeForLoggedUser() throws Exception
     {
         itsBrowser = new QixwebBrowser(itsFakeResponseHandler, new UserData(), new FakeEnvironment(), false) 
         {
-            protected boolean isUserLogged()
+            protected QixwebUser loggedUser()
             {
-                return false;
+                return QixwebUser.createUserWith("name", "pwd", "", "", "", "", false, true);
             }
         };
-        itsBrowser.goTo(new QixwebUrl(AnyNode.class));
+        itsBrowser.goTo(new QixwebUrl(OnlyLoggedUserNode.class));
 
-        assertEquals("If user in not logged should go to default node", new QixwebLoginNode(), itsFakeResponseHandler.displayedNode());
+        assertEquals("If user is not logged should go to default node", new OnlyLoggedUserNode(), itsFakeResponseHandler.displayedNode());
     }
     
     public void testGoToLoginNodeForNotAuthorizedUser() throws Exception
