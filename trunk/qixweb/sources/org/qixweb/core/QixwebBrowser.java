@@ -35,7 +35,7 @@ public class QixwebBrowser
         XpLogger.info("Executing command (User=" + loggedUser().name() + "): " + command);
         if (command == null)
             gotoWarningNode();
-        else if (validateExecutionOf(command))
+        else if (command.canBeExecutedBy(loggedUser()))
         {
             Browsable browsable = command.execute(itsEnvironment);
             browsable.displayThrough(responseHandler());
@@ -46,11 +46,6 @@ public class QixwebBrowser
             goToLogin();
         }
 	}
-
-    protected boolean validateExecutionOf(WebCommand command) throws Exception
-    {
-        return command.canBeExecutedBy(loggedUser());
-    }
 
     protected WebNode instantiate(QixwebUrl aUrl)
     {
