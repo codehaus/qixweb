@@ -129,32 +129,7 @@ public class TestQixwebUrlCreation extends ExtendedTestCase
                 "http://localhost/MyWebApp/servlet/MyServlet?command=AnyRefreshableCommand", 
                 url.destination()
         );
-        QixwebUrl.initWith("", "org.quinary.core");
-        url = new QixwebUrl(AnyRefreshableCommand.class);
-        assertEquals
-        (
-                "the url should be composed using the servlet path", 
-                "?command=AnyRefreshableCommand", 
-                url.destination()
-        );
     }
     
-    public void testCostructorWithNodePackage()
-    {
-        QixwebUrl.initWith("", "org.qixweb.core.");
-        QixwebUrl urlToCommand = new QixwebUrl(AnyRefreshableCommand.class);
-        assertEquals
-        (
-                "the command class name is not influenced by node package definition", 
-                "?command=AnyRefreshableCommand", 
-                urlToCommand.destination()
-        );
-        QixwebUrl urlToNode = new QixwebUrl(AnyNode.class);
-        assertEquals
-        (
-                "the node class name depends from node package definition", 
-                "?node=test.AnyNode", 
-                urlToNode.destination()
-        );
-    }
+
 }

@@ -38,20 +38,33 @@ public class TestQixwebUrl extends ExtendedTestCase
 		assertEquals(expectedNode, node);
 	}
     
-    public void testDestinationForNodeWhenNodePackageIsSpecified()
+    public void testNodeDestinationWithPartOfPackageInParameter()
     {    
-        QixwebUrl.initWith(itsServletPath, "org.qixweb.core.test.");
-        QixwebUrl url = new QixwebUrl(AnyNode.class);
-        assert_contains(url.destination(), itsServletPath + "?" + QixwebUrl.PARAMETER_NODE_TO_DISPLAY+ "=AnyNode");
+        QixwebUrl.initWith(itsServletPath, "org.qixweb.core.test.", "org.qixweb.core.test.");
+        assert_contains(new QixwebUrl(AnyNode.class).destination(), itsServletPath + "?" + QixwebUrl.PARAMETER_NODE_TO_DISPLAY+ "=AnyNode");
         
-        QixwebUrl.initWith(itsServletPath, "org.qixweb.core.");
-        url = new QixwebUrl(AnyNode.class);
-        assert_contains(url.destination(), itsServletPath + "?" + QixwebUrl.PARAMETER_NODE_TO_DISPLAY+ "=test.AnyNode");
+        QixwebUrl.initWith(itsServletPath, "org.qixweb.core.", "org.qixweb.core.");
+        assert_contains(new QixwebUrl(AnyNode.class).destination(), itsServletPath + "?" + QixwebUrl.PARAMETER_NODE_TO_DISPLAY+ "=test.AnyNode");
        
-        QixwebUrl.initWith(itsServletPath, "org.qixweb.");
-        url = new QixwebUrl(AnyNode.class);
-        assert_contains(url.destination(), itsServletPath + "?" + QixwebUrl.PARAMETER_NODE_TO_DISPLAY+ "=core.test.AnyNode");
+        QixwebUrl.initWith(itsServletPath, "org.qixweb.", "org.qixweb.");
+        assert_contains(new QixwebUrl(AnyNode.class).destination(), itsServletPath + "?" + QixwebUrl.PARAMETER_NODE_TO_DISPLAY+ "=core.test.AnyNode");
+        
+        QixwebUrl.initServletPathAndDefaultNodePackage(itsServletPath);
     }
+    
+    public void testCommandDestinationWithPartOfPackageInParameter()
+    {    
+        QixwebUrl.initWith(itsServletPath, "org.qixweb.core.test.", "org.qixweb.core.test.");
+        assert_contains(new QixwebUrl(AnyCommand.class).destination(), itsServletPath + "?" + QixwebUrl.PARAMETER_COMMAND_TO_EXECUTE+ "=AnyCommand");
+        
+        QixwebUrl.initWith(itsServletPath, "org.qixweb.core.", "org.qixweb.core.");
+        assert_contains(new QixwebUrl(AnyCommand.class).destination(), itsServletPath + "?" + QixwebUrl.PARAMETER_COMMAND_TO_EXECUTE+ "=test.AnyCommand");
+       
+        QixwebUrl.initWith(itsServletPath, "org.qixweb.", "org.qixweb.");
+        assert_contains(new QixwebUrl(AnyCommand.class).destination(), itsServletPath + "?" + QixwebUrl.PARAMETER_COMMAND_TO_EXECUTE+ "=core.test.AnyCommand");
+        
+        QixwebUrl.initServletPathAndDefaultNodePackage(itsServletPath);
+    }    
     
     protected void tearDown() throws Exception
     {
@@ -132,7 +145,7 @@ public class TestQixwebUrl extends ExtendedTestCase
 		assertNull("No node name should be set", neitherCommandNorNodeUrl.getParameter(QixwebUrl.PARAMETER_NODE_TO_DISPLAY));
 	}
 	
-    public void testDefaultDestinationForNode()
+    public void testNodeDestination()
     {
         String expectedDestination = itsServletPath + "?" + QixwebUrl.PARAMETER_NODE_TO_DISPLAY+"=AnyNode";
         String returnedDestination = itsWebUrlForAnyNode.destination();
@@ -140,7 +153,7 @@ public class TestQixwebUrl extends ExtendedTestCase
         assertTrue("should go the a node", itsWebUrlForAnyNode.isGoingToANode());
     }
 
-    public void testDestinationForCommand()
+    public void testCommandDestination()
     {
         String expectedDestination = itsServletPath + "?" + QixwebUrl.PARAMETER_COMMAND_TO_EXECUTE+"=AnyCommand";
         String returnedDestination = itsWebUrlForAnyCommand.destination();
