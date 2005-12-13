@@ -41,16 +41,14 @@ public abstract class QixwebServlet extends HttpServlet
 
     protected abstract QixwebEnvironment instantiateEnvironment();
 
-    protected QixwebBrowser buildBrowser(HttpServletRequest request, HttpServletResponse response, QixwebEnvironment environment, String templatePath)
+    private QixwebBrowser buildBrowser(HttpServletRequest request, HttpServletResponse response, QixwebEnvironment environment, String templatePath)
     {
         String userSessionID = request.getSession(true).getId();
-
         SessionID sessionID = new SessionID(userSessionID, request.getPathInfo());
         UserData userSessionData = environment.sessionManager().userDataFor(sessionID);
+        ServletResponseHandler responseHandler = new ServletResponseHandler(response, request.getServletPath(), sessionID.nextPageID(), templatePath);
 
         addDataFrom_To(request, userSessionData);
-        
-        ServletResponseHandler responseHandler = new ServletResponseHandler(response, request.getServletPath(), sessionID.nextPageID(), templatePath);
         return createBrowser(responseHandler, userSessionData, environment);
     }
 
