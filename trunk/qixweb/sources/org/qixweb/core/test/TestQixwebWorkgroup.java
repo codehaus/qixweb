@@ -23,7 +23,7 @@ public class TestQixwebWorkgroup extends TestCase
     }
     public void testFindUserBy()
     {
-        assertEquals("A not present user cannot be found", QixwebUser.NULL, itsWorkgroup.findUserBy("User"));
+        assertEquals("A not present user cannot be found", QixwebUser.ANONYMOUS, itsWorkgroup.findUserBy("User"));
             
         QixwebUser user = TestQixwebUser.createReadWriteWith("User", "Pswd", false);
         itsWorkgroup.add(user);

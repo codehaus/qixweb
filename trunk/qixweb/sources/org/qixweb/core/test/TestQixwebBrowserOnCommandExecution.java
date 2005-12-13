@@ -59,6 +59,22 @@ public class TestQixwebBrowserOnCommandExecution extends ExtendedTestCase
         assertSame(itsFakeResponseHandler.lastBrowsed(), itsFakeResponseHandler.displayedNode());
     }
     
+    public void testAnonymousGoToLoginNodeIfAuthenticationIsRequired() throws Exception
+    {
+        itsBrowser.goTo(new QixwebUrl(OnlyLoggedUserCommand.class));
+        assertEquals(new QixwebLoginNode(), itsFakeResponseHandler.displayedNode());
+    }
 
-
+    public void testLoggedUserExecuteCommand() throws Exception
+    {
+        itsBrowser = new QixwebBrowser(itsFakeResponseHandler, new UserData(), itsFakeEnvironment, false) 
+        {
+            protected QixwebUser loggedUser()
+            {
+                return QixwebUser.createUserWith("name", "pwd", "", "", "", "", false, true);
+            }
+        };
+        itsBrowser.goTo(new QixwebUrl(OnlyLoggedUserCommand.class));
+        assertEquals(new AnyNode(), itsFakeResponseHandler.displayedNode());
+    }
 }

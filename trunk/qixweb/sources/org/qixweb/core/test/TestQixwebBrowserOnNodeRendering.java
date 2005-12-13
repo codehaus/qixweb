@@ -17,13 +17,13 @@ public class TestQixwebBrowserOnNodeRendering extends ExtendedTestCase
         itsBrowser = QixwebBrowser.usingSystem(itsFakeResponseHandler, new UserData(), itsFakeEnvironment);
     }
 
-    public void testGoToNodeWithABrowserUsingSystem() throws Exception
+    public void testAnonymousGoToNodeWithABrowserUsingSystem() throws Exception
     {
         verifyDisplayedNode();
         assertTrue("When using System, Environment should not be used", itsFakeEnvironment.hasSystemBeenInvoked());
     }
 
-    public void testGotoWarningNodeForUrlToNeitherNodeNorCommand() throws Exception
+    public void testGoToWarningNodeForUrlToNeitherNodeNorCommand() throws Exception
     {
         itsBrowser = new QixwebBrowser(itsFakeResponseHandler, new UserData(), new FakeEnvironment(), false) 
         {
@@ -69,7 +69,7 @@ public class TestQixwebBrowserOnNodeRendering extends ExtendedTestCase
     }
     
 
-    public void testGoToLoginNodeForNotLoggedUser() throws Exception
+    public void testAnonymousGoToLoginNodeIfAuthenticationIsRequired() throws Exception
     {
         itsBrowser.goTo(new QixwebUrl(OnlyLoggedUserNode.class));
 
@@ -104,7 +104,7 @@ public class TestQixwebBrowserOnNodeRendering extends ExtendedTestCase
         assertNull(itsFakeResponseHandler.displayedNode());
     }
 
-    public void testGoToNodeWithABrowserUsingEnvironment() throws Exception
+    public void testAnonymousGoToNodeWithABrowserUsingEnvironment() throws Exception
     {
         FakeEnvironment fakeEnvironment = new FakeEnvironment();
         itsBrowser = QixwebBrowser.usingEnvironment(itsFakeResponseHandler, new UserData(), fakeEnvironment);

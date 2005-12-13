@@ -16,7 +16,7 @@ public class OnlyLoggedUserNode extends WebNode
     
     protected boolean canBeDisplayedBy(QixwebUser aUser)
     {
-        return !QixwebUser.NULL.equals(aUser);
+        return !QixwebUser.ANONYMOUS.equals(aUser);
     }
 	
     public boolean equals(Object obj)
