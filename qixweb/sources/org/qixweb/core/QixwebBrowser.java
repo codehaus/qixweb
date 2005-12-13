@@ -29,7 +29,7 @@ public class QixwebBrowser
         return new QixwebBrowser(aResponseHandler, aUserData, environment, true);
     }
     
-	private void executeCommand(QixwebUrl anUrl) throws Exception
+	protected void executeCommand(QixwebUrl anUrl) throws Exception
 	{
 		WebCommand command = anUrl.materializeTargetCommandWith(itsUserData);
         XpLogger.info("Executing command (User=" + loggedUser().name() + "): " + command);
@@ -111,7 +111,7 @@ public class QixwebBrowser
     
     protected boolean isUserLogged()
     {
-        return !QixwebUser.NULL.equals(loggedUser());
+        return !QixwebUser.ANONYMOUS.equals(loggedUser());
     }
     
     protected void goToLogin() throws Exception
@@ -123,6 +123,6 @@ public class QixwebBrowser
     
     protected QixwebUser loggedUser()
     {
-        return QixwebUser.NULL;
+        return QixwebUser.ANONYMOUS;
     }
 }
