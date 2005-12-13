@@ -15,21 +15,24 @@ public class QixwebUrl extends WebUrl implements Browsable
 {
     private static String itsServletPath = "";
     private static String itsNodePackage = "";
+    private static String itsCommandPackage = "";
+    
     public static final QixwebUrl EMPTY_URL = new QixwebUrl(Object.class);
     public static final String PARAMETER_COMMAND_TO_EXECUTE = "command";
     public static final String PARAMETER_NODE_TO_DISPLAY = "node";
 
     private Class itsTargetClass;
 
-    public static void initWith(String servletPath, String nodePackage)
+    public static void initWith(String servletPath, String nodePackage, String commandPackage)
     {
         itsServletPath = servletPath;
         itsNodePackage = nodePackage;
+        itsCommandPackage = commandPackage;
     }
 
     public static void initServletPathAndDefaultNodePackage(String servletPath)
     {
-        initWith(servletPath, "");
+        initWith(servletPath, "", "");
     }
 
     public QixwebUrl(Class aTarget)
@@ -67,7 +70,12 @@ public class QixwebUrl extends WebUrl implements Browsable
         String className = fullName.substring(fullName.lastIndexOf(".") + 1);
 
         if (WebCommand.class.isAssignableFrom(aTargetClass))
+        {
+            if (!itsCommandPackage.equals(""))
+                className = StringUtils.substringAfterLast(fullName, itsCommandPackage);
             setParameter(QixwebUrl.PARAMETER_COMMAND_TO_EXECUTE, className);
+        }
+        
         else if (WebNode.class.isAssignableFrom(aTargetClass))
         {
             if (!itsNodePackage.equals(""))
