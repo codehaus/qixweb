@@ -6,6 +6,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +19,8 @@ import org.qixweb.util.test.ExtendedTestCase;
 public class TestQixwebServlet extends ExtendedTestCase
 {
     private ConcreteQixwebServlet itsServlet;
+    private FakeEnvironment itsFakeEnvironment; 
+    
     private FakeHttpServletRequest itsFakeRequest;
     private FakeHttpServletResponse itsFakeResponse;
 
@@ -168,13 +172,14 @@ public class TestQixwebServlet extends ExtendedTestCase
 
         protected QixwebEnvironment instantiateEnvironment()
         {
-            return new FakeEnvironment();
+            return itsFakeEnvironment;
         }
     }
 
     protected void setUp() throws Exception
     {
         super.setUp();
+        itsFakeEnvironment = new FakeEnvironment(); 
         itsServlet = new ConcreteQixwebServlet();
         itsFakeRequest = new FakeHttpServletRequest();
         itsFakeResponse = new FakeHttpServletResponse();
@@ -182,18 +187,55 @@ public class TestQixwebServlet extends ExtendedTestCase
 
     public void testService()
     {
-        prepareRequestWithAnyNode();
+        prepareRequestWith(itsFakeRequest, "sessionID", "123456");
         itsServlet.service(itsFakeRequest, itsFakeResponse);
         assert_matchesRegex(itsFakeResponse.outputAsString(), "<A href=\"home/\\d+\\?command=AnyCommand\">Click here to execute Any Command</A>");
     }
-
-    private void prepareRequestWithAnyNode()
+    
+    
+    public void testUserDataRetrieval()
     {
-        String servletPath = new FakeEnvironment().servletPath();
-        itsFakeRequest.simulateParameter("node", "AnyNode");
-        itsFakeRequest.simulateServletPath(servletPath);
-        itsFakeRequest.simulateSession(new FakeHttpSession());
+        String sessionID = "sessionID";
+        String pathInfo = "/123456789";
+        UserData userData = new UserData();
+        userData.store("MARKER_KEY", "MARKER_VALUE");
+
+        prepareRequestWith(itsFakeRequest, sessionID, pathInfo);
+
+        itsFakeEnvironment.sessionManager().storeUserData(new SessionID(sessionID, pathInfo), userData);
+        
+        itsServlet.service(itsFakeRequest, itsFakeResponse);
+        String html = itsFakeResponse.outputAsString();
+        
+        assert_matchesRegex(html, "<A href=\"home/\\d+\\?command=AnyCommand\">Click here to execute Any Command</A>");
+        assertEquals(userData, itsFakeEnvironment.sessionManager().userDataFor(new SessionID(sessionID, "/"+extractNextPageIDFrom(html))));
     }
+
+    private String extractNextPageIDFrom(String htmlPage)
+    {
+        Pattern pattern = Pattern.compile("<A href=\"home/(\\d+)");
+        Matcher matcher = pattern.matcher(htmlPage);
+        assertTrue(matcher.find());
+        String generatedPageID = matcher.group(1);
+        return generatedPageID;
+    }
+
+    private void prepareRequestWith(FakeHttpServletRequest fakeRequest, String sessionID, String pathInfo)
+    {
+        fakeRequest.simulateParameter("node", "AnyNode");
+        fakeRequest.simulateServletPath(itsFakeEnvironment.servletPath());
+        fakeRequest.simulatePathInfo(pathInfo);        
+        fakeRequest.simulateSession(createSessionFor(sessionID));
+    }
+
+    private FakeHttpSession createSessionFor(String sessionID)
+    {
+        FakeHttpSession session = new FakeHttpSession();
+        session.simulateSessionID(sessionID);
+        return session;
+    }    
+
+
 
     public void testException() throws ServletException
     {
@@ -292,7 +334,7 @@ public class TestQixwebServlet extends ExtendedTestCase
 
     public void testAddDataFrom_To() throws Exception
     {
-        prepareRequestWithAnyNode();
+        prepareRequestWith(itsFakeRequest, "sessionID", "123456");
         itsFakeRequest.simulateParameter("aCustomParameter", "aValue");
                 
         itsServlet = new ConcreteQixwebServlet()
