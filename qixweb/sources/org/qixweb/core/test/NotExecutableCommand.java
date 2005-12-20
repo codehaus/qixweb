@@ -15,7 +15,7 @@ public class NotExecutableCommand extends WebCommand
         return null;
     }
     
-    public boolean canBeExecutedBy(QixwebUser aUser)
+    public boolean canBeExecutedBy(QixwebUser aUser, QixwebEnvironment environment)
     {
         return false;
     }
