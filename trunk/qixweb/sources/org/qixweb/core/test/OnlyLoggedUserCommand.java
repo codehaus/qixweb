@@ -15,7 +15,7 @@ public class OnlyLoggedUserCommand extends WebCommand
         return new AnyNode();
     }
     
-    public boolean canBeExecutedBy(QixwebUser aUser)
+    public boolean canBeExecutedBy(QixwebUser aUser, QixwebEnvironment environment)
     {
         return !QixwebUser.ANONYMOUS.equals(aUser);
     }

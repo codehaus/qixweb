@@ -35,7 +35,7 @@ public class QixwebBrowser
         XpLogger.info("Executing command (User=" + loggedUser().name() + "): " + command);
         if (command == null)
             gotoWarningNode();
-        else if (command.canBeExecutedBy(loggedUser()))
+        else if (command.canBeExecutedBy(loggedUser(), itsEnvironment))
         {
             Browsable browsable = command.execute(itsEnvironment);
             browsable.displayThrough(responseHandler());
