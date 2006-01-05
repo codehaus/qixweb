@@ -131,6 +131,22 @@ public class TestWebUrl extends ExtendedTestCase
         itsUrl.setParameter("colors", new String[]{"red", "blue", "yellow"});
         verifyColorsParameterReturns(new String[]{"red", "blue", "yellow"});      
 	}
+    
+    public void testParameterConversion()
+    {
+        itsUrl.setParameter("one", new Integer(1));
+        assertEquals("1", itsUrl.getParameter("one"));
+        itsUrl.setParameter("two", 2);
+        assertEquals("2", itsUrl.getParameter("two"));
+
+        itsUrl.setParameter("three", new Double(3));
+        assertEquals("3.0", itsUrl.getParameter("three"));
+        itsUrl.setParameter("fourDotFive", 4.5);
+        assertEquals("4.5", itsUrl.getParameter("fourDotFive"));
+        
+        itsUrl.setParameter("bignumber", 13266823452345L);
+        assertEquals("13266823452345", itsUrl.getParameter("bignumber"));
+    }    
 
     private void verifyColorsParameterReturns(String[] colorArray)
     {

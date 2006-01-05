@@ -175,11 +175,26 @@ public class WebUrl implements Comparable
 	{
 		itsParameters.put(key, value);
 	}
+    
+    public void setParameter(String key, Object value)
+    {
+        itsParameters.put(key, value.toString());
+    }    
 
     public void setParameter(String key, int value)
     {
         itsParameters.put(key, Integer.toString(value));
     }
+    
+    public void setParameter(String key, long value)
+    {
+        itsParameters.put(key, Long.toString(value));
+    }
+    
+    public void setParameter(String key, double value)
+    {
+        itsParameters.put(key, Double.toString(value));
+    }        
 
     public void setParameter(String key, boolean value)
     {
