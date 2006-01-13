@@ -1,5 +1,7 @@
 package org.qixweb.util;
 
+import java.util.List;
+
 public class CompareFailureListenerWithMessage implements CompareFailureListener
 {
 	private String itsFailureMessage ="pippo";
@@ -21,9 +23,9 @@ public class CompareFailureListenerWithMessage implements CompareFailureListener
 		return itsFailureMessage;
 	}
 
-	public void notifyElementNotPresent(Object expected)
+	public void notifyElementsNotPresent(List expected)
 	{	
-		itsFailureMessage = "The element " + expected + " is not present as expected";
+		itsFailureMessage = "The elements " + expected + " are not present as expected";
 	}
 
 }
