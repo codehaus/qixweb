@@ -1,5 +1,7 @@
 package org.qixweb.util;
 
+import java.util.List;
+
 public class DoNothingCompareMatrixFailureListener extends CompareMatrixFailureListenerWithMessage
 {	
 	public void notifyDifferentElement(Object expected, Object actual, int elementIndex)
@@ -10,7 +12,7 @@ public class DoNothingCompareMatrixFailureListener extends CompareMatrixFailureL
 	{
 	}
 
-	public void notifyElementNotPresent(Object expected)
+	public void notifyElementsNotPresent(List expected)
 	{
 	}
 
