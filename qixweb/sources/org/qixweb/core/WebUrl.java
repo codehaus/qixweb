@@ -84,6 +84,18 @@ public class WebUrl implements Comparable
     {
         return Integer.parseInt(getParameter(key));
     }
+
+    public int getParameterAsIntWithDefault(String key, int defaultValue)
+    {
+        try
+        {
+            return Integer.parseInt(getParameter(key));
+        }
+        catch (Exception e)
+        {
+            return defaultValue;
+        }
+    }
     
     public boolean getParameterAsBoolean(String key)
     {
