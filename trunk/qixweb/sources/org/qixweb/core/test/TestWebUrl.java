@@ -257,6 +257,12 @@ public class TestWebUrl extends ExtendedTestCase
         itsUrl.setParameter("key", 27);
         assertEquals(27, itsUrl.getParameterAsInt("key"));
     }
+
+    public void testExtractingParameterAsIntWithDefault()
+    {
+        itsUrl.setParameter("key", "a non-numeric value");
+        assertEquals(42, itsUrl.getParameterAsIntWithDefault("key", 42));
+    }
     
     public void testExtractingNullParameterAsBooleanReturnsFalse()
     {
