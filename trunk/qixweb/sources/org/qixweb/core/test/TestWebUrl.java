@@ -1,5 +1,7 @@
 package org.qixweb.core.test;
 
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -87,11 +89,14 @@ public class TestWebUrl extends ExtendedTestCase
     
 	public void testEncodingParameters()
 	{
-		String expectedParameter = "parameter=value+with+spaces";
-	
 		itsUrl.setParameter("parameter", "value with spaces");
-	    
-		assert_contains("wrong destination composition", itsUrl.destination(), expectedParameter);	 	
+		assert_contains("wrong destination composition", itsUrl.destination(), "parameter=value+with+spaces");
+        assertEquals("parameter value shouldn't change", itsUrl.getParameter("parameter"), "value with spaces");
+
+        itsUrl.setParameter("parameter", "http://www.tiscali.it");
+        assert_contains("wrong destination composition", itsUrl.destination(), "parameter=http%3A%2F%2Fwww.tiscali.it");      
+        itsUrl.setParameter("parameter", "/bcxt/servlet/BcxtServlet/1137489980000?command=backoffice.StrutturaSearchCommand&localita=catania&pageindex=0");
+        assert_contains("wrong destination composition", itsUrl.destination(), "parameter=%2Fbcxt%2Fservlet%2FBcxtServlet%2F1137489980000%3Fcommand%3Dbackoffice.StrutturaSearchCommand%26localita%3Dcatania%26pageindex%3D0");
 	}
 		
 	public void testEncodingParameterWithMultipleValues()
