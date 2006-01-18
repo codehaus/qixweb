@@ -145,7 +145,7 @@ public class WebUrl implements Comparable
 		return aString.substring(aPrefix.length());
 	}
 
-	protected String parameters()
+	public String parameters()
 	{
 		if (itsParameters.size() > 0)
 		{

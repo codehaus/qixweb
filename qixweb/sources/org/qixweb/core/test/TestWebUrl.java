@@ -68,8 +68,9 @@ public class TestWebUrl extends ExtendedTestCase
         url.setParameter("parameter3", 42);
 	    
 	    assertEquals("www.myserv.com?parameter1=value1&parameter2=value2&parameter3=42", url.destination());
+        assertEquals("?parameter1=value1&parameter2=value2&parameter3=42", url.parameters());        
 	}
-
+    
 	public void testConstructAutomaticallyDecodeParameters()
 	{
 	    WebUrl webUrl = new WebUrl("www.myserv.com?parameter1=value1+with+spaces&parameter2=+value2+with+other+spaces");
