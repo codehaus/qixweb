@@ -89,7 +89,7 @@ public class WebUrl implements Comparable
     {
         try
         {
-            return Integer.parseInt(getParameter(key));
+            return getParameterAsInt(key);
         }
         catch (Exception e)
         {
@@ -296,4 +296,22 @@ public class WebUrl implements Comparable
         }
         return -1;
     }
+
+    public Integer getParameterAsInteger(String key)
+    {
+        return Integer.decode(getParameter(key));
+    }
+    
+    public Integer getParameterAsIntegerWithDefault(String key, Integer defaultValue)
+    {
+        try
+        {
+            return getParameterAsInteger(key);
+        }
+        catch (Exception ex)
+        {
+            return defaultValue;
+        }
+    }
+    
 }
