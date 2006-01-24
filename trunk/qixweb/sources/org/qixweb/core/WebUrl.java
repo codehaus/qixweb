@@ -316,19 +316,23 @@ public class WebUrl implements Comparable
 
     public Integer getParameterAsInteger(String key)
     {
-        return Integer.decode(getParameter(key));
+        String value = getParameter(key);
+        if (value != null)
+            return Integer.decode(value);
+        else
+            return null;
     }
 
     public Integer getParameterAsInteger(String key, Integer defaultValue)
     {
         try
         {
-            return getParameterAsInteger(key);
+            Integer foundValue = getParameterAsInteger(key);
+            if (foundValue != null)
+                return foundValue;
         }
-        catch (Exception ex)
-        {
-            return defaultValue;
-        }
+        catch (Exception ex) {}
+        return defaultValue;
     }
 
 }

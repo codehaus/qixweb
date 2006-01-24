@@ -292,10 +292,11 @@ public class TestWebUrl extends ExtendedTestCase
     {
         try
         {
-            itsUrl.getParameterAsInteger("not_existent_value");
+            itsUrl.getParameterAsInt("not_existent_value");
             fail("should throw an exception");
         }
         catch (Exception expectedException) {}
+        assertNull(itsUrl.getParameterAsInteger("not_existent_value"));
 
         itsUrl.setParameter("alphaKey", "ciao");
         try
@@ -308,6 +309,9 @@ public class TestWebUrl extends ExtendedTestCase
 
     public void testExtractingParameterAsIntegerWithDefault()
     {
+        assertEquals(42, itsUrl.getParameterAsInt("key", 42));
+        assertEquals(new Integer(42), itsUrl.getParameterAsInteger("key", new Integer(42)));
+
         itsUrl.setParameter("key", "a non-numeric value");
         assertEquals(42, itsUrl.getParameterAsInt("key", 42));
         assertEquals(new Integer(42), itsUrl.getParameterAsInteger("key", new Integer(42)));
