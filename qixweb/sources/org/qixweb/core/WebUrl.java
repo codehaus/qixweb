@@ -6,52 +6,52 @@ import java.net.URLEncoder;
 import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
+import org.qixweb.block.Function;
+import org.qixweb.block.LightInternalIterator;
 import org.qixweb.time.*;
 import org.qixweb.util.UrlParametersExtractor;
 import org.qixweb.util.XpLogger;
 
-
-
 public class WebUrl implements Comparable
 {
-	private static final String ENCONDING_ISO_8859_1 = "ISO-8859-1";
-	
+    private static final String ENCONDING_ISO_8859_1 = "ISO-8859-1";
+
     protected Map itsParameters;
-	private String itsUrlBeforeParameters;
+    private String itsUrlBeforeParameters;
     private boolean isEnabled;
     protected String itsLabel;
 
-	public static String encode(String parameterValue)
-	{
-		try
-		{
-			return URLEncoder.encode(parameterValue, ENCONDING_ISO_8859_1);
-		}
-		catch (UnsupportedEncodingException uee)
-		{
-			XpLogger.logException(ENCONDING_ISO_8859_1+" no longer supported?!?", uee);
-			return parameterValue;
-		}
-	}
+    public static String encode(String parameterValue)
+    {
+        try
+        {
+            return URLEncoder.encode(parameterValue, ENCONDING_ISO_8859_1);
+        }
+        catch (UnsupportedEncodingException uee)
+        {
+            XpLogger.logException(ENCONDING_ISO_8859_1 + " no longer supported?!?", uee);
+            return parameterValue;
+        }
+    }
 
-	public static String decode(String parameterValue)
-	{
-		try
-		{
-			return URLDecoder.decode(parameterValue, ENCONDING_ISO_8859_1);
-		}
-		catch (UnsupportedEncodingException uee)
-		{
-			XpLogger.logException(ENCONDING_ISO_8859_1+" no longer supported?!?", uee);
-			return parameterValue;
-		}
-	}
+    public static String decode(String parameterValue)
+    {
+        try
+        {
+            return URLDecoder.decode(parameterValue, ENCONDING_ISO_8859_1);
+        }
+        catch (UnsupportedEncodingException uee)
+        {
+            XpLogger.logException(ENCONDING_ISO_8859_1 + " no longer supported?!?", uee);
+            return parameterValue;
+        }
+    }
 
-	public WebUrl(String anUrl)
-	{
+    public WebUrl(String anUrl)
+    {
         this(anUrl, anUrl);
-	}
-    
+    }
+
     public WebUrl(String anUrl, String aLabel)
     {
         if (anUrl == null)
@@ -60,7 +60,7 @@ public class WebUrl implements Comparable
             itsParameters = new HashMap();
             isEnabled = false;
         }
-        else 
+        else
         {
             setUrlBeforeParameters(anUrl);
             itsParameters = new UrlParametersExtractor(anUrl).run();
@@ -70,22 +70,22 @@ public class WebUrl implements Comparable
     }
 
     public String getParameter(String key)
-	{
-		Object value = itsParameters.get(key);
-		if (value == null)
-			return null;
-		else if (value.getClass().isArray())
-			return ((String[]) value)[0];
-		else
-			return (String) value;
-	}
+    {
+        Object value = itsParameters.get(key);
+        if (value == null)
+            return null;
+        else if (value.getClass().isArray())
+            return ((String[]) value)[0];
+        else
+            return (String) value;
+    }
 
     public int getParameterAsInt(String key)
     {
         return Integer.parseInt(getParameter(key));
     }
 
-    public int getParameterAsIntWithDefault(String key, int defaultValue)
+    public int getParameterAsInt(String key, int defaultValue)
     {
         try
         {
@@ -96,7 +96,7 @@ public class WebUrl implements Comparable
             return defaultValue;
         }
     }
-    
+
     public boolean getParameterAsBoolean(String key)
     {
         return new Boolean(getParameter(key)).booleanValue();
@@ -106,107 +106,126 @@ public class WebUrl implements Comparable
     {
         return QixwebDate.createFrom(this, keyPrefix);
     }
-    
+
     public QixwebCalendar getParameterAsCalendarDD_MM_YYYY(String key)
     {
         return DateFormatter.parseDD_MM_YYYYasQixwebDate(getParameter(key));
     }
-    
-    public String[] getParameterValuesOf(String key)
-	{
-		if (itsParameters.get(key) != null)
+
+    public String[] getParameterValuesOf(String parameterKey)
+    {
+        if (itsParameters.get(parameterKey) != null)
         {
-            if (itsParameters.get(key).getClass().isArray())
-                return (String[]) itsParameters.get(key);
+            if (itsParameters.get(parameterKey).getClass().isArray())
+                return (String[]) itsParameters.get(parameterKey);
             else
-                return new String[] { (String) itsParameters.get(key) };
+                return new String[] { (String) itsParameters.get(parameterKey) };
         }
-		else
-			return new String[0];
-	}
+        else
+            return new String[0];
+    }
 
-	public Map parametersBeginningWith(String aPrefix)
-	{
-		HashMap parametersBeginningWithPrefix = new HashMap();
+    public Integer[] getParameterValuesAsIntegerOf(String key)
+    {
+        String[] values = getParameterValuesOf(key);
+        return (Integer[]) LightInternalIterator.createOn(values).collect(new Function()
+        {
+            public Object eval(Object eachValue)
+            {
+                try
+                {
+                    return Integer.decode((String)eachValue);
+                }
+                catch (NumberFormatException ex)
+                {
+                    return null;
+                }
+            }
+        }, Integer.class);
+    }
 
-		Iterator parametersIterator = itsParameters.keySet().iterator();
-		while (parametersIterator.hasNext())
-		{
-			String key = (String) parametersIterator.next();
-			if (key.startsWith(aPrefix))
-				parametersBeginningWithPrefix.put(removePrefixFrom(aPrefix, key), getParameter(key));
-		}
+    public Map parametersBeginningWith(String aPrefix)
+    {
+        HashMap parametersBeginningWithPrefix = new HashMap();
 
-		return parametersBeginningWithPrefix;
-	}
+        Iterator parametersIterator = itsParameters.keySet().iterator();
+        while (parametersIterator.hasNext())
+        {
+            String key = (String) parametersIterator.next();
+            if (key.startsWith(aPrefix))
+                parametersBeginningWithPrefix.put(removePrefixFrom(aPrefix, key), getParameter(key));
+        }
 
-	protected String removePrefixFrom(String aPrefix, String aString)
-	{
-		return aString.substring(aPrefix.length());
-	}
+        return parametersBeginningWithPrefix;
+    }
 
-	public String parameters()
-	{
-		if (itsParameters.size() > 0)
-		{
-			StringBuffer buf = new StringBuffer();
-			Object[] keys = itsParameters.keySet().toArray();
+    protected String removePrefixFrom(String aPrefix, String aString)
+    {
+        return aString.substring(aPrefix.length());
+    }
 
-			Arrays.sort(keys);
-			for (int i = 0; i < keys.length; i++)
-			{
-				String key = (String) keys[i];
-				if (itsParameters.get(key) instanceof String)
-					appendParameter(buf, key, getParameter(key));
-				else
-					appendParameter(buf, key, getParameterValuesOf(key));
-			}
-			buf.setCharAt(0, UrlParametersExtractor.QUESTION_MARK.charAt(0));
+    public String parameters()
+    {
+        if (itsParameters.size() > 0)
+        {
+            StringBuffer buf = new StringBuffer();
+            Object[] keys = itsParameters.keySet().toArray();
 
-			return buf.toString();
-		}
-		else
-			return "";
-	}
+            Arrays.sort(keys);
+            for (int i = 0; i < keys.length; i++)
+            {
+                String key = (String) keys[i];
+                if (itsParameters.get(key) instanceof String)
+                    appendParameter(buf, key, getParameter(key));
+                else
+                    appendParameter(buf, key, getParameterValuesOf(key));
+            }
+            buf.setCharAt(0, UrlParametersExtractor.QUESTION_MARK.charAt(0));
 
-	private void appendParameter(StringBuffer buf, String key, String parameterValue)
-	{
-		buf.append(UrlParametersExtractor.AMPERSAND);
-		buf.append(key);
-		buf.append(UrlParametersExtractor.EQUAL);
-		buf.append(encode(parameterValue));
-	}
+            return buf.toString();
+        }
+        else
+            return "";
+    }
 
-	private void appendParameter(StringBuffer buf, String key, String[] parameterValues)
-	{
-		for (int j = 0; j < parameterValues.length; j++)
-			appendParameter(buf, key, parameterValues[j]);
-	}
+    private void appendParameter(StringBuffer buf, String key, String parameterValue)
+    {
+        buf.append(UrlParametersExtractor.AMPERSAND);
+        buf.append(key);
+        buf.append(UrlParametersExtractor.EQUAL);
+        buf.append(encode(parameterValue));
+    }
 
-	public void setParameter(String key, String value)
-	{
-		itsParameters.put(key, value);
-	}
-    
+    private void appendParameter(StringBuffer buf, String key, String[] parameterValues)
+    {
+        for (int j = 0; j < parameterValues.length; j++)
+            appendParameter(buf, key, parameterValues[j]);
+    }
+
+    public void setParameter(String key, String value)
+    {
+        itsParameters.put(key, value);
+    }
+
     public void setParameter(String key, Object value)
     {
         itsParameters.put(key, value.toString());
-    }    
+    }
 
     public void setParameter(String key, int value)
     {
         itsParameters.put(key, Integer.toString(value));
     }
-    
+
     public void setParameter(String key, long value)
     {
         itsParameters.put(key, Long.toString(value));
     }
-    
+
     public void setParameter(String key, double value)
     {
         itsParameters.put(key, Double.toString(value));
-    }        
+    }
 
     public void setParameter(String key, boolean value)
     {
@@ -214,49 +233,47 @@ public class WebUrl implements Comparable
     }
 
     public void setParameter(String key, String[] someValues)
-	{
-		itsParameters.put(key, someValues);
-	}
+    {
+        itsParameters.put(key, someValues);
+    }
 
-	public void setParameters(Map newParametersMap)
-	{
+    public void setParameters(Map newParametersMap)
+    {
         if (newParametersMap != null)
-    		itsParameters.putAll(newParametersMap);
-	}
+            itsParameters.putAll(newParametersMap);
+    }
 
-	public String destination()
-	{
-		return itsUrlBeforeParameters + parameters();
-	}
+    public String destination()
+    {
+        return itsUrlBeforeParameters + parameters();
+    }
 
-	public boolean equals(Object anotherObject)
-	{
-		if (anotherObject instanceof WebUrl)
-		{
-			WebUrl anotherUrl = (WebUrl) anotherObject;
-			return destination().equals(anotherUrl.destination()) && 
-                    isEnabled() == anotherUrl.isEnabled() &&
-                    label().equals(anotherUrl.label());
-		}
-		else
-			return false;
-	}
+    public boolean equals(Object anotherObject)
+    {
+        if (anotherObject instanceof WebUrl)
+        {
+            WebUrl anotherUrl = (WebUrl) anotherObject;
+            return destination().equals(anotherUrl.destination()) && isEnabled() == anotherUrl.isEnabled() && label().equals(anotherUrl.label());
+        }
+        else
+            return false;
+    }
 
     public int hashCode()
     {
         return destination().hashCode();
     }
-	
-    public String toString()
-	{
-		return destination() + " enabled = " + isEnabled() + " label = " + label();
-	}
 
-	public int parametersLength()
+    public String toString()
+    {
+        return destination() + " enabled = " + isEnabled() + " label = " + label();
+    }
+
+    public int parametersLength()
     {
         return itsParameters.size();
     }
-    
+
     protected void resetParameters()
     {
         itsParameters.clear();
@@ -264,12 +281,12 @@ public class WebUrl implements Comparable
 
     public boolean isEnabled()
     {
-    	return isEnabled;
+        return isEnabled;
     }
 
     public void disable()
     {
-    	isEnabled = false;
+        isEnabled = false;
     }
 
     public void setUrlBeforeParameters(String url)
@@ -301,8 +318,8 @@ public class WebUrl implements Comparable
     {
         return Integer.decode(getParameter(key));
     }
-    
-    public Integer getParameterAsIntegerWithDefault(String key, Integer defaultValue)
+
+    public Integer getParameterAsInteger(String key, Integer defaultValue)
     {
         try
         {
@@ -313,5 +330,5 @@ public class WebUrl implements Comparable
             return defaultValue;
         }
     }
-    
+
 }

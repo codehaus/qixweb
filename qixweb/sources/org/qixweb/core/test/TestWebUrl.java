@@ -137,6 +137,28 @@ public class TestWebUrl extends ExtendedTestCase
         itsUrl.setParameter("colors", new String[]{"red", "blue", "yellow"});
         verifyColorsParameterReturns(new String[]{"red", "blue", "yellow"});      
 	}
+
+    public void testParameterWithMultipleIntegers()
+    {
+        assertEquals("A not set parameter should return an empty array", 0, itsUrl.getParameterValuesAsIntegerOf("id").length);
+        
+        itsUrl.setParameter("id", "34");
+        verifyIntegerParameterReturns("id", new Integer[]{new Integer(34)});
+
+        itsUrl.setParameter("id", new String[]{"27", "54", "92"});
+        verifyIntegerParameterReturns("id", new Integer[]{new Integer(27), new Integer(54), new Integer(92)});
+    }
+
+    public void testParameterWithMultipleIntegersWithInvalidValues()
+    {
+        assertEquals("A not set parameter should return an empty array", 0, itsUrl.getParameterValuesAsIntegerOf("id").length);
+        
+        itsUrl.setParameter("id", "ciao");
+        verifyIntegerParameterReturns("id", new Integer[0]);
+
+        itsUrl.setParameter("id", new String[]{"27", "ciao", "92"});
+        verifyIntegerParameterReturns("id", new Integer[]{new Integer(27), new Integer(92)});
+    }
     
     public void testParameterConversion()
     {
@@ -159,6 +181,12 @@ public class TestWebUrl extends ExtendedTestCase
         assertEquals(1, itsUrl.parametersLength());
         ArrayAsserter.assertEquals("Wrong returned values", colorArray, itsUrl.getParameterValuesOf("colors"));
     }
+    
+    private void verifyIntegerParameterReturns(String parameterName, Object[] expectedIntegers)
+    {
+        assertEquals(1, itsUrl.parametersLength());
+        ArrayAsserter.assertEquals("Wrong returned values", expectedIntegers, itsUrl.getParameterValuesAsIntegerOf(parameterName));
+    }    
 
 				
 	public void testEquals()
@@ -281,8 +309,8 @@ public class TestWebUrl extends ExtendedTestCase
     public void testExtractingParameterAsIntegerWithDefault()
     {
         itsUrl.setParameter("key", "a non-numeric value");
-        assertEquals(42, itsUrl.getParameterAsIntWithDefault("key", 42));
-        assertEquals(new Integer(42), itsUrl.getParameterAsIntegerWithDefault("key", new Integer(42)));
+        assertEquals(42, itsUrl.getParameterAsInt("key", 42));
+        assertEquals(new Integer(42), itsUrl.getParameterAsInteger("key", new Integer(42)));
     }
     
     public void testExtractingNullParameterAsBooleanReturnsFalse()
