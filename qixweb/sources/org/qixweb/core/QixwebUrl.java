@@ -73,7 +73,7 @@ public class QixwebUrl extends WebUrl implements Browsable
         {
             if (!itsCommandPackage.equals(""))
                 className = StringUtils.substringAfterLast(fullName, itsCommandPackage);
-            setParameter(QixwebUrl.PARAMETER_COMMAND_TO_EXECUTE, className);
+            parameters().set(QixwebUrl.PARAMETER_COMMAND_TO_EXECUTE, className);
         }
         
         else if (WebNode.class.isAssignableFrom(aTargetClass))
@@ -81,18 +81,18 @@ public class QixwebUrl extends WebUrl implements Browsable
             if (!itsNodePackage.equals(""))
                 className = StringUtils.substringAfterLast(fullName, itsNodePackage);
 
-            setParameter(QixwebUrl.PARAMETER_NODE_TO_DISPLAY, className);
+            parameters().set(QixwebUrl.PARAMETER_NODE_TO_DISPLAY, className);
         }
     }
 
     public boolean isExecutingACommand()
     {
-        return getParameter(PARAMETER_COMMAND_TO_EXECUTE) != null;
+        return parameters().get(PARAMETER_COMMAND_TO_EXECUTE) != null;
     }
 
     public boolean isGoingToANode()
     {
-        return getParameter(PARAMETER_NODE_TO_DISPLAY) != null;
+        return parameters().get(PARAMETER_NODE_TO_DISPLAY) != null;
     }
 
     public WebNode materializeTargetNodeWith(UserData userData, TheSystem system)
@@ -179,7 +179,7 @@ public class QixwebUrl extends WebUrl implements Browsable
     public static QixwebUrl createAsRequestFrom(Map parametersMap, String aNodePackage, String aCommandPackage)
     {
         QixwebUrl mapAsUrl = tryToCreateUrlWithDestination(parametersMap, aNodePackage, aCommandPackage);
-        mapAsUrl.setParameters(parametersMap);
+        mapAsUrl.parameters().set(parametersMap);
 
         return mapAsUrl;
     }
@@ -191,9 +191,9 @@ public class QixwebUrl extends WebUrl implements Browsable
         return ghostUrl;
     }
 
-    public void copyOptionalParametersFrom(final WebUrl aUrl)
+    public void copyOptionalParametersFrom(final WebUrl source)
     {
-        LightInternalIterator.createOn(aUrl.itsParameters.keySet()).forEach(new Procedure()
+        LightInternalIterator.createOn(source.parameters().keys()).forEach(new Procedure()
         {
             public void run(Object aEach)
             {
@@ -201,8 +201,8 @@ public class QixwebUrl extends WebUrl implements Browsable
                 boolean isOptional = !key.equals(PARAMETER_COMMAND_TO_EXECUTE) && !key.equals(PARAMETER_NODE_TO_DISPLAY);
                 if (isOptional)
                 {
-                    Object object = aUrl.itsParameters.get(key);
-                    itsParameters.put(key, object);
+                    Object object = source.parameters().getThatCASMustRemove(key);
+                    parameters().setThatCASMustRemove(key, object);
                 }
             }
         });

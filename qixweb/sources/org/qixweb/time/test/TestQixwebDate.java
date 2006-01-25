@@ -2,6 +2,7 @@ package org.qixweb.time.test;
 
 import java.util.*;
 
+import org.qixweb.core.Parameters;
 import org.qixweb.core.QixwebUrl;
 import org.qixweb.time.QixwebCalendar;
 import org.qixweb.time.QixwebDate;
@@ -36,11 +37,11 @@ public class TestQixwebDate extends TestQixwebCalendar
     public void testCreateFromUrlWithPrefix() 
     {
         QixwebDate firstOfApril2003 = new QixwebDate("1", "4", "2003");
-        QixwebUrl url = new QixwebUrl(Object.class);
-        url.setParameter("prefix"+QixwebDate.DAY_PARAM, 1);
-        url.setParameter("prefix"+QixwebDate.MONTH_PARAM, 4);
-        url.setParameter("prefix"+QixwebDate.YEAR_PARAM, 2003);
-        assertEquals(firstOfApril2003, QixwebDate.createFrom(url, "prefix"));
+        Parameters parameters = new Parameters();
+        parameters.set("prefix"+QixwebDate.DAY_PARAM, 1);
+        parameters.set("prefix"+QixwebDate.MONTH_PARAM, 4);
+        parameters.set("prefix"+QixwebDate.YEAR_PARAM, 2003);
+        assertEquals(firstOfApril2003, QixwebDate.createFrom(parameters, "prefix"));
     }
     
     public void testCreationPassingJavaUtilDate()

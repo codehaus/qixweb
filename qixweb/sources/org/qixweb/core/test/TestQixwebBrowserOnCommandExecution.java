@@ -20,7 +20,7 @@ public class TestQixwebBrowserOnCommandExecution extends ExtendedTestCase
     public void testExecuteCommand() throws Exception
     {
         QixwebUrl expectedDestination = new QixwebUrl(AnyNode.class);
-        expectedDestination.setParameter("state", "test");
+        expectedDestination.parameters().set("state", "test");
 
         QixwebUrl commandUrl = new QixwebUrl(AnyCommand.class);
         itsBrowser.userData().store("state", "test");
