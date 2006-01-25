@@ -16,7 +16,7 @@ public class HelloNode extends WebNode
 
     public static WebNode create(QixwebUrl anUrl, UserData aUserData, QixwebEnvironment environment)
     {
-        String guestName = anUrl.getParameter(parameterNameForGuestName());
+        String guestName = anUrl.parameters().get(parameterNameForGuestName());
         return new HelloNode(environment, StringUtils.isEmpty(guestName) ? "unknown" : guestName);
     }
 
@@ -32,7 +32,7 @@ public class HelloNode extends WebNode
     public static QixwebUrl urlToMe(QixwebEnvironment environment, String guestName)
     {
         QixwebUrl url = new QixwebUrlFactory(environment).createUrlWith(HelloNode.class);
-        url.setParameter(parameterNameForGuestName(), guestName);
+        url.parameters().set(parameterNameForGuestName(), guestName);
         return url;
     }
     

@@ -107,7 +107,7 @@ public class TestQixwebUrl extends ExtendedTestCase
 		AnyCommand expectedCommand = new AnyCommand("materializeTest");
 		
 		QixwebUrl url = new QixwebUrl(AnyCommand.class);
-        url.setParameter("state", "materializeTest");
+        url.parameters().set("state", "materializeTest");
         itsUserData.store("state", "materializeTest");
         WebCommand command = url.materializeTargetCommandWith(itsUserData);
 	
@@ -134,15 +134,15 @@ public class TestQixwebUrl extends ExtendedTestCase
     
 	public void testClassNameParameter()
 	{
-		String nodeToDisplayParameter = itsWebUrlForAnyNode.getParameter(QixwebUrl.PARAMETER_NODE_TO_DISPLAY);
+		String nodeToDisplayParameter = itsWebUrlForAnyNode.parameters().get(QixwebUrl.PARAMETER_NODE_TO_DISPLAY);
 		assertEquals("wrong node name ", "AnyNode", nodeToDisplayParameter);
 		
-		String commandToExecuteParameter = itsWebUrlForAnyCommand.getParameter(QixwebUrl.PARAMETER_COMMAND_TO_EXECUTE);
+		String commandToExecuteParameter = itsWebUrlForAnyCommand.parameters().get(QixwebUrl.PARAMETER_COMMAND_TO_EXECUTE);
 		assertEquals("wrong command name", "AnyCommand", commandToExecuteParameter);
 
 		QixwebUrl neitherCommandNorNodeUrl = new QixwebUrl(Object.class);
-		assertNull("No command name should be set", neitherCommandNorNodeUrl.getParameter(QixwebUrl.PARAMETER_COMMAND_TO_EXECUTE));
-		assertNull("No node name should be set", neitherCommandNorNodeUrl.getParameter(QixwebUrl.PARAMETER_NODE_TO_DISPLAY));
+		assertNull("No command name should be set", neitherCommandNorNodeUrl.parameters().get(QixwebUrl.PARAMETER_COMMAND_TO_EXECUTE));
+		assertNull("No node name should be set", neitherCommandNorNodeUrl.parameters().get(QixwebUrl.PARAMETER_NODE_TO_DISPLAY));
 	}
 	
     public void testNodeDestination()
@@ -167,7 +167,7 @@ public class TestQixwebUrl extends ExtendedTestCase
 		String expectedFirstParameter = QixwebUrl.PARAMETER_NODE_TO_DISPLAY+"=AnyNode";
 	    
 		String expectedSecondParameter = "parameter=value";
-		itsWebUrlForAnyNode.setParameter("parameter", "value");
+		itsWebUrlForAnyNode.parameters().set("parameter", "value");
 	    
 		String returnedDestination = itsWebUrlForAnyNode.destination();
 		
@@ -179,26 +179,26 @@ public class TestQixwebUrl extends ExtendedTestCase
     public void testCopyOptionalParameters()
     {
         QixwebUrl orginUrl = new QixwebUrl(AnyRefreshableCommand.class);
-        orginUrl.setParameter("param1", "value1");
-        orginUrl.setParameter("param2", "value2");
+        orginUrl.parameters().set("param1", "value1");
+        orginUrl.parameters().set("param2", "value2");
         QixwebUrl targetCommandUrl = new QixwebUrl(AnyCommand.class);
         QixwebUrl expectedCommandUrl = new QixwebUrl(AnyCommand.class);
-        expectedCommandUrl.setParameter("param1", "value1");
-        expectedCommandUrl.setParameter("param2", "value2");
+        expectedCommandUrl.parameters().set("param1", "value1");
+        expectedCommandUrl.parameters().set("param2", "value2");
         targetCommandUrl.copyOptionalParametersFrom(orginUrl);
         assertEquals(expectedCommandUrl, targetCommandUrl);
 
         targetCommandUrl = new QixwebUrl(AnyRefreshableCommand.class);
         expectedCommandUrl = new QixwebUrl(AnyRefreshableCommand.class);
-        expectedCommandUrl.setParameter("param1", "value1");
-        expectedCommandUrl.setParameter("param2", "value2");
+        expectedCommandUrl.parameters().set("param1", "value1");
+        expectedCommandUrl.parameters().set("param2", "value2");
         targetCommandUrl.copyOptionalParametersFrom(orginUrl);
         assertEquals(expectedCommandUrl, targetCommandUrl);
 
         targetCommandUrl = new QixwebUrl(AnyNode.class);
         expectedCommandUrl = new QixwebUrl(AnyNode.class);
-        expectedCommandUrl.setParameter("param1", "value1");
-        expectedCommandUrl.setParameter("param2", "value2");
+        expectedCommandUrl.parameters().set("param1", "value1");
+        expectedCommandUrl.parameters().set("param2", "value2");
         targetCommandUrl.copyOptionalParametersFrom(orginUrl);
         assertEquals(expectedCommandUrl, targetCommandUrl);
         

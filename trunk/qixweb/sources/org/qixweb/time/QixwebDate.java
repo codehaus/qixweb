@@ -2,7 +2,7 @@ package org.qixweb.time;
 
 import java.util.*;
 
-import org.qixweb.core.WebUrl;
+import org.qixweb.core.Parameters;
 
 public class QixwebDate extends QixwebCalendar
 {
@@ -74,12 +74,12 @@ public class QixwebDate extends QixwebCalendar
         return DateFormatter.formatDD_MM_YYYY(this);
     }
 
-    public static QixwebCalendar createFrom(WebUrl anUrl, String aPrefix)
+    public static QixwebCalendar createFrom(Parameters anUrl, String aPrefix)
     {
         return new QixwebDate(
-                Integer.parseInt(anUrl.getParameter(aPrefix+DAY_PARAM)),
-                Integer.parseInt(anUrl.getParameter(aPrefix+MONTH_PARAM)),
-                Integer.parseInt(anUrl.getParameter(aPrefix+YEAR_PARAM))
+                Integer.parseInt(anUrl.get(aPrefix+DAY_PARAM)),
+                Integer.parseInt(anUrl.get(aPrefix+MONTH_PARAM)),
+                Integer.parseInt(anUrl.get(aPrefix+YEAR_PARAM))
             );
     }
 

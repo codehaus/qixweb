@@ -84,8 +84,8 @@ public class TestQixwebUrlCreation extends ExtendedTestCase
 		QixwebUrl url = QixwebUrl.createAsRequestFrom(map, itsNodePackage, itsCommandPackage);
 
 		assertEquals("Wrong target", AnyNode.class, url.target());
-		assertEquals("Wrong single parameter", "singleValue", url.getParameter("single"));
-		ArrayAsserter.assertEquals("Wrong multiple value parameter", new String[] { "firstValue", "secondValue" }, url.getParameterValuesOf("multiple"));
+		assertEquals("Wrong single parameter", "singleValue", url.parameters().get("single"));
+		ArrayAsserter.assertEquals("Wrong multiple value parameter", new String[] { "firstValue", "secondValue" }, url.parameters().getAllValuesOf("multiple"));
 	}
 
 	public void testCreateFromMapGettingParameterWithPrefix()
@@ -96,7 +96,7 @@ public class TestQixwebUrlCreation extends ExtendedTestCase
 
 		QixwebUrl url = QixwebUrl.createAsRequestFrom(map, itsNodePackage, itsCommandPackage);
 
-		Map parametersMatchingPrefix = url.parametersBeginningWith("prefix_");
+		Map parametersMatchingPrefix = url.parameters().allBeginningWith("prefix_");
 		assertEquals("singleValue", (String) parametersMatchingPrefix.get("single"));
 	}
 

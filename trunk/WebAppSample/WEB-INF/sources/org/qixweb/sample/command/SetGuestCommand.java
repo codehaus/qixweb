@@ -12,7 +12,7 @@ public class SetGuestCommand extends WebCommand
 
     public static WebCommand create(QixwebUrl someProperties, UserData userData)
     {
-        return new SetGuestCommand(someProperties.getParameter(HelloNode.parameterNameForGuestName()));
+        return new SetGuestCommand(someProperties.parameters().get(HelloNode.parameterNameForGuestName()));
     }
     
     public SetGuestCommand(String guestName)
