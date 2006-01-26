@@ -2,11 +2,8 @@ package org.qixweb.core;
 
 import java.util.*;
 
-import org.qixweb.block.Function;
-import org.qixweb.block.LightInternalIterator;
+import org.qixweb.block.*;
 import org.qixweb.time.*;
-import org.qixweb.time.DateFormatter;
-import org.qixweb.time.QixwebCalendar;
 import org.qixweb.util.UrlParametersExtractor;
 
 public class Parameters
@@ -22,19 +19,7 @@ public class Parameters
     {
         itsParameters = parameters;
     }
-    
-    // TODO: da rimuovere CAS
-    public Object getThatCASMustRemove(String key)
-    {
-        return itsParameters.get(key);
-    }
 
-    // TODO: da rimuovere CAS
-    public void setThatCASMustRemove(String key, Object value)
-    {
-        itsParameters.put(key, value);
-    }
-    
     public String get(String key)
     {
         Object value = itsParameters.get(key);
@@ -44,44 +29,46 @@ public class Parameters
             return ((String[]) value)[0];
         else
             return (String) value;
-    }    
-    
-    public void set(String key, String value)
+    }
+
+    public Parameters set(String key, String value)
     {
         itsParameters.put(key, value);
+        return this;
     }
-    
+
     public boolean getAsBoolean(String key)
     {
         return new Boolean(get(key)).booleanValue();
     }
-    
-    public void set(String key, boolean value)
+
+    public Parameters set(String key, boolean value)
     {
         itsParameters.put(key, Boolean.toString(value));
+        return this;
     }
-    
+
     public QixwebCalendar getAsCalendarDD_MM_YYYY(String key)
     {
         return DateFormatter.parseDD_MM_YYYYasQixwebDate(get(key));
-    }    
-    
+    }
+
     public QixwebCalendar getAsDateWithPrefix(String keyPrefix)
     {
         return QixwebDate.createFrom(this, keyPrefix);
     }
-    
-    
+
     public int getAsInt(String key)
     {
         return Integer.parseInt(get(key));
     }
-    
-    public void set(String key, int value)
+
+    public Parameters set(String key, int value)
     {
         itsParameters.put(key, Integer.toString(value));
+        return this;
     }
-    
+
     public int getAsInt(String key, int defaultValue)
     {
         try
@@ -93,7 +80,7 @@ public class Parameters
             return defaultValue;
         }
     }
-    
+
     public Integer getAsInteger(String key)
     {
         String value = get(key);
@@ -101,13 +88,14 @@ public class Parameters
             return Integer.decode(value);
         else
             return null;
-    }    
-    
-    public void set(String key, Object value)
+    }
+
+    public Parameters set(String key, Object value)
     {
         itsParameters.put(key, value.toString());
+        return this;
     }
-    
+
     public Integer getAsInteger(String key, Integer defaultValue)
     {
         try
@@ -116,10 +104,12 @@ public class Parameters
             if (foundValue != null)
                 return foundValue;
         }
-        catch (Exception ex) {}
+        catch (Exception ex)
+        {
+        }
         return defaultValue;
     }
-    
+
     public String[] getAllValuesOf(String parameterKey)
     {
         if (itsParameters.get(parameterKey) != null)
@@ -132,7 +122,7 @@ public class Parameters
         else
             return new String[0];
     }
-    
+
     public Integer[] getAllValuesAsIntegerOf(String key)
     {
         String[] values = getAllValuesOf(key);
@@ -142,7 +132,7 @@ public class Parameters
             {
                 try
                 {
-                    return Integer.decode((String)eachValue);
+                    return Integer.decode((String) eachValue);
                 }
                 catch (NumberFormatException ex)
                 {
@@ -151,7 +141,7 @@ public class Parameters
             }
         }, Integer.class);
     }
-    
+
     public Map allBeginningWith(String aPrefix)
     {
         HashMap parametersBeginningWithPrefix = new HashMap();
@@ -167,42 +157,45 @@ public class Parameters
         return parametersBeginningWithPrefix;
     }
 
-    public void set(String key, double value)
+    public Parameters set(String key, double value)
     {
         itsParameters.put(key, Double.toString(value));
+        return this;
     }
 
-    public void set(String key, long value)
+    public Parameters set(String key, long value)
     {
         itsParameters.put(key, Long.toString(value));
+        return this;
     }
 
-    public void set(String key, String[] someValues)
+    public Parameters set(String key, String[] someValues)
     {
         itsParameters.put(key, someValues);
+        return this;
     }
 
-    public void set(Map newParametersMap)
+    public Parameters set(Map newParametersMap)
     {
         if (newParametersMap != null)
             itsParameters.putAll(newParametersMap);
+        return this;
     }
-    
+
     public int size()
     {
         return itsParameters.size();
     }
-    
+
     protected String removePrefixFrom(String aPrefix, String aString)
     {
         return aString.substring(aPrefix.length());
     }
-    
+
     protected void removeAll()
     {
         itsParameters.clear();
     }
-
 
     public String allAsString()
     {
@@ -210,7 +203,7 @@ public class Parameters
         {
             StringBuffer buf = new StringBuffer();
             Object[] keys = itsParameters.keySet().toArray();
-    
+
             Arrays.sort(keys);
             for (int i = 0; i < keys.length; i++)
             {
@@ -221,13 +214,12 @@ public class Parameters
                     append(buf, key, getAllValuesOf(key));
             }
             buf.setCharAt(0, UrlParametersExtractor.QUESTION_MARK.charAt(0));
-    
+
             return buf.toString();
         }
         else
             return "";
     }
-
 
     private void append(StringBuffer buf, String key, String parameterValue)
     {
@@ -237,18 +229,17 @@ public class Parameters
         buf.append(WebUrl.encode(parameterValue));
     }
 
-
     private void append(StringBuffer buf, String key, String[] parameterValues)
     {
         for (int j = 0; j < parameterValues.length; j++)
             append(buf, key, parameterValues[j]);
     }
-    
+
     public Set keys()
     {
         return itsParameters.keySet();
     }
-    
+
     public boolean equals(Object anotherObject)
     {
         if (anotherObject instanceof Parameters)
@@ -259,5 +250,25 @@ public class Parameters
         else
             return false;
     }
+
+    public void addExcluding(final Parameters source, final Set keysToExclude)
+    {
+      LightInternalIterator.createOn(source.itsParameters.keySet()).forEach(new Procedure()
+      {
+          public void run(Object aEach)
+          {
+              String key = (String) aEach;
+              if (! keysToExclude.contains(key))
+              {
+                  Object object = source.itsParameters.get(key);
+                  itsParameters.put(key, object);
+              }
+          }
+      });
+    }
     
+    public void remove(String key)
+    {
+        itsParameters.remove(key);
+    }
 }
