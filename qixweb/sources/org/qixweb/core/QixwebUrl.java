@@ -8,8 +8,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.qixweb.block.LightInternalIterator;
 import org.qixweb.block.Procedure;
-import org.qixweb.util.UrlParametersExtractor;
-import org.qixweb.util.XpLogger;
+import org.qixweb.util.*;
 
 public class QixwebUrl extends WebUrl implements Browsable
 {
@@ -191,20 +190,8 @@ public class QixwebUrl extends WebUrl implements Browsable
         return ghostUrl;
     }
 
-    public void copyOptionalParametersFrom(final WebUrl source)
+    public void addOptionalParametersFrom(final WebUrl source)
     {
-        LightInternalIterator.createOn(source.parameters().keys()).forEach(new Procedure()
-        {
-            public void run(Object aEach)
-            {
-                String key = (String) aEach;
-                boolean isOptional = !key.equals(PARAMETER_COMMAND_TO_EXECUTE) && !key.equals(PARAMETER_NODE_TO_DISPLAY);
-                if (isOptional)
-                {
-                    Object object = source.parameters().getThatCASMustRemove(key);
-                    parameters().setThatCASMustRemove(key, object);
-                }
-            }
-        });
+        parameters().addExcluding(source.parameters(), CollectionUtil.setWith(PARAMETER_COMMAND_TO_EXECUTE, PARAMETER_NODE_TO_DISPLAY));
     }
 }

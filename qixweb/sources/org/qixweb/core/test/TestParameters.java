@@ -1,13 +1,11 @@
 package org.qixweb.core.test;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import org.qixweb.core.Parameters;
 import org.qixweb.core.WebUrl;
 import org.qixweb.time.QixwebDate;
-import org.qixweb.util.ArrayAsserter;
-import org.qixweb.util.EqualsBehaviourVerifier;
+import org.qixweb.util.*;
 import org.qixweb.util.test.ExtendedTestCase;
 
 
@@ -307,5 +305,38 @@ public class TestParameters extends ExtendedTestCase
         {
             return;
         }
+    }
+    
+    public void testAdd() throws Exception
+    {
+        Parameters source = new Parameters().set("first", 1).set("second", new String[] { "a", "b"});
+        Parameters destination = new Parameters().set("third", 3);
+
+        destination.addExcluding(source, new HashSet());
+        
+        Parameters expected = new Parameters().set("first", 1).set("second", new String[] { "a", "b"}).set("third", 3);
+        assertEquals(expected, destination);
+    }
+    
+    public void testAddExcludeSpecifiedParameters() throws Exception
+    {
+        Parameters source = new Parameters().set("first", 1).set("firstToExclude", 2).set("secondToExclude", 3);
+        Parameters destination = new Parameters();
+
+        destination.addExcluding(source, CollectionUtil.setWith("firstToExclude", "secondToExclude"));
+        
+        Parameters expected = new Parameters().set("first", 1);
+        assertEquals(expected, destination);
+    }
+    
+    public void testAddOverwriteExistentParameters() throws Exception
+    {
+        Parameters source = new Parameters().set("first", 1);
+        Parameters destination = new Parameters().set("first", 2);
+
+        destination.addExcluding(source, new HashSet());
+        
+        Parameters expected = new Parameters().set("first", 1);
+        assertEquals(expected, destination);
     }
 }
