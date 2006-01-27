@@ -41,7 +41,7 @@ public class TestCollectionUtil extends ExtendedTestCase
         LinkedHashSet sameSetWithDifferentIterationOrder = new LinkedHashSet();
         sameSetWithDifferentIterationOrder.add("2");
         sameSetWithDifferentIterationOrder.add("1");
-        assertEqualsOnlyIgnoringOrder(CollectionUtil.toList(set), CollectionUtil.toList(sameSetWithDifferentIterationOrder));
+        assertEqualsElementsButInDifferentOrder(CollectionUtil.toList(set), CollectionUtil.toList(sameSetWithDifferentIterationOrder));
     }
     
 	public void testInvert()

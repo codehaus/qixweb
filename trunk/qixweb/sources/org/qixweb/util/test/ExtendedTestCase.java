@@ -2,8 +2,7 @@ package org.qixweb.util.test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import junit.framework.TestCase;
 
@@ -151,20 +150,10 @@ public abstract class ExtendedTestCase extends TestCase
         System.setOut(new PrintStream(itsGrabbedOut));
     }
 
-    public void assertEqualsOnlyIgnoringOrder(List firstList, List secondList)
+    public static void assertEqualsElementsButInDifferentOrder(List firstList, List secondList)
     {
         assertNotEquals("Lists should not be equals considering order", firstList, secondList);
         assertEqualsIgnoringOrder("Normalizing order the lists should be equal", firstList, secondList); 
-    }
-    
-    public void assertEqualsIgnoringOrder(String message, List firstList, List secondList)
-    {
-        assertEquals(message, new HashSet(firstList), new HashSet(secondList)); 
-    }
-
-    public void assertEqualsIgnoringOrder(List firstList, List secondList)
-    {
-        assertEqualsIgnoringOrder("", firstList, secondList); 
     }
     
     public void assertEquals(String message, Object[] someObjects, Object[] otherObjects)
@@ -174,5 +163,15 @@ public abstract class ExtendedTestCase extends TestCase
 
         for (int i = 0; i < someObjects.length; i++)
             assertEquals(message, someObjects[i], otherObjects[i]);
+    }
+
+    public static void assertEqualsIgnoringOrder(Collection expected, Collection actual)
+    {
+        assertEqualsIgnoringOrder("", expected, actual);
+    }
+
+    public static void assertEqualsIgnoringOrder(String message, Collection expected, Collection actual)
+    {
+        assertEquals(message, new HashSet(expected), new HashSet(actual));
     }
 }
