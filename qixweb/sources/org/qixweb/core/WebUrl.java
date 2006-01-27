@@ -3,11 +3,10 @@ package org.qixweb.core;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.qixweb.time.QixwebCalendar;
-import org.qixweb.time.QixwebDate;
 import org.qixweb.util.UrlParametersExtractor;
 import org.qixweb.util.XpLogger;
 
