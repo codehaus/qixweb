@@ -171,6 +171,22 @@ public class CollectionUtil
     public static List toList(Collection aCollection)
     {
         return toList(aCollection.iterator());
+    }
+
+    public static List flatToList(Collection tree)
+    {
+        final ArrayList result = new ArrayList();
+        LightInternalIterator.createOn(tree).forEach(new Procedure()
+        {
+            public void run(Object each)
+            {
+                if (each instanceof Collection)
+                    result.addAll(flatToList((Collection)each));
+                else
+                    result.add(each);
+            }
+        });
+        return result;
     }    
 
 }

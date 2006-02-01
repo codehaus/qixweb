@@ -2,6 +2,8 @@ package org.qixweb.util.test;
 
 import java.util.*;
 
+import org.qixweb.block.IdentityFunction;
+import org.qixweb.block.LightInternalIterator;
 import org.qixweb.util.ArrayAsserter;
 import org.qixweb.util.CollectionUtil;
 
@@ -50,7 +52,7 @@ public class TestCollectionUtil extends ExtendedTestCase
 		ArrayAsserter.assertEqualsIgnoringOrder(new String[] { "third", "second", "first"}, CollectionUtil.invert(expectedArray, String.class));
 	}    
     
-    public void testFlatWithMonodimensionalCollections()
+    public void testFlatOnArrayWithMonodimensionalCollections()
 	{
 		ArrayAsserter.assertEqualsIgnoringOrder
 		(
@@ -63,7 +65,7 @@ public class TestCollectionUtil extends ExtendedTestCase
 		);
 	}
 	
-	public void testFlatExcludingNullObjects()
+	public void testFlatOnArrayExcludingNullObjects()
 	{
 		ArrayAsserter.assertEqualsIgnoringOrder
 		(
@@ -72,7 +74,7 @@ public class TestCollectionUtil extends ExtendedTestCase
 
 	}
 	
-	public void testFlatWithMultidimensionalCollections()
+	public void testFlatOnArrayWithMultidimensionalCollections()
 	{
 		Object[] collection = new Object[3];
 		collection[0] = "qui"; 
@@ -85,6 +87,20 @@ public class TestCollectionUtil extends ExtendedTestCase
 			CollectionUtil.flatWithoutNulls(collection, String.class)
 		);
 	}
+    
+    public void testFlatOnCollection() throws Exception
+    {
+        assertEquals(new ArrayList(), CollectionUtil.flatToList(new ArrayList()));
+        
+        List list = CollectionUtil.listWith(CollectionUtil.listWith("1", "2"));
+        assertEquals(CollectionUtil.listWith("1", "2"), CollectionUtil.flatToList(list));
+        
+        list = CollectionUtil.listWith(CollectionUtil.listWith("1", "2"), CollectionUtil.listWith("3", "4"));
+        assertEquals(CollectionUtil.listWith("1", "2", "3", "4"), CollectionUtil.flatToList(list));
+        
+        list = CollectionUtil.listWith(CollectionUtil.listWith("1", "2", CollectionUtil.listWith("3", "4")), CollectionUtil.listWith("5", "6"));
+        assertEquals(CollectionUtil.listWith("1", "2", "3", "4", "5", "6"), CollectionUtil.flatToList(list));
+    }
     
 	public void testIteratorToArray()
 	{
