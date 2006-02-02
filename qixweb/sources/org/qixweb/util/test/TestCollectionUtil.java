@@ -2,8 +2,6 @@ package org.qixweb.util.test;
 
 import java.util.*;
 
-import org.qixweb.block.IdentityFunction;
-import org.qixweb.block.LightInternalIterator;
 import org.qixweb.util.ArrayAsserter;
 import org.qixweb.util.CollectionUtil;
 
@@ -90,16 +88,16 @@ public class TestCollectionUtil extends ExtendedTestCase
     
     public void testFlatOnCollection() throws Exception
     {
-        assertEquals(new ArrayList(), CollectionUtil.flatToList(new ArrayList()));
+        assertEquals(new ArrayList(), CollectionUtil.flat(new ArrayList()));
         
         List list = CollectionUtil.listWith(CollectionUtil.listWith("1", "2"));
-        assertEquals(CollectionUtil.listWith("1", "2"), CollectionUtil.flatToList(list));
+        assertEquals(CollectionUtil.listWith("1", "2"), CollectionUtil.flat(list));
         
         list = CollectionUtil.listWith(CollectionUtil.listWith("1", "2"), CollectionUtil.listWith("3", "4"));
-        assertEquals(CollectionUtil.listWith("1", "2", "3", "4"), CollectionUtil.flatToList(list));
+        assertEquals(CollectionUtil.listWith("1", "2", "3", "4"), CollectionUtil.flat(list));
         
         list = CollectionUtil.listWith(CollectionUtil.listWith("1", "2", CollectionUtil.listWith("3", "4")), CollectionUtil.listWith("5", "6"));
-        assertEquals(CollectionUtil.listWith("1", "2", "3", "4", "5", "6"), CollectionUtil.flatToList(list));
+        assertEquals(CollectionUtil.listWith("1", "2", "3", "4", "5", "6"), CollectionUtil.flat(list));
     }
     
 	public void testIteratorToArray()
