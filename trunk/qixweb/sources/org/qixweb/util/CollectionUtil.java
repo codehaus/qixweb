@@ -173,7 +173,7 @@ public class CollectionUtil
         return toList(aCollection.iterator());
     }
 
-    public static List flatToList(Collection tree)
+    public static List flat(Collection tree)
     {
         final ArrayList result = new ArrayList();
         LightInternalIterator.createOn(tree).forEach(new Procedure()
@@ -181,7 +181,7 @@ public class CollectionUtil
             public void run(Object each)
             {
                 if (each instanceof Collection)
-                    result.addAll(flatToList((Collection)each));
+                    result.addAll(flat((Collection)each));
                 else
                     result.add(each);
             }
