@@ -1,5 +1,7 @@
 package org.qixweb.util;
 
+import org.apache.commons.lang.ClassUtils;
+
 public class ClassUtil 
 {
     public static String fullNameOf(Class aClass)
@@ -9,6 +11,6 @@ public class ClassUtil
     
     public static String shortNameOf(Class aClass)
     {
-        return fullNameOf(aClass).substring(fullNameOf(aClass).lastIndexOf(".") + 1);
+        return ClassUtils.getShortClassName(aClass);
     }
 }
