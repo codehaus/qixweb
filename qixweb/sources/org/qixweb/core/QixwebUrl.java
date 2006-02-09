@@ -65,8 +65,8 @@ public class QixwebUrl extends WebUrl implements Browsable
 
     private void setClassNameParameterFor(Class aTargetClass)
     {
-        String fullName = aTargetClass.getName();
-        String className = fullName.substring(fullName.lastIndexOf(".") + 1);
+        String className = ClassUtil.shortNameOf(aTargetClass);
+        String fullName = ClassUtil.fullNameOf(aTargetClass);
 
         if (WebCommand.class.isAssignableFrom(aTargetClass))
         {
