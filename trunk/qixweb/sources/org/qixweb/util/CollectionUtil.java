@@ -6,14 +6,7 @@ import java.util.*;
 import org.qixweb.block.*;
 
 public class CollectionUtil
-{
-    public static Set setWith(Object anElement)
-    {
-        Set asSet = new HashSet(1);
-        asSet.add(anElement);
-        return asSet;
-    }
-    
+{    
     public static Set toSet(Object[] someElements)
     {
         Set asSet = new HashSet(someElements.length);
@@ -32,13 +25,27 @@ public class CollectionUtil
         return asSet;
     }
 
+    public static Set setWith(Object anElement)
+    {
+        Set asSet = new HashSet();
+        asSet.add(anElement);
+        return asSet;
+    }
+
     public static Set setWith(Object anElement, Object anotherElement)
     {
-        Set asSet = new HashSet(2);
-        asSet.add(anElement);
+        Set asSet = setWith(anElement);
         asSet.add(anotherElement);
         return asSet;
     }
+    
+    public static Object setWith(Object firstElement, Object secondElement, Object thirdElement)
+    {
+        Set set = setWith(firstElement, secondElement);
+        set.add(thirdElement);
+        return set;
+    }    
+
 
     public static List listWith(Object aFirstObject)
     {
@@ -187,6 +194,7 @@ public class CollectionUtil
             }
         });
         return result;
-    }    
+    }
+
 
 }
