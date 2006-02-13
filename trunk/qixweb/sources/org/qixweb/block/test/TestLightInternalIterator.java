@@ -164,8 +164,8 @@ public abstract class TestLightInternalIterator extends ExtendedTestCase
             }
         }, Object.class);
         assertEquals(2, theCollectedElements.length);
-        assertSame(theElements[1], theCollectedElements[0]);
-        assertSame(theElements[3], theCollectedElements[1]);
+        assertSame("theRightValue", theElements[1], theCollectedElements[0]);
+        assertSame("anotherRightValue", theElements[3], theCollectedElements[1]);
     }
 
     public void testCollectWithoutDuplications()
