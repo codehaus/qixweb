@@ -2,5 +2,5 @@ package org.qixweb.block;
 public interface BinaryFunction
 {
 
-Object eval(Object aRunningValue, Object each);
+Object eval(Object runningValue, Object each);
 }

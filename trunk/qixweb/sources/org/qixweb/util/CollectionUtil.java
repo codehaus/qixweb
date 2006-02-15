@@ -196,5 +196,19 @@ public class CollectionUtil
         return result;
     }
 
+    public static List removeDuplicates(List list)
+    {
+        return (List) LightInternalIterator.createOn(list).sumUp(new ArrayList(), new BinaryFunction()
+        {
+            public Object eval(Object aRunningValue, Object each)
+            {
+                List runningList = (List) aRunningValue;
+                if (!runningList.contains(each))
+                    runningList.add(each);
+                return runningList;
+            }
+        });
+    }
+
 
 }
