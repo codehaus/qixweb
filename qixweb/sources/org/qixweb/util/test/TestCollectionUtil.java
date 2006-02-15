@@ -202,5 +202,12 @@ public class TestCollectionUtil extends ExtendedTestCase
         set.add("two");
         assertEquals(set, CollectionUtil.setWith("one", "two"));
         assertEquals(set, CollectionUtil.setWith("two", "one"));
-    }    
+    }
+    
+    public void testRemoveDuplicates() throws Exception
+    {
+        assertEquals(new ArrayList(), CollectionUtil.removeDuplicates(new ArrayList())); 
+        assertEquals(CollectionUtil.listWith("1", "2", "3"), CollectionUtil.removeDuplicates(CollectionUtil.listWith("1", "2", "2", "3"))); 
+        assertEquals(CollectionUtil.listWith("1", "2"), CollectionUtil.removeDuplicates(CollectionUtil.listWith("1", "2", "2", "1", "2"))); 
+    }
 }
