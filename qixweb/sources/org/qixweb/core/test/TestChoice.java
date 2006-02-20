@@ -8,25 +8,29 @@ public class TestChoice extends ExtendedTestCase
 {
     private Choice choice;
     private Choice sameChoice;
-    private Choice differentChoice;
+    private Choice differentChoiceForLabel;
 
     protected void setUp()
     {
-        choice = new Choice("val", "label", true);
-        sameChoice = new Choice("value", "label", false);
-        differentChoice = new Choice("val", "lab", true);
+        choice = new Choice("value", "label", true);
+        sameChoice = new Choice("value", "label", true);
+        differentChoiceForLabel = new Choice("value", "lab", true);
     }
 
     public void testEquals()
     {
-        EqualsBehaviourVerifier.check(choice, sameChoice, differentChoice);
+        Choice differentChoiceForValue = new Choice("different value", "label", true);
+        Choice differentChoiceForSelection = new Choice("value", "label", false);
+        EqualsBehaviourVerifier.check(choice, sameChoice, differentChoiceForLabel);
         EqualsBehaviourVerifier.checkHashCode(choice, sameChoice);
+        EqualsBehaviourVerifier.check(choice, sameChoice, differentChoiceForValue);
+        EqualsBehaviourVerifier.check(choice, sameChoice, differentChoiceForSelection);
     }
     
     public void testCompareTo()
     {
         assertEquals(0, choice.compareTo(sameChoice));
-        assertEquals(-differentChoice.compareTo(choice), choice.compareTo(differentChoice));
+        assertEquals(-differentChoiceForLabel.compareTo(choice), choice.compareTo(differentChoiceForLabel));
         assertTrue(choice.compareTo(new Object()) != 0);
     }
     
