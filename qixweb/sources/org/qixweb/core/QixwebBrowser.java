@@ -104,11 +104,6 @@ public class QixwebBrowser
         return itsResponseHandler;
     }
     
-    protected boolean isUserLogged()
-    {
-        return !QixwebUser.ANONYMOUS.equals(loggedUser());
-    }
-    
     protected void goToLogin() throws Exception
     {
         QixwebUrl returnedUrl = new QixwebUrl(QixwebLoginNode.class);
