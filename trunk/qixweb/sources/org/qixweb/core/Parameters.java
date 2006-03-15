@@ -2,6 +2,7 @@ package org.qixweb.core;
 
 import java.util.*;
 
+import org.apache.commons.lang.StringUtils;
 import org.qixweb.block.*;
 import org.qixweb.time.*;
 import org.qixweb.util.UrlParametersExtractor;
@@ -50,7 +51,11 @@ public class Parameters
 
     public QixwebCalendar getAsCalendarDD_MM_YYYY(String key)
     {
-        return DateFormatter.parseDD_MM_YYYYasQixwebDate(get(key));
+        String date = get(key);
+        if (StringUtils.isEmpty(date))
+            return QixwebCalendar.NULL;
+        else
+            return DateFormatter.parseDD_MM_YYYYasQixwebDate(date);
     }
 
     public QixwebCalendar getAsDateWithPrefix(String keyPrefix)

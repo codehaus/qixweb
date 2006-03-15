@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.qixweb.core.Parameters;
 import org.qixweb.core.WebUrl;
+import org.qixweb.time.QixwebCalendar;
 import org.qixweb.time.QixwebDate;
 import org.qixweb.util.*;
 import org.qixweb.util.test.ExtendedTestCase;
@@ -294,17 +295,9 @@ public class TestParameters extends ExtendedTestCase
         assertEquals(new QixwebDate(17, 11, 1970), itsParameters.getAsCalendarDD_MM_YYYY("key"));
     }
     
-    public void testExtractingNullParameterAsCalendarDD_MM_YYYYCausesNullPointerException()
+    public void testExtractingNullParameterAsCalendarDD_MM_YYYYReturnNullObject()
     {
-        try
-        {
-            itsParameters.getAsCalendarDD_MM_YYYY("k");
-            fail("NullPointerException should be raised");
-        }
-        catch (NullPointerException e)
-        {
-            return;
-        }
+        assertSame(QixwebCalendar.NULL, itsParameters.getAsCalendarDD_MM_YYYY("not_existent_parameter"));
     }
     
     public void testAdd() throws Exception
