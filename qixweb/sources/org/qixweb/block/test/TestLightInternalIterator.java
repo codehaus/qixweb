@@ -177,10 +177,15 @@ public abstract class TestLightInternalIterator extends ExtendedTestCase
         {
             public Object eval(Object each)
             {
-                return each;
+                return "Same transformation result";
             }
         }, Object.class);
-        assertEquals(2, theCollectedElements.length);
+        assertEquals("Duplications should be about transformation results", 1, theCollectedElements.length);
+        assertEquals("Same transformation result", theCollectedElements[0]);
+
+        theIterator = createIterator(theElements);
+        theCollectedElements = theIterator.collectWithoutDuplications(new IdentityFunction(), Integer.class);
+        assertEquals("Duplications can be 'simulated' on sources using 'IdentityFunction'", 2, theCollectedElements.length);
         assertEquals(theElements[0], theCollectedElements[0]);
         assertEquals(theElements[1], theCollectedElements[1]);
     }

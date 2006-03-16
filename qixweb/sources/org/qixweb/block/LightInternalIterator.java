@@ -204,9 +204,9 @@ public abstract class LightInternalIterator
         {
             return collectWithException(functionWithException, aClassType, withoutDuplications);
         }
-        catch (Exception mustBeRunTimeException)
+        catch (Exception mustBeRuntimeException)
         {
-            throw (RuntimeException) mustBeRunTimeException;
+            throw (RuntimeException) mustBeRuntimeException;
         }
     }
 
@@ -236,4 +236,5 @@ public abstract class LightInternalIterator
     {
         return collectWithException(aFunction, aClassType, false);
     }
+
 }
