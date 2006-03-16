@@ -60,16 +60,6 @@ public class TestParameters extends ExtendedTestCase
         assertEquals("?parameter1=value1&parameter2=55.0&parameter3=42", itsParameters.allAsString());        
 	}
     
-    public void testGet()
-    {
-        itsParameters.set("parameter1", "value1");
-
-        assertEquals("value1", itsParameters.get("parameter1"));
-        assertEquals("value1", itsParameters.get("parameter1", "default"));
-        assertNull("default", itsParameters.get("parameter2"));
-        assertEquals("default", itsParameters.get("parameter2", "default"));
-    }    
-    
     public void testEncodingParameters()
 	{
 		itsParameters.set("parameter", "value with spaces");
@@ -308,7 +298,7 @@ public class TestParameters extends ExtendedTestCase
     public void testExtractingNullParameterAsCalendarDD_MM_YYYYReturnNullObject()
     {
         assertSame(QixwebCalendar.NULL, itsParameters.getAsCalendarDD_MM_YYYY("not_existent_parameter"));
-        }
+    }
     
     public void testAdd() throws Exception
     {
