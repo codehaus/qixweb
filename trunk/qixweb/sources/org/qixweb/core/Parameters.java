@@ -31,6 +31,15 @@ public class Parameters
         else
             return (String) value;
     }
+    
+    public String get(String key, String defaultValue)
+    {
+        String result = get(key);
+        if (result == null)
+           result = defaultValue;
+        
+        return result;
+    }    
 
     public Parameters set(String key, String value)
     {

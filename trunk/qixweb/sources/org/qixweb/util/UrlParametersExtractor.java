@@ -61,6 +61,12 @@ public class UrlParametersExtractor
             String value = WebUrl.decode(keyValue[1]);
             createOrFeedListAt_with(aParametersMap, key, value);
         }
+        else if (keyValue.length == 1)
+        {
+            String key = keyValue[0];
+            String value = "";
+            createOrFeedListAt_with(aParametersMap, key, value);
+        }
     }
     private void createOrFeedListAt_with(Map aParametersMap, String key, String value)
     {
