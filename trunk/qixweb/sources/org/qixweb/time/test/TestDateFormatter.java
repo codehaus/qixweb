@@ -37,6 +37,11 @@ public class TestDateFormatter extends TestCase
 		
 		assertEquals("Wrong format", expectedDate, DateFormatter.parseyyyyMMdd_HHmmss("20020923-103022"));
 	}	
+    
+    public void testParseDD_MM_YYYY_HH_MM()
+    {
+        assertEquals(new QixwebTime(5,12,2005,16,07,00), DateFormatter.parseDD_MM_YYYY_HH_MMasQixwebTime("05/12/2005 16:07"));
+    }
 	
 	public void testFormatyyyyMMdd_HHmmss() throws ParseException
 	{
