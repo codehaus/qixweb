@@ -141,4 +141,18 @@ public class DateFormatter
             return QixwebCalendar.NULL;
         }
     }
+    
+    public static QixwebCalendar parseDD_MM_YYYY_HH_MMasQixwebTime(String aDateAsString)
+    {
+        try
+        {
+            Date date = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(aDateAsString);
+            return new QixwebTime(toCalendar(date));
+        }
+        catch (ParseException e)
+        {
+            return QixwebCalendar.NULL;
+        }
+    }
+    
 }
