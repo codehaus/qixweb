@@ -1,5 +1,7 @@
 package org.qixweb.util.test;
 
+import java.util.ArrayList;
+
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
@@ -8,6 +10,31 @@ import org.qixweb.util.CollectionUtil;
 public class TestExtendedTestCase extends TestCase
 {
 
+    public void testEmptyOnCollections() throws Exception
+    {
+        
+        ArrayList arrayList = new ArrayList();
+        try
+        {
+            ExtendedTestCase.assertEmpty(arrayList);            
+        }
+        catch (AssertionFailedError e)
+        {
+            fail("should be empty");
+        }
+        
+        try
+        {
+            arrayList.add("ciccio");
+            ExtendedTestCase.assertEmpty(arrayList);   
+            fail("should not be empty");
+        }
+        catch (AssertionFailedError e)
+        {
+           
+        }
+    }
+    
     public void testNotEquals()
     {
         ExtendedTestCase.assertNotEquals("The objects must be different", new Integer(2), new Integer(3));
