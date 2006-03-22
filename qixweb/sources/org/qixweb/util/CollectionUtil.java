@@ -210,5 +210,8 @@ public class CollectionUtil
         });
     }
 
-
+    public static Object firstFrom(Collection collection)
+    {
+        return collection.iterator().next();
+    }
 }

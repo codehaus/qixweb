@@ -203,4 +203,18 @@ public class TestCollectionUtil extends ExtendedTestCase
         assertEquals(CollectionUtil.listWith("1", "2", "3"), CollectionUtil.removeDuplicates(CollectionUtil.listWith("1", "2", "2", "3")));
         assertEquals(CollectionUtil.listWith("1", "2"), CollectionUtil.removeDuplicates(CollectionUtil.listWith("1", "2", "2", "1", "2")));
     }
+    
+    public void testFirst() throws Exception
+    {
+        try
+        {
+            CollectionUtil.firstFrom(new ArrayList());
+            fail("It should throw an NoSuchElementException"); 
+        }
+        catch (NoSuchElementException e){}
+        assertEquals("1", CollectionUtil.firstFrom(CollectionUtil.setWith("1")));
+        assertEquals("1", CollectionUtil.firstFrom(CollectionUtil.listWith("1", "2")));
+        
+    }
+    
 }
