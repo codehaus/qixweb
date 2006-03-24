@@ -46,6 +46,11 @@ public class FakeResponseHandler implements ResponseHandler
 		return itsDestinationUrl;
 	}
 
+    public void cleanRedirectedDestination()
+    {
+        itsDestinationUrl = null;
+    }
+    
 	public WebNode displayedNode()
 	{
 		return itsNodeToDisplay;
@@ -65,5 +70,4 @@ public class FakeResponseHandler implements ResponseHandler
     {
         return itsLastBrowsable;
     }
-
 }
