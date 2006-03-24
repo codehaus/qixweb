@@ -104,6 +104,17 @@ public abstract class ExtendedTestCase extends TestCase
         assertEmpty("", collection);
 
     }
+    
+    public static void assertNotEmpty(Collection collection)
+    {
+        assertNotEmpty("", collection);
+    }
+    
+    public static void assertNotEmpty(String description, Collection collection)
+    {
+        assertFalse(description, collection.isEmpty());
+    }    
+
 
     public static void assertEmpty(String aMessage, Collection collection)
     {
