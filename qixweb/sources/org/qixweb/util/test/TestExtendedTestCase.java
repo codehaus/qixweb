@@ -12,7 +12,6 @@ public class TestExtendedTestCase extends TestCase
 
     public void testEmptyOnCollections() throws Exception
     {
-        
         ArrayList arrayList = new ArrayList();
         try
         {
@@ -25,9 +24,34 @@ public class TestExtendedTestCase extends TestCase
         
         try
         {
-            arrayList.add("ciccio");
+            arrayList.add("an Object");
             ExtendedTestCase.assertEmpty(arrayList);   
             fail("should not be empty");
+        }
+        catch (AssertionFailedError e)
+        {
+           
+        }
+    }
+    
+    public void testNotEmptyOnCollections() throws Exception
+    {
+        ArrayList arrayList = new ArrayList();
+        arrayList.add("an Object");
+        try
+        {
+            ExtendedTestCase.assertNotEmpty(arrayList);            
+        }
+        catch (AssertionFailedError e)
+        {
+            fail("should not be empty");
+        }
+        
+        try
+        {
+            arrayList.remove(0);
+            ExtendedTestCase.assertNotEmpty(arrayList);   
+            fail("should be empty");
         }
         catch (AssertionFailedError e)
         {
