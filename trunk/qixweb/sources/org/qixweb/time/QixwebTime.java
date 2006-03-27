@@ -6,7 +6,7 @@ import java.util.Calendar;
 
 public class QixwebTime extends QixwebCalendar
 {
-     public QixwebTime(Calendar aCalendar)
+    public QixwebTime(Calendar aCalendar)
     {
         this(aCalendar.get(Calendar.DAY_OF_MONTH), aCalendar.get(Calendar.MONTH) + 1, aCalendar.get(Calendar.YEAR), aCalendar.get(Calendar.HOUR_OF_DAY), aCalendar.get(Calendar.MINUTE), aCalendar.get(Calendar.SECOND));
     }
@@ -40,6 +40,7 @@ public class QixwebTime extends QixwebCalendar
     {
         return DateFormatter.formatyyyy_MM_dd_HH_mm_ss(this);
     }
+    
     public String toString()
     {
         return DateFormatter.formatDD_MM_YYYY_HH_mm_ss(this);
@@ -57,8 +58,7 @@ public class QixwebTime extends QixwebCalendar
     }
     
     public String asStringCustomDateFormat(String dateFormatAsString)
-    {
-              
+    {              
 		SimpleDateFormat dateFormat = new SimpleDateFormat(dateFormatAsString);
 		return dateFormat.format(toGregorianCalendar().getTime());
     }
@@ -101,5 +101,15 @@ public class QixwebTime extends QixwebCalendar
     public int hashCode()
     {
         return Integer.parseInt(String.valueOf(year())+String.valueOf(month())+String.valueOf(day())+String.valueOf(hour()));
+    }
+
+    public QixwebTime endOfTheDay()
+    {
+        return new QixwebTime(day(), month(), year(), 23, 59, 59);
+    }
+
+    public QixwebTime beginningOfTheDay()
+    {
+        return new QixwebTime(day(), month(), year(), 0, 0, 0);
     }
 }
