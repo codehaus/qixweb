@@ -64,7 +64,7 @@ public class Parameters
         if (StringUtils.isEmpty(date))
             return QixwebCalendar.NULL;
         else
-            return DateFormatter.parseDD_MM_YYYYasQixwebDate(date);
+            return DateFormatter.parseDDslashMMslashYYYYasQixwebDate(date);
     }
 
     public QixwebCalendar getAsDateWithPrefix(String keyPrefix)

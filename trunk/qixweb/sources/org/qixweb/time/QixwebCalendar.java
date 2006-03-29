@@ -135,9 +135,9 @@ public abstract class QixwebCalendar implements Serializable
     
     public static QixwebCalendar parse(String s)
     {
-        QixwebCalendar time = DateFormatter.parseDD_MM_YYYY_HH_MM_SSasQixwebTime(s);
+        QixwebCalendar time = DateFormatter.parseDDslashMMslashYYYY_HH_MM_SSasQixwebTime(s);
         if (NULL.equals(time))
-            return DateFormatter.parseDD_MM_YYYYasQixwebDate(s);
+            return DateFormatter.parseDDslashMMslashYYYYasQixwebDate(s);
         else
             return time;
     }
