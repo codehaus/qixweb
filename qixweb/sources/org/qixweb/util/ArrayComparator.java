@@ -1,8 +1,6 @@
 package org.qixweb.util;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
-import org.apache.commons.collections.ListUtils;
 import org.qixweb.block.EqualsPredicate;
 import org.qixweb.block.LightInternalIterator;
 
@@ -138,24 +136,30 @@ public class ArrayComparator
 		return areEqualsIgnoringOrder(someObjects, otherObjects, new DoNothingCompareFailureListener());
 	}
 
-	public static boolean areEqualsIgnoringOrder(final Object[] expectedObjects, final Object[] actualObjects, CompareFailureListener aFailureListener)
+	public static boolean areEqualsIgnoringOrder(final Object[] expectedObjects, final Object[] resultObjects, CompareFailureListener aFailureListener)
 	{
 		boolean areEquals = true;
-        List actual = CollectionUtil.toList(actualObjects);
-        List expected = CollectionUtil.toList(expectedObjects);
 
-		if (expected.size() != actual.size())
+		if (expectedObjects.length != resultObjects.length)
 		{
 			areEquals = false;
-			aFailureListener.notifyDifferentLength(expected.size(), actual.size());
+			aFailureListener.notifyDifferentLength(expectedObjects.length, resultObjects.length);
 		}
 		else
 		{
-            List exceedingElements = ListUtils.subtract(expected, actual);
-            List unexpectedElements = ListUtils.subtract(actual, expected);
-            areEquals = unexpectedElements.isEmpty() && exceedingElements.isEmpty();
-            if (!areEquals) 
-                aFailureListener.notifyElementsNotPresent(exceedingElements);
+			ArrayList present = CollectionTransformer.toArrayList(resultObjects);
+
+			for (int i = 0; i < expectedObjects.length; i++)
+			{
+				if (present.contains(expectedObjects[i]))
+					present.remove(expectedObjects[i]);
+				else
+				{
+					areEquals = false;
+					aFailureListener.notifyElementNotPresent(expectedObjects[i]);
+					break;
+				}
+			}
 		}
 		return areEquals;
 	}
@@ -170,7 +174,7 @@ public class ArrayComparator
 		LightInternalIterator theIterator = LightInternalIterator.createOn(someObjects);
 		Object theObjectFound = theIterator.detect(new EqualsPredicate(anObject));
 		if (theObjectFound == null)
-			aFailureListener.notifyElementsNotPresent(CollectionUtil.listWith(anObject));
+			aFailureListener.notifyElementNotPresent(anObject);
 
 		return theObjectFound != null;
 	}

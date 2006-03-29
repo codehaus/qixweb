@@ -1,9 +1,9 @@
 package org.qixweb.core.test;
 
-import junit.framework.TestCase;
-
 import org.qixweb.core.UserData;
 import org.qixweb.util.EqualsBehaviourVerifier;
+
+import junit.framework.TestCase;
 
 
 public class TestUserData extends TestCase
@@ -24,7 +24,6 @@ public class TestUserData extends TestCase
 		sameUserData.store("key1", "value1");
 		differentUserData.store("key2", "value2");
 		EqualsBehaviourVerifier.check(itsUserData, sameUserData, differentUserData);
-        EqualsBehaviourVerifier.checkHashCode(itsUserData, sameUserData);
 	}
 
 	public void testStoreRetrieveAndRemove()
@@ -65,11 +64,4 @@ public class TestUserData extends TestCase
 		itsUserData.removeLoggedUserName();
 		assertNull("User should be removed from UserData", itsUserData.loggedUserName());
 	}
-    
-    public void testSize()
-    {
-        assertEquals(0, itsUserData.size());
-        itsUserData.store("key", "value");
-        assertEquals(1, itsUserData.size());
-    }
 }

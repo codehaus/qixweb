@@ -1,8 +1,10 @@
 package org.qixweb.time;
 
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
-import org.qixweb.core.Parameters;
+import org.qixweb.core.WebAppUrl;
 
 public class QixwebDate extends QixwebCalendar
 {
@@ -43,14 +45,6 @@ public class QixwebDate extends QixwebCalendar
 		return new QixwebDate(Calendar.getInstance());
 	}
 	
-    public static QixwebDate todayIfNull(QixwebCalendar date)
-    {
-        if (NULL.equals(date))
-            return today();
-        else
-            return new QixwebDate(date.toGregorianCalendar());
-    }
-    
 	public boolean beforeOrEquals(QixwebDate anotherDate)
 	{
 		if (anotherDate == null)
@@ -66,20 +60,28 @@ public class QixwebDate extends QixwebCalendar
 	
 	public String key()
 	{
-        return DateFormatter.formatyyyy_MM_dd(this);
+		String month = Integer.toString(month());
+		if (month() < 10)
+			month = "0" + month;
+
+		String day = Integer.toString(day());
+		if (day() < 10)
+			day = "0" + day;
+			
+		return Integer.toString(year())+"-"+month + "-" + day;
 	}    
 
     public String toString()
     {
-        return DateFormatter.formatDDslashMMslashYYYY(this);
+        return DateFormatter.formatDD_MM_YYYY_HH_mm(this);
     }
 
-    public static QixwebCalendar createFrom(Parameters anUrl, String aPrefix)
+    public static QixwebDate createFrom(WebAppUrl anUrl, String aPrefix)
     {
         return new QixwebDate(
-                Integer.parseInt(anUrl.get(aPrefix+DAY_PARAM)),
-                Integer.parseInt(anUrl.get(aPrefix+MONTH_PARAM)),
-                Integer.parseInt(anUrl.get(aPrefix+YEAR_PARAM))
+                Integer.parseInt(anUrl.getParameter(aPrefix+DAY_PARAM)),
+                Integer.parseInt(anUrl.getParameter(aPrefix+MONTH_PARAM)),
+                Integer.parseInt(anUrl.getParameter(aPrefix+YEAR_PARAM))
             );
     }
 

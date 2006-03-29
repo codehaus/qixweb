@@ -1,29 +1,22 @@
 package org.qixweb.core.test;
 
-import org.qixweb.core.*;
-import org.qixweb.util.test.ExtendedTestCase;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.qixweb.core.DefaultWebForm;
+import org.qixweb.core.WebAppUrl;
 
-public class TestDefaultWebForm extends ExtendedTestCase
+import junit.framework.TestCase;
+
+public class TestDefaultWebForm extends TestCase
 {
-
-    private static final QixwebUser ROUSER = QixwebUser.createUserWith("name", "pwd", "", "", "a@b", "cc", false, false);
-    private static final QixwebUser RWUSER = QixwebUser.createUserWith("name", "pwd", "", "", "a@b", "cc", false, true);
 
     public static class MyDefaultWebForm extends DefaultWebForm
     {
-        public String field1 = "val1";
-        public String field2 = "val2";
+        public String field1 = "field1";
+        public String field2 = "field2";
         
-        public MyDefaultWebForm()
+        protected WebAppUrl concreteActionUrl()
         {
-        }
-        public MyDefaultWebForm(QixwebUser user)
-        {
-            super(user);
-        }
-        protected QixwebUrl concreteActionUrl()
-        {
-            return new QixwebUrl(Object.class);
+            return null;
         }
     }
 
@@ -41,24 +34,6 @@ public class TestDefaultWebForm extends ExtendedTestCase
     
     public void testToString()
     {
-        assert_contains(itsForm.toString(), "val1");
-        assert_contains(itsForm.toString(), "val2");
-    }
-    
-    public void testDisabling()
-    {
-        assertTrue(itsForm.isEnabled());
-        assertTrue(itsForm.actionUrl().isEnabled());
-        itsForm.disable();
-        assertFalse(itsForm.isEnabled());
-        assertFalse(itsForm.actionUrl().isEnabled());
-    }
-    
-    public void testDisableIfReadOnlyUser()
-    {
-        itsForm = new MyDefaultWebForm(RWUSER);
-        assertTrue(itsForm.isEnabled());
-        itsForm = new MyDefaultWebForm(ROUSER);
-        assertFalse(itsForm.isEnabled());
+        assertEquals(ToStringBuilder.reflectionToString(itsForm), itsForm.toString());
     }
 }

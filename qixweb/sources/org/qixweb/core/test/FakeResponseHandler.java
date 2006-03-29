@@ -9,9 +9,8 @@ public class FakeResponseHandler implements ResponseHandler
 {
 	private boolean throwExceptionDisplayingNode;
 	private String itsFailureNodeInTemplateMerging;
-	protected QixwebUrl itsDestinationUrl;
+	protected WebAppUrl itsDestinationUrl;
 	private WebNode itsNodeToDisplay;
-    private Browsable itsLastBrowsable;
 
 	public FakeResponseHandler()
 	{
@@ -29,28 +28,23 @@ public class FakeResponseHandler implements ResponseHandler
 			throw new IOException("Simulated IOException");
 		}
 		
-		itsLastBrowsable = itsNodeToDisplay = aDestinationNode;
+		itsNodeToDisplay = aDestinationNode;
 	}
 	public void simulateExceptionSendingHTMLOnlyOnce()
 	{
 		throwExceptionDisplayingNode = true;
 	}
 
-	public void redirectTo(QixwebUrl aDestinationUrl) throws IOException
+	public void redirectTo(WebAppUrl aDestinationUrl) throws IOException
 	{
-        itsLastBrowsable = itsDestinationUrl = aDestinationUrl;
+		itsDestinationUrl = aDestinationUrl;
 	}
 
-	public QixwebUrl redirectedDestination()
+	public WebAppUrl redirectedDestination()
 	{
 		return itsDestinationUrl;
 	}
 
-    public void cleanRedirectedDestination()
-    {
-        itsDestinationUrl = null;
-    }
-    
 	public WebNode displayedNode()
 	{
 		return itsNodeToDisplay;
@@ -66,8 +60,4 @@ public class FakeResponseHandler implements ResponseHandler
 		itsFailureNodeInTemplateMerging = anXpTrackingNode.getName();
 	}
 
-    public Browsable lastBrowsed()
-    {
-        return itsLastBrowsable;
-    }
 }
