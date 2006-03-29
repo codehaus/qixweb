@@ -22,7 +22,7 @@ public class HelloNode extends WebNode
 
     public String currentTime()
     {
-        return DateFormatter.formatDD_MM_YYYY_HH_mm_ss(new QixwebTime(Calendar.getInstance()));
+        return DateFormatter.formatDDslashMMslashYYYY_HH_mm_ss(new QixwebTime(Calendar.getInstance()));
     }
     public QixwebUrl setGuestNameUrl()
     {

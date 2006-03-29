@@ -43,7 +43,7 @@ public class QixwebTime extends QixwebCalendar
     
     public String toString()
     {
-        return DateFormatter.formatDD_MM_YYYY_HH_mm_ss(this);
+        return DateFormatter.formatDDslashMMslashYYYY_HH_mm_ss(this);
     }
 
     public static QixwebTime parseYYYYMMDD_HHMMSS(String aDate) throws ParseException

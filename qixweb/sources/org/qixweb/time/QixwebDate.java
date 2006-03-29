@@ -71,7 +71,7 @@ public class QixwebDate extends QixwebCalendar
 
     public String toString()
     {
-        return DateFormatter.formatDD_MM_YYYY(this);
+        return DateFormatter.formatDDslashMMslashYYYY(this);
     }
 
     public static QixwebCalendar createFrom(Parameters anUrl, String aPrefix)
