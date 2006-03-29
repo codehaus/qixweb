@@ -1,0 +1,18 @@
+<HTML>
+	<HEAD>
+		<TITLE>Qixweb Spike</TITLE>
+	</HEAD>
+	<BODY>
+		<H1 align="center">Hello $node.guestName()</H1>
+		Current time is $node.currentTime()
+		<form method="post" id="setGuestNameForm" action="$node.setGuestNameUrl().destination()">
+		<table>
+			<tr>
+				<td>Name:</td>
+				<td><input type="TEXT" name="$node.parameterNameForGuestName()" maxlength="50" size="50"></td>
+				<td align=center><INPUT type="SUBMIT" value="  Ok  "></td>
+			</tr>
+		</table>
+		</form>
+	</BODY>
+</HTML>
