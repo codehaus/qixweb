@@ -4,19 +4,15 @@ import org.qixweb.util.DeepEquals;
 
 public class Choice implements Comparable
 {
-	private String itsValue;
-	private Comparable itsItem;
+	private String itsID;
+	private Comparable itsItemToDisplay;
 	private boolean isSelected;
 
-	public String toString()
-	{
-		return "'" + itsItem + "' (" + itsValue + ") => " + isSelected;
-	}
 	
-	public Choice(String aValue, Comparable anItem, boolean isSelected)
+	public Choice(String anID, Comparable anItemToDisplay, boolean isSelected)
 	{
-		itsItem = anItem;
-		itsValue = aValue;
+		itsItemToDisplay = anItemToDisplay;
+		itsID = anID;
 		this.isSelected = isSelected;
 	}
 
@@ -27,34 +23,20 @@ public class Choice implements Comparable
 
 	public Comparable item()
 	{
-		return itsItem;
+		return itsItemToDisplay;
 	}
 
 	public String value()
 	{
-		return itsValue;
+		return itsID;
 	}
 
-	public boolean equals(Object aChoice)
-	{
-//        if (aChoice instanceof Choice)
-//            return itsItem.equals(((Choice)aChoice).itsItem);
-//        else
-//            return false;
-        return DeepEquals.equals(this, aChoice);
-	}
-
-    public int hashCode()
-    {
-        return itsItem.hashCode();
-    }
-    
     public int compareTo(Object anObject)
     {
         if (anObject instanceof Choice)
         {
             Choice anotherChoice = (Choice) anObject;
-            return itsItem.compareTo(anotherChoice.itsItem);
+            return itsItemToDisplay.compareTo(anotherChoice.itsItemToDisplay);
         }
         return -1;
     }
@@ -69,4 +51,18 @@ public class Choice implements Comparable
         isSelected = false;
     }
 
+    public boolean equals(Object aChoice)
+    {
+        return DeepEquals.equals(this, aChoice);
+    }
+
+    public int hashCode()
+    {
+        return itsItemToDisplay.hashCode();
+    }
+    
+    public String toString()
+    {
+        return "'" + itsItemToDisplay + "' (" + itsID + ") => " + isSelected;
+    }    
 }
