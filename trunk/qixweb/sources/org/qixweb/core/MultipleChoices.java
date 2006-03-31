@@ -1,6 +1,7 @@
 package org.qixweb.core;
 
 import java.util.Collections;
+import java.util.Comparator;
 
 import org.qixweb.block.*;
 
@@ -21,7 +22,12 @@ public class MultipleChoices extends AbstractChoice
     {
         Collections.sort(choices());
     }
-
+    
+    public void customSortByLabel(Comparator aComparator)
+    {
+        Collections.sort(choices(),aComparator);        
+    }
+    
     public Choice selectedChoice()
     {
         Choice[] selectedChoices = (Choice[])LightInternalIterator.createOn(choices()).select(new Predicate()
@@ -59,4 +65,22 @@ public class MultipleChoices extends AbstractChoice
     {
         choices().add(0, aChoice);
     }
+    
+    public static final Comparator caseInsensitiveOrderOnStringItem()
+    {
+        return new Comparator() {
+            
+            public int compare(Object o1, Object o2)
+            {
+                Choice choice1 = (Choice) o1;
+                Choice choice2 = (Choice) o2;
+    
+                String string1 = (String) choice1.item();
+                String string2 = (String) choice2.item();
+                return string1.toLowerCase().compareTo(string2.toLowerCase());
+            
+            }
+        };
+    };
+
 }
