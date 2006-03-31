@@ -54,4 +54,9 @@ public class MultipleChoices extends AbstractChoice
             }
         });
     }
+
+    public void addOnTop(Choice aChoice)
+    {
+        choices().add(0, aChoice);
+    }
 }
