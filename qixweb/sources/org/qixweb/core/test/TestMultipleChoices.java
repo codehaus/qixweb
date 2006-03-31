@@ -33,6 +33,24 @@ public class TestMultipleChoices extends TestAbstractChoices
         assertEquals("Choices should be sorted by label", sortedChoices, multipleChoices.choices());
     }
 
+    public void testCustomSort()
+    {
+
+        MultipleChoices multipleChoices = new MultipleChoices("name", true);
+        Choice secondChoice = new Choice("1", "bbb", false);
+        multipleChoices.add(secondChoice);
+        Choice thirdChoice = new Choice("3", "ZZZ", false);
+        multipleChoices.add(thirdChoice);
+        Choice firstChoice = new Choice("2", "aaa", false);
+        multipleChoices.add(firstChoice);
+
+        List sortedChoices = CollectionUtil.listWith(firstChoice, secondChoice, thirdChoice);
+
+        multipleChoices.customSortByLabel(MultipleChoices.caseInsensitiveOrderOnStringItem());
+        assertEquals("Choices should be sorted by label", sortedChoices, multipleChoices.choices());
+    }
+    
+
     public void testSelectedItem()
     {
         MultipleChoices multipleChoices = new MultipleChoices("name", true);
