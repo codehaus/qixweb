@@ -65,7 +65,9 @@ public class ArrayComparator
 				areEquals = true;
 				for (int i = 0; i < someExpectedObjects.length; i++)
 				{
-					if (!someExpectedObjects[i].equals(someActualObjects[i]))
+                    if(someExpectedObjects[i] == null && someActualObjects[i]== null)
+                        continue;
+                    if (!someExpectedObjects[i].equals(someActualObjects[i]))
 					{
 						areEquals = false;
 						compareFailureListener.notifyDifferentElement(someExpectedObjects[i], someActualObjects[i], i);
