@@ -1,11 +1,7 @@
 package org.qixweb.core.test;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.qixweb.core.WebUrl;
 import org.qixweb.time.QixwebDate;
-import org.qixweb.util.ArrayAsserter;
 import org.qixweb.util.EqualsBehaviourVerifier;
 import org.qixweb.util.test.ExtendedTestCase;
 
@@ -59,19 +55,6 @@ public class TestWebUrl extends ExtendedTestCase
         assert_contains("wrong destination composition", itsUrl.destination(), "parameter=http%3A%2F%2Fwww.google.it%2Fwebapp%2Fservlet%2FServlet%2F1137489980000%3Fcommand%3Dpackage.Command%26param%3Dvalue");      
 	}
 
-	private void verifyColorsParameterReturns(String[] colorArray)
-    {
-        assertEquals(1, itsUrl.parameters().size());
-        ArrayAsserter.assertEquals("Wrong returned values", colorArray, itsUrl.parameters().getAllValuesOf("colors"));
-    }
-    
-    private void verifyIntegerParameterReturns(String parameterName, Object[] expectedIntegers)
-    {
-        assertEquals(1, itsUrl.parameters().size());
-        ArrayAsserter.assertEquals("Wrong returned values", expectedIntegers, itsUrl.parameters().getAllValuesAsIntegerOf(parameterName));
-    }    
-
-				
 	public void testEquals()
 	{
 		WebUrl url = new WebUrl("www.google.it");
@@ -118,21 +101,6 @@ public class TestWebUrl extends ExtendedTestCase
         assertEquals("If given label is null, the label should be the url", "http://url.com", urlWithNullLabelInCostruction.label());        
     }
     
-    public class WebUrlDerived extends WebUrl
-    {
-        public WebUrlDerived(String anUrl)
-        {
-            super(anUrl);
-            label("a new label");
-        }
-    }
-    
-    public void testLabelCanChangeInHierarchyConstructors()
-    {
-        WebUrl derived = new WebUrlDerived("http://foo.test");
-        assertNotEquals("http://foo.test", derived.label());
-    }
-
     public void testCompare() throws Exception
     {
         assertEquals(0, new WebUrl("url", "aaa").compareTo(new WebUrl("different url", "aaa")));
