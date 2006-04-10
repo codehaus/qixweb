@@ -1,0 +1,35 @@
+#macro (enabledif $condition)
+	#if (!$condition)
+		disabled
+	#end
+#end
+
+#macro (disabledif $condition)
+	#if ($condition)
+		disabled
+	#end
+#end
+
+#macro (checkedif $condition)
+	#if ($condition)
+		checked
+	#end
+#end
+
+#macro (checkedifnot $condition)
+	#if (!$condition)
+		checked
+	#end
+#end
+
+#macro (selectedifnot $condition)
+	#if (!$condition)
+		selected
+	#end
+#end
+
+#macro (selectedif $condition)
+	#if ($condition)
+		selected
+	#end
+#end
