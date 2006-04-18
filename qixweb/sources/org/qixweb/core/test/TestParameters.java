@@ -67,7 +67,7 @@ public class TestParameters extends ExtendedTestCase
         assertEquals("value1", itsParameters.get("parameter1"));
         assertEquals("value1", itsParameters.get("parameter1", "default"));
         assertNull("Should return null if parameter value is not set", itsParameters.get("parameter2"));
-        assertEquals("Should return the default value if parameter value is not set", itsParameters.get("parameter2", "default"));
+        assertEquals("Should return the default value if parameter value is not set", "default", itsParameters.get("parameter2", "default"));
     }    
     
     public void testEncodingParameters()

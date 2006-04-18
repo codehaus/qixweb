@@ -197,4 +197,14 @@ public abstract class ExtendedTestCase extends TestCase
         assertEquals(message, new HashSet(expected), new HashSet(actual));
     }
 
+    public static void assertEquals(String aMessage, float expected, float actual)
+    {
+        assertEquals(aMessage, expected, actual, 0);
+    }
+
+    public static void assertEquals(float expected, float actual)
+    {
+        assertEquals(expected, actual, 0);
+    }
+    
 }
