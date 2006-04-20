@@ -315,7 +315,7 @@ public class TestParameters extends ExtendedTestCase
         Parameters source = new Parameters().set("first", 1).set("second", new String[] { "a", "b"});
         Parameters destination = new Parameters().set("third", 3);
 
-        destination.addExcluding(source, new HashSet());
+        destination.add(source);
         
         Parameters expected = new Parameters().set("first", 1).set("second", new String[] { "a", "b"}).set("third", 3);
         assertEquals(expected, destination);
@@ -337,7 +337,7 @@ public class TestParameters extends ExtendedTestCase
         Parameters source = new Parameters().set("first", 1);
         Parameters destination = new Parameters().set("first", 2);
 
-        destination.addExcluding(source, new HashSet());
+        destination.add(source);
         
         Parameters expected = new Parameters().set("first", 1);
         assertEquals(expected, destination);
