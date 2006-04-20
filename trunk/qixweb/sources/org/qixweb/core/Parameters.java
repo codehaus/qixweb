@@ -281,6 +281,11 @@ public class Parameters
       });
     }
     
+    public void add(Parameters source)
+    {
+        addExcluding(source, new HashSet());
+    }
+    
     public void remove(String key)
     {
         itsParameters.remove(key);
