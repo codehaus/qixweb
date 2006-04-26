@@ -7,6 +7,9 @@ import org.qixweb.block.*;
 import org.qixweb.time.*;
 import org.qixweb.util.UrlParametersExtractor;
 
+/**
+ *
+ */
 public class Parameters
 {
     protected Map itsParameters;
@@ -104,6 +107,10 @@ public class Parameters
             return null;
     }
 
+    /**
+     * @deprecated
+     * @see #set(String key, String value)
+     */
     public Parameters set(String key, Object value)
     {
         itsParameters.put(key, value.toString());
