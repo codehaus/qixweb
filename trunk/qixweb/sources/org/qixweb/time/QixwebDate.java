@@ -1,11 +1,35 @@
 package org.qixweb.time;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.qixweb.core.Parameters;
 
 public class QixwebDate extends QixwebCalendar
 {
+    public static final QixwebDate NULL = new QixwebDate(0, 1, 0)
+    {
+        protected QixwebCalendar newInstanceOfThis(Calendar aCalendar)
+        {
+            return this;
+        }
+
+        public String format(SimpleDateFormat dateFormat)
+        {
+            return "";
+        }
+
+        public String toString()
+        {
+            return "NullCalendar";
+        }
+
+        public String key()
+        {
+            return toString();
+        }
+    };
+    
 	public static final String YEAR_PARAM = "Year";
     public static final String MONTH_PARAM = "Month";
     public static final String DAY_PARAM = "Day";

@@ -19,6 +19,7 @@ public abstract class QixwebServlet extends HttpServlet
             QixwebBrowser browser = buildBrowser(request, response, environment, templatePath);
 
             QixwebUrl url = new QixwebUrlFactory(environment).createFrom(request.getParameterMap());
+            handleMultipartContent(request, url);
             browser.goTo(url);
         }
         catch (Exception ex)
@@ -29,6 +30,10 @@ public abstract class QixwebServlet extends HttpServlet
         {
             freeResourcesOn(environment);
         }
+    }
+
+    protected void handleMultipartContent(HttpServletRequest request, QixwebUrl url)
+    {
     }
 
     protected void freeResourcesOn(QixwebEnvironment aEnvironment)

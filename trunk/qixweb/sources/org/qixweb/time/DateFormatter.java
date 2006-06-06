@@ -105,7 +105,7 @@ public class DateFormatter
         return toCalendar(date);
     }
 
-    public static QixwebCalendar parseDDslashMMslashYYYYasQixwebDate(String aDateAsString)
+    public static QixwebDate parseDDslashMMslashYYYYasQixwebDate(String aDateAsString)
     {
         try
         {
@@ -113,7 +113,7 @@ public class DateFormatter
         }
         catch (ParseException e)
         {
-            return QixwebCalendar.NULL;
+            return QixwebDate.NULL;
         }
     }
 
@@ -154,6 +154,24 @@ public class DateFormatter
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(aDate);
         return calendar;
+    }
+
+    public static QixwebTime parseHH_colon_mm(String aTimeAsString)
+    {
+        try
+        {
+            Date date = new SimpleDateFormat("HH:mm").parse(aTimeAsString);
+            return QixwebTime.timeOnly(date.getHours(), date.getMinutes(), 0);
+        }
+        catch (ParseException e)
+        {
+            return QixwebTime.NULL;
+        }
+    }
+
+    public static String formatHH_colon_mm(QixwebCalendar aCalendar)
+    {
+        return format(aCalendar, new SimpleDateFormat("HH:mm"));
     }
 
 }

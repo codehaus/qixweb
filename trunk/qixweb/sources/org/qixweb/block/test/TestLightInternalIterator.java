@@ -209,13 +209,24 @@ public abstract class TestLightInternalIterator extends ExtendedTestCase
     {
         Object[] theElements = { new Integer(1), new Integer(2) };
 
-        List theCollectedElementsAsList = createIterator(theElements).collectAsList(functionForTest());
-        Object[] theCollectedElements = createIterator(theElements).collect(functionForTest(), Object.class);
+        List theCollectedElementsAsList = createIterator(theElements).collectAsList(incrementFunction());
+        Object[] theCollectedElements = createIterator(theElements).collect(incrementFunction(), Object.class);
 
         assertEquals("Should be collected as List", Arrays.asList(theCollectedElements), theCollectedElementsAsList);
     }
+    
+    public void testCollectAsSet()
+    {
+        Object[] theElements = { new Integer(1), new Integer(2),  new Integer(1)};
 
-    private Function functionForTest()
+        Set collectedElements = createIterator(theElements).collectAsSet(incrementFunction());
+        
+        assertEquals(CollectionUtil.setWith(new Integer(2), new Integer(3)), collectedElements);
+    }
+    
+    
+
+    private Function incrementFunction()
     {
         return new Function()
         {

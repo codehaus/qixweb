@@ -20,6 +20,12 @@ public class TestDateFormatter extends TestCase
         assertEquals("Dec-99", DateFormatter.formatMMM_YY(anotherDate, Locale.US));
     }
 
+    public void testFormatHH_colon_mm()
+    {
+        QixwebTime theDate = QixwebTime.timeOnly(12, 30, 21);
+        assertEquals("12:30", DateFormatter.formatHH_colon_mm(theDate));
+    }
+
     public void testParseMMM_YY() throws ParseException
     {
         Calendar expectedDate = new GregorianCalendar(2002, Calendar.FEBRUARY, 1, 0, 0, 0);
@@ -36,6 +42,14 @@ public class TestDateFormatter extends TestCase
         Calendar expectedDate = new GregorianCalendar(2002, Calendar.SEPTEMBER, 23, 10, 30, 22);
 
         assertEquals("Wrong format", expectedDate, DateFormatter.parseyyyyMMdd_HHmmss("20020923-103022"));
+    }
+
+    public void testParseHHmm()
+    {
+        QixwebTime expectedTime = QixwebTime.timeOnly(10, 30, 0);
+        QixwebTime time = DateFormatter.parseHH_colon_mm("10:30");
+
+        assertEquals(expectedTime, time);
     }
 
     public void testParseDDslashMMslashYYYY_HH_MM()

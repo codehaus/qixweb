@@ -9,7 +9,6 @@ import org.qixweb.util.test.ExtendedTestCase;
 
 public abstract class TestQixwebCalendar extends ExtendedTestCase
 {
-
     protected abstract QixwebCalendar concreteInstance(int day, int month, int year);
 
     protected abstract QixwebCalendar concreteInstance(Calendar aCalendar);
@@ -63,6 +62,16 @@ public abstract class TestQixwebCalendar extends ExtendedTestCase
         assertEquals(new GregorianCalendar(0,0,0), QixwebCalendar.NULL.toGregorianCalendar());
         assertTrue(concreteInstance(1,1,1).after(QixwebCalendar.NULL));
         assertEquals(QixwebCalendar.NULL.toString(), QixwebCalendar.NULL.key());
+    }
+    
+    public void testNullsAreEquivalent()
+    {
+        assertEquals(QixwebCalendar.NULL, QixwebDate.NULL);
+        assertEquals(QixwebDate.NULL, QixwebCalendar.NULL);
+        assertEquals(QixwebCalendar.NULL, QixwebTime.NULL);
+        assertEquals(QixwebTime.NULL, QixwebCalendar.NULL);
+        assertEquals(QixwebDate.NULL, QixwebTime.NULL);
+        assertEquals(QixwebTime.NULL, QixwebDate.NULL);
     }
     
     public void testAfter()
