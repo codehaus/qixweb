@@ -5,40 +5,44 @@ import java.util.Comparator;
 
 import org.qixweb.block.*;
 
-
 public class MultipleChoices extends AbstractChoice
 {
     public MultipleChoices(String aName, boolean isEnabled)
     {
         super(aName, isEnabled);
     }
-    
-	public void add(Choice aChoice)
-	{
-		choices().add(aChoice);
-	}
+
+    public void add(Choice aChoice)
+    {
+        choices().add(aChoice);
+    }
 
     public void sortByLabel()
     {
         Collections.sort(choices());
     }
-    
+
     public void customSortByLabel(Comparator aComparator)
     {
-        Collections.sort(choices(),aComparator);        
+        Collections.sort(choices(), aComparator);
     }
-    
+
+    public void sortByKey()
+    {
+        Collections.sort(choices(), onKey());
+    }
+
     public Choice selectedChoice()
     {
-        Choice[] selectedChoices = (Choice[])LightInternalIterator.createOn(choices()).select(new Predicate()
+        Choice[] selectedChoices = (Choice[]) LightInternalIterator.createOn(choices()).select(new Predicate()
         {
-        
+
             public boolean is(Object each)
             {
-                Choice choice = (Choice)each;
+                Choice choice = (Choice) each;
                 return choice.isSelected().booleanValue();
             }
-        
+
         }, Choice.class);
         if (selectedChoices.length > 0)
             return (selectedChoices)[0];
@@ -52,7 +56,7 @@ public class MultipleChoices extends AbstractChoice
         {
             public void run(Object each)
             {
-                Choice choice = (Choice)each;
+                Choice choice = (Choice) each;
                 if (choice.item().compareTo(anItem) == 0)
                     choice.select();
                 else
@@ -65,22 +69,41 @@ public class MultipleChoices extends AbstractChoice
     {
         choices().add(0, aChoice);
     }
-    
+
     public static final Comparator caseInsensitiveOrderOnStringItem()
     {
-        return new Comparator() {
-            
+        return new Comparator()
+        {
+
             public int compare(Object o1, Object o2)
             {
                 Choice choice1 = (Choice) o1;
                 Choice choice2 = (Choice) o2;
-    
+
                 String string1 = (String) choice1.item();
                 String string2 = (String) choice2.item();
                 return string1.toLowerCase().compareTo(string2.toLowerCase());
-            
+
             }
         };
-    };
+    }
+
+    private Comparator onKey()
+    {
+        return new Comparator()
+        {
+
+            public int compare(Object o1, Object o2)
+            {
+                Choice choice1 = (Choice) o1;
+                Choice choice2 = (Choice) o2;
+
+                String string1 = choice1.value();
+                String string2 = choice2.value();
+                return string1.compareTo(string2);
+
+            }
+        };
+    }
 
 }

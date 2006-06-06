@@ -6,6 +6,29 @@ import java.util.Calendar;
 
 public class QixwebTime extends QixwebCalendar
 {
+    public static final QixwebTime NULL = new QixwebTime(0, 1, 0, 0, 0, 0)
+    {
+        protected QixwebCalendar newInstanceOfThis(Calendar aCalendar)
+        {
+            return this;
+        }
+
+        public String format(SimpleDateFormat dateFormat)
+        {
+            return "";
+        }
+
+        public String toString()
+        {
+            return "NullCalendar";
+        }
+
+        public String key()
+        {
+            return toString();
+        }
+    };
+    
     public QixwebTime(Calendar aCalendar)
     {
         this(aCalendar.get(Calendar.DAY_OF_MONTH), aCalendar.get(Calendar.MONTH) + 1, aCalendar.get(Calendar.YEAR), aCalendar.get(Calendar.HOUR_OF_DAY), aCalendar.get(Calendar.MINUTE), aCalendar.get(Calendar.SECOND));
@@ -16,6 +39,11 @@ public class QixwebTime extends QixwebCalendar
         super(day, month, year, hours, minutes, seconds);
     }
 
+    public static QixwebTime timeOnly(int hours, int minutes, int seconds)
+    {
+        return new QixwebTime(0, 1, 0, hours, minutes, seconds);
+    }
+    
 	public boolean beforeOrEquals(QixwebTime another)
 	{
 		return toGregorianCalendar().before(another.toGregorianCalendar()) || equals(another); 

@@ -34,6 +34,14 @@ public class TestQixwebTime extends TestQixwebCalendar
         assertEquals(34, time.minute());
         assertEquals(23, time.second());
     }
+    
+    public void testTimeOnlyFactoryMethod()
+    {
+        QixwebTime time = QixwebTime.timeOnly(12, 34, 23);
+        assertEquals(12, time.hour());
+        assertEquals(34, time.minute());
+        assertEquals(23, time.second());
+    }    
 
     public void testEquals()
     {

@@ -1,13 +1,15 @@
 package org.qixweb.core.test;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.qixweb.core.Parameters;
 import org.qixweb.core.WebUrl;
-import org.qixweb.time.QixwebCalendar;
-import org.qixweb.time.QixwebDate;
+import org.qixweb.time.*;
 import org.qixweb.util.*;
 import org.qixweb.util.test.ExtendedTestCase;
+
+import sun.misc.BASE64Encoder;
 
 
 public class TestParameters extends ExtendedTestCase
@@ -51,13 +53,16 @@ public class TestParameters extends ExtendedTestCase
 		assertEquals("val3", itsParameters.get("key3"));
 	}
     
-	public void testAllAsString()
+	public void testAllAsString() 
 	{
 		itsParameters.set("parameter1", "value1");
 		itsParameters.set("parameter2", 55d);
         itsParameters.set("parameter3", 42);
+        byte[] bs = new byte[] {-112, -90, 34, 57};
+        itsParameters.set("parameter4", bs);
 	    
-        assertEquals("?parameter1=value1&parameter2=55.0&parameter3=42", itsParameters.allAsString());        
+        BASE64Encoder encoder = new BASE64Encoder();
+        assertEquals("?parameter1=value1&parameter2=55.0&parameter3=42&parameter4=" + WebUrl.encode(encoder.encode(bs)), itsParameters.allAsString());        
 	}
     
     public void testGet()
@@ -224,6 +229,25 @@ public class TestParameters extends ExtendedTestCase
         assertEquals(27, itsParameters.getAsInt("key"));
         assertEquals(new Integer(27), itsParameters.getAsInteger("key"));
     }
+
+    public void testExtractingParameterAsCharacter()
+    {
+        itsParameters.set("key", "S");
+        assertEquals(new Character('S'), itsParameters.getAsCharacter("key"));
+
+        itsParameters.set("key", "Serpico!");
+        assertEquals(new Character('S'), itsParameters.getAsCharacter("key"));
+
+        itsParameters.set("key", "");
+        assertNull(itsParameters.getAsCharacter("key"));
+
+    }
+    
+    public void testExtractingParameterAsDouble()
+    {
+        itsParameters.set("key", 27.34);
+        assertEquals(27.34, itsParameters.getAsDouble("key"), 0);
+    }    
     
     public void testExtractingParameterAsIntWithInvalidValue()
     {
@@ -278,6 +302,14 @@ public class TestParameters extends ExtendedTestCase
         itsParameters.set("key", "zfockl;");
         assertFalse(itsParameters.getAsBoolean("key"));
     }
+    
+    public void testExtractingParameterAsByteArray()
+    {
+        byte[] array = new byte[] { -112, 34, 56, -90, -113};
+        itsParameters.set("key", array);
+        ArrayAsserter.assertEquals("Should be equals", array, itsParameters.getAsByteArray("key"));
+    }
+    
     public void testExtractingParameterAsDateWithPrefix()
     {
         itsParameters.set("prefDay", 17);
@@ -305,10 +337,16 @@ public class TestParameters extends ExtendedTestCase
         assertEquals(new QixwebDate(17, 11, 1970), itsParameters.getAsCalendarDD_MM_YYYY("key"));
     }
     
+    public void testExtractingParameterAsTimeHH_colon_mm()
+    {
+        itsParameters.set("key", "10:30");
+        assertEquals(QixwebTime.timeOnly(10, 30, 0), itsParameters.getAsTimeHH_colon_mm("key"));
+    }    
+    
     public void testExtractingNullParameterAsCalendarDD_MM_YYYYReturnNullObject()
     {
-        assertSame(QixwebCalendar.NULL, itsParameters.getAsCalendarDD_MM_YYYY("not_existent_parameter"));
-        }
+        assertSame(QixwebDate.NULL, itsParameters.getAsCalendarDD_MM_YYYY("not_existent_parameter"));
+    }
     
     public void testAdd() throws Exception
     {

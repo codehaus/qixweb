@@ -6,7 +6,6 @@ import java.util.*;
 
 public abstract class QixwebCalendar implements Serializable
 {
-
     public static final QixwebCalendar NULL = new QixwebCalendar(0, 1, 0, 0, 0, 0)
     {
         protected QixwebCalendar newInstanceOfThis(Calendar aCalendar)

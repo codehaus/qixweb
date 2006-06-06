@@ -3,7 +3,6 @@ package org.qixweb.time.test;
 import java.util.*;
 
 import org.qixweb.core.Parameters;
-import org.qixweb.core.QixwebUrl;
 import org.qixweb.time.QixwebCalendar;
 import org.qixweb.time.QixwebDate;
 import org.qixweb.util.EqualsBehaviourVerifier;

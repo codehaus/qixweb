@@ -7,9 +7,8 @@ import org.qixweb.block.*;
 import org.qixweb.time.*;
 import org.qixweb.util.UrlParametersExtractor;
 
-/**
- *
- */
+import sun.misc.BASE64Encoder;
+
 public class Parameters
 {
     protected Map itsParameters;
@@ -34,15 +33,15 @@ public class Parameters
         else
             return (String) value;
     }
-    
+
     public String get(String key, String defaultValue)
     {
         String result = get(key);
         if (result == null)
-           result = defaultValue;
-        
+            result = defaultValue;
+
         return result;
-    }    
+    }
 
     public Parameters set(String key, String value)
     {
@@ -61,13 +60,13 @@ public class Parameters
         return this;
     }
 
-    public QixwebCalendar getAsCalendarDD_MM_YYYY(String key)
+    public QixwebDate getAsCalendarDD_MM_YYYY(String key)
     {
         String date = get(key);
-        if (StringUtils.isEmpty(date))
-            return QixwebCalendar.NULL;
-        else
+        if (StringUtils.isNotEmpty(date))
             return DateFormatter.parseDDslashMMslashYYYYasQixwebDate(date);
+        else
+            return QixwebDate.NULL;
     }
 
     public QixwebCalendar getAsDateWithPrefix(String keyPrefix)
@@ -80,9 +79,26 @@ public class Parameters
         return Integer.parseInt(get(key));
     }
 
+    public Character getAsCharacter(String key)
+    {
+        String value = get(key);
+        return StringUtils.isNotEmpty(value)? new Character(value.charAt(0)) : null;
+    }
+
     public Parameters set(String key, int value)
     {
         itsParameters.put(key, Integer.toString(value));
+        return this;
+    }
+
+    public byte[] getAsByteArray(String key)
+    {
+        return (byte[]) itsParameters.get(key);
+    }
+
+    public Parameters set(String key, byte[] arrayOfBytes)
+    {
+        itsParameters.put(key, arrayOfBytes);
         return this;
     }
 
@@ -101,10 +117,7 @@ public class Parameters
     public Integer getAsInteger(String key)
     {
         String value = get(key);
-        if (value != null)
-            return Integer.decode(value);
-        else
-            return null;
+        return (value != null)? Integer.decode(value) : null;
     }
 
     /**
@@ -112,6 +125,12 @@ public class Parameters
      * @see #set(String key, String value)
      */
     public Parameters set(String key, Object value)
+    {
+        itsParameters.put(key, value.toString());
+        return this;
+    }
+
+    public Parameters set(String key, Integer value)
     {
         itsParameters.put(key, value.toString());
         return this;
@@ -231,6 +250,8 @@ public class Parameters
                 String key = (String) keys[i];
                 if (itsParameters.get(key) instanceof String)
                     append(buf, key, get(key));
+                else if (itsParameters.get(key) instanceof byte[])
+                    append(buf, key, new BASE64Encoder().encode(getAsByteArray(key)));
                 else
                     append(buf, key, getAllValuesOf(key));
             }
@@ -274,27 +295,41 @@ public class Parameters
 
     public void addExcluding(final Parameters source, final Set keysToExclude)
     {
-      LightInternalIterator.createOn(source.itsParameters.keySet()).forEach(new Procedure()
-      {
-          public void run(Object aEach)
-          {
-              String key = (String) aEach;
-              if (! keysToExclude.contains(key))
-              {
-                  Object object = source.itsParameters.get(key);
-                  itsParameters.put(key, object);
-              }
-          }
-      });
+        LightInternalIterator.createOn(source.itsParameters.keySet()).forEach(new Procedure()
+        {
+            public void run(Object aEach)
+            {
+                String key = (String) aEach;
+                if (!keysToExclude.contains(key))
+                {
+                    Object object = source.itsParameters.get(key);
+                    itsParameters.put(key, object);
+                }
+            }
+        });
     }
-    
+
     public void add(Parameters source)
     {
         addExcluding(source, new HashSet());
     }
-    
+
     public void remove(String key)
     {
         itsParameters.remove(key);
+    }
+
+    public QixwebTime getAsTimeHH_colon_mm(String key)
+    {
+        String timeAsString = get(key);
+        if (StringUtils.isNotEmpty(timeAsString))
+            return DateFormatter.parseHH_colon_mm(timeAsString);
+        else
+            return QixwebTime.NULL;
+    }
+
+    public double getAsDouble(String key)
+    {
+        return Double.parseDouble(get(key));
     }
 }

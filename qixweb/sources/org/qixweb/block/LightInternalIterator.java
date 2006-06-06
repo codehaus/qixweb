@@ -74,6 +74,22 @@ public abstract class LightInternalIterator
 
         return theCollectedElements;
     }
+    
+    public Set collectAsSet(Function function)
+    {
+        checkAlreadyBeenUsed();
+        Set collectedElements = new HashSet();
+        while (hasNext())
+        {
+            Object theEvaluedObject = function.eval(currentValue());
+            if (theEvaluedObject != null)
+                collectedElements.add(theEvaluedObject);
+        }
+
+        return collectedElements;
+    }
+
+    
 
     public int count(Predicate aPredicate)
     {
