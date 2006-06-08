@@ -5,7 +5,7 @@ import org.apache.commons.lang.StringUtils;
 
 public class WebLabel implements Comparable
 {
-    public static final WebLabel NULL = new WebLabel("");
+    public static final WebLabel EMPTY = new WebLabel("");
     
     private final String itsString;
 

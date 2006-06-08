@@ -34,20 +34,13 @@ public class MultipleChoices extends AbstractChoice
 
     public Choice selectedChoice()
     {
-        Choice[] selectedChoices = (Choice[]) LightInternalIterator.createOn(choices()).select(new Predicate()
+        return (Choice) LightInternalIterator.createOn(choices()).detect(new Predicate()
         {
-
             public boolean is(Object each)
             {
-                Choice choice = (Choice) each;
-                return choice.isSelected().booleanValue();
+                return ((Choice) each).isSelected().booleanValue();
             }
-
-        }, Choice.class);
-        if (selectedChoices.length > 0)
-            return (selectedChoices)[0];
-        else
-            return null;
+        });
     }
 
     public void selectExclusivelyBy(final Comparable anItem)
