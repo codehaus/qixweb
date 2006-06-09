@@ -8,6 +8,8 @@ import org.apache.commons.lang.StringUtils;
 
 public class StringUtil
 {	
+    public static final String EMPTY = "";
+    
 	public static boolean string_containsRegex(String text, String regex)
 	{
 		Pattern pattern = Pattern.compile(regex);
