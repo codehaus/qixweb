@@ -2,6 +2,7 @@ package org.qixweb.core;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
+import org.qixweb.util.DeepEquals;
 
 public class WebLabel implements Comparable
 {
@@ -11,7 +12,7 @@ public class WebLabel implements Comparable
 
     public WebLabel(String aString)
     {
-        itsString = aString;
+        itsString = aString != null ? aString : "";
     }
 
     public String toString()
@@ -28,14 +29,17 @@ public class WebLabel implements Comparable
     {
         if (obj instanceof WebLabel)
             return itsString.equals(((WebLabel) obj).itsString);
-
         else
             return false;
-
     }
 
     public int hashCode()
     {
         return itsString.hashCode();
+    }
+
+    public boolean isEmpty()
+    {
+        return EMPTY.equals(this);
     }
 }
