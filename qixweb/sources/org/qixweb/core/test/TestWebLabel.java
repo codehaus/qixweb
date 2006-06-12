@@ -6,9 +6,17 @@ import junit.framework.TestCase;
 
 public class TestWebLabel extends TestCase
 {
-    public void testNull() throws Exception
+    public void testNullIsEquivalentToEmptyString() throws Exception
     {
-        assertEquals("", new WebLabel(null).toString());
+        assertEquals(new WebLabel(""), new WebLabel(null));
+    }
+    
+    public void testEmpty() throws Exception
+    {
+        assertEquals(WebLabel.EMPTY, new WebLabel(""));
+        assertTrue(WebLabel.EMPTY.isEmpty());
+        assertFalse(new WebLabel("asdf").isEmpty());
+        assertTrue(new WebLabel(null).isEmpty());
     }
     
     public void testEscapeHtml() throws Exception
