@@ -1,8 +1,7 @@
 package org.qixweb.core;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -10,6 +9,8 @@ import org.qixweb.util.*;
 
 public class QixwebUrl extends WebUrl implements Browsable
 {
+    private static final String COMMAND_REQUEST_SUFFIX = "Request";
+    
     private static String itsServletPath = "";
     private static String itsNodePackage = "";
     private static String itsCommandPackage = "";
@@ -191,5 +192,23 @@ public class QixwebUrl extends WebUrl implements Browsable
     public void addOptionalParametersFrom(final WebUrl source)
     {
         parameters().addExcluding(source.parameters(), CollectionUtil.setWith(PARAMETER_COMMAND_TO_EXECUTE, PARAMETER_NODE_TO_DISPLAY));
+    }
+
+    public WebCommandRequest toCommandRequest()
+    {
+        String relatedRequestClassName = target().getName() + COMMAND_REQUEST_SUFFIX;
+        try
+        {
+            Class relatedRequestClass = Class.forName(relatedRequestClassName);
+            Class[]  constructorParameterTypes  = new Class[]  { Parameters.class };
+            Object[] constructorParameterValues = new Object[] { parameters() };
+
+            Constructor constructor = relatedRequestClass.getConstructor(constructorParameterTypes);
+            return (WebCommandRequest) constructor.newInstance(constructorParameterValues);
+        }
+        catch (Exception e)
+        {            
+            return new AlwaysValidWebCommandRequest();
+        }        
     }
 }

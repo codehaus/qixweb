@@ -252,4 +252,17 @@ public class TestQixwebUrl extends ExtendedTestCase
     {
         assertFalse(QixwebUrl.createGhost("not available link").isEnabled());
     }
+    
+    public void testToCommandRequest() throws Exception
+    {
+        assertEquals
+        (
+            "A default request should be returned for command without related request object",
+            new AlwaysValidWebCommandRequest(), 
+            itsWebUrlForAnyCommand.toCommandRequest()
+        );
+        
+        QixwebUrl urlForCommandWithValidation = new QixwebUrl(CommandWithValidation.class);
+        assertEquals(new CommandWithValidationRequest(urlForCommandWithValidation.parameters()), urlForCommandWithValidation.toCommandRequest());
+    }
 }
