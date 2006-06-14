@@ -29,8 +29,27 @@ public class TestQixwebBrowserOnCommandExecution extends ExtendedTestCase
         assertEquals("Wrong destination url after command execution", expectedDestination, itsFakeResponseHandler.redirectedDestination());
         assertSame(itsFakeResponseHandler.lastBrowsed(), itsFakeResponseHandler.redirectedDestination());
     }
+    
+    public void testExecuteWhenNotValidCommandRequest() throws Exception
+    {
+        QixwebUrl expectedDestinationWhenNotValid = new QixwebUrl(EmptyNode.class);
+        CommandWithValidationRequest.programNotValidWithDestination(expectedDestinationWhenNotValid);
 
+        itsBrowser.goTo(new QixwebUrl(CommandWithValidation.class));
 
+        assertEquals("Wrong destination url after NOT valid command request", expectedDestinationWhenNotValid, itsFakeResponseHandler.redirectedDestination());
+    }
+    
+    public void testExecuteWhenValidCommandRequest() throws Exception
+    {
+        QixwebUrl expectedDestination = new QixwebUrl(AnyNode.class);
+        CommandWithValidationRequest.programValidRequestWithNotValidDestination(new QixwebUrl(EmptyNode.class));
+
+        QixwebUrl validCommandUrl = new QixwebUrl(CommandWithValidation.class);
+        itsBrowser.goTo(validCommandUrl);
+
+        assertEquals("Wrong destination url after valid command request", expectedDestination, itsFakeResponseHandler.redirectedDestination());
+    }
     
     public void testGoToWarningNodeForNotInstantiableCommand() throws Exception
     {
