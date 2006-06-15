@@ -10,7 +10,6 @@ import org.qixweb.util.DeepEquals;
 public class QixwebUser implements Comparable, Serializable
 {
     static final long serialVersionUID = 1L;
-    public static final QixwebUser ANONYMOUS = createUserWith("AnonymousUser", "", "", "", "", "", false, true);
 
     public static QixwebUser createSuperAdminWith(String aName, String aPassword, String aFirstName, String aLastName, String aEmail, String aCompany)
     {
@@ -26,6 +25,7 @@ public class QixwebUser implements Comparable, Serializable
     {
         return RandomStringUtils.randomAlphanumeric(10);
     }
+    
 
     private String itsName;
     private String itsPassword;
