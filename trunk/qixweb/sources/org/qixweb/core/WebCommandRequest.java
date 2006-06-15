@@ -13,7 +13,7 @@ public abstract class WebCommandRequest
     }
 
     public abstract boolean isValid();
-    public abstract Browsable destinationWhenNotValid();
+    public abstract Browsable destinationWhenNotValid(QixwebEnvironment environment);
     
     public boolean equals(Object other)
     {

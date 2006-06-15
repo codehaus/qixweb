@@ -18,7 +18,7 @@ public class CommandWithValidationRequest extends WebCommandRequest
         return itsValidationFlag;
     }
 
-    public Browsable destinationWhenNotValid()
+    public Browsable destinationWhenNotValid(QixwebEnvironment environment)
     {
         return itsDestinationWhenNotValid;
     }

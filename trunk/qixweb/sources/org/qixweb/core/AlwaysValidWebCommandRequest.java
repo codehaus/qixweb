@@ -17,7 +17,7 @@ public class AlwaysValidWebCommandRequest extends WebCommandRequest
         return true;
     }
 
-    public Browsable destinationWhenNotValid()
+    public Browsable destinationWhenNotValid(QixwebEnvironment notUsed)
     {
         return null;
     }

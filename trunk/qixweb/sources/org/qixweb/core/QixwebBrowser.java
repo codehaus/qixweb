@@ -50,7 +50,7 @@ public class QixwebBrowser
         }
         else
         {
-            Browsable browsable = commandRequest.destinationWhenNotValid();
+            Browsable browsable = commandRequest.destinationWhenNotValid(itsEnvironment);
             browsable.displayThrough(responseHandler());
         }
 	}
