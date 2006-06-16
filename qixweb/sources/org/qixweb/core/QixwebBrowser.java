@@ -1,7 +1,5 @@
 package org.qixweb.core;
 
-import org.qixweb.util.XpLogger;
-
 
 public class QixwebBrowser
 {
@@ -10,97 +8,78 @@ public class QixwebBrowser
 	private UserData itsUserData;
     private boolean instantiateUrlWithEnvironment;
 
-    protected QixwebBrowser(ResponseHandler aResponseHandler, UserData aUserData, QixwebEnvironment environment, boolean useEnvironment)
+	public QixwebBrowser(ResponseHandler aResponseHandler, UserData aUserData, QixwebEnvironment environment)
+	{
+        this(aResponseHandler, aUserData, environment, false);
+	}
+    public QixwebBrowser(ResponseHandler aResponseHandler, UserData aUserData, QixwebEnvironment environment, boolean useEnvironment)
     {
+        
         itsResponseHandler = aResponseHandler;
         itsUserData = aUserData;        
         itsEnvironment = environment;
         instantiateUrlWithEnvironment = useEnvironment;
     }
-
-    public static QixwebBrowser usingSystem(ResponseHandler aResponseHandler, UserData aUserData, QixwebEnvironment environment)
-    {
-        return new QixwebBrowser(aResponseHandler, aUserData, environment, false);
-    }
-
-    public static QixwebBrowser usingEnvironment(ResponseHandler aResponseHandler, UserData aUserData, QixwebEnvironment environment)
-    {
-        return new QixwebBrowser(aResponseHandler, aUserData, environment, true);
-    }
-    
-	protected void executeCommand(QixwebUrl urlToCommand) throws Exception
+	
+	protected void executeCommand(WebAppUrl anUrl) throws Exception
 	{
-        WebCommandRequest commandRequest = urlToCommand.toCommandRequest();
-        if (commandRequest.isValid())
-        {            
-            WebCommand command = urlToCommand.materializeTargetCommandWith(itsUserData);
-            XpLogger.info("Executing command (User=" + loggedUser().name() + "): " + command);
-            if (command == null)
-                gotoWarningNode();
-            else if (command.canBeExecutedBy(loggedUser(), itsEnvironment))
-            {
-                Browsable browsable = command.execute(itsEnvironment);
-                browsable.displayThrough(responseHandler());
-            }
-            else
-            {
-                XpLogger.info("User " + loggedUser().name() + " cannot execute command: " + command.toString());
-                goToLogin();
-            }
-        }
-        else
+		WebCommand command = anUrl.materializeTargetCommandWith(itsUserData);
+		if (validateExecutionOf(command))
         {
-            XpLogger.info("Invalid command request (User=" + loggedUser().name() + "): " + commandRequest.toString());
-            Browsable browsable = commandRequest.destinationWhenNotValid(itsEnvironment);
-            browsable.displayThrough(responseHandler());
+            WebAppUrl url = command.execute(itsEnvironment);
+            responseHandler().redirectTo(url);
         }
 	}
 
-    protected WebNode instantiate(QixwebUrl urlToNode)
+	protected boolean validateExecutionOf(WebCommand aCommand) throws Exception
+    {
+        return true;
+    }
+
+    private WebNode instantiate(WebAppUrl aUrl)
     {
         if (instantiateUrlWithEnvironment)
-            return urlToNode.materializeTargetNodeWith(itsUserData, itsEnvironment);
+            return aUrl.materializeTargetNodeWith(itsUserData, itsEnvironment);
         else
-            return urlToNode.materializeTargetNodeWith(itsUserData, itsEnvironment.system());
+            return aUrl.materializeTargetNodeWith(itsUserData, itsEnvironment.system());
     }
     
-    protected void goToNode(QixwebUrl urlToNode) throws Exception
+    protected void goToNode(WebAppUrl aUrl) throws Exception
 	{
-        WebNode node = instantiate(urlToNode);
-        if (node == null)
-            gotoWarningNode();
-        else if (node.canBeDisplayedBy(loggedUser()))
-        {
-            try
-            {
-                node.displayThrough(responseHandler());
-            }
-            catch (Exception ex)
-            {
-                gotoWarningNode();
-            }
-        }
-        else
-            goToStart(urlToNode);
+		instantiate(aUrl).display(itsResponseHandler);
 	}
 
-    protected void goToStart(QixwebUrl aUrl) throws Exception
-    {
-        goToLogin();
-    }
-    
-	public void goTo(QixwebUrl aUrl) throws Exception
+	public void goTo(WebAppUrl aUrl) throws Exception
 	{
 		if (aUrl.isGoingToANode())
 			goToNode(aUrl);
 		else if (aUrl.isExecutingACommand())
 			executeCommand(aUrl);
+		else if (aUrl.isExecutingARefreshableCommand())
+			executeRefreshableCommand(aUrl);
 		else
 		    gotoWarningNode();
 	}
 
 	protected void gotoWarningNode() throws Exception
     {
+    }
+
+
+
+    protected void executeRefreshableCommand(WebAppUrl aUrl) throws Exception
+	{
+		WebRefreshableCommand command = aUrl.materializeTargetRefrashableCommand();
+		if (validateExecutionOf(command))
+        {
+			WebNode targetNode = command.execute(itsEnvironment);
+			targetNode.display(itsResponseHandler);
+        }		
+	}
+	
+    protected boolean validateExecutionOf(WebRefreshableCommand aCommand) throws Exception
+    {
+        return true;
     }
 
     public UserData userData()
@@ -111,17 +90,5 @@ public class QixwebBrowser
     public ResponseHandler responseHandler()
     {
         return itsResponseHandler;
-    }
-    
-    protected void goToLogin() throws Exception
-    {
-        QixwebUrl returnedUrl = new QixwebUrl(QixwebLoginNode.class);
-        WebNode node = instantiate(returnedUrl);
-        node.displayThrough(responseHandler());
-    }
-    
-    protected QixwebUser loggedUser()
-    {
-        return QixwebUser.ANONYMOUS;
     }
 }

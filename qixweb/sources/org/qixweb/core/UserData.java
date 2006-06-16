@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.qixweb.util.DeepEquals;
 
 public class UserData implements Serializable
 {
@@ -59,7 +58,10 @@ public class UserData implements Serializable
 
 	public boolean equals(Object obj)
 	{
-        return DeepEquals.equals(this, obj);
+		if (!(obj instanceof UserData))
+			return false;
+
+		return itsData.equals(((UserData) obj).itsData);
 	}
     public int hashCode()
     {

@@ -1,10 +1,10 @@
 package org.qixweb.core.test;
 
-import junit.framework.TestCase;
-
 import org.qixweb.core.QixwebUser;
 import org.qixweb.core.QixwebWorkgroup;
 import org.qixweb.util.EqualsBehaviourVerifier;
+
+import junit.framework.TestCase;
 
 
 
@@ -23,7 +23,7 @@ public class TestQixwebWorkgroup extends TestCase
     }
     public void testFindUserBy()
     {
-        assertEquals("A not present user cannot be found", QixwebUser.ANONYMOUS, itsWorkgroup.findUserBy("User"));
+        assertNull("A not present user cannot be found", itsWorkgroup.findUserBy("User"));
             
         QixwebUser user = TestQixwebUser.createReadWriteWith("User", "Pswd", false);
         itsWorkgroup.add(user);

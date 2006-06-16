@@ -1,17 +1,17 @@
 package org.qixweb.block.test;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import org.qixweb.block.LightInternalIterator;
-import org.qixweb.util.CollectionUtil;
+import org.qixweb.util.CollectionTransformer;
 
 
-public class TestLightInternalIteratorOnEnumeration extends TestLightInternalIterator
+public class TestLightInternalIteratorOnEnumeration extends ParameterizedTestLightInternalIterator
 {
     public LightInternalIterator createIterator(Object[] theArray)
     {
-        List theList = CollectionUtil.toList(theArray);
+        ArrayList theList = CollectionTransformer.toArrayList(theArray);
         return LightInternalIterator.createOn(Collections.enumeration(theList));
     }
 }
