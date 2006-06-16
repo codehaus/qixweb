@@ -62,11 +62,17 @@ public class Parameters
 
     public QixwebDate getAsCalendarDD_MM_YYYY(String key)
     {
+        return getAsCalendarDD_MM_YYYY(key, QixwebDate.NULL);
+    }
+    
+    public QixwebDate getAsCalendarDD_MM_YYYY(String key, QixwebDate defaultValue)
+    {
         String date = get(key);
+        
         if (StringUtils.isNotEmpty(date))
             return DateFormatter.parseDDslashMMslashYYYYasQixwebDate(date);
         else
-            return QixwebDate.NULL;
+            return defaultValue;
     }
 
     public QixwebCalendar getAsDateWithPrefix(String keyPrefix)
