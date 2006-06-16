@@ -50,6 +50,7 @@ public class QixwebBrowser
         }
         else
         {
+            XpLogger.info("Invalid command request (User=" + loggedUser().name() + "): " + commandRequest.toString());
             Browsable browsable = commandRequest.destinationWhenNotValid(itsEnvironment);
             browsable.displayThrough(responseHandler());
         }

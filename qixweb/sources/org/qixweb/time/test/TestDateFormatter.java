@@ -106,6 +106,14 @@ public class TestDateFormatter extends TestCase
         catch (ParseException expectedException)
         {
         }
+        try
+        {
+            DateFormatter.parseDDslashMMslashYYYY("this is not a date");
+            fail("Should throw an exception for not date text");
+        }
+        catch (ParseException expectedException)
+        {
+        }
     }
 
     public void testParseDDslashMMslashYYYYasQixwebDate()
