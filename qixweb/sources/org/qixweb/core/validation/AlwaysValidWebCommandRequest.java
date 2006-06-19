@@ -1,4 +1,6 @@
-package org.qixweb.core;
+package org.qixweb.core.validation;
+
+import org.qixweb.core.*;
 
 public class AlwaysValidWebCommandRequest extends WebCommandRequest
 {

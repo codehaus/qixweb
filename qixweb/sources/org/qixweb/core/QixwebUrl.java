@@ -5,6 +5,8 @@ import java.lang.reflect.*;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.qixweb.core.validation.AlwaysValidWebCommandRequest;
+import org.qixweb.core.validation.WebCommandRequest;
 import org.qixweb.util.*;
 
 public class QixwebUrl extends WebUrl implements Browsable
