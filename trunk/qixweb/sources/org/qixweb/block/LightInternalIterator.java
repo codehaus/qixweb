@@ -253,4 +253,9 @@ public abstract class LightInternalIterator
         return collectWithException(aFunction, aClassType, false);
     }
 
+    public static List apply_On(String methodName, Collection collection)
+    {
+        return createOn(collection).collectAsList(new CallGetter(methodName));
+    }
+
 }

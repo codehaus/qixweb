@@ -702,4 +702,10 @@ public abstract class TestLightInternalIterator extends ExtendedTestCase
         assertEquals(4, theMatchingElements.length);
     }
     // @PMD:REVIEWED:ExcessivePublicCount: by bop on 1/26/05 4:57 PM
+    
+    public void testApplyOnList() throws Exception
+    {
+        List actual = LightInternalIterator.apply_On("toString", CollectionUtil.listWith(new Integer(1), new Integer(3)));
+        assertEquals(CollectionUtil.listWith("1", "3"), actual);
+    }
 }
