@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.qixweb.util.*;
 import org.qixweb.util.StringUtil;
 import org.qixweb.util.XpLogger;
 
@@ -36,7 +35,7 @@ public class ServletResponseHandler implements ResponseHandler
             itsVelocityEngine = VelocityInitializer.init(aTemplatePath);
     }
 
-    public void redirectTo(QixwebUrl aDestinationUrl) throws IOException
+    public void redirectTo(WebAppUrl aDestinationUrl) throws IOException
     {
         itsResponse.sendRedirect(addPageIdToAllUrlsOf(aDestinationUrl.destination()));
     }
@@ -91,7 +90,9 @@ public class ServletResponseHandler implements ResponseHandler
         Template template = null;
         try
         {
-            String nodeClassName = ClassUtil.shortNameOf(node.getClass());
+        	//TODO: there is just 1 call that can be used => check!
+            String nodeFullyQualifiedName = node.getClass().getName();
+            String nodeClassName = nodeFullyQualifiedName.substring(nodeFullyQualifiedName.lastIndexOf(".") + 1);
 
             String templateFileName = StringUtil.replace_with_in("Node", ".html", nodeClassName);
             template = itsVelocityEngine.getTemplate(templateFileName);
