@@ -3,6 +3,7 @@ package org.qixweb.core.test;
 import java.io.IOException;
 
 import org.qixweb.core.*;
+import org.qixweb.core.validation.AlwaysValidWebCommandRequest;
 import org.qixweb.util.EqualsBehaviourVerifier;
 import org.qixweb.util.test.ExtendedTestCase;
 

@@ -1,6 +1,7 @@
 package org.qixweb.core.test;
 
 import org.qixweb.core.*;
+import org.qixweb.core.validation.WebCommandRequest;
 
 
 public class CommandWithValidationRequest extends WebCommandRequest

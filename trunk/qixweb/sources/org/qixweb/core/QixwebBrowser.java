@@ -1,5 +1,6 @@
 package org.qixweb.core;
 
+import org.qixweb.core.validation.WebCommandRequest;
 import org.qixweb.util.XpLogger;
 
 
