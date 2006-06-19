@@ -43,6 +43,17 @@ public abstract class WebCommandRequest
         appendIfNotEmpty(parameterKey, messageWhenInvalid, !QixwebTime.NULL.equals(itsSubmittedValues.getAsTimeHH_colon_mm(parameterKey)));
     }
     
+    protected void addOptionalControlDouble(String parameterKey, String messageWhenInvalid)
+    {
+        appendIfNotEmpty(parameterKey, messageWhenInvalid, !Double.isNaN(itsSubmittedValues.getAsDouble(parameterKey, Double.NaN))); 
+    }
+    
+    protected void addOptionalControlInteger(String parameterKey, String messageWhenInvalid)
+    {
+        Integer defaultValue = null;
+        appendIfNotEmpty(parameterKey, messageWhenInvalid, defaultValue != itsSubmittedValues.getAsInteger(parameterKey, defaultValue)); 
+    }
+    
     private void appendIfNotEmpty(String key, String messageWhenInvalid, boolean isKeyValid)
     {
         if (StringUtils.isNotEmpty(itsSubmittedValues.get(key)))
