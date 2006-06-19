@@ -327,15 +327,32 @@ public class Parameters
 
     public QixwebTime getAsTimeHH_colon_mm(String key)
     {
+        return getAsTimeHH_colon_mm(key, QixwebTime.NULL);
+    }
+    
+    public QixwebTime getAsTimeHH_colon_mm(String key, QixwebTime defaultValue)
+    {
         String timeAsString = get(key);
         if (StringUtils.isNotEmpty(timeAsString))
             return DateFormatter.parseHH_colon_mm(timeAsString);
         else
-            return QixwebTime.NULL;
+            return defaultValue;
     }
 
     public double getAsDouble(String key)
     {
         return Double.parseDouble(get(key));
+    }
+
+    public double getAsDouble(String key, double defaultValue)
+    {
+        try
+        {
+            return getAsDouble(key);
+        }
+        catch (Exception ex)
+        {
+        }
+        return defaultValue;
     }
 }

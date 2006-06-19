@@ -1,10 +1,12 @@
 package org.qixweb.core.test;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
 
 import junit.framework.TestCase;
 
 import org.qixweb.core.*;
+import org.qixweb.util.CollectionUtil;
 
 public class TestWebCommandRequest extends TestCase
 {
@@ -34,6 +36,16 @@ public class TestWebCommandRequest extends TestCase
         {
             super.addOptionalControlTimeAsTimeHH_colon_mm(parameterKey, messageWhenInvalid);
         }
+        
+        public void addOptionalControlDouble(String parameterKey, String messageWhenInvalid)
+        {
+            super.addOptionalControlDouble(parameterKey, messageWhenInvalid);
+        }
+        
+        public void addOptionalControlInteger(String parameterKey, String messageWhenInvalid)
+        {
+            super.addOptionalControlInteger(parameterKey, messageWhenInvalid);
+        }
     }
 
     private SampleWebCommandRequest webCommandRequest;
@@ -46,7 +58,7 @@ public class TestWebCommandRequest extends TestCase
         webCommandRequest = new SampleWebCommandRequest(parameters);
     }
     
-    public void testWithNothingAppended() throws Exception
+    public void testWithNothingToControl() throws Exception
     {
         assertTrue("With no constraints it should response OK", webCommandRequest.isValid());
     }
@@ -143,19 +155,72 @@ public class TestWebCommandRequest extends TestCase
         assertFalse(webCommandRequest.isValid());        
     }
 
-//    public void testInvalidParametersList() throws Exception
-//    {
-//        Parameters parameters = new Parameters();
-//        parameters.set("emptyText", "");
-//        parameters.set("notEmptyText", "lordtom.blogspot.com");
-//        parameters.set("invalidTime", "12-30");
-//        parameters.set("validDate", "02/02/2006");
-//        
-//        List expected = CollectionUtil.listWith("emptyText", "invalidTime");
-//        ParameterValidator validator = new ParameterValidator(parameters);
-//        validator.appendNotEmptyText("emptyText").appendNotEmptyText("notEmptyText").
-//        appendTimeAsTimeHH_colon_mm("invalidTime").appendDateAsDDslashMMslashYYYY("validDate");
-//        assertFalse(validator.areAllRight());
-//        assertEquals(expected, validator.invalidParameters());
-//    }
+    public void testControlDoubleWhenValid() throws Exception
+    {
+        parameters.set("validDouble", "2.022006");
+        
+        webCommandRequest.addOptionalControlDouble("validDouble", "Wrong Double format.");
+        
+        assertTrue(webCommandRequest.isValid());
+        assertEquals(new HashMap(), webCommandRequest.invalidParameters());        
+    }
+    
+    public void testControlDoubleWhenNotValid() throws Exception
+    {
+        parameters.set("invalidDouble", "not numeric");
+        HashMap expectedInvalidParameters = new HashMap();
+        expectedInvalidParameters.put("invalidDouble", "Wrong Double format.");
+
+        webCommandRequest.addOptionalControlDouble("invalidDouble", "Wrong Double format.");
+        
+        assertFalse(webCommandRequest.isValid());
+        assertEquals(expectedInvalidParameters, webCommandRequest.invalidParameters());
+    }
+
+    public void testControlIntegerWhenValid() throws Exception
+    {
+        parameters.set("validInteger", "2006");
+        
+        webCommandRequest.addOptionalControlInteger("validInteger", "Wrong Integer format.");
+        
+        assertTrue(webCommandRequest.isValid());
+        assertEquals(new HashMap(), webCommandRequest.invalidParameters());        
+    }
+    
+    public void testControlIntegerWhenNotValid() throws Exception
+    {
+        parameters.set("invalidInteger", "not numeric");
+        HashMap expectedInvalidParameters = new HashMap();
+        expectedInvalidParameters.put("invalidInteger", "Wrong Integer format.");
+
+        webCommandRequest.addOptionalControlInteger("invalidInteger", "Wrong Integer format.");
+        
+        assertFalse(webCommandRequest.isValid());
+        assertEquals(expectedInvalidParameters, webCommandRequest.invalidParameters());
+    }
+
+    public void testWithMixedControls() throws Exception
+    {
+        parameters.set("emptyText", "");
+        parameters.set("notEmptyText", "lordtom.blogspot.com");
+        parameters.set("invalidTime", "12-30");
+        parameters.set("validDate", "02/02/2006");
+        parameters.set("invalidInteger", "not numeric");
+        parameters.set("validDouble", "2.022006");
+              
+        webCommandRequest.addMandatoryControlText("emptyText", "1st text should not be empty");
+        webCommandRequest.addMandatoryControlText("notEmptyText", "2nd text should not be empty");
+        webCommandRequest.addOptionalControlTimeAsTimeHH_colon_mm("invalidTime", "Invalid time format.");
+        webCommandRequest.addOptionalControlDateAsDDslashMMslashYYYY("validDate", "Invalid date format.");
+        webCommandRequest.addOptionalControlInteger("invalidInteger", "Wrong Integer format.");
+        webCommandRequest.addOptionalControlDouble("validDouble", "Wrong Double format.");
+
+        HashMap expectedInvalidParameters = new HashMap();
+        expectedInvalidParameters.put("emptyText", "1st text should not be empty");
+        expectedInvalidParameters.put("invalidTime", "Invalid time format.");
+        expectedInvalidParameters.put("invalidInteger", "Wrong Integer format.");
+        
+        assertFalse(webCommandRequest.isValid());
+        assertEquals(expectedInvalidParameters, webCommandRequest.invalidParameters());
+    }
 }

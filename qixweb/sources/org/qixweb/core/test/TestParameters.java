@@ -290,6 +290,14 @@ public class TestParameters extends ExtendedTestCase
         assertEquals(new Integer(42), itsParameters.getAsInteger("key", new Integer(42)));
     }
     
+    public void testExtractingParameterAsDoubleWithDefault()
+    {
+        assertDoubleEquals(42.58, itsParameters.getAsDouble("key", 42.58));
+
+        itsParameters.set("key", "a non-double value");
+        assertDoubleEquals(5.23, itsParameters.getAsDouble("key", 5.23));
+    }
+    
     public void testExtractingNullParameterAsBooleanReturnsFalse()
     {
         assertFalse(itsParameters.getAsBoolean("k"));
