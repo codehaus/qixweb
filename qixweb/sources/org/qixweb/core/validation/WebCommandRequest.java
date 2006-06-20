@@ -14,30 +14,29 @@ public abstract class WebCommandRequest
     
     protected final Parameters itsSubmittedValues;
     private boolean areAllRight;
-    private HashMap itsInvalidParameters;
+    private HashMap itsMessageForInvalidParameters;
 
     protected WebCommandRequest(Parameters submittedValues)
     {
         itsSubmittedValues = submittedValues;        
         areAllRight = true;
-        itsInvalidParameters = new HashMap();
+        itsMessageForInvalidParameters = new HashMap();
     }
 
     public abstract Browsable destinationWhenNotValid(QixwebEnvironment environment);
     
-    private void append(String key, String messageWhenInvalid, boolean isKeyValid)
-    {
-        if (! isKeyValid)
-            itsInvalidParameters.put(key, messageWhenInvalid);  
-        
-        areAllRight &= isKeyValid;
-    }
+
     
     protected void addControl(WebCommandRequestControl control, boolean mandatoryFlag, String parameterKey, String messageWhenInvalid)
     {
-        if (mandatoryFlag == MANDATORY ||
-            (mandatoryFlag == OPTIONAL && StringUtils.isNotEmpty(itsSubmittedValues.get(parameterKey))))
-            append(parameterKey, messageWhenInvalid, control.isValid(parameterKey)); 
+        if (mandatoryFlag == MANDATORY || itsSubmittedValues.isNotEmpty(parameterKey))
+        {
+            boolean isKeyValid = control.isValid(parameterKey);
+            if (!isKeyValid)
+                itsMessageForInvalidParameters.put(parameterKey, messageWhenInvalid);  
+            
+            areAllRight &= isKeyValid;
+        } 
     }
     
     public boolean isValid()
@@ -45,9 +44,9 @@ public abstract class WebCommandRequest
         return areAllRight;
     }
     
-    public HashMap invalidParameters()
+    public HashMap messageForInvalidParameters()
     {
-        return itsInvalidParameters;
+        return itsMessageForInvalidParameters;
     }
     
     public boolean equals(Object other)

@@ -67,10 +67,8 @@ public class Parameters
     
     public QixwebDate getAsCalendarDD_MM_YYYY(String key, QixwebDate defaultValue)
     {
-        String date = get(key);
-        
-        if (StringUtils.isNotEmpty(date))
-            return DateFormatter.parseDDslashMMslashYYYYasQixwebDate(date);
+        if (isNotEmpty(key))
+            return DateFormatter.parseDDslashMMslashYYYYasQixwebDate(get(key));
         else
             return defaultValue;
     }
@@ -87,8 +85,7 @@ public class Parameters
 
     public Character getAsCharacter(String key)
     {
-        String value = get(key);
-        return StringUtils.isNotEmpty(value)? new Character(value.charAt(0)) : null;
+        return isNotEmpty(key)? new Character(get(key).charAt(0)) : null;
     }
 
     public Parameters set(String key, int value)
@@ -332,9 +329,8 @@ public class Parameters
     
     public QixwebTime getAsTimeHH_colon_mm(String key, QixwebTime defaultValue)
     {
-        String timeAsString = get(key);
-        if (StringUtils.isNotEmpty(timeAsString))
-            return DateFormatter.parseHH_colon_mm(timeAsString);
+        if (isNotEmpty(key))
+            return DateFormatter.parseHH_colon_mm(get(key));
         else
             return defaultValue;
     }
@@ -349,6 +345,38 @@ public class Parameters
         try
         {
             return getAsDouble(key);
+        }
+        catch (Exception ex)
+        {
+        }
+        return defaultValue;
+    }
+
+    public boolean isEmpty(String key)
+    {
+        return StringUtils.isEmpty(get(key));
+    }
+
+    public boolean isNotEmpty(String key)
+    {
+        return !isEmpty(key);
+    }
+
+    public Double getAsDoubleObject(String key)
+    {
+        if (isNotEmpty(key))
+            return new Double(get(key));
+        else
+            return null;
+    }
+
+    public Double getAsDoubleObject(String key, Double defaultValue)
+    {
+        try
+        {
+            Double foundDouble = getAsDoubleObject(key);
+            if (foundDouble != null)
+                return foundDouble;
         }
         catch (Exception ex)
         {

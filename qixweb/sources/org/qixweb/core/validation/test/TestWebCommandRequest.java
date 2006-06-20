@@ -40,7 +40,7 @@ public class TestWebCommandRequest extends TestCase
     public void testWithNothingToControl() throws Exception
     {
         assertTrue("With no constraints it should response OK", itsRequest.isValid());
-        assertTrue(itsRequest.invalidParameters().isEmpty());
+        assertTrue(itsRequest.messageForInvalidParameters().isEmpty());
     }
 
     public void testMandatoryControlWhenParameterIsNotPresent() throws Exception
@@ -51,7 +51,7 @@ public class TestWebCommandRequest extends TestCase
         itsRequest.addControl(new TextControl(itsSubmittedValues), WebCommandRequest.MANDATORY, "notPresent", "The parameter must be present");
         
         assertFalse("Mandatory parameter should be NOT valid if not present", itsRequest.isValid());
-        assertEquals(expectedInvalidParameters, itsRequest.invalidParameters());
+        assertEquals(expectedInvalidParameters, itsRequest.messageForInvalidParameters());
     }
 
     public void testOptionalControlWhenParameterIsNotPresent() throws Exception
@@ -59,7 +59,7 @@ public class TestWebCommandRequest extends TestCase
         itsRequest.addControl(new DoubleControl(itsSubmittedValues), WebCommandRequest.OPTIONAL, "empty", "Wrong");
         
         assertTrue("Optional controls should be valid if not present", itsRequest.isValid());
-        assertTrue(itsRequest.invalidParameters().isEmpty());
+        assertTrue(itsRequest.messageForInvalidParameters().isEmpty());
     }
     
     public void testOptionalControlWhenParameterIsEmpty() throws Exception
@@ -69,7 +69,7 @@ public class TestWebCommandRequest extends TestCase
         itsRequest.addControl(new IntegerControl(itsSubmittedValues), WebCommandRequest.OPTIONAL, "empty", "Wrong");
         
         assertTrue("Optional controls may be empty", itsRequest.isValid());
-        assertTrue(itsRequest.invalidParameters().isEmpty());
+        assertTrue(itsRequest.messageForInvalidParameters().isEmpty());
     }
     
     public void testIgnoreOrderWhenChecking() throws Exception
@@ -103,6 +103,6 @@ public class TestWebCommandRequest extends TestCase
         expectedInvalidParameters.put("invalidInteger", "Wrong Integer format.");
         
         assertFalse(itsRequest.isValid());
-        assertEquals(expectedInvalidParameters, itsRequest.invalidParameters());
+        assertEquals(expectedInvalidParameters, itsRequest.messageForInvalidParameters());
     }
 }

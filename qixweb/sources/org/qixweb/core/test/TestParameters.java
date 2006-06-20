@@ -5,7 +5,8 @@ import java.util.Map;
 
 import org.qixweb.core.Parameters;
 import org.qixweb.core.WebUrl;
-import org.qixweb.time.*;
+import org.qixweb.time.QixwebDate;
+import org.qixweb.time.QixwebTime;
 import org.qixweb.util.*;
 import org.qixweb.util.test.ExtendedTestCase;
 
@@ -65,14 +66,31 @@ public class TestParameters extends ExtendedTestCase
         assertEquals("?parameter1=value1&parameter2=55.0&parameter3=42&parameter4=" + WebUrl.encode(encoder.encode(bs)), itsParameters.allAsString());        
 	}
     
+
+    
     public void testGet()
     {
+        assertNull(itsParameters.get("parameter1"));
+        assertEquals("default", itsParameters.get("parameter1", "default"));
         itsParameters.set("parameter1", "value1");
 
         assertEquals("value1", itsParameters.get("parameter1"));
         assertEquals("value1", itsParameters.get("parameter1", "default"));
-        assertNull("Should return null if parameter value is not set", itsParameters.get("parameter2"));
-        assertEquals("Should return the default value if parameter value is not set", "default", itsParameters.get("parameter2", "default"));
+    }
+    
+    public void testEmpty()
+    {
+        assertNull(itsParameters.get("parameter1"));
+        assertTrue(itsParameters.isEmpty("parameter1"));
+        assertFalse(itsParameters.isNotEmpty("parameter1"));
+
+        itsParameters.set("parameter1", "");
+        assertTrue(itsParameters.isEmpty("parameter1"));
+        assertFalse(itsParameters.isNotEmpty("parameter1"));
+
+        itsParameters.set("parameter1", "value1");
+        assertFalse(itsParameters.isEmpty("parameter1"));
+        assertTrue(itsParameters.isNotEmpty("parameter1"));
     }    
     
     public void testEncodingParameters()
@@ -245,8 +263,18 @@ public class TestParameters extends ExtendedTestCase
     
     public void testExtractingParameterAsDouble()
     {
+        try
+        {
+            itsParameters.getAsDouble("key");
+            fail("null pointer exception expected!");
+        }
+        catch (NullPointerException e) {}        
+        assertNull(itsParameters.getAsDoubleObject("key"));
+        
         itsParameters.set("key", 27.34);
-        assertEquals(27.34, itsParameters.getAsDouble("key"), 0);
+
+        assertDoubleEquals(27.34, itsParameters.getAsDouble("key"));
+        assertEquals(new Double(27.34), itsParameters.getAsDoubleObject("key"));
     }    
     
     public void testExtractingParameterAsIntWithInvalidValue()
@@ -293,9 +321,20 @@ public class TestParameters extends ExtendedTestCase
     public void testExtractingParameterAsDoubleWithDefault()
     {
         assertDoubleEquals(42.58, itsParameters.getAsDouble("key", 42.58));
+        assertEquals(new Double(42.58), itsParameters.getAsDoubleObject("key", new Double(42.58)));
 
         itsParameters.set("key", "a non-double value");
         assertDoubleEquals(5.23, itsParameters.getAsDouble("key", 5.23));
+        assertEquals(new Double(5.23), itsParameters.getAsDoubleObject("key", new Double(5.23)));
+        
+        itsParameters.set("key", "");
+        assertDoubleEquals(5.23, itsParameters.getAsDouble("key", 5.23));
+        assertEquals(new Double(5.23), itsParameters.getAsDoubleObject("key", new Double(5.23)));
+
+        itsParameters.set("key", "1.2");
+        assertDoubleEquals(1.2, itsParameters.getAsDouble("key", 5.23));
+        assertEquals(new Double(1.2), itsParameters.getAsDoubleObject("key", new Double(5.23)));
+        
     }
     
     public void testExtractingNullParameterAsBooleanReturnsFalse()
