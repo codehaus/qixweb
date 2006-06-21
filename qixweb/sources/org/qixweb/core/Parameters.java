@@ -135,7 +135,15 @@ public class Parameters
 
     public Parameters set(String key, Integer value)
     {
-        itsParameters.put(key, value.toString());
+        if (value != null)
+            itsParameters.put(key, value.toString());
+        return this;
+    }
+
+    public Parameters set(String key, Double value)
+    {
+        if (value != null)
+            itsParameters.put(key, value.toString());
         return this;
     }
 
