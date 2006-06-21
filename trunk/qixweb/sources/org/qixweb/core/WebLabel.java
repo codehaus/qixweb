@@ -2,7 +2,6 @@ package org.qixweb.core;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
-import org.qixweb.util.DeepEquals;
 
 public class WebLabel implements Comparable
 {

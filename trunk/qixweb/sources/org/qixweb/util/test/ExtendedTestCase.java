@@ -7,6 +7,7 @@ import java.util.*;
 import junit.framework.TestCase;
 
 import org.apache.commons.lang.StringUtils;
+import org.qixweb.core.WebLabel;
 import org.qixweb.util.StringUtil;
 import org.qixweb.util.XpLogger;
 
@@ -209,6 +210,11 @@ public abstract class ExtendedTestCase extends TestCase
     public static void assertEquals(float expected, float actual)
     {
         assertEquals(expected, actual, 0);
+    }
+
+    public static void assertEmpty(WebLabel label)
+    {
+        assertTrue(label.isEmpty());
     }
     
 }

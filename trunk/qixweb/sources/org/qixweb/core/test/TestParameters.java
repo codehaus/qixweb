@@ -153,10 +153,10 @@ public class TestParameters extends ExtendedTestCase
 
     public void testAllValuesAsIntegersDiscardsInvalidValues()
     {
-        itsParameters.set("id", "ciao");
+        itsParameters.set("id", "hello");
         verifyIntegerParameterReturns("id", new Integer[0]);
 
-        itsParameters.set("id", new String[]{"27", "ciao", "92"});
+        itsParameters.set("id", new String[]{"27", "hello", "92"});
         verifyIntegerParameterReturns("id", new Integer[]{new Integer(27), new Integer(92)});
     }
     
@@ -243,9 +243,13 @@ public class TestParameters extends ExtendedTestCase
     
     public void testExtractingParameterAsIntOrInteger()
     {
-        itsParameters.set("key", 27);
-        assertEquals(27, itsParameters.getAsInt("key"));
-        assertEquals(new Integer(27), itsParameters.getAsInteger("key"));
+        itsParameters.set("keyInt", 27);
+        assertEquals(27, itsParameters.getAsInt("keyInt"));
+        assertEquals(new Integer(27), itsParameters.getAsInteger("keyInt"));
+
+        itsParameters.set("keyInteger", new Integer(48));
+        assertEquals(48, itsParameters.getAsInt("keyInteger"));
+        assertEquals(new Integer(48), itsParameters.getAsInteger("keyInteger"));
     }
 
     public void testExtractingParameterAsCharacter()
@@ -261,21 +265,47 @@ public class TestParameters extends ExtendedTestCase
 
     }
     
-    public void testExtractingParameterAsDouble()
+    public void testExtractingParameterAsDoublePrimitiveOrObject()
+    {
+        itsParameters.set("primitive", 27.34);
+        assertDoubleEquals(27.34, itsParameters.getAsDouble("primitive"));
+        assertEquals(new Double(27.34), itsParameters.getAsDoubleObject("primitive"));
+        
+        itsParameters.set("object", new Double(65.01));
+        assertDoubleEquals(65.01, itsParameters.getAsDouble("object"));
+        assertEquals(new Double(65.01), itsParameters.getAsDoubleObject("object"));
+    }    
+    
+    public void testExtractingParameterAsDoublePrimitiveWithInvalidValue()
     {
         try
         {
-            itsParameters.getAsDouble("key");
+            itsParameters.getAsDouble("primitive");
             fail("null pointer exception expected!");
         }
         catch (NullPointerException e) {}        
-        assertNull(itsParameters.getAsDoubleObject("key"));
-        
-        itsParameters.set("key", 27.34);
 
-        assertDoubleEquals(27.34, itsParameters.getAsDouble("key"));
-        assertEquals(new Double(27.34), itsParameters.getAsDoubleObject("key"));
+        itsParameters.set("not_a_double", "hello");
+        try
+        {
+            itsParameters.getAsDouble("not_a_double");
+            fail("should throw an exception");
+        }
+        catch (Exception expectedException) {}
     }    
+    
+    public void testExtractingParameterAsDoubleObjectWithInvalidValue()
+    {
+        assertNull(itsParameters.getAsDoubleObject("object"));
+
+        itsParameters.set("not_a_Double", "hello");
+        try
+        {
+            itsParameters.getAsInt("not_a_Double");
+            fail("should throw an exception");
+        }
+        catch (Exception expectedException) {}
+    }
     
     public void testExtractingParameterAsIntWithInvalidValue()
     {
@@ -286,7 +316,7 @@ public class TestParameters extends ExtendedTestCase
         }
         catch (Exception expectedException) {}
 
-        itsParameters.set("alphaKey", "ciao");
+        itsParameters.set("alphaKey", "hello");
         try
         {
             itsParameters.getAsInt("alphaKey");
@@ -299,7 +329,7 @@ public class TestParameters extends ExtendedTestCase
     {
         assertNull(itsParameters.getAsInteger("not_existent_value"));
 
-        itsParameters.set("alphaKey", "ciao");
+        itsParameters.set("alphaKey", "hello");
         try
         {
             itsParameters.getAsInteger("alphaKey");
@@ -426,5 +456,14 @@ public class TestParameters extends ExtendedTestCase
         
         Parameters expected = new Parameters().set("first", 1);
         assertEquals(expected, destination);
+    }
+    
+    public void testSettingNullValue() throws Exception
+    {
+        itsParameters.set("nullInteger", (Integer)null);
+        assertNull(itsParameters.getAsInteger("nullInteger"));
+        itsParameters.set("nullDouble", (Double)null);
+        assertNull(itsParameters.getAsInteger("nullDouble"));
+        
     }
 }
