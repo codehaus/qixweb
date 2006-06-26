@@ -1,5 +1,7 @@
 package org.qixweb.core.test;
 
+import java.util.HashMap;
+
 import org.qixweb.core.*;
 import org.qixweb.util.DeepEquals;
 
@@ -15,6 +17,12 @@ public class AnyNode extends WebNode
     public AnyNode(String aTitle)
     {
         itsTitle = aTitle;
+    }
+
+    public AnyNode(String aTitle, HashMap errorMessages)
+    {
+        itsTitle = aTitle;
+        setErrorMessages(errorMessages);
     }
     
     public String title()

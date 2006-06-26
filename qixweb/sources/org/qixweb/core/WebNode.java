@@ -5,11 +5,15 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.qixweb.block.*;
 import org.qixweb.util.CollectionUtil;
+import org.qixweb.util.StringUtil;
 
 public abstract class WebNode implements Browsable
 {
+    private HashMap itsErrorMessages = new HashMap();
+
     public QixwebUrl[] connections()
     {
         ArrayList connections = new ArrayList();
@@ -179,5 +183,16 @@ public abstract class WebNode implements Browsable
     protected boolean canBeDisplayedBy(QixwebUser aUser)
     {
         return true;
+    }
+
+    protected void setErrorMessages(HashMap errorMessages)
+    {
+        itsErrorMessages = errorMessages;
+    }
+
+    public String errorMessageFor(String parameterName)
+    {
+        String result = (String) itsErrorMessages.get(parameterName);
+        return result == null ? StringUtil.EMPTY : StringEscapeUtils.escapeHtml(result);
     }
 }

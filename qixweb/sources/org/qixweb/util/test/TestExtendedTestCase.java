@@ -15,50 +15,63 @@ public class TestExtendedTestCase extends TestCase
         ArrayList arrayList = new ArrayList();
         try
         {
-            ExtendedTestCase.assertEmpty(arrayList);            
+            ExtendedTestCase.assertEmpty(arrayList);
         }
         catch (AssertionFailedError e)
         {
             fail("should be empty");
         }
-        
+
         try
         {
             arrayList.add("an Object");
-            ExtendedTestCase.assertEmpty(arrayList);   
+            ExtendedTestCase.assertEmpty(arrayList);
             fail("should not be empty");
         }
         catch (AssertionFailedError e)
         {
-           
+
         }
     }
-    
+
     public void testNotEmptyOnCollections() throws Exception
     {
         ArrayList arrayList = new ArrayList();
         arrayList.add("an Object");
         try
         {
-            ExtendedTestCase.assertNotEmpty(arrayList);            
+            ExtendedTestCase.assertNotEmpty(arrayList);
         }
         catch (AssertionFailedError e)
         {
             fail("should not be empty");
         }
-        
+
         try
         {
             arrayList.remove(0);
-            ExtendedTestCase.assertNotEmpty(arrayList);   
+            ExtendedTestCase.assertNotEmpty(arrayList);
             fail("should be empty");
         }
         catch (AssertionFailedError e)
         {
-           
+
         }
     }
-    
+
+    public void testNotEmptyOnString() throws Exception
+    {
+        try
+        {
+            ExtendedTestCase.assertNotEmpty("xxx");
+        }
+        catch (AssertionFailedError e)
+        {
+            fail("should not be empty");
+        }
+
+    }
+
     public void testNotEquals()
     {
         ExtendedTestCase.assertNotEquals("The objects must be different", new Integer(2), new Integer(3));
