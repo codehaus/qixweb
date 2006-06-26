@@ -105,9 +105,14 @@ public abstract class ExtendedTestCase extends TestCase
         assertEmpty("", collection);
     }
     
+    public static void assertEmpty(String message, String string)
+    {
+        assertTrue(message, StringUtils.isEmpty(string));
+    }
+
     public static void assertEmpty(String string)
     {
-        assertTrue(StringUtils.isEmpty(string));
+        assertEmpty("", string);
     }
     
     public static void assertNotEmpty(String string)
