@@ -44,7 +44,7 @@ public abstract class WebCommandRequest
         return areAllRight;
     }
     
-    public HashMap messageForInvalidParameters()
+    public HashMap messagesForInvalidParameters()
     {
         return itsMessageForInvalidParameters;
     }

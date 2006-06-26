@@ -466,4 +466,16 @@ public class TestWebNode extends ExtendedTestCase
         ReturningFormNode node = new ReturningFormNode();
         ArrayAsserter.assertEqualsIgnoringOrder(new QixwebUrl[] { node.form().actionUrl() }, node.connections());
     }
+    
+    public void testErrorMessages() throws Exception
+    {
+        WebNode node = new AnyNode("title");
+        assertEquals(StringUtil.EMPTY, node.errorMessageFor("parameter1"));
+
+        HashMap messages = new HashMap();
+        messages.put("parameter1", "invalid date&time");
+        node = new AnyNode("title", messages);
+        assertEquals("invalid date&amp;time", node.errorMessageFor("parameter1"));
+    }
+    
 }
