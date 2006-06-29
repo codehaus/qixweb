@@ -39,7 +39,7 @@ public class CollectionUtil
         return asSet;
     }
     
-    public static Object setWith(Object firstElement, Object secondElement, Object thirdElement)
+    public static Set setWith(Object firstElement, Object secondElement, Object thirdElement)
     {
         Set set = setWith(firstElement, secondElement);
         set.add(thirdElement);
