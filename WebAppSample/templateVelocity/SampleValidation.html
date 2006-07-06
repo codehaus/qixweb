@@ -10,8 +10,12 @@
 			<tr>
 				<td>Name:</td>
 				<td><input type="TEXT" name="$node.parameterNameForGuestName()" maxlength="50" size="50"></td>
-				<td>&nbsp;$node.message()</td>
+				<td>&nbsp;#errorMessageFor($node.parameterNameForGuestName())</td>
 			</tr>
+			<tr>
+				<td colspan=3><i>$node.message()</i></td>
+			</tr>
+			<tr>
 				<td align=center><INPUT type="SUBMIT" value="  Ok  "></td>
 			<tr>
 			</tr>

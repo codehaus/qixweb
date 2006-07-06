@@ -1,6 +1,7 @@
 package org.qixweb.sample.node;
 
 import java.util.Calendar;
+import java.util.HashMap;
 
 import org.qixweb.core.*;
 import org.qixweb.sample.command.SetGuestWithValidationCommand;
@@ -14,14 +15,25 @@ public class SampleValidationNode extends WebNode
 
     public static WebNode create(QixwebUrl anUrl, UserData aUserData, QixwebEnvironment environment)
     {
-        return new SampleValidationNode("");
+        return new SampleValidationNode();
     }
 
-    public SampleValidationNode(String message)
+    public SampleValidationNode()
     {
-        itsMessage = message;
+        itsMessage = "";
     }
     
+    public SampleValidationNode(String name)
+    {
+        itsMessage = "You've submitted: " + name;
+    }
+    
+    public SampleValidationNode(HashMap errorMessages)
+    {
+        this();
+        setErrorMessages(errorMessages);
+    }
+
     public String currentTime()
     {
         return DateFormatter.formatDDslashMMslashYYYY_HH_mm_ss(new QixwebTime(Calendar.getInstance()));

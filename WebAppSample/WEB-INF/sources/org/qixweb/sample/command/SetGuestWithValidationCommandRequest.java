@@ -16,7 +16,7 @@ public class SetGuestWithValidationCommandRequest extends WebCommandRequest
 
     public Browsable destinationWhenNotValid(QixwebEnvironment notUsed)
     {
-        return new SampleValidationNode("Name is mandatory");
+        return new SampleValidationNode(messagesForInvalidParameters());
     }
 
     public String toString()

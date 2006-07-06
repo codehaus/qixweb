@@ -33,3 +33,10 @@
 		selected
 	#end
 #end
+
+#macro (errorMessageFor $parameterName)
+	#set($errorMessage = $node.errorMessageFor($parameterName))
+	#if ($errorMessage.length() > 0)
+		<font color="red">$errorMessage</font>
+	#end
+#end 
