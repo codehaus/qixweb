@@ -73,14 +73,13 @@ public class TestCollectionUtil extends ExtendedTestCase
     }
 
     public void testFlatOnCollection() throws Exception
-    {
-        assertEquals(new ArrayList(), CollectionUtil.flat(new ArrayList()));
+    {        assertEquals(new ArrayList(), CollectionUtil.flat(new ArrayList()));
 
         List list = CollectionUtil.listWith(CollectionUtil.listWith("1", "2"));
         assertEquals(CollectionUtil.listWith("1", "2"), CollectionUtil.flat(list));
 
-        list = CollectionUtil.listWith(CollectionUtil.listWith("1", "2"), CollectionUtil.listWith("3", "4"));
-        assertEquals(CollectionUtil.listWith("1", "2", "3", "4"), CollectionUtil.flat(list));
+        list = CollectionUtil.listWith(CollectionUtil.listWith("3", "4"), CollectionUtil.listWith("1", "2"));
+        assertEquals(CollectionUtil.listWith( "3", "4", "1", "2"), CollectionUtil.flat(list));
 
         list = CollectionUtil.listWith(CollectionUtil.listWith("1", "2", CollectionUtil.listWith("3", "4")), CollectionUtil.listWith("5", "6"));
         assertEquals(CollectionUtil.listWith("1", "2", "3", "4", "5", "6"), CollectionUtil.flat(list));
