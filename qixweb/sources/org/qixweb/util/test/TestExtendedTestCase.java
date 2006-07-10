@@ -1,6 +1,7 @@
 package org.qixweb.util.test;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
@@ -10,6 +11,36 @@ import org.qixweb.util.CollectionUtil;
 public class TestExtendedTestCase extends TestCase
 {
 
+    
+    public void testDatesAreEqualsInRange() throws Exception
+    {
+        Calendar date1 = Calendar.getInstance();
+        date1.setTimeInMillis(123456);
+        
+        Calendar date2 = Calendar.getInstance();
+        date2.setTimeInMillis(123400);
+
+        try
+        {
+            ExtendedTestCase.assertEquals(date1.getTime(), date2.getTime(), 56);
+            ExtendedTestCase.assertEquals(date2.getTime(), date1.getTime(), 56);
+        }
+        catch (AssertionFailedError e)
+        {
+            fail("dates should be equal round specific precision");
+        }
+        
+        try
+        {
+            ExtendedTestCase.assertEquals(date1.getTime(), date2.getTime(), 57);
+            fail("dates should be not equal outside specific precision");
+        }
+        catch (AssertionFailedError expectedException)
+        {
+        }
+    }
+    
+    
     public void testEmptyOnCollections() throws Exception
     {
         ArrayList arrayList = new ArrayList();

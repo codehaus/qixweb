@@ -29,6 +29,16 @@ public abstract class ExtendedTestCase extends TestCase
         super(aString);
         init();
     }
+    
+    public static void assertEquals(String aMessage, Date expectedDate, Date actualDate, int precisionInMillis)
+    {
+        assertTrue(aMessage, expectedDate.getTime() - actualDate.getTime() <= precisionInMillis);
+    }
+
+    public static void assertEquals(Date expectedDate, Date actualDate, int precisionInMillis)
+    {
+        assertTrue("", expectedDate.getTime() - actualDate.getTime() <= precisionInMillis);
+    }
 
     public static void assertDoubleEquals(String aMessage, double anExpectedDouble, double anActualDouble)
     {
