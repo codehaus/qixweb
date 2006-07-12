@@ -1,0 +1,11 @@
+<HTML>
+	<HEAD>
+		<TITLE>$node.title()</TITLE>
+	</HEAD>
+	<BODY>
+		A test html.<br>
+		<A href="$node.anyCommandLink().destination()">Click here to execute Any Command</A>
+		
+		<INPUT type="text" name="textEdit" value="default text" maxlength="2" size="2" #enabledif ($node.anyCommandLink().isEnabled())>
+	</BODY>
+</HTML>
