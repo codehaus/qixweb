@@ -213,6 +213,11 @@ public abstract class ExtendedTestCase extends TestCase
             assertEquals(message, someObjects[i], otherObjects[i]);
     }
 
+    public void assertEquals(Object[] someObjects, Object[] otherObjects)
+    {
+        assertEquals("different arrays", someObjects, otherObjects);
+    }
+    
     public static void assertEqualsIgnoringOrder(Collection expected, Collection actual)
     {
         assertEqualsIgnoringOrder("", expected, actual);
