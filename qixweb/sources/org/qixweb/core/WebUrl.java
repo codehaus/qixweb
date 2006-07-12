@@ -6,6 +6,7 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.qixweb.util.UrlParametersExtractor;
 import org.qixweb.util.XpLogger;
@@ -77,6 +78,12 @@ public class WebUrl implements Comparable
     {
         return itsUrlBeforeParameters + parameters().allAsString();
     }
+    
+    public String encodedDestination()
+    {
+        return StringEscapeUtils.escapeHtml(itsUrlBeforeParameters + parameters().allAsString());
+    }
+    
 
     public boolean equals(Object anotherObject)
     {
@@ -143,4 +150,5 @@ public class WebUrl implements Comparable
     {
         return itsParameters;
     }
+
 }

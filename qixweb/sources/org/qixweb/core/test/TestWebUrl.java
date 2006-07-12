@@ -24,12 +24,13 @@ public class TestWebUrl extends ExtendedTestCase
 
 	public void testDestination()
 	{
-		WebUrl url = new WebUrl("www.myserv.com");
+		WebUrl url = new WebUrl("http://www.myserv.com");
 		url.parameters().set("parameter1", "value1");
 		url.parameters().set("parameter2", "value2");
         url.parameters().set("parameter3", 42);
 	    
-	    assertEquals("www.myserv.com?parameter1=value1&parameter2=value2&parameter3=42", url.destination());
+	    assertEquals("http://www.myserv.com?parameter1=value1&parameter2=value2&parameter3=42", url.destination());
+        assertEquals("http://www.myserv.com?parameter1=value1&amp;parameter2=value2&amp;parameter3=42", url.encodedDestination());
 	}
     
 	public void testConstructAutomaticallyDecodeParameters()
@@ -86,19 +87,17 @@ public class TestWebUrl extends ExtendedTestCase
         assertFalse("The url should be disabled", itsUrl.isEnabled());
     }
     
-    public void testLabelInConstruction()
+    public void testLabelDetection()
     {
-        WebUrl urlWithLabelInCostruction = new WebUrl("http://url.com", "label");
-        assertEquals("label", urlWithLabelInCostruction.label());
-        
-        WebUrl urlWithoutLabelInCostruction = new WebUrl("http://url.com");
-        assertEquals("If label is not specified, the label should be the url", "http://url.com", urlWithoutLabelInCostruction.label());
-        
-        WebUrl urlWithEmptyLabelInCostruction = new WebUrl("http://url.com", "");
-        assertEquals("If given label is empty, the label should be the url", "http://url.com", urlWithEmptyLabelInCostruction.label());
-        
-        WebUrl urlWithNullLabelInCostruction = new WebUrl("http://url.com", null);
-        assertEquals("If given label is null, the label should be the url", "http://url.com", urlWithNullLabelInCostruction.label());        
+        assertEquals("label", new WebUrl("http://url.com", "label").label());
+        assertEquals("If label is not specified, the label should be the url", "http://url.com", new WebUrl("http://url.com").label());
+        assertEquals("If given label is empty, the label should be the url", "http://url.com", new WebUrl("http://url.com", "").label());
+        assertEquals("If given label is null, the label should be the url", "http://url.com", new WebUrl("http://url.com", null).label());
+    }
+
+    public void testLabelIsNotEncoded()
+    {
+        assertEquals("Pasta & Pizza", new WebUrl("http://url.com", "Pasta & Pizza").label());
     }
     
     public void testCompare() throws Exception
