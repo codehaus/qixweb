@@ -3,6 +3,8 @@ package org.qixweb.util.test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import junit.framework.TestCase;
 
@@ -218,6 +220,22 @@ public abstract class ExtendedTestCase extends TestCase
         assertEquals("different arrays", someObjects, otherObjects);
     }
     
+    public void assert_containsInOrder(String text, String string1, String string2)
+    {
+        String regexp = string1 + ".*" + string2;
+        Pattern pattern = Pattern.compile(regexp, Pattern.DOTALL);
+        Matcher matcher = pattern.matcher(text);
+        assertTrue(matcher.find());
+    }
+
+    public void assert_containsInOrder(String text, String string1, String string2, String string3)
+    {
+        String regexp = string1 + ".*" + string2 + ".*" + string3;
+        Pattern pattern = Pattern.compile(regexp, Pattern.DOTALL);
+        Matcher matcher = pattern.matcher(text);
+        assertTrue(matcher.find());
+    }
+
     public static void assertEqualsIgnoringOrder(Collection expected, Collection actual)
     {
         assertEqualsIgnoringOrder("", expected, actual);
