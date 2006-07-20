@@ -28,7 +28,14 @@ public abstract class QixwebServlet extends HttpServlet
         }
         finally
         {
-            freeResourcesOn(environment);
+            try
+            {
+                freeResourcesOn(environment);
+            }
+            catch (Exception ex)
+            {
+                handleException(response, ex);
+            }
         }
     }
 
