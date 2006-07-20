@@ -29,7 +29,7 @@ public class QixwebBrowser
         return new QixwebBrowser(aResponseHandler, aUserData, environment, true);
     }
     
-	protected void executeCommand(QixwebUrl urlToCommand) throws Exception
+	private void executeCommand(QixwebUrl urlToCommand) throws Exception
 	{
         WebCommandRequest commandRequest = urlToCommand.toCommandRequest();
         if (commandRequest.isValid())
