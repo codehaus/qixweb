@@ -3,6 +3,7 @@ package org.qixweb.time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class QixwebTime extends QixwebCalendar
 {
@@ -81,8 +82,12 @@ public class QixwebTime extends QixwebCalendar
     
     public String asStringYYYYMMDD_HHMMSS()
     {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd-HHmmss");
-		return dateFormat.format(toGregorianCalendar().getTime());
+		return asStringCustomDateFormat("yyyyMMdd-HHmmss");
+    }
+    
+    public String asStringDDSlashMMSlashYearBlankHHColonMM()
+    {
+        return asStringCustomDateFormat("dd/MM/yyyy hh:mm");
     }
     
     public String asStringCustomDateFormat(String dateFormatAsString)
@@ -140,4 +145,6 @@ public class QixwebTime extends QixwebCalendar
     {
         return new QixwebTime(day(), month(), year(), 0, 0, 0);
     }
+
+
 }
