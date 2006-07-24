@@ -96,22 +96,22 @@ public class QixwebTime extends QixwebCalendar
 		return dateFormat.format(toGregorianCalendar().getTime());
     }
 
-    public QixwebCalendar moveMinutesHand(int minutesToAddOrRemove)
+    public QixwebTime moveMinutesHand(int minutesToAddOrRemove)
     {
         return new QixwebTime(CalendarUtils.moveMinutesHand(minutesToAddOrRemove, toGregorianCalendar()));        
     }
 
-    public QixwebCalendar moveHoursHand(int aNumberOfHours)
+    public QixwebTime moveHoursHand(int aNumberOfHours)
     {
         return new QixwebTime(CalendarUtils.moveHoursHand(aNumberOfHours, toGregorianCalendar()));
     }
     
-    public QixwebCalendar oneHourAgo()
+    public QixwebTime oneHourAgo()
     {
         return moveHoursHand(-1);
     }
     
-    public QixwebCalendar oneMinuteAgo()
+    public QixwebTime oneMinuteAgo()
     {
         return moveMinutesHand(-1);
     }        
