@@ -23,6 +23,7 @@ public class FakeHttpServletRequest implements javax.servlet.http.HttpServletReq
 	private String itsServletPath;
     // @PMD:REVIEWED:LooseCoupling: by bop on 3/2/05 12:05 PM
 	private HashMap itsHeaderNames;
+    private String itsContextPath;
 
 	private class FakeServletInputStream extends javax.servlet.ServletInputStream
 	{
@@ -86,7 +87,7 @@ public class FakeHttpServletRequest implements javax.servlet.http.HttpServletReq
 	}
 	public java.lang.String getContextPath()
 	{
-		return null;
+		return itsContextPath;
 	}
 	public javax.servlet.http.Cookie[] getCookies()
 	{
@@ -140,6 +141,11 @@ public class FakeHttpServletRequest implements javax.servlet.http.HttpServletReq
 		itsPathInfo = aPathInfo;
 	}
 
+    public void simulateContextPath(String aContextPath)
+    {
+        itsContextPath = aContextPath;
+    }
+    
 	public void simulateServletPath(String aServletPath)
 	{
 		itsServletPath = aServletPath;
