@@ -183,6 +183,8 @@ public class TestQixwebServlet extends ExtendedTestCase
         itsServlet = new ConcreteQixwebServlet();
         itsFakeRequest = new FakeHttpServletRequest();
         itsFakeResponse = new FakeHttpServletResponse();
+        itsFakeRequest.simulateServletPath("");
+        itsFakeRequest.simulateContextPath("");
     }
 
     public void testService()
