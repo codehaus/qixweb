@@ -8,10 +8,9 @@ public class WebLabel implements Comparable
     public static final WebLabel EMPTY = new WebLabel("");
     
     private final String itsString;
-
-    public WebLabel(String aString)
+    public WebLabel(Object aValue)
     {
-        itsString = aString != null ? aString : "";
+        itsString = aValue != null ? aValue.toString() : "";
     }
 
     public String toString()
@@ -41,4 +40,6 @@ public class WebLabel implements Comparable
     {
         return EMPTY.equals(this);
     }
+
+    
 }
