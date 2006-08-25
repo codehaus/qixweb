@@ -463,7 +463,26 @@ public class TestParameters extends ExtendedTestCase
         itsParameters.set("nullInteger", (Integer)null);
         assertNull(itsParameters.getAsInteger("nullInteger"));
         itsParameters.set("nullDouble", (Double)null);
-        assertNull(itsParameters.getAsInteger("nullDouble"));
+        assertNull(itsParameters.getAsDoubleObject("nullDouble"));
+    }
+    
+    
+    public void testSetAndRemoveOnStrings() throws Exception
+    {
+        itsParameters.set("nullString", (String)null);
+        assertNull(itsParameters.get("nullString"));
+
+        itsParameters.set("nullString", "something");
+        itsParameters.set("nullString", (String)null);
+        assertEquals("if the argument of the set method is null, the parameter is not overridden", "something", itsParameters.get("nullString"));
         
+        itsParameters.remove("nullString");
+        assertNull(itsParameters.get("nullString"));        
+    }
+    
+    public void testAllAsStringWithNullString() throws Exception
+    {
+        itsParameters.set("nullString", (String)null);
+        assertEquals("", itsParameters.allAsString());
     }
 }

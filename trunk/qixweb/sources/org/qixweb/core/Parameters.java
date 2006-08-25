@@ -43,11 +43,7 @@ public class Parameters
         return result;
     }
 
-    public Parameters set(String key, String value)
-    {
-        itsParameters.put(key, value);
-        return this;
-    }
+    
 
     public boolean getAsBoolean(String key)
     {
@@ -137,6 +133,13 @@ public class Parameters
     {
         if (value != null)
             itsParameters.put(key, value.toString());
+        return this;
+    }
+    
+    public Parameters set(String key, String value)
+    {
+        if (value != null)
+            itsParameters.put(key, value);
         return this;
     }
 
