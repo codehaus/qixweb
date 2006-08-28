@@ -31,6 +31,11 @@ public class TestWebLabel extends TestCase
         assertEquals("&lt;&amp;", new WebLabel("<&").toString());
     }
     
+    public void testTrim() throws Exception
+    {
+        assertEquals("text", new WebLabel("text   ").toString());        
+    }
+    
     public void testCompare() throws Exception
     {
         WebLabel label = new WebLabel("first");
