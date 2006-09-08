@@ -62,4 +62,12 @@ public class StringUtil
         return StringUtils.contains(container.toLowerCase(), contained.toLowerCase());
     }
 
+    public static String onlyFirst1024Chars(String string)
+    {
+        if (string != null && string.length() > 1024)
+            return string.substring(0, 1023);
+        else
+            return string;
+    }
+
 }
