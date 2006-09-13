@@ -1,7 +1,6 @@
 package org.qixweb.core.test;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.util.Properties;
 
 import org.qixweb.util.ArrayComparator;
 import org.qixweb.util.PropertiesUtil;
