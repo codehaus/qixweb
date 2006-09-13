@@ -2,6 +2,9 @@ package org.qixweb.core;
 
 import javax.servlet.http.*;
 
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload.servlet.ServletRequestContext;
+import org.qixweb.util.FileUploadToParameter;
 import org.qixweb.util.XpLogger;
 
 public abstract class QixwebServlet extends HttpServlet
@@ -13,7 +16,7 @@ public abstract class QixwebServlet extends HttpServlet
         try
         {
             environment = instantiateEnvironment();
-            QixwebUrl.initWith(request.getContextPath()+request.getServletPath(), environment.nodePackage(), environment.commandPackage());
+            QixwebUrl.initWith(request.getContextPath() + request.getServletPath(), environment.nodePackage(), environment.commandPackage());
 
             String templatePath = getServletContext().getRealPath(environment.velocityTemplateDir());
             QixwebBrowser browser = buildBrowser(request, response, environment, templatePath);
@@ -39,8 +42,10 @@ public abstract class QixwebServlet extends HttpServlet
         }
     }
 
-    protected void handleMultipartContent(HttpServletRequest request, QixwebUrl url)
+    private void handleMultipartContent(HttpServletRequest request, QixwebUrl url)
     {
+        if (ServletFileUpload.isMultipartContent(new ServletRequestContext(request)))
+            FileUploadToParameter.convert(request, url);
     }
 
     protected void freeResourcesOn(QixwebEnvironment aEnvironment)
