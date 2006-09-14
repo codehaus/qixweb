@@ -1,6 +1,5 @@
 package org.qixweb.core.validation;
 
-import org.apache.commons.lang.StringUtils;
 import org.qixweb.core.Parameters;
 
 public class TextControl extends WebCommandRequestControl
