@@ -185,7 +185,7 @@ public abstract class WebNode implements Browsable
         return true;
     }
 
-    protected void setErrorMessages(HashMap errorMessages)
+    public void setErrorMessages(HashMap errorMessages)
     {
         itsErrorMessages = errorMessages;
     }
