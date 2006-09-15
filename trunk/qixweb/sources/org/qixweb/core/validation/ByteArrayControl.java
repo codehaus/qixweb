@@ -11,7 +11,8 @@ public class ByteArrayControl extends WebCommandRequestControl
 
     public boolean isValid(String parameterKey)
     {
-        return itsParametersToControl.getAsByteArray(parameterKey) != null; 
+        byte[] byteArray = itsParametersToControl.getAsByteArray(parameterKey);
+        return byteArray != null && byteArray.length != 0 ; 
     }
 
 }
