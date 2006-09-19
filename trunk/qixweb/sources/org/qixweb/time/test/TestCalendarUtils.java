@@ -1,10 +1,12 @@
 package org.qixweb.time.test;
 
-import java.lang.reflect.*;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.qixweb.time.CalendarUtils;
+import org.qixweb.util.ClassUtil;
 import org.qixweb.util.test.ExtendedTestCase;
 
 
@@ -76,8 +78,9 @@ public class TestCalendarUtils extends ExtendedTestCase
     {
         Class clazz = Class.forName(classToTest);
         Method method = clazz.getMethod(methodToTest, null);
-        Constructor constructor = clazz.getConstructor(new Class[] {Calendar.class});
-        assertEquals("Invoking "+classToTest+"."+methodToTest, constructor.newInstance(new Object[] {expectedDate}), method.invoke(constructor.newInstance(new Object[] {date}), null));
+        assertEquals("Invoking "+classToTest+"."+methodToTest, 
+                ClassUtil.newInstance(clazz, new Class[] {Calendar.class}, new Object[] {expectedDate}), 
+                method.invoke(ClassUtil.newInstance(clazz, new Class[] {Calendar.class}, new Object[] {date}), null));
     }
 
     public void testOneDayAfterCrossingYear() throws ClassNotFoundException, SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, InstantiationException

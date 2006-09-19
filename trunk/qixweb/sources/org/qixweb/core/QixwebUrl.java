@@ -204,9 +204,8 @@ public class QixwebUrl extends WebUrl implements Browsable
             Class relatedRequestClass = Class.forName(relatedRequestClassName);
             Class[]  constructorParameterTypes  = new Class[]  { Parameters.class };
             Object[] constructorParameterValues = new Object[] { parameters() };
-
-            Constructor constructor = relatedRequestClass.getConstructor(constructorParameterTypes);
-            return (WebCommandRequest) constructor.newInstance(constructorParameterValues);
+            
+            return (WebCommandRequest) ClassUtil.newInstance(relatedRequestClass, constructorParameterTypes, constructorParameterValues);
         }
         catch (Exception e)
         {            

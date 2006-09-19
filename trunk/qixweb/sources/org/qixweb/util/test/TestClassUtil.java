@@ -1,10 +1,8 @@
 package org.qixweb.util.test;
 
-import junit.framework.TestCase;
-
 import org.qixweb.util.ClassUtil;
 
-public class TestClassUtil extends TestCase
+public class TestClassUtil extends ExtendedTestCase
 {
 
     private class Inner
@@ -22,5 +20,11 @@ public class TestClassUtil extends TestCase
         assertEquals("Should return the outer class short name", "TestClassUtil", ClassUtil.shortNameOf(Inner.class));
     }
     
-    
+    public void testNewInstance() throws Exception
+    {
+        grabSystemOut();
+        assertEquals(new String("bye bye"), ClassUtil.newInstance(String.class, new Class[] {String.class}, new Object[] {"bye bye"}));
+        assertNull("Should return null if the requested constructor not exists", ClassUtil.newInstance(String.class, new Class[] {Double.class}, new Object[] {new Double(3.3)}));
+    }
+
 }
