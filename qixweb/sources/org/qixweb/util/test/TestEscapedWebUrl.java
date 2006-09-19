@@ -12,8 +12,8 @@ public class TestEscapedWebUrl extends TestCase
         WebUrl url = new EscapedWebUrl(new WebUrl("http://host:1234/something/servlet/XpServlet/?node=SomeNode&param=aValue"));
         assertEquals("http://host:1234/something/servlet/XpServlet/?node=SomeNode&amp;param=aValue", url.label());
 
-        url = new EscapedWebUrl(new WebUrl("http://host:1234/something/servlet/XpServlet/?node=SomeNode&param=aValue", "Questa è accentata"));
-        assertEquals("Questa &egrave; accentata", url.label());
+        url = new EscapedWebUrl(new WebUrl("http://host:1234/something/servlet/XpServlet/?node=SomeNode&param=aValue", "Bed & Breakfast"));
+        assertEquals("Bed &amp; Breakfast", url.label());
     }
     
     public void testIsNotADecorator()
