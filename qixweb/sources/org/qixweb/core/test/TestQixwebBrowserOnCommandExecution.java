@@ -40,7 +40,7 @@ public class TestQixwebBrowserOnCommandExecution extends ExtendedTestCase
     public void testExecuteWhenNotValidCommandRequest() throws Exception
     {
         QixwebUrl expectedDestination = new QixwebUrl(EmptyNode.class);
-        CommandWithValidationRequest.simulateNotValidWithDestination(expectedDestination);
+        CommandWithValidationBuilder.simulateNotValidWithDestination(expectedDestination);
 
         itsBrowser.goTo(new QixwebUrl(CommandWithValidation.class));
 
@@ -51,7 +51,7 @@ public class TestQixwebBrowserOnCommandExecution extends ExtendedTestCase
     {
         QixwebUrl expectedDestination = new QixwebUrl(AnyNode.class);
         CommandWithValidation.simulateExecuteReturning(expectedDestination);
-        CommandWithValidationRequest.simulateValidRequest();
+        CommandWithValidationBuilder.simulateValidRequest();
 
         itsBrowser.goTo(new QixwebUrl(CommandWithValidation.class));
 

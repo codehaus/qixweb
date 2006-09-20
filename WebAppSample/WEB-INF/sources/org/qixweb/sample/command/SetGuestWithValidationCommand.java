@@ -9,11 +9,6 @@ public class SetGuestWithValidationCommand extends WebCommand
 {
     private String itsGuestName;
 
-    public static WebCommand create(QixwebUrl someProperties, UserData notUsed)
-    {
-        return new SetGuestWithValidationCommand(someProperties.parameters().get(HelloNode.parameterNameForGuestName()));
-    }
-    
     public SetGuestWithValidationCommand(String guestName)
     {
         itsGuestName = guestName;

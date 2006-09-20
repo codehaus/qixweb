@@ -1,15 +1,15 @@
 package org.qixweb.core.test;
 
 import org.qixweb.core.*;
-import org.qixweb.core.validation.WebCommandRequest;
+import org.qixweb.core.validation.WebCommandBuilder;
 
 
-public class CommandWithValidationRequest extends WebCommandRequest
+public class CommandWithValidationBuilder extends WebCommandBuilder
 {
     private static Browsable itsDestinationWhenNotValid = null;
     private static boolean itsValidationFlag;
 
-    public CommandWithValidationRequest(Parameters submittedValues)
+    public CommandWithValidationBuilder(Parameters submittedValues)
     {
         super(submittedValues);
     }

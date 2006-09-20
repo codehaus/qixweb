@@ -2,13 +2,14 @@ package org.qixweb.sample.command;
 
 import org.qixweb.core.*;
 import org.qixweb.core.validation.TextControl;
-import org.qixweb.core.validation.WebCommandRequest;
+import org.qixweb.core.validation.WebCommandBuilder;
+import org.qixweb.sample.node.HelloNode;
 import org.qixweb.sample.node.SampleValidationNode;
 import org.qixweb.util.ClassUtil;
 
-public class SetGuestWithValidationCommandRequest extends WebCommandRequest
+public class SetGuestWithValidationCommandBuilder extends WebCommandBuilder
 {
-    public SetGuestWithValidationCommandRequest(Parameters submittedValues)
+    public SetGuestWithValidationCommandBuilder(Parameters submittedValues)
     {
         super(submittedValues);
         addControl(new TextControl(submittedValues), MANDATORY, SampleValidationNode.parameterNameForGuestName(), "Name is mandatory");
@@ -22,6 +23,11 @@ public class SetGuestWithValidationCommandRequest extends WebCommandRequest
     public String toString()
     {
         return ClassUtil.shortNameOf(getClass()) + " (Invalid name)";
+    }
+
+    public WebCommand destinationWhenValid(QixwebUrl url, UserData userData)
+    {
+        return new SetGuestWithValidationCommand(url.parameters().get(HelloNode.parameterNameForGuestName()));
     }
 
 }

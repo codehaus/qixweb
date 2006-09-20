@@ -8,11 +8,11 @@ import org.qixweb.core.*;
 import org.qixweb.core.test.AnyCommand;
 import org.qixweb.core.validation.*;
 
-public class TestWebCommandRequest extends TestCase
+public class TestWebCommandBuilder extends TestCase
 {
-    private class SampleWebCommandRequest extends WebCommandRequest
+    private class SampleWebCommandBuilder extends WebCommandBuilder
     {
-        protected SampleWebCommandRequest(Parameters submittedValues)
+        protected SampleWebCommandBuilder(Parameters submittedValues)
         {
             super(submittedValues);
         }
@@ -33,14 +33,14 @@ public class TestWebCommandRequest extends TestCase
         }
     }
 
-    private SampleWebCommandRequest itsRequest;
+    private SampleWebCommandBuilder itsRequest;
     private Parameters itsSubmittedValues;
 
     protected void setUp() throws Exception
     {
         super.setUp();
         itsSubmittedValues = new Parameters();
-        itsRequest = new SampleWebCommandRequest(itsSubmittedValues);
+        itsRequest = new SampleWebCommandBuilder(itsSubmittedValues);
     }
     
     public void testWithNothingToControl() throws Exception
@@ -54,7 +54,7 @@ public class TestWebCommandRequest extends TestCase
         HashMap expectedInvalidParameters = new HashMap();
         expectedInvalidParameters.put("notPresent", "The parameter must be present");
 
-        itsRequest.addControl(new TextControl(itsSubmittedValues), WebCommandRequest.MANDATORY, "notPresent", "The parameter must be present");
+        itsRequest.addControl(new TextControl(itsSubmittedValues), WebCommandBuilder.MANDATORY, "notPresent", "The parameter must be present");
         
         assertFalse("Mandatory parameter should be NOT valid if not present", itsRequest.isValid());
         assertEquals(expectedInvalidParameters, itsRequest.messagesForInvalidParameters());
@@ -62,7 +62,7 @@ public class TestWebCommandRequest extends TestCase
 
     public void testOptionalControlWhenParameterIsNotPresent() throws Exception
     {
-        itsRequest.addControl(new DoubleControl(itsSubmittedValues), WebCommandRequest.OPTIONAL, "empty", "Wrong");
+        itsRequest.addControl(new DoubleControl(itsSubmittedValues), WebCommandBuilder.OPTIONAL, "empty", "Wrong");
         
         assertTrue("Optional controls should be valid if not present", itsRequest.isValid());
         assertTrue(itsRequest.messagesForInvalidParameters().isEmpty());
@@ -72,7 +72,7 @@ public class TestWebCommandRequest extends TestCase
     {
         itsSubmittedValues.set("empty", "");
         
-        itsRequest.addControl(new IntegerControl(itsSubmittedValues), WebCommandRequest.OPTIONAL, "empty", "Wrong");
+        itsRequest.addControl(new IntegerControl(itsSubmittedValues), WebCommandBuilder.OPTIONAL, "empty", "Wrong");
         
         assertTrue("Optional controls may be empty", itsRequest.isValid());
         assertTrue(itsRequest.messagesForInvalidParameters().isEmpty());
@@ -82,8 +82,8 @@ public class TestWebCommandRequest extends TestCase
     {
         itsSubmittedValues.set("invalidDate", "30-40--50");        
         itsSubmittedValues.set("validDate", "02/02/2006");
-        itsRequest.addControl(new DateAsDDslashMMslashYYYYControl(itsSubmittedValues), WebCommandRequest.OPTIONAL, "validDate", "Wrong 1st date. Expected format is: DD/MM/YYYY");
-        itsRequest.addControl(new DateAsDDslashMMslashYYYYControl(itsSubmittedValues), WebCommandRequest.OPTIONAL, "invalidDate", "Wrong 2nd date. Expected format is: DD/MM/YYYY");
+        itsRequest.addControl(new DateAsDDslashMMslashYYYYControl(itsSubmittedValues), WebCommandBuilder.OPTIONAL, "validDate", "Wrong 1st date. Expected format is: DD/MM/YYYY");
+        itsRequest.addControl(new DateAsDDslashMMslashYYYYControl(itsSubmittedValues), WebCommandBuilder.OPTIONAL, "invalidDate", "Wrong 2nd date. Expected format is: DD/MM/YYYY");
         assertFalse(itsRequest.isValid());        
     }
 
@@ -96,12 +96,12 @@ public class TestWebCommandRequest extends TestCase
         itsSubmittedValues.set("invalidInteger", "not numeric");
         itsSubmittedValues.set("validDouble", "2.022006");
               
-        itsRequest.addControl(new TextControl(itsSubmittedValues), WebCommandRequest.MANDATORY, "emptyText", "1st text should not be empty");
-        itsRequest.addControl(new TextControl(itsSubmittedValues), WebCommandRequest.MANDATORY, "notEmptyText", "2nd text should not be empty");
-        itsRequest.addControl(new TimeAsHHcolonMMControl(itsSubmittedValues), WebCommandRequest.OPTIONAL, "invalidTime", "Invalid time format.");
-        itsRequest.addControl(new DateAsDDslashMMslashYYYYControl(itsSubmittedValues), WebCommandRequest.OPTIONAL, "validDate", "Invalid date format.");
-        itsRequest.addControl(new IntegerControl(itsSubmittedValues), WebCommandRequest.OPTIONAL, "invalidInteger", "Wrong Integer format.");
-        itsRequest.addControl(new DoubleControl(itsSubmittedValues), WebCommandRequest.OPTIONAL, "validDouble", "Wrong Double format.");
+        itsRequest.addControl(new TextControl(itsSubmittedValues), WebCommandBuilder.MANDATORY, "emptyText", "1st text should not be empty");
+        itsRequest.addControl(new TextControl(itsSubmittedValues), WebCommandBuilder.MANDATORY, "notEmptyText", "2nd text should not be empty");
+        itsRequest.addControl(new TimeAsHHcolonMMControl(itsSubmittedValues), WebCommandBuilder.OPTIONAL, "invalidTime", "Invalid time format.");
+        itsRequest.addControl(new DateAsDDslashMMslashYYYYControl(itsSubmittedValues), WebCommandBuilder.OPTIONAL, "validDate", "Invalid date format.");
+        itsRequest.addControl(new IntegerControl(itsSubmittedValues), WebCommandBuilder.OPTIONAL, "invalidInteger", "Wrong Integer format.");
+        itsRequest.addControl(new DoubleControl(itsSubmittedValues), WebCommandBuilder.OPTIONAL, "validDouble", "Wrong Double format.");
 
         HashMap expectedInvalidParameters = new HashMap();
         expectedInvalidParameters.put("emptyText", "1st text should not be empty");

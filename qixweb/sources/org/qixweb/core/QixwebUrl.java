@@ -6,12 +6,12 @@ import java.lang.reflect.Method;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.qixweb.core.validation.WebCommandRequest;
+import org.qixweb.core.validation.WebCommandBuilder;
 import org.qixweb.util.*;
 
 public class QixwebUrl extends WebUrl implements Browsable
 {
-    private static final String COMMAND_REQUEST_SUFFIX = "Request";
+    private static final String COMMAND_BUILDER_SUFFIX = "Builder";
     
     private static String itsServletPath = "";
     private static String itsNodePackage = "";
@@ -196,16 +196,16 @@ public class QixwebUrl extends WebUrl implements Browsable
         parameters().addExcluding(source.parameters(), CollectionUtil.setWith(PARAMETER_COMMAND_TO_EXECUTE, PARAMETER_NODE_TO_DISPLAY));
     }
 
-    public WebCommandRequest toCommandRequest()
+    public WebCommandBuilder toCommandBuilder()
     {
-        String relatedRequestClassName = target().getName() + COMMAND_REQUEST_SUFFIX;
+        String relatedRequestClassName = target().getName() + COMMAND_BUILDER_SUFFIX;
         try
         {
             Class relatedRequestClass = Class.forName(relatedRequestClassName);
             Class[]  constructorParameterTypes  = new Class[]  { Parameters.class };
             Object[] constructorParameterValues = new Object[] { parameters() };
             
-            return (WebCommandRequest) ClassUtil.newInstance(relatedRequestClass, constructorParameterTypes, constructorParameterValues);
+            return (WebCommandBuilder) ClassUtil.newInstance(relatedRequestClass, constructorParameterTypes, constructorParameterValues);
         }
         catch (Exception e)
         {            
