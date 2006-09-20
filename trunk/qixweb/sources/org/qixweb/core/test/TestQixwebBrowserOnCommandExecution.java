@@ -17,36 +17,43 @@ public class TestQixwebBrowserOnCommandExecution extends ExtendedTestCase
         itsBrowser = QixwebBrowser.usingSystem(itsFakeResponseHandler, new UserData(), itsFakeEnvironment);
     }
 
-    public void testExecuteCommand() throws Exception
+    public void testExecuteRedirectingCommand() throws Exception
     {
         QixwebUrl expectedDestination = new QixwebUrl(AnyNode.class);
-        expectedDestination.parameters().set("state", "test");
+        QixwebUrl commandUrl = RedirectingCommand.urlToMeRedirectingTo(expectedDestination);
 
-        QixwebUrl commandUrl = new QixwebUrl(AnyCommand.class);
-        itsBrowser.userData().store("state", "test");
         itsBrowser.goTo(commandUrl);
 
         assertEquals("Wrong destination url after command execution", expectedDestination, itsFakeResponseHandler.redirectedDestination());
         assertSame(itsFakeResponseHandler.lastBrowsed(), itsFakeResponseHandler.redirectedDestination());
     }
     
+    public void testExecuteRefreshableCommand() throws Exception
+    {
+        QixwebUrl webRefreshableCommandUrl = new QixwebUrl(RefreshableCommand.class);
+        itsBrowser.goTo(webRefreshableCommandUrl);
+        
+        assertEquals("Wrong displayed node after command execution", new AnyNode(), itsFakeResponseHandler.displayedNode());
+        assertSame(itsFakeResponseHandler.lastBrowsed(), itsFakeResponseHandler.displayedNode());
+    }
+    
     public void testExecuteWhenNotValidCommandRequest() throws Exception
     {
-        QixwebUrl expectedDestinationWhenNotValid = new QixwebUrl(EmptyNode.class);
-        CommandWithValidationRequest.programNotValidWithDestination(expectedDestinationWhenNotValid);
+        QixwebUrl expectedDestination = new QixwebUrl(EmptyNode.class);
+        CommandWithValidationRequest.simulateNotValidWithDestination(expectedDestination);
 
         itsBrowser.goTo(new QixwebUrl(CommandWithValidation.class));
 
-        assertEquals("Wrong destination url after NOT valid command request", expectedDestinationWhenNotValid, itsFakeResponseHandler.redirectedDestination());
+        assertEquals("Wrong destination url after NOT valid command request", expectedDestination, itsFakeResponseHandler.redirectedDestination());
     }
     
     public void testExecuteWhenValidCommandRequest() throws Exception
     {
         QixwebUrl expectedDestination = new QixwebUrl(AnyNode.class);
-        CommandWithValidationRequest.programValidRequestWithNotValidDestination(new QixwebUrl(EmptyNode.class));
+        CommandWithValidation.simulateExecuteReturning(expectedDestination);
+        CommandWithValidationRequest.simulateValidRequest();
 
-        QixwebUrl validCommandUrl = new QixwebUrl(CommandWithValidation.class);
-        itsBrowser.goTo(validCommandUrl);
+        itsBrowser.goTo(new QixwebUrl(CommandWithValidation.class));
 
         assertEquals("Wrong destination url after valid command request", expectedDestination, itsFakeResponseHandler.redirectedDestination());
     }
@@ -69,14 +76,6 @@ public class TestQixwebBrowserOnCommandExecution extends ExtendedTestCase
         assertEquals("Should go to login node", new QixwebLoginNode(), itsFakeResponseHandler.displayedNode());
     }    
     
-    public void testExecuteWebRefreshableCommand() throws Exception
-    {
-        QixwebUrl webRefreshableCommandUrl = new QixwebUrl(AnyRefreshableCommand.class);
-        itsBrowser.goTo(webRefreshableCommandUrl);
-
-        assertEquals("Wrong displayed node after command execution", new AnyNode(), itsFakeResponseHandler.displayedNode());
-        assertSame(itsFakeResponseHandler.lastBrowsed(), itsFakeResponseHandler.displayedNode());
-    }
     
     public void testAnonymousGoToLoginNodeIfAuthenticationIsRequired() throws Exception
     {

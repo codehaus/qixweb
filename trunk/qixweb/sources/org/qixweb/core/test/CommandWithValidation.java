@@ -5,14 +5,15 @@ import org.qixweb.core.*;
 
 public class CommandWithValidation extends WebCommand
 {
-    public static WebCommand create(QixwebUrl notUsedUrl, UserData notUsedUserData)
-    {
-        return new CommandWithValidation();
-    }
-    
-	public Browsable execute(QixwebEnvironment notUsed)
+	private static QixwebUrl itsExpectedDestination;
+
+    public Browsable execute(QixwebEnvironment notUsed)
 	{
-        return new QixwebUrl(AnyNode.class);
+        return itsExpectedDestination;
 	}
 
+    public static void simulateExecuteReturning(QixwebUrl expectedDestination)
+    {
+        itsExpectedDestination = expectedDestination;
+    }
 }

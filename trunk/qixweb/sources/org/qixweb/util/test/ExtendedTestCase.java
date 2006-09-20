@@ -190,14 +190,9 @@ public abstract class ExtendedTestCase extends TestCase
 
     public void grabSystemOutResettingLogger()
     {
-        grabSystemOut();
-        XpLogger.resetConsoleAppenderLogger();
-    }
-
-    public void grabSystemOut()
-    {
         itsGrabbedOut = new ByteArrayOutputStream();
         System.setOut(new PrintStream(itsGrabbedOut));
+        XpLogger.resetConsoleAppenderLogger();
     }
 
     public static void assertEqualsElementsButInDifferentOrder(List firstList, List secondList)

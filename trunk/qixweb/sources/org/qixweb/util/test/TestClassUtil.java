@@ -22,7 +22,7 @@ public class TestClassUtil extends ExtendedTestCase
     
     public void testNewInstance() throws Exception
     {
-        grabSystemOut();
+        grabSystemOutResettingLogger();
         assertEquals(new String("bye bye"), ClassUtil.newInstance(String.class, new Class[] {String.class}, new Object[] {"bye bye"}));
         assertNull("Should return null if the requested constructor not exists", ClassUtil.newInstance(String.class, new Class[] {Double.class}, new Object[] {new Double(3.3)}));
     }

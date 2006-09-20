@@ -24,16 +24,19 @@ public class CommandWithValidationRequest extends WebCommandRequest
         return itsDestinationWhenNotValid;
     }
     
-    public static void programNotValidWithDestination(Browsable destination)
+    public static void simulateNotValidWithDestination(Browsable destination)
     {
         itsValidationFlag = false;
         itsDestinationWhenNotValid = destination;
     }
 
-    public static void programValidRequestWithNotValidDestination(Browsable destination)
+    public static void simulateValidRequest()
     {
         itsValidationFlag = true;
-        itsDestinationWhenNotValid = destination;
     }
-	
+
+    public WebCommand destinationWhenValid(QixwebUrl notUsedUrl, UserData notUsedUserData)
+    {
+        return new CommandWithValidation();
+    }
 }

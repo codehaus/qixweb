@@ -5,6 +5,7 @@ import java.util.HashMap;
 import junit.framework.TestCase;
 
 import org.qixweb.core.*;
+import org.qixweb.core.test.AnyCommand;
 import org.qixweb.core.validation.*;
 
 public class TestWebCommandRequest extends TestCase
@@ -24,6 +25,11 @@ public class TestWebCommandRequest extends TestCase
         public void addControl(WebCommandRequestControl control, boolean mandatoryFlag, String parameterKey, String messageWhenInvalid)
         {
             super.addControl(control, mandatoryFlag, parameterKey, messageWhenInvalid);
+        }
+
+        public WebCommand destinationWhenValid(QixwebUrl notUsedUrl, UserData notUsedUserData)
+        {
+            return new AnyCommand();
         }
     }
 

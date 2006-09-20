@@ -4,11 +4,11 @@ import org.qixweb.core.*;
 import org.qixweb.util.DeepEquals;
 
 
-public class AnyRefreshableCommand extends WebCommand
+public class RefreshableCommand extends WebCommand
 {
-	public static AnyRefreshableCommand create(QixwebUrl webUrl, UserData userData)
+	public static RefreshableCommand create(QixwebUrl webUrl, UserData userData)
 	{
-		return new AnyRefreshableCommand();
+		return new RefreshableCommand();
 	}
 	
 	public Browsable execute(QixwebEnvironment environment)

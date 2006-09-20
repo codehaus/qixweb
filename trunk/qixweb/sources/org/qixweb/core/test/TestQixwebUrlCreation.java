@@ -30,9 +30,7 @@ public class TestQixwebUrlCreation extends ExtendedTestCase
 		map.put(QixwebUrl.PARAMETER_COMMAND_TO_EXECUTE, new String[] { "AnyCommand" });
 		QixwebUrl url = QixwebUrl.createAsRequestFrom(map, itsNodePackage, itsCommandPackage);
 
-		QixwebUrl expectedUrl = new QixwebUrl(AnyCommand.class);
-
-		assertEquals("in the url, the command target class should be set (as string)", expectedUrl, url);
+		assertEquals("in the url, the command target class should be set (as string)", new QixwebUrl(AnyCommand.class), url);
 	}
 
 	public void testCreateFromMapWithNotExistentDestination() throws Exception
@@ -114,19 +112,19 @@ public class TestQixwebUrlCreation extends ExtendedTestCase
     public void testCostructorWithDefaultNodePackage()
     {
         QixwebUrl.initServletPathAndDefaultNodePackage("");
-        QixwebUrl url = new QixwebUrl(AnyRefreshableCommand.class);
+        QixwebUrl url = new QixwebUrl(RefreshableCommand.class);
         assertEquals
         (
                 "the url should be composed without servlet path", 
-                "?command=AnyRefreshableCommand", 
+                "?command=RefreshableCommand", 
                 url.destination()
         );
         QixwebUrl.initServletPathAndDefaultNodePackage("http://localhost/MyWebApp/servlet/MyServlet");
-        url = new QixwebUrl(AnyRefreshableCommand.class);
+        url = new QixwebUrl(RefreshableCommand.class);
         assertEquals
         (
                 "the url should be composed using the servlet path", 
-                "http://localhost/MyWebApp/servlet/MyServlet?command=AnyRefreshableCommand", 
+                "http://localhost/MyWebApp/servlet/MyServlet?command=RefreshableCommand", 
                 url.destination()
         );
     }
