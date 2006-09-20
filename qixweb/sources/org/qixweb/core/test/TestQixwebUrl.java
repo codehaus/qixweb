@@ -3,7 +3,6 @@ package org.qixweb.core.test;
 import java.io.IOException;
 
 import org.qixweb.core.*;
-import org.qixweb.core.validation.AlwaysValidWebCommandRequest;
 import org.qixweb.util.EqualsBehaviourVerifier;
 import org.qixweb.util.test.ExtendedTestCase;
 
@@ -105,14 +104,13 @@ public class TestQixwebUrl extends ExtendedTestCase
 
     public void testMaterializeTargetCommand()
     {
-        AnyCommand expectedCommand = new AnyCommand("materializeTest");
+        AnyCommand expectedCommand = new AnyCommand();
 
         QixwebUrl url = new QixwebUrl(AnyCommand.class);
-        url.parameters().set("state", "materializeTest");
-        itsUserData.store("state", "materializeTest");
-        WebCommand command = url.materializeTargetCommandWith(itsUserData);
+        AnyCommand command = (AnyCommand) url.materializeTargetCommandWith(itsUserData);
 
         assertEquals(expectedCommand, command);
+        assertTrue(command.hasBeenInstantiatedUsingCreate());
     }
 
     public static String encodeAmpersand(String aStringToEncode)
@@ -179,7 +177,7 @@ public class TestQixwebUrl extends ExtendedTestCase
 
     public void testCopyOptionalParametersFromRefreshableCommandToAnyCommand()
     {
-        QixwebUrl orginalUrl = new QixwebUrl(AnyRefreshableCommand.class);
+        QixwebUrl orginalUrl = new QixwebUrl(RefreshableCommand.class);
         orginalUrl.parameters().set(QixwebUrl.PARAMETER_COMMAND_TO_EXECUTE, "AnyRefreshableCommand");
         orginalUrl.parameters().set("param1", "value1");
         
@@ -213,11 +211,11 @@ public class TestQixwebUrl extends ExtendedTestCase
         QixwebUrl source = new QixwebUrl(AnyCommand.class);
         source.parameters().set("param1", "value1");
 
-        QixwebUrl destination = new QixwebUrl(AnyRefreshableCommand.class);
+        QixwebUrl destination = new QixwebUrl(RefreshableCommand.class);
     
         destination.addOptionalParametersFrom(source);
         
-        QixwebUrl expected = new QixwebUrl(AnyRefreshableCommand.class);
+        QixwebUrl expected = new QixwebUrl(RefreshableCommand.class);
         expected.parameters().set("param1", "value1");
         
         assertEquals(expected, destination);
@@ -226,7 +224,7 @@ public class TestQixwebUrl extends ExtendedTestCase
 
     public void testCopyOptionalParametersFromRefreshableCommandToAnyNode()
     {
-        QixwebUrl orginalUrl = new QixwebUrl(AnyRefreshableCommand.class);
+        QixwebUrl orginalUrl = new QixwebUrl(RefreshableCommand.class);
         orginalUrl.parameters().set("param1", "value1");
         orginalUrl.parameters().set("param2", "value2");
         orginalUrl.parameters().set(QixwebUrl.PARAMETER_NODE_TO_DISPLAY, "AnyNode");
@@ -256,10 +254,9 @@ public class TestQixwebUrl extends ExtendedTestCase
     
     public void testToCommandRequest() throws Exception
     {
-        assertEquals
+        assertNull
         (
-            "A default request should be returned for command without related request object",
-            new AlwaysValidWebCommandRequest(), 
+            "Null should be returned for command without related request object",
             itsWebUrlForAnyCommand.toCommandRequest()
         );
         

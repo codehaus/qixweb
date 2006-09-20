@@ -1,5 +1,7 @@
 package org.qixweb.core;
 
+import java.io.IOException;
+
 import org.qixweb.core.validation.WebCommandRequest;
 import org.qixweb.util.XpLogger;
 
@@ -29,33 +31,46 @@ public class QixwebBrowser
         return new QixwebBrowser(aResponseHandler, aUserData, environment, true);
     }
     
-	private void executeCommand(QixwebUrl urlToCommand) throws Exception
+	private void executeCommandRequest(QixwebUrl urlToCommand) throws Exception
 	{
         WebCommandRequest commandRequest = urlToCommand.toCommandRequest();
-        if (commandRequest.isValid())
+        if (commandRequest == null)
         {            
             WebCommand command = urlToCommand.materializeTargetCommandWith(itsUserData);
-            XpLogger.info("Executing command (User=" + loggedUser().name() + "): " + command);
-            if (command == null)
-                gotoWarningNode();
-            else if (command.canBeExecutedBy(loggedUser(), itsEnvironment))
-            {
-                Browsable browsable = command.execute(itsEnvironment);
-                browsable.displayThrough(responseHandler());
-            }
-            else
-            {
-                XpLogger.info("User " + loggedUser().name() + " cannot execute command: " + command.toString());
-                goToLogin();
-            }
+            executeValidCommand(command);                
         }
         else
         {
-            XpLogger.info("Invalid command request (User=" + loggedUser().name() + "): " + commandRequest.toString());
-            Browsable browsable = commandRequest.destinationWhenNotValid(itsEnvironment);
-            browsable.displayThrough(responseHandler());
+            if (commandRequest.isValid())
+            {
+                WebCommand command = commandRequest.destinationWhenValid(urlToCommand, itsUserData);
+                executeValidCommand(command);                
+            }
+            else
+            {
+                XpLogger.info("Invalid command request (User=" + loggedUser().name() + "): " + commandRequest.toString());
+                Browsable browsable = commandRequest.destinationWhenNotValid(itsEnvironment);
+                browsable.displayThrough(responseHandler());
+            }
         }
 	}
+
+    private void executeValidCommand(WebCommand command) throws Exception, IOException
+    {
+        XpLogger.info("Executing command (User=" + loggedUser().name() + "): " + command);
+        if (command == null)
+            gotoWarningNode();
+        else if (command.canBeExecutedBy(loggedUser(), itsEnvironment))
+        {
+            Browsable browsable = command.execute(itsEnvironment);
+            browsable.displayThrough(responseHandler());
+        }
+        else
+        {
+            XpLogger.info("User " + loggedUser().name() + " cannot execute command: " + command.toString());
+            goToLogin();
+        }
+    }
 
     protected WebNode instantiate(QixwebUrl urlToNode)
     {
@@ -95,7 +110,7 @@ public class QixwebBrowser
 		if (aUrl.isGoingToANode())
 			goToNode(aUrl);
 		else if (aUrl.isExecutingACommand())
-			executeCommand(aUrl);
+			executeCommandRequest(aUrl);
 		else
 		    gotoWarningNode();
 	}

@@ -1,11 +1,11 @@
 package org.qixweb.core;
 
 import java.io.IOException;
-import java.lang.reflect.*;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.qixweb.core.validation.AlwaysValidWebCommandRequest;
 import org.qixweb.core.validation.WebCommandRequest;
 import org.qixweb.util.*;
 
@@ -173,7 +173,7 @@ public class QixwebUrl extends WebUrl implements Browsable
     public static QixwebUrl createAsRequestWithTarget(String aDestination, String aNodePackage, String aCommandPackage)
     {
         Map parameters = new UrlParametersExtractor(aDestination).run();
-        return QixwebUrl.createAsRequestFrom(parameters, aNodePackage, aCommandPackage);
+        return createAsRequestFrom(parameters, aNodePackage, aCommandPackage);
     }
 
     public static QixwebUrl createAsRequestFrom(Map parametersMap, String aNodePackage, String aCommandPackage)
@@ -209,7 +209,7 @@ public class QixwebUrl extends WebUrl implements Browsable
         }
         catch (Exception e)
         {            
-            return new AlwaysValidWebCommandRequest();
+            return null;
         }        
     }
 }
