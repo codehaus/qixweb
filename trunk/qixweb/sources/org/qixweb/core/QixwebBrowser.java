@@ -2,7 +2,7 @@ package org.qixweb.core;
 
 import java.io.IOException;
 
-import org.qixweb.core.validation.WebCommandRequest;
+import org.qixweb.core.validation.WebCommandBuilder;
 import org.qixweb.util.XpLogger;
 
 
@@ -33,23 +33,23 @@ public class QixwebBrowser
     
 	private void executeCommandRequest(QixwebUrl urlToCommand) throws Exception
 	{
-        WebCommandRequest commandRequest = urlToCommand.toCommandRequest();
-        if (commandRequest == null)
+        WebCommandBuilder commandBuilder = urlToCommand.toCommandBuilder();
+        if (commandBuilder == null)
         {            
             WebCommand command = urlToCommand.materializeTargetCommandWith(itsUserData);
             executeValidCommand(command);                
         }
         else
         {
-            if (commandRequest.isValid())
+            if (commandBuilder.isValid())
             {
-                WebCommand command = commandRequest.destinationWhenValid(urlToCommand, itsUserData);
+                WebCommand command = commandBuilder.destinationWhenValid(urlToCommand, itsUserData);
                 executeValidCommand(command);                
             }
             else
             {
-                XpLogger.info("Invalid command request (User=" + loggedUser().name() + "): " + commandRequest.toString());
-                Browsable browsable = commandRequest.destinationWhenNotValid(itsEnvironment);
+                XpLogger.info("Invalid command request (User=" + loggedUser().name() + "): " + commandBuilder.toString());
+                Browsable browsable = commandBuilder.destinationWhenNotValid(itsEnvironment);
                 browsable.displayThrough(responseHandler());
             }
         }

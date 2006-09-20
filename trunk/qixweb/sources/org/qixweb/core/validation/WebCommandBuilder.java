@@ -5,7 +5,7 @@ import java.util.HashMap;
 import org.qixweb.core.*;
 import org.qixweb.util.DeepEquals;
 
-public abstract class WebCommandRequest
+public abstract class WebCommandBuilder
 {
     public static final boolean MANDATORY = true;
     public static final boolean OPTIONAL = !MANDATORY;
@@ -14,7 +14,7 @@ public abstract class WebCommandRequest
     private boolean areAllRight;
     private HashMap itsMessageForInvalidParameters;
 
-    protected WebCommandRequest(Parameters submittedValues)
+    protected WebCommandBuilder(Parameters submittedValues)
     {
         itsSubmittedValues = submittedValues;
         areAllRight = true;
