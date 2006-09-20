@@ -31,4 +31,6 @@ public abstract class QixwebEnvironment
     public abstract String nodePackage();
 
     public abstract String commandPackage();
+
+    public abstract String servletPath();
 }

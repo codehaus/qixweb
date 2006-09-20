@@ -5,12 +5,8 @@ import org.qixweb.core.TheSystem;
 
 public class FakeEnvironment extends QixwebEnvironment
 {
-    private boolean areResourcesFreed = true;
-    private boolean systemHasBeenInvoked = false;
-
     public TheSystem system()
     {
-        systemHasBeenInvoked  = true;
         return new FakeSystem();
     }
 
@@ -27,25 +23,5 @@ public class FakeEnvironment extends QixwebEnvironment
     public String servletPath()
     {
         return "home";
-    }
-
-    public void freeResources()
-    {
-        areResourcesFreed = true;
-    }
-
-    public boolean areResourcesFree()
-    {
-        return areResourcesFreed;
-    }
-
-    public void lockResources()
-    {
-        areResourcesFreed = false;
-    }
-
-    public boolean hasSystemBeenInvoked()
-    {
-        return systemHasBeenInvoked;
     }
 }
