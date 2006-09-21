@@ -8,7 +8,7 @@ import org.qixweb.time.QixwebDate;
 import org.qixweb.util.EqualsBehaviourVerifier;
 
 
-public class TestQixwebDate extends TestQixwebCalendar
+public class TestQixwebDate extends AbstractTestQixwebCalendar
 {
     public void testCoarseResolution()
     {

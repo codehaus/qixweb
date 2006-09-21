@@ -6,7 +6,7 @@ import org.qixweb.core.*;
 
 
 
-public class TestSingleChoice extends TestAbstractChoices
+public class TestSingleChoice extends AbstractTestChoices
 {
     protected void add_to(Choice choice, AbstractChoice abstractChoice)
     {

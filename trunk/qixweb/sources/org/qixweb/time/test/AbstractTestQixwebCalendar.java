@@ -7,7 +7,7 @@ import org.qixweb.time.*;
 import org.qixweb.util.EqualsBehaviourVerifier;
 import org.qixweb.util.test.ExtendedTestCase;
 
-public abstract class TestQixwebCalendar extends ExtendedTestCase
+public abstract class AbstractTestQixwebCalendar extends ExtendedTestCase
 {
     protected abstract QixwebCalendar concreteInstance(int day, int month, int year);
 
