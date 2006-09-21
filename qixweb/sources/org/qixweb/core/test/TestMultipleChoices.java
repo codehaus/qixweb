@@ -5,7 +5,7 @@ import java.util.List;
 import org.qixweb.core.*;
 import org.qixweb.util.CollectionUtil;
 
-public class TestMultipleChoices extends TestAbstractChoices
+public class TestMultipleChoices extends AbstractTestChoices
 {
     private MultipleChoices itsMultipleChoices;
 

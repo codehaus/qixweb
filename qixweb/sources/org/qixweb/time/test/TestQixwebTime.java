@@ -8,7 +8,7 @@ import org.qixweb.time.QixwebCalendar;
 import org.qixweb.time.QixwebTime;
 import org.qixweb.util.EqualsBehaviourVerifier;
 
-public class TestQixwebTime extends TestQixwebCalendar
+public class TestQixwebTime extends AbstractTestQixwebCalendar
 {
 
     public void testEndOfTheDay() throws Exception

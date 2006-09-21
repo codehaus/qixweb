@@ -7,7 +7,7 @@ import org.qixweb.util.ArrayAsserter;
 import org.qixweb.util.CollectionUtil;
 import org.qixweb.util.test.ExtendedTestCase;
 
-public abstract class TestLightInternalIterator extends ExtendedTestCase
+public abstract class AbstractTestLightInternalIterator extends ExtendedTestCase
 {
 
     private void assertCollectOn(LightInternalIterator anIterator, String aMethodName)

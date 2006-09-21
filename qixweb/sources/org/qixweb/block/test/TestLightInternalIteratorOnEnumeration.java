@@ -7,7 +7,7 @@ import org.qixweb.block.LightInternalIterator;
 import org.qixweb.util.CollectionUtil;
 
 
-public class TestLightInternalIteratorOnEnumeration extends TestLightInternalIterator
+public class TestLightInternalIteratorOnEnumeration extends AbstractTestLightInternalIterator
 {
     public LightInternalIterator createIterator(Object[] theArray)
     {

@@ -8,7 +8,7 @@ import org.qixweb.util.EqualsBehaviourVerifier;
 
 
 
-public abstract class TestAbstractChoices extends TestCase
+public abstract class AbstractTestChoices extends TestCase
 {
     public void testCreation()
     {
