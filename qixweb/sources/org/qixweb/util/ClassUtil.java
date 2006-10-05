@@ -43,4 +43,9 @@ public class ClassUtil
         }
         return newInstance;
     }
+    
+    public static Object newInstance(Class clazz)
+    {
+        return newInstance(clazz, new Class[0], new Object[0]);
+    }
 }
