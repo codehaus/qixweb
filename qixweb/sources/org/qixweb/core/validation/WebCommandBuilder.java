@@ -10,7 +10,7 @@ public abstract class WebCommandBuilder
     public static final boolean MANDATORY = true;
     public static final boolean OPTIONAL = !MANDATORY;
 
-    protected final Parameters itsSubmittedValues;
+    private final Parameters itsSubmittedValues;
     private boolean areAllRight;
     private HashMap itsMessageForInvalidParameters;
 
@@ -26,7 +26,7 @@ public abstract class WebCommandBuilder
 
     protected void addControl(WebCommandRequestControl control, boolean mandatoryFlag, String parameterKey, String messageWhenInvalid)
     {
-        if (mandatoryFlag == MANDATORY || itsSubmittedValues.isNotEmpty(parameterKey))
+        if (mandatoryFlag == MANDATORY || submittedValues().isNotEmpty(parameterKey))
         {
             boolean isKeyValid = control.isValid(parameterKey);
             if (!isKeyValid)
@@ -46,9 +46,15 @@ public abstract class WebCommandBuilder
         return itsMessageForInvalidParameters;
     }
 
+    protected Parameters submittedValues()
+    {
+        return itsSubmittedValues;
+    }
+
     public boolean equals(Object other)
     {
         return DeepEquals.equals(this, other);
     }
+
 
 }
