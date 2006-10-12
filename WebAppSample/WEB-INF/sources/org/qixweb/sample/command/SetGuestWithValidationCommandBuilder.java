@@ -25,9 +25,9 @@ public class SetGuestWithValidationCommandBuilder extends WebCommandBuilder
         return ClassUtil.shortNameOf(getClass()) + " (Invalid name)";
     }
 
-    public WebCommand destinationWhenValid(QixwebUrl url, UserData userData)
+    public WebCommand destinationWhenValid(UserData userData)
     {
-        return new SetGuestWithValidationCommand(url.parameters().get(HelloNode.parameterNameForGuestName()));
+        return new SetGuestWithValidationCommand(submittedValues().get(HelloNode.parameterNameForGuestName()));
     }
 
 }

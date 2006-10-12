@@ -43,7 +43,7 @@ public class QixwebBrowser
         {
             if (commandBuilder.isValid())
             {
-                WebCommand command = commandBuilder.destinationWhenValid(urlToCommand, itsUserData);
+                WebCommand command = commandBuilder.destinationWhenValid(itsUserData);
                 executeValidCommand(command);                
             }
             else
