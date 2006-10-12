@@ -21,7 +21,7 @@ public abstract class WebCommandBuilder
         itsMessageForInvalidParameters = new HashMap();
     }
 
-    public abstract WebCommand destinationWhenValid(QixwebUrl url, UserData userData);
+    public abstract WebCommand destinationWhenValid(UserData userData);
     public abstract Browsable destinationWhenNotValid(QixwebEnvironment environment);
 
     protected void addControl(WebCommandRequestControl control, boolean mandatoryFlag, String parameterKey, String messageWhenInvalid)

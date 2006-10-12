@@ -35,7 +35,7 @@ public class CommandWithValidationBuilder extends WebCommandBuilder
         itsValidationFlag = true;
     }
 
-    public WebCommand destinationWhenValid(QixwebUrl notUsedUrl, UserData notUsedUserData)
+    public WebCommand destinationWhenValid(UserData notUsedUserData)
     {
         return new CommandWithValidation();
     }
