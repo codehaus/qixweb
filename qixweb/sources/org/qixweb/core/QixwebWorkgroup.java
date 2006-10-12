@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.util.*;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.qixweb.block.CallGetter;
-import org.qixweb.block.LightInternalIterator;
+import org.qixweb.block.*;
 import org.qixweb.util.ArrayComparator;
 import org.qixweb.util.StringUtil;
 
@@ -37,7 +36,7 @@ public class QixwebWorkgroup implements Serializable
 
     public boolean add(QixwebUser aNewUser)
     {
-        if (!QixwebUser.ANONYMOUS.equals(findUserBy(aNewUser.name())))
+        if (findUserBy(aNewUser.name()) != null)
             return false;
         else
         {
@@ -48,8 +47,7 @@ public class QixwebWorkgroup implements Serializable
     
     public QixwebUser findUserBy(final String aUserName)
     {
-        QixwebUser user = (QixwebUser) itsUsers.get(aUserName);
-        return user != null ? user : QixwebUser.ANONYMOUS;
+        return (QixwebUser) itsUsers.get(aUserName);
     }
 
     public List allUsers()

@@ -1,9 +1,9 @@
 package org.qixweb.core.test;
 
-import junit.framework.TestCase;
-
 import org.qixweb.core.UserData;
 import org.qixweb.util.EqualsBehaviourVerifier;
+
+import junit.framework.TestCase;
 
 
 public class TestUserData extends TestCase

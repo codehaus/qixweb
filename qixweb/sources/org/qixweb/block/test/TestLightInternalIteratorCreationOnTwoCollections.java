@@ -1,10 +1,10 @@
 package org.qixweb.block.test;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
-
 import org.qixweb.block.AlwaysTruePredicate;
 import org.qixweb.block.LightInternalIterator;
+
+import junit.framework.Assert;
+import junit.framework.TestCase;
 
 
 public class TestLightInternalIteratorCreationOnTwoCollections extends TestCase

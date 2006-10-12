@@ -1,17 +1,18 @@
 package org.qixweb.util.test;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
 
 import org.qixweb.util.StringUtil;
 
 public class TestStringUtil extends ExtendedTestCase
 {
-	public void testStringContainsIgnoringCase()
+	public void testStringContains()
 	{
-		assertTrue("'abcdefg' should contain 'ab'", StringUtil.containsIgnoringCase("abcdefg", "ab"));
-        assertTrue("'abcdefg' should contain 'aB'", StringUtil.containsIgnoringCase("abcdefg", "aB"));
-        assertTrue("'abcdefg' should contain 'AB'", StringUtil.containsIgnoringCase("abcdefg", "AB"));
-		assertFalse("'abcdefg' should *not* contain 'z'", StringUtil.containsIgnoringCase("abcdefg", "z"));
+		String aString = "abc";
+		String aContainedString = "a";
+		String aNotContainedString = "z";
+
+		assertTrue("'" +aString+ "'" + "should contain" + "'" +aContainedString+ "'", StringUtil.string_contains(aString, aContainedString));
+		assertFalse("'" +aString+ "'" + "should not contain" + "'" +aNotContainedString+ "'", StringUtil.string_contains(aString, aNotContainedString));
 	}
 	
 	public void testStringExtractFirst()
