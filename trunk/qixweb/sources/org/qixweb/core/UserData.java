@@ -9,6 +9,8 @@ import org.qixweb.util.DeepEquals;
 
 public class UserData implements Serializable
 {
+    public static final UserData EMPTY = new UserData();
+    
 	private static final String LOGGED_USERNAME_KEY = "LOGGED_USERNAME_KEY";
 	private Map itsData;
 
