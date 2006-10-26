@@ -14,7 +14,7 @@ public class TestQixwebBrowserOnCommandExecution extends ExtendedTestCase
     {
         itsFakeResponseHandler = new FakeResponseHandler();
         itsFakeEnvironment = new FakeEnvironment();
-        itsBrowser = QixwebBrowser.usingSystem(itsFakeResponseHandler, new UserData(), itsFakeEnvironment);
+        itsBrowser = QixwebBrowser.usingSystem(itsFakeResponseHandler, UserData.EMPTY, itsFakeEnvironment);
     }
 
     public void testExecuteRedirectingCommand() throws Exception
@@ -60,7 +60,7 @@ public class TestQixwebBrowserOnCommandExecution extends ExtendedTestCase
     
     public void testGoToWarningNodeForNotInstantiableCommand() throws Exception
     {
-        itsBrowser = QixwebBrowser.usingEnvironment(itsFakeResponseHandler, new UserData(), new FakeEnvironment());
+        itsBrowser = QixwebBrowser.usingEnvironment(itsFakeResponseHandler, UserData.EMPTY, new FakeEnvironment());
 
         itsBrowser.goTo(new QixwebUrl(NotInstantiableCommand.class));
         assertNull("Shouldn't redirect anywhere", itsFakeResponseHandler.redirectedDestination());
@@ -69,7 +69,7 @@ public class TestQixwebBrowserOnCommandExecution extends ExtendedTestCase
     
     public void testGoToLoginNodeForNotExecutableCommand() throws Exception
     {
-        itsBrowser = QixwebBrowser.usingEnvironment(itsFakeResponseHandler, new UserData(), new FakeEnvironment());
+        itsBrowser = QixwebBrowser.usingEnvironment(itsFakeResponseHandler, UserData.EMPTY, new FakeEnvironment());
 
         itsBrowser.goTo(new QixwebUrl(NotExecutableCommand.class));
         assertNull("Shouldn't redirect anywhere", itsFakeResponseHandler.redirectedDestination());
@@ -85,7 +85,7 @@ public class TestQixwebBrowserOnCommandExecution extends ExtendedTestCase
 
     public void testLoggedUserExecuteCommand() throws Exception
     {
-        itsBrowser = new QixwebBrowser(itsFakeResponseHandler, new UserData(), itsFakeEnvironment, false) 
+        itsBrowser = new QixwebBrowser(itsFakeResponseHandler, UserData.EMPTY, itsFakeEnvironment, false) 
         {
             protected QixwebUser loggedUser()
             {

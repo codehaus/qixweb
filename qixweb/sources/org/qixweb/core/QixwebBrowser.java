@@ -75,7 +75,7 @@ public class QixwebBrowser
     protected WebNode instantiate(QixwebUrl urlToNode)
     {
         if (instantiateUrlWithEnvironment)
-            return urlToNode.materializeTargetNodeWith(itsUserData, itsEnvironment);
+            return CreateMethodInvoker.onNode(urlToNode, itsUserData, itsEnvironment);
         else
             return urlToNode.materializeTargetNodeWith(itsUserData, itsEnvironment.system());
     }

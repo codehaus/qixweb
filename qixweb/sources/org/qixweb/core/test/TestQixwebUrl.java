@@ -105,12 +105,15 @@ public class TestQixwebUrl extends ExtendedTestCase
     public void testMaterializeTargetCommand()
     {
         AnyCommand expectedCommand = new AnyCommand();
+        QixwebUrl urlToCommand = new QixwebUrl(AnyCommand.class);
+        
+        assertTrue(WebCommandComparator.areEquals(expectedCommand, urlToCommand));
+    }
 
-        QixwebUrl url = new QixwebUrl(AnyCommand.class);
-        AnyCommand command = (AnyCommand) url.materializeTargetCommandWith(itsUserData);
-
-        assertEquals(expectedCommand, command);
-        assertTrue(command.hasBeenInstantiatedUsingCreate());
+    public void testMaterializeTargetCommandInvokesCreateMethod()
+    {
+        AnyCommand createdCommand = (AnyCommand) new QixwebUrl(AnyCommand.class).materializeTargetCommandWith(itsUserData);
+        assertTrue(createdCommand.hasBeenInstantiatedUsingCreate());
     }
 
     public static String encodeAmpersand(String aStringToEncode)

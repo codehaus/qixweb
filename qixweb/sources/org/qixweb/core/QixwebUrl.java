@@ -1,8 +1,6 @@
 package org.qixweb.core;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -12,11 +10,11 @@ import org.qixweb.util.*;
 public class QixwebUrl extends WebUrl implements Browsable
 {
     private static final String COMMAND_BUILDER_SUFFIX = "Builder";
-    
+
     private static String itsServletPath = "";
     private static String itsNodePackage = "";
     private static String itsCommandPackage = "";
-    
+
     public static final QixwebUrl EMPTY_URL = new QixwebUrl(Object.class);
     public static final String PARAMETER_COMMAND_TO_EXECUTE = "command";
     public static final String PARAMETER_NODE_TO_DISPLAY = "node";
@@ -75,7 +73,7 @@ public class QixwebUrl extends WebUrl implements Browsable
                 className = StringUtils.substringAfterLast(fullName, itsCommandPackage);
             parameters().set(QixwebUrl.PARAMETER_COMMAND_TO_EXECUTE, className);
         }
-        
+
         else if (WebNode.class.isAssignableFrom(aTargetClass))
         {
             if (!itsNodePackage.equals(""))
@@ -100,34 +98,7 @@ public class QixwebUrl extends WebUrl implements Browsable
         Class[] createParameterTypes = new Class[] { QixwebUrl.class, UserData.class, TheSystem.class };
         Object[] createParameters = new Object[] { this, userData, system };
 
-        return (WebNode) callCreateOnTargetWith(createParameterTypes, createParameters);
-    }
-
-    public WebNode materializeTargetNodeWith(UserData userData, QixwebEnvironment environment)
-    {
-        Class[] createParameterTypes = new Class[] { QixwebUrl.class, UserData.class, QixwebEnvironment.class };
-        Object[] createParameters = new Object[] { this, userData, environment };
-
-        return (WebNode) callCreateOnTargetWith(createParameterTypes, createParameters);
-    }
-
-    private Object callCreateOnTargetWith(Class[] createParameterTypes, Object[] createParameters)
-    {
-        Object node = null;
-        try
-        {
-            Method factoryMethod = target().getDeclaredMethod("create", createParameterTypes);
-            node = factoryMethod.invoke(null, createParameters);
-        }
-        catch (InvocationTargetException itex)
-        {
-            XpLogger.logException(itex.getTargetException());
-        }
-        catch (Exception ex)
-        {
-            XpLogger.logException(ex);
-        }
-        return node;
+        return (WebNode) CreateMethodInvoker.on(target(), createParameterTypes, createParameters);
     }
 
     public WebCommand materializeTargetCommandWith(UserData userData)
@@ -135,7 +106,7 @@ public class QixwebUrl extends WebUrl implements Browsable
         Class[] createParameterTypes = new Class[] { QixwebUrl.class, UserData.class };
         Object[] createParameters = new Object[] { this, userData };
 
-        return (WebCommand) callCreateOnTargetWith(createParameterTypes, createParameters);
+        return (WebCommand) CreateMethodInvoker.on(target(), createParameterTypes, createParameters);
     }
 
     private static String extractDestinationFrom(Map parametersMap, String aNodePackage, String aCommandPackage)
@@ -202,14 +173,14 @@ public class QixwebUrl extends WebUrl implements Browsable
         try
         {
             Class relatedRequestClass = Class.forName(relatedRequestClassName);
-            Class[]  constructorParameterTypes  = new Class[]  { Parameters.class };
+            Class[] constructorParameterTypes = new Class[] { Parameters.class };
             Object[] constructorParameterValues = new Object[] { parameters() };
-            
+
             return (WebCommandBuilder) ClassUtil.newInstance(relatedRequestClass, constructorParameterTypes, constructorParameterValues);
         }
         catch (Exception e)
-        {            
+        {
             return null;
-        }        
+        }
     }
 }

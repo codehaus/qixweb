@@ -14,7 +14,7 @@ public class TestQixwebBrowserOnNodeRendering extends ExtendedTestCase
     {
         itsFakeResponseHandler = new FakeResponseHandler();
         itsFakeEnvironment = new FakeEnvironment();
-        itsBrowser = QixwebBrowser.usingSystem(itsFakeResponseHandler, new UserData(), itsFakeEnvironment);
+        itsBrowser = QixwebBrowser.usingSystem(itsFakeResponseHandler, UserData.EMPTY, itsFakeEnvironment);
     }
 
     public void testAnonymousGoToNodeWithABrowserUsingSystem() throws Exception
@@ -25,7 +25,7 @@ public class TestQixwebBrowserOnNodeRendering extends ExtendedTestCase
 
     public void testGoToWarningNodeForUrlToNeitherNodeNorCommand() throws Exception
     {
-        itsBrowser = new QixwebBrowser(itsFakeResponseHandler, new UserData(), new FakeEnvironment(), false) 
+        itsBrowser = new QixwebBrowser(itsFakeResponseHandler, UserData.EMPTY, new FakeEnvironment(), false) 
         {
             protected void gotoWarningNode() throws Exception
             {
@@ -40,7 +40,7 @@ public class TestQixwebBrowserOnNodeRendering extends ExtendedTestCase
 
     public void testGotoWarningNodeForProblemsDuringDisplay() throws Exception
     {
-        itsBrowser = new QixwebBrowser(itsFakeResponseHandler, new UserData(), new FakeEnvironment(), false) 
+        itsBrowser = new QixwebBrowser(itsFakeResponseHandler, UserData.EMPTY, new FakeEnvironment(), false) 
         {
             protected void gotoWarningNode() throws Exception
             {
@@ -55,7 +55,7 @@ public class TestQixwebBrowserOnNodeRendering extends ExtendedTestCase
     
     public void testGotoWarningNodeForUrlToNotInstantiableNode() throws Exception
     {
-        itsBrowser = new QixwebBrowser(itsFakeResponseHandler, new UserData(), new FakeEnvironment(), false) 
+        itsBrowser = new QixwebBrowser(itsFakeResponseHandler, UserData.EMPTY, new FakeEnvironment(), false) 
         {
             protected void gotoWarningNode() throws Exception
             {
@@ -78,7 +78,7 @@ public class TestQixwebBrowserOnNodeRendering extends ExtendedTestCase
     
     public void testGoToNodeForLoggedUser() throws Exception
     {
-        itsBrowser = new QixwebBrowser(itsFakeResponseHandler, new UserData(), new FakeEnvironment(), false) 
+        itsBrowser = new QixwebBrowser(itsFakeResponseHandler, UserData.EMPTY, new FakeEnvironment(), false) 
         {
             protected QixwebUser loggedUser()
             {
@@ -107,7 +107,7 @@ public class TestQixwebBrowserOnNodeRendering extends ExtendedTestCase
     public void testAnonymousGoToNodeWithABrowserUsingEnvironment() throws Exception
     {
         FakeEnvironment fakeEnvironment = new FakeEnvironment();
-        itsBrowser = QixwebBrowser.usingEnvironment(itsFakeResponseHandler, new UserData(), fakeEnvironment);
+        itsBrowser = QixwebBrowser.usingEnvironment(itsFakeResponseHandler, UserData.EMPTY, fakeEnvironment);
 
         verifyDisplayedNode();
         assertFalse("When using Environment, the System should not be used", fakeEnvironment.hasSystemBeenInvoked());
