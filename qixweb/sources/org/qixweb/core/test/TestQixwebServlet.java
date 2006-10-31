@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.qixweb.core.*;
+import org.qixweb.core.test.support.*;
 import org.qixweb.util.test.ExtendedTestCase;
 
 public class TestQixwebServlet extends ExtendedTestCase

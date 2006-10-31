@@ -1,6 +1,7 @@
 package org.qixweb.core.test;
 
 import org.qixweb.core.*;
+import org.qixweb.core.test.support.*;
 import org.qixweb.util.test.ExtendedTestCase;
 
 

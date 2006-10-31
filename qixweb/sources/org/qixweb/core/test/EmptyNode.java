@@ -1,6 +1,6 @@
 package org.qixweb.core.test;
 
-import org.qixweb.core.*;
+import org.qixweb.core.WebNode;
 
 public class EmptyNode extends WebNode
 {

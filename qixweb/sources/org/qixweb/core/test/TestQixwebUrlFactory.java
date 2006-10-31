@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 
 import org.qixweb.core.QixwebUrl;
 import org.qixweb.core.QixwebUrlFactory;
+import org.qixweb.core.test.support.FakeEnvironment;
 
 
 

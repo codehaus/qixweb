@@ -2,7 +2,7 @@ package org.qixweb.util.test;
 
 import org.qixweb.core.QixwebUrl;
 import org.qixweb.core.test.AnyCommand;
-import org.qixweb.core.test.FakeHttpServletRequest;
+import org.qixweb.core.test.support.FakeHttpServletRequest;
 import org.qixweb.util.ArrayAsserter;
 import org.qixweb.util.FileUploadToParameter;
 

@@ -2,6 +2,7 @@ package org.qixweb.core.test;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import org.qixweb.core.test.support.FakeHttpServletRequest;
 import org.qixweb.util.ArrayComparator;
 import org.qixweb.util.PropertiesUtil;
 
