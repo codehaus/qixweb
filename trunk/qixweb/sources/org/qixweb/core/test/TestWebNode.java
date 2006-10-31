@@ -6,6 +6,7 @@ import java.util.*;
 import org.qixweb.block.Function;
 import org.qixweb.block.LightInternalIterator;
 import org.qixweb.core.*;
+import org.qixweb.core.test.support.FakeResponseHandler;
 import org.qixweb.util.*;
 import org.qixweb.util.test.ExtendedTestCase;
 

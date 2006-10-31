@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.qixweb.core.QixwebUrl;
+import org.qixweb.core.test.support.*;
 import org.qixweb.util.ArrayAsserter;
 import org.qixweb.util.XpLogger;
 import org.qixweb.util.test.ExtendedTestCase;

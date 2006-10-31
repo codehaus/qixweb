@@ -3,6 +3,7 @@ package org.qixweb.core.test;
 import junit.framework.TestCase;
 
 import org.qixweb.core.*;
+import org.qixweb.core.test.support.FakeEnvironment;
 
 public class FakeCommandVerifyingResouceLocking extends WebCommand
 {

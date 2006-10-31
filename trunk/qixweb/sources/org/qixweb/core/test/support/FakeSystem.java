@@ -1,4 +1,4 @@
-package org.qixweb.core.test;
+package org.qixweb.core.test.support;
 
 import org.qixweb.core.TheSystem;
 
