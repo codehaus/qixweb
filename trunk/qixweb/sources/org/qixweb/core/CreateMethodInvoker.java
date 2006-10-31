@@ -28,7 +28,7 @@ public class CreateMethodInvoker
         Object object = null;
         try
         {
-            Method factoryMethod = target.getDeclaredMethod("create", createParameterTypes);
+            Method factoryMethod = target.getMethod("create", createParameterTypes);
             object = factoryMethod.invoke(null, createParameters);
         }
         catch (InvocationTargetException itex)
