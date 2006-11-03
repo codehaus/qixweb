@@ -1,7 +1,6 @@
 package org.qixweb.util.test;
 
-import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.*;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
@@ -11,12 +10,11 @@ import org.qixweb.util.CollectionUtil;
 public class TestExtendedTestCase extends TestCase
 {
 
-    
     public void testDatesAreEqualsInRange() throws Exception
     {
         Calendar date1 = Calendar.getInstance();
         date1.setTimeInMillis(123456);
-        
+
         Calendar date2 = Calendar.getInstance();
         date2.setTimeInMillis(123400);
 
@@ -29,7 +27,7 @@ public class TestExtendedTestCase extends TestCase
         {
             fail("dates should be equal round specific precision");
         }
-        
+
         try
         {
             ExtendedTestCase.assertEquals(date1.getTime(), date2.getTime(), 57);
@@ -39,8 +37,7 @@ public class TestExtendedTestCase extends TestCase
         {
         }
     }
-    
-    
+
     public void testEmptyOnCollections() throws Exception
     {
         ArrayList arrayList = new ArrayList();
@@ -139,6 +136,39 @@ public class TestExtendedTestCase extends TestCase
         {
             ExtendedTestCase.assert_contains("a message", "ciao davide", "pippo");
             fail("pippo should not be contained in: ciao davide");
+        }
+        catch (AssertionFailedError expectedFailure)
+        {
+        }
+    }
+
+    public void testContainsOnCollection()
+    {
+        List list = CollectionUtil.listWith("first", "second");
+        ExtendedTestCase.assert_contains(list, "first");
+        ExtendedTestCase.assert_contains(list, "second");
+
+        try
+        {
+            ExtendedTestCase.assert_contains(list, "third");
+            fail("third should not be contained in the collection");
+        }
+        catch (AssertionFailedError expectedFailure)
+        {
+        }
+    }
+
+    public void testDoesNotContainOnCollection()
+    {
+        List list = CollectionUtil.listWith("first", "second");
+        ExtendedTestCase.assert_doesNotContain(list, "third");
+
+        try
+        {
+
+            ExtendedTestCase.assert_doesNotContain(list, "first");
+            ExtendedTestCase.assert_doesNotContain(list, "second");
+            fail("first and second should  be contained in the collection");
         }
         catch (AssertionFailedError expectedFailure)
         {
