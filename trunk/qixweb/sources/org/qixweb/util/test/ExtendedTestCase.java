@@ -255,5 +255,16 @@ public abstract class ExtendedTestCase extends TestCase
     {
         assertTrue(label.isEmpty());
     }
+
+    public static void assert_contains(Collection aCollection, Object anItem)
+    {
+        assertTrue(aCollection.contains(anItem));
+    }
+
+    public static void assert_doesNotContain(Collection aCollection, Object anItem)
+    {
+        assertFalse(aCollection.contains(anItem));
+    }
+    
     
 }
