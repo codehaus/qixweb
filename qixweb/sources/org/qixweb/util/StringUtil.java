@@ -8,8 +8,11 @@ import org.apache.commons.lang.StringUtils;
 
 public class StringUtil
 {	
-    public static final String EMPTY = "";
-    
+	public static boolean string_contains(String aString, String aSubstring)
+	{
+		return aString.indexOf(aSubstring) != -1;
+	}
+
 	public static boolean string_containsRegex(String text, String regex)
 	{
 		Pattern pattern = Pattern.compile(regex);
@@ -55,19 +58,6 @@ public class StringUtil
 		    return matcher.group();
 		else
 		    return null;
-    }
-
-    public static boolean containsIgnoringCase(String container, String contained)
-    {
-        return StringUtils.contains(container.toLowerCase(), contained.toLowerCase());
-    }
-
-    public static String onlyFirst1024Chars(String string)
-    {
-        if (string != null && string.length() > 1024)
-            return string.substring(0, 1023);
-        else
-            return string;
     }
 
 }

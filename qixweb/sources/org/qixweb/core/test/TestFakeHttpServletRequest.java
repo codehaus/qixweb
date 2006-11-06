@@ -1,10 +1,9 @@
 package org.qixweb.core.test;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.Properties;
 
-import org.qixweb.core.test.support.FakeHttpServletRequest;
 import org.qixweb.util.ArrayComparator;
-import org.qixweb.util.PropertiesUtil;
 
 
 public class TestFakeHttpServletRequest extends junit.framework.TestCase  
@@ -25,10 +24,13 @@ public class TestFakeHttpServletRequest extends junit.framework.TestCase
 	
 	public void testSimulateRequestParameters() 
 	{
-		FakeHttpServletRequest theRequest = new FakeHttpServletRequest(PropertiesUtil.with(
-		        "ParamName", "Pippo",
-		        "ParamSurname", "Pappo",
-		        "ParamAge", "15"));
+		Properties theExpectedParameters = new Properties();
+		theExpectedParameters.setProperty("ParamName", "Pippo");
+		theExpectedParameters.setProperty("ParamSurname", "Pappo");
+		theExpectedParameters.setProperty("ParamAge", "15");
+	
+	
+		FakeHttpServletRequest theRequest = new FakeHttpServletRequest(theExpectedParameters);
 		
 		assertEquals("Pippo", theRequest.getParameter("ParamName"));
 		assertEquals("Pappo", theRequest.getParameter("ParamSurname")); 

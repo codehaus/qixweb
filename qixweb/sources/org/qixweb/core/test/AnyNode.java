@@ -1,7 +1,5 @@
 package org.qixweb.core.test;
 
-import java.util.HashMap;
-
 import org.qixweb.core.*;
 import org.qixweb.util.DeepEquals;
 
@@ -18,28 +16,22 @@ public class AnyNode extends WebNode
     {
         itsTitle = aTitle;
     }
-
-    public AnyNode(String aTitle, HashMap errorMessages)
-    {
-        itsTitle = aTitle;
-        setErrorMessages(errorMessages);
-    }
     
     public String title()
     {
         return itsTitle;
     }
     
-    public QixwebUrl anyCommandLink()
+    public WebAppUrl anyCommandLink()
     {
-        return new QixwebUrl(AnyCommand.class);
+        return new WebAppUrl(AnyCommand.class, "/servlet/WebAppServlet");
     }
     
-    public static WebNode create(QixwebUrl anUrl, UserData aUserData, TheSystem system)
+    public static WebNode create(WebAppUrl anUrl, UserData aUserData, TheSystem system)
 	{
 		return new AnyNode();
 	}
-    public static WebNode create(QixwebUrl anUrl, UserData aUserData, QixwebEnvironment environment)
+    public static WebNode create(WebAppUrl anUrl, UserData aUserData, QixwebEnvironment environment)
     {
         return new AnyNode();
     }

@@ -1,38 +1,35 @@
 package org.qixweb.core.test;
 
+import org.apache.commons.lang.StringUtils;
 import org.qixweb.core.*;
+import org.qixweb.util.DeepEquals;
 
-public class AnyCommand extends WebCommand
+
+public class AnyCommand implements WebCommand
 {
-    private boolean hasBeenInstantiatedByCreate;
-    
-    public static WebCommand create(QixwebUrl anUrl, UserData aUserData)
-    {
-        return new AnyCommand(true);
-    }
+    private String itsState;
 
-    private AnyCommand(boolean instantiedByCreate)
+    public AnyCommand(String state)
     {
-        hasBeenInstantiatedByCreate = instantiedByCreate;
-    }
-
-    public AnyCommand()
-    {
-        this(false);
+        itsState = state;
     }
     
-	public Browsable execute(QixwebEnvironment system)
+	public static WebCommand create(WebAppUrl anUrl, UserData aUserData)
 	{
-        return new QixwebUrl(AnyNode.class);
+		Object state = aUserData.valueFor("state");
+        return new AnyCommand(StringUtils.defaultString((String) state));
+	}
+
+	public WebAppUrl execute(QixwebEnvironment system)
+	{
+		WebAppUrl webAppUrl = new WebAppUrl(AnyNode.class, FakeSystem.BASE_URL);
+        webAppUrl.setParameter("state", itsState);
+        return webAppUrl;
 	}
 	
 	public boolean equals(Object obj)
 	{
-        return obj instanceof AnyCommand;
+		return DeepEquals.equals(this, obj);
 	}
-    
-    public boolean hasBeenInstantiatedUsingCreate()
-    {
-        return hasBeenInstantiatedByCreate;
-    }
+
 }

@@ -21,9 +21,9 @@ public class TestDefaultWebForm extends ExtendedTestCase
         {
             super(user);
         }
-        protected QixwebUrl concreteActionUrl()
+        protected WebAppUrl concreteActionUrl()
         {
-            return new QixwebUrl(Object.class);
+            return new WebAppUrl("");
         }
     }
 

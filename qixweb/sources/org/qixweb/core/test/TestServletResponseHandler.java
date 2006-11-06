@@ -1,9 +1,8 @@
 package org.qixweb.core.test;
 
-import java.io.IOException;
+import java.io.*;
 
 import org.qixweb.core.*;
-import org.qixweb.core.test.support.FakeHttpServletResponse;
 import org.qixweb.util.test.ExtendedTestCase;
 
 
@@ -18,8 +17,7 @@ public class TestServletResponseHandler extends ExtendedTestCase
         super.setUp();
 		itsHttpResponse = new FakeHttpServletResponse();
 		itsPageID = "1234567";
-		itsServletPath = "servlet/WebAppServlet";
-        QixwebUrl.initServletPathAndDefaultNodePackage(itsServletPath);
+		itsServletPath = "/servlet/WebAppServlet";
 		
 		itsResponseHandler = new ServletResponseHandler(itsHttpResponse, itsServletPath, itsPageID, "./templateVelocity/");
     }
@@ -37,10 +35,10 @@ public class TestServletResponseHandler extends ExtendedTestCase
 	
 	public void testRedirectToUrl() throws Exception
 	{
-		QixwebUrl url = new QixwebUrl(AnyNode.class); 
+		WebAppUrl url = new WebAppUrl(AnyNode.class, "/webapp" + itsServletPath); 
 		itsResponseHandler.redirectTo(url);
 
-		assertEquals("Wrong redirect", itsServletPath + "/" + itsPageID +"?node=AnyNode", itsHttpResponse.redirectedUrl());
+		assertEquals("Wrong redirect", "/webapp/servlet/WebAppServlet/"+ itsPageID +"?node=AnyNode", itsHttpResponse.redirectedUrl());
 		assert_contains("Wrong page id", itsHttpResponse.redirectedUrl(), itsPageID);
 	}
     
@@ -52,9 +50,9 @@ public class TestServletResponseHandler extends ExtendedTestCase
             itsResponseHandler.display(new WebNode()
             {
             
-                public QixwebUrl[] connections()
+                public WebAppUrl[] connections()
                 {
-                    return new QixwebUrl[0];
+                    return new WebAppUrl[0];
                 }
             
             });
