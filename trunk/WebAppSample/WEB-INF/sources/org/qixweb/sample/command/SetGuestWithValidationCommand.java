@@ -1,7 +1,6 @@
 package org.qixweb.sample.command;
 
 import org.qixweb.core.*;
-import org.qixweb.sample.node.HelloNode;
 import org.qixweb.sample.node.SampleValidationNode;
 import org.qixweb.util.ClassUtil;
 
