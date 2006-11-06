@@ -17,8 +17,8 @@ public class WebUrl implements Comparable
 
     private Parameters itsParameters;    
     private String itsUrlBeforeParameters;
+    private String itsLabel;
     private boolean isEnabled;
-    protected String itsLabel;
 
     public static String encode(String parameterValue)
     {
@@ -64,7 +64,7 @@ public class WebUrl implements Comparable
             setUrlBeforeParameters(anUrl);
             Map parameters = new UrlParametersExtractor(anUrl).run();
             itsParameters = new Parameters(parameters);
-            itsLabel = StringUtils.isEmpty(aLabel) ? anUrl : aLabel;
+            label(StringUtils.isEmpty(aLabel) ? anUrl : aLabel);
             isEnabled = true;
         }
     }
@@ -141,7 +141,7 @@ public class WebUrl implements Comparable
         if (anObject instanceof WebUrl)
         {
             WebUrl anotherWebUrl = (WebUrl) anObject;
-            return itsLabel.compareTo(anotherWebUrl.itsLabel);
+            return label().compareTo(anotherWebUrl.label());
         }
         return -1;
     }
