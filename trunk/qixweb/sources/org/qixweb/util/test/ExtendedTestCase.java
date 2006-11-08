@@ -1,7 +1,6 @@
 package org.qixweb.util.test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,6 +18,7 @@ public abstract class ExtendedTestCase extends TestCase
     private PrintStream systemOut;
     private ByteArrayOutputStream itsGrabbedErr;
     private ByteArrayOutputStream itsGrabbedOut;
+    private long itsStartingTime;
 
     public ExtendedTestCase()
     {
@@ -30,6 +30,32 @@ public abstract class ExtendedTestCase extends TestCase
     {
         super(aString);
         init();
+    }
+    
+    protected void setUp() throws Exception
+    {
+        init();
+        itsStartingTime = System.currentTimeMillis();        
+    }
+    
+    protected void tearDown() throws Exception
+    {
+        System.setOut(systemOut);
+        XpLogger.resetConsoleAppenderLogger();
+        System.setErr(systemErr);
+        
+        //timeMesurement(); decomment if you like to track the time spent by a single test
+    }
+
+    private void timeMesurement() throws IOException
+    {
+        long endTime = System.currentTimeMillis();        
+        long timeOfTest = endTime - itsStartingTime;   
+        
+        FileWriter writer = new FileWriter("timeOfTests.txt", true);
+        writer.write("Time of "+ getName()+ ": "+ timeOfTest + " msec.\n");
+        writer.flush();
+        writer.close();
     }
     
     public static void assertEquals(String aMessage, Date expectedDate, Date actualDate, int precisionInMillis)
@@ -154,23 +180,15 @@ public abstract class ExtendedTestCase extends TestCase
         assertTrue(aMessagge + ": length is " + someObjects.length + " instead of 0", someObjects.length == 0);
     }
 
-    protected void setUp() throws Exception
-    {
-        init();
-    }
+   
 
     private void init()
     {
         systemOut = System.out;
-        systemErr = System.err;
+        systemErr = System.err;        
     }
 
-    protected void tearDown() throws Exception
-    {
-        System.setOut(systemOut);
-        XpLogger.resetConsoleAppenderLogger();
-        System.setErr(systemErr);
-    }
+    
 
     public String grabbedErr()
     {
