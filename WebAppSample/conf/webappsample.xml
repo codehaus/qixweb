@@ -1,5 +1,0 @@
-<Context path="/webappsample"
-     docBase="C:/apps/eclipse/workspace/WebAppSample" 
-     debug="0" 
-     reloadable="true" > 
-</Context>
