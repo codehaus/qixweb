@@ -137,6 +137,12 @@ public abstract class ExtendedTestCase extends TestCase
     {
         assertTrue("Length is " + someObjects.length + " instead of 0", someObjects.length == 0);
     }
+    
+    
+    public static void assertNotEmpty(Object[] someObjects)
+    {
+        assertTrue(someObjects.length > 0);
+    }
 
     public static void assertEmpty(Collection collection)
     {
