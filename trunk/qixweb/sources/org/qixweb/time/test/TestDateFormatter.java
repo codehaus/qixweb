@@ -25,6 +25,12 @@ public class TestDateFormatter extends TestCase
         QixwebTime theDate = QixwebTime.timeOnly(12, 30, 21);
         assertEquals("12:30", DateFormatter.formatHH_colon_mm(theDate));
     }
+    
+    public void testFormatHH_dot_mm()
+    {
+        QixwebTime theDate = QixwebTime.timeOnly(12, 30, 21);
+        assertEquals("12.30", DateFormatter.formatHH_dot_mm(theDate));
+    }
 
     public void testParseMMM_YY() throws ParseException
     {
