@@ -30,7 +30,12 @@ public class TestWebLabel extends TestCase
     {
         assertEquals("&lt;&amp;", new WebLabel("<&").toString());
     }
-    
+
+    public void testAccent() throws Exception
+    {
+        assertEquals("&agrave;", new WebLabel("à").toString());
+    }
+
     public void testTrim() throws Exception
     {
         assertEquals("text", new WebLabel("text   ").toString());        
