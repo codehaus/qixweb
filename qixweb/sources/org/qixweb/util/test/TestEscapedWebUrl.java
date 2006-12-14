@@ -1,11 +1,9 @@
 package org.qixweb.util.test;
 
-import junit.framework.TestCase;
-
 import org.qixweb.core.WebUrl;
 import org.qixweb.util.EscapedWebUrl;
 
-public class TestEscapedWebUrl extends TestCase
+public class TestEscapedWebUrl extends ExtendedTestCase
 {
     public void testLabelIsEscaped()
     {
@@ -23,7 +21,7 @@ public class TestEscapedWebUrl extends TestCase
         
         originalUrl.disable();
         
-        assertFalse(originalUrl.isEnabled());
-        assertTrue("The new url should not be affected by updates on the original", escapedUrl.isEnabled());        
+        assertLinkIsDisabled(originalUrl);
+        assertLinkIsEnabled("The new url should not be affected by updates on the original", escapedUrl);        
     }
 }
