@@ -9,6 +9,7 @@ import junit.framework.TestCase;
 
 import org.apache.commons.lang.StringUtils;
 import org.qixweb.core.WebLabel;
+import org.qixweb.core.WebUrl;
 import org.qixweb.util.StringUtil;
 import org.qixweb.util.XpLogger;
 
@@ -255,6 +256,26 @@ public abstract class ExtendedTestCase extends TestCase
         assertTrue(matcher.find());
     }
 
+    public void assertLinkIsDisabled(WebUrl webUrl)
+    {
+        assertLinkIsDisabled(StringUtil.EMPTY, webUrl);
+    }
+
+    public void assertLinkIsDisabled(String message, WebUrl webUrl)
+    {
+        assertFalse(message, webUrl.isEnabled());
+    }
+
+    public void assertLinkIsEnabled(WebUrl webUrl)
+    {
+        assertLinkIsEnabled(StringUtil.EMPTY, webUrl);
+    }
+
+    public void assertLinkIsEnabled(String message, WebUrl webUrl)
+    {
+        assertTrue(message, webUrl.isEnabled());
+    }
+    
     public static void assertEqualsIgnoringOrder(Collection expected, Collection actual)
     {
         assertEqualsIgnoringOrder("", expected, actual);

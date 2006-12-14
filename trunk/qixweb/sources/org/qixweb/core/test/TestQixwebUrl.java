@@ -107,7 +107,7 @@ public class TestQixwebUrl extends ExtendedTestCase
     {
         AnyCommand expectedCommand = new AnyCommand();
         QixwebUrl urlToCommand = new QixwebUrl(AnyCommand.class);
-        
+
         assertTrue(WebCommandComparator.areEquals(expectedCommand, urlToCommand));
     }
 
@@ -184,7 +184,7 @@ public class TestQixwebUrl extends ExtendedTestCase
         QixwebUrl orginalUrl = new QixwebUrl(RefreshableCommand.class);
         orginalUrl.parameters().set(QixwebUrl.PARAMETER_COMMAND_TO_EXECUTE, "AnyRefreshableCommand");
         orginalUrl.parameters().set("param1", "value1");
-        
+
         QixwebUrl actualUrl = new QixwebUrl(AnyCommand.class);
 
         actualUrl.addOptionalParametersFrom(orginalUrl);
@@ -201,30 +201,29 @@ public class TestQixwebUrl extends ExtendedTestCase
         source.parameters().set("param1", "value1");
 
         QixwebUrl destination = new QixwebUrl(NotAuthorizedNode.class);
-    
+
         destination.addOptionalParametersFrom(source);
-        
+
         QixwebUrl expected = new QixwebUrl(NotAuthorizedNode.class);
         expected.parameters().set("param1", "value1");
-        
+
         assertEquals(expected, destination);
     }
-    
+
     public void testAddOptionalParametersNotOverwriteCommand()
     {
         QixwebUrl source = new QixwebUrl(AnyCommand.class);
         source.parameters().set("param1", "value1");
 
         QixwebUrl destination = new QixwebUrl(RefreshableCommand.class);
-    
+
         destination.addOptionalParametersFrom(source);
-        
+
         QixwebUrl expected = new QixwebUrl(RefreshableCommand.class);
         expected.parameters().set("param1", "value1");
-        
+
         assertEquals(expected, destination);
     }
-    
 
     public void testCopyOptionalParametersFromRefreshableCommandToAnyNode()
     {
@@ -234,16 +233,16 @@ public class TestQixwebUrl extends ExtendedTestCase
         orginalUrl.parameters().set(QixwebUrl.PARAMETER_NODE_TO_DISPLAY, "AnyNode");
 
         QixwebUrl actualUrl = new QixwebUrl(AnyNode.class);
-        
+
         actualUrl.addOptionalParametersFrom(orginalUrl);
-        
+
         QixwebUrl expectedUrl = new QixwebUrl(AnyNode.class);
         expectedUrl.parameters().set("param1", "value1");
         expectedUrl.parameters().set("param2", "value2");
 
         assertEquals(expectedUrl, actualUrl);
     }
-    
+
     public void testDisplay() throws IOException
     {
         FakeResponseHandler fakeResponseHandler = new FakeResponseHandler();
@@ -253,17 +252,13 @@ public class TestQixwebUrl extends ExtendedTestCase
 
     public void testCreateGhost()
     {
-        assertFalse(QixwebUrl.createGhost("not available link").isEnabled());
+        assertLinkIsDisabled(QixwebUrl.createGhost("not available link"));
     }
-    
+
     public void testToCommandBuilder() throws Exception
     {
-        assertNull
-        (
-            "Null should be returned for command without related request object",
-            itsWebUrlForAnyCommand.toCommandBuilder()
-        );
-        
+        assertNull("Null should be returned for command without related request object", itsWebUrlForAnyCommand.toCommandBuilder());
+
         QixwebUrl urlForCommandWithValidation = new QixwebUrl(CommandWithValidation.class);
         assertEquals(new CommandWithValidationBuilder(urlForCommandWithValidation.parameters()), urlForCommandWithValidation.toCommandBuilder());
     }

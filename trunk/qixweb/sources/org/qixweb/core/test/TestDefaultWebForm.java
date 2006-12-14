@@ -48,16 +48,18 @@ public class TestDefaultWebForm extends ExtendedTestCase
     public void testDisabling()
     {
         assertTrue(itsForm.isEnabled());
-        assertTrue(itsForm.actionUrl().isEnabled());
+        assertLinkIsEnabled(itsForm.actionUrl());
+        
         itsForm.disable();
         assertFalse(itsForm.isEnabled());
-        assertFalse(itsForm.actionUrl().isEnabled());
+        assertLinkIsDisabled(itsForm.actionUrl());
     }
     
     public void testDisableIfReadOnlyUser()
     {
         itsForm = new MyDefaultWebForm(RWUSER);
         assertTrue(itsForm.isEnabled());
+        
         itsForm = new MyDefaultWebForm(ROUSER);
         assertFalse(itsForm.isEnabled());
     }
