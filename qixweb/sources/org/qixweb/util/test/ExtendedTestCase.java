@@ -144,6 +144,11 @@ public abstract class ExtendedTestCase extends TestCase
     {
         assertTrue(someObjects.length > 0);
     }
+    
+    public static void assertNotEmpty(byte[] byteArray)
+    {
+        assertTrue(byteArray.length > 0);
+    }
 
     public static void assertEmpty(Collection collection)
     {
