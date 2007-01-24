@@ -97,8 +97,21 @@ public class TestExtendedTestCase extends TestCase
         {
             fail("should not be empty");
         }
+    }
+    
+    public void testNotEmptyOnByteArray() throws Exception
+    {
+        try
+        {
+            ExtendedTestCase.assertNotEmpty(new byte[] {1,2,3});
+        }
+        catch (AssertionFailedError e)
+        {
+            fail("should not be empty");
+        }
 
     }
+
 
     public void testNotEquals()
     {
@@ -192,11 +205,11 @@ public class TestExtendedTestCase extends TestCase
     {
         try
         {
-            // ExtendedTestCase.assertEqualsIgnoringOrder("a message", CollectionUtil.listWith("primo", "secondo"), CollectionUtil.listWith("secondo", "primo"));
+            ExtendedTestCase.assertEqualsIgnoringOrder("a message", CollectionUtil.listWith("primo", "secondo"), CollectionUtil.listWith("secondo", "primo"));
         }
         catch (AssertionFailedError expectedFailure)
         {
-            fail("'ci.+a' should be contained in: ciao davide");
+            fail();
         }
     }
 
