@@ -216,4 +216,9 @@ public class TestCollectionUtil extends ExtendedTestCase
         
     }
     
+    public void testIsNotEmpty() throws Exception
+    {
+        assertFalse(CollectionUtil.isNotEmpty(new ArrayList()));
+        assertTrue(CollectionUtil.isNotEmpty(CollectionUtil.listWith("1")));
+    }
 }

@@ -214,4 +214,9 @@ public class CollectionUtil
     {
         return collection.iterator().next();
     }
+
+    public static boolean isNotEmpty(Collection collection)
+    {
+        return !collection.isEmpty();
+    }
 }
