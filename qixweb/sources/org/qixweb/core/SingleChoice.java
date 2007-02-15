@@ -1,23 +1,20 @@
 package org.qixweb.core;
 
-public class SingleChoice extends AbstractChoice
+
+
+public class SingleChoice extends MultipleChoices
 {
     public SingleChoice(String aName, boolean enabledState)
     {
         super(aName, enabledState);
     }
-
+    
     public Choice choice()
     {
-        if (choices().size() > 0)
-            return (Choice) choices().get(0);
-        else
-            return null;
+        if (choices().size() == 1)
+            return (Choice)choices().get(0);
+        else 
+            throw new IllegalStateException("Invalid Choice - should contains just one choice");
     }
 
-    public void set(Choice aChoice)
-    {
-        choices().clear();
-        choices().add(aChoice);
-    }
 }

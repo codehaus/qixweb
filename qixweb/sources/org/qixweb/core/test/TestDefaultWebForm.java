@@ -21,9 +21,9 @@ public class TestDefaultWebForm extends ExtendedTestCase
         {
             super(user);
         }
-        protected QixwebUrl concreteActionUrl()
+        protected WebAppUrl concreteActionUrl()
         {
-            return new QixwebUrl(Object.class);
+            return new WebAppUrl("");
         }
     }
 
@@ -48,18 +48,16 @@ public class TestDefaultWebForm extends ExtendedTestCase
     public void testDisabling()
     {
         assertTrue(itsForm.isEnabled());
-        assertLinkIsEnabled(itsForm.actionUrl());
-        
+        assertTrue(itsForm.actionUrl().isEnabled());
         itsForm.disable();
         assertFalse(itsForm.isEnabled());
-        assertLinkIsDisabled(itsForm.actionUrl());
+        assertFalse(itsForm.actionUrl().isEnabled());
     }
     
     public void testDisableIfReadOnlyUser()
     {
         itsForm = new MyDefaultWebForm(RWUSER);
         assertTrue(itsForm.isEnabled());
-        
         itsForm = new MyDefaultWebForm(ROUSER);
         assertFalse(itsForm.isEnabled());
     }
