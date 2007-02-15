@@ -9,13 +9,11 @@ public class TestQixwebBrowserOnCommandExecution extends ExtendedTestCase
 {
     private QixwebBrowser itsBrowser;
     private FakeResponseHandler itsFakeResponseHandler;
-    private FakeEnvironment itsFakeEnvironment;
     
     protected void setUp() throws Exception
     {
         itsFakeResponseHandler = new FakeResponseHandler();
-        itsFakeEnvironment = new FakeEnvironment();
-        itsBrowser = QixwebBrowser.usingSystem(itsFakeResponseHandler, UserData.EMPTY, itsFakeEnvironment);
+        itsBrowser = QixwebBrowser.usingSystem(itsFakeResponseHandler, UserData.EMPTY, new FakeEnvironment());
     }
 
     public void testExecuteRedirectingCommand() throws Exception
@@ -38,27 +36,6 @@ public class TestQixwebBrowserOnCommandExecution extends ExtendedTestCase
         assertSame(itsFakeResponseHandler.lastBrowsed(), itsFakeResponseHandler.displayedNode());
     }
     
-    public void testExecuteWhenNotValidCommandRequest() throws Exception
-    {
-        QixwebUrl expectedDestination = new QixwebUrl(EmptyNode.class);
-        CommandWithValidationBuilder.simulateNotValidWithDestination(expectedDestination);
-
-        itsBrowser.goTo(new QixwebUrl(CommandWithValidation.class));
-
-        assertEquals("Wrong destination url after NOT valid command request", expectedDestination, itsFakeResponseHandler.redirectedDestination());
-    }
-    
-    public void testExecuteWhenValidCommandRequest() throws Exception
-    {
-        QixwebUrl expectedDestination = new QixwebUrl(AnyNode.class);
-        CommandWithValidation.simulateExecuteReturning(expectedDestination);
-        CommandWithValidationBuilder.simulateValidRequest();
-
-        itsBrowser.goTo(new QixwebUrl(CommandWithValidation.class));
-
-        assertEquals("Wrong destination url after valid command request", expectedDestination, itsFakeResponseHandler.redirectedDestination());
-    }
-    
     public void testGoToWarningNodeForNotInstantiableCommand() throws Exception
     {
         itsBrowser = QixwebBrowser.usingEnvironment(itsFakeResponseHandler, UserData.EMPTY, new FakeEnvironment());
@@ -78,22 +55,24 @@ public class TestQixwebBrowserOnCommandExecution extends ExtendedTestCase
     }    
     
     
-    public void testAnonymousGoToLoginNodeIfAuthenticationIsRequired() throws Exception
+    public void testAnonymousUserGoToLoginNodeIfAuthenticationIsRequired() throws Exception
     {
         itsBrowser.goTo(new QixwebUrl(OnlyLoggedUserCommand.class));
         assertEquals(new QixwebLoginNode(), itsFakeResponseHandler.displayedNode());
     }
 
-    public void testLoggedUserExecuteCommand() throws Exception
+    public void testLoggedUserCanExecuteCommandWithAuthenticationRequired() throws Exception
     {
-        itsBrowser = new QixwebBrowser(itsFakeResponseHandler, UserData.EMPTY, itsFakeEnvironment, false) 
+        itsBrowser = new QixwebBrowser(itsFakeResponseHandler, UserData.EMPTY, new FakeEnvironment(), false) 
         {
             protected QixwebUser loggedUser()
             {
-                return QixwebUser.createUserWith("name", "pwd", "", "", "", "", false, true);
+                return QixwebUser.createUserWith("anyName", "anyPwd", "", "", "", "", false, true);
             }
         };
+        
         itsBrowser.goTo(new QixwebUrl(OnlyLoggedUserCommand.class));
+        
         assertEquals(new AnyNode(), itsFakeResponseHandler.displayedNode());
     }
 }

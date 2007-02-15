@@ -257,9 +257,19 @@ public class TestQixwebUrl extends ExtendedTestCase
 
     public void testToCommandBuilder() throws Exception
     {
-        assertNull("Null should be returned for command without related request object", itsWebUrlForAnyCommand.toCommandBuilder());
+        assertNull("Null should be returned for command without builder", itsWebUrlForAnyCommand.toCommandBuilder());
 
         QixwebUrl urlForCommandWithValidation = new QixwebUrl(CommandWithValidation.class);
         assertEquals(new CommandWithValidationBuilder(urlForCommandWithValidation.parameters()), urlForCommandWithValidation.toCommandBuilder());
+    }
+    
+    public void testToNodeBuilder() throws Exception
+    {
+        FakeEnvironment fakeEnvironment = new FakeEnvironment();
+        
+        assertNull("Null should be returned for node without builder", itsWebUrlForAnyNode.toNodeBuilderWith(fakeEnvironment));
+
+        QixwebUrl url = new QixwebUrl(NodeWithoutCreateMethod.class);
+        assertEquals(new NodeWithoutCreateMethodBuilder(fakeEnvironment), url.toNodeBuilderWith(fakeEnvironment));
     }
 }
