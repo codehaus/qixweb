@@ -5,11 +5,12 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.qixweb.core.validation.WebCommandBuilder;
+import org.qixweb.core.validation.WebNodeBuilder;
 import org.qixweb.util.*;
 
 public class QixwebUrl extends WebUrl implements Browsable
 {
-    private static final String COMMAND_BUILDER_SUFFIX = "Builder";
+    private static final String BUILDER_SUFFIX = "Builder";
 
     private static String itsServletPath = "";
     private static String itsNodePackage = "";
@@ -169,18 +170,26 @@ public class QixwebUrl extends WebUrl implements Browsable
 
     public WebCommandBuilder toCommandBuilder()
     {
-        String relatedRequestClassName = target().getName() + COMMAND_BUILDER_SUFFIX;
+        return (WebCommandBuilder) instantiateBuilderWith(new Class[] { Parameters.class }, new Object[] { parameters() });
+    }
+
+    public WebNodeBuilder toNodeBuilderWith(QixwebEnvironment qixwebEnvironment)
+    {
+        return (WebNodeBuilder) instantiateBuilderWith(new Class[] { QixwebEnvironment.class }, new Object[] { qixwebEnvironment });
+    }
+
+    private Object instantiateBuilderWith(Class[] constructorParameterTypes, Object[] constructorParameterValues)
+    {
+        String relatedRequestClassName = target().getName() + BUILDER_SUFFIX;
         try
         {
             Class relatedRequestClass = Class.forName(relatedRequestClassName);
-            Class[] constructorParameterTypes = new Class[] { Parameters.class };
-            Object[] constructorParameterValues = new Object[] { parameters() };
-
-            return (WebCommandBuilder) ClassUtil.newInstance(relatedRequestClass, constructorParameterTypes, constructorParameterValues);
+            return ClassUtil.newInstance(relatedRequestClass, constructorParameterTypes, constructorParameterValues);
         }
         catch (Exception e)
         {
             return null;
         }
     }
+
 }
