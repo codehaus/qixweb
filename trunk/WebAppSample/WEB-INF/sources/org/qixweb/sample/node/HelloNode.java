@@ -7,10 +7,9 @@ import org.qixweb.core.*;
 import org.qixweb.sample.command.SetGuestCommand;
 import org.qixweb.time.*;
 
-
-
 public class HelloNode extends WebNode
 {
+    public static final String GUEST_NAME = "guestName";
     private String itsName;
     private QixwebEnvironment itsEnvironment;
 
@@ -24,30 +23,30 @@ public class HelloNode extends WebNode
     {
         return DateFormatter.formatDDslashMMslashYYYY_HH_mm_ss(new QixwebTime(Calendar.getInstance()));
     }
-    
+
     public QixwebUrl setGuestNameUrl()
     {
         return new QixwebUrlFactory(itsEnvironment).createUrlWith(SetGuestCommand.class);
     }
-    
+
     public static QixwebUrl urlToMe(QixwebEnvironment environment, String guestName)
     {
         QixwebUrl url = new QixwebUrlFactory(environment).createUrlWith(HelloNode.class);
         url.parameters().set(parameterNameForGuestName(), guestName);
         return url;
     }
-    
+
     public HelloNode(QixwebEnvironment environment, String name)
     {
         itsEnvironment = environment;
         itsName = name;
     }
-    
+
     public static String parameterNameForGuestName()
     {
-        return "guestName";
+        return GUEST_NAME;
     }
-    
+
     public String guestName()
     {
         return itsName;
