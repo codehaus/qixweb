@@ -3,10 +3,22 @@ package org.qixweb.util.test;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.qixweb.util.StringUtil;
 
 public class TestStringUtil extends ExtendedTestCase
 {
+    public void testFirst1024Chars()
+    {
+        assertEquals("anyStringWithNoMoreThan1024Chars", StringUtil.onlyFirst1024Chars("anyStringWithNoMoreThan1024Chars"));
+
+        String stringWith1024Chars = RandomStringUtils.randomAlphabetic(1024);
+        assertEquals(stringWith1024Chars, StringUtil.onlyFirst1024Chars(stringWith1024Chars));
+        
+        String stringWithMoreThan1024Chars = stringWith1024Chars + "OtherChars";
+        assertEquals(stringWith1024Chars, StringUtil.onlyFirst1024Chars(stringWithMoreThan1024Chars));
+    }
+
     public void testNthIndexOf() throws Exception
     {
         assertEquals(-1, StringUtil.nthIndexOf("ciccionissimo", 1, 'u'));
