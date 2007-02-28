@@ -4,32 +4,31 @@ import org.qixweb.util.DeepEquals;
 
 public class Choice implements Comparable
 {
-	private String itsID;
-	private Comparable itsItemToDisplay;
-	private boolean isSelected;
+    private String itsID;
+    private Comparable itsItemToDisplay;
+    private boolean isSelected;
 
-	
-	public Choice(String anID, Comparable anItemToDisplay, boolean isSelected)
-	{
-		itsItemToDisplay = anItemToDisplay;
-		itsID = anID;
-		this.isSelected = isSelected;
-	}
+    public Choice(String anID, Comparable anItemToDisplay, boolean isSelected)
+    {
+        itsItemToDisplay = anItemToDisplay;
+        itsID = anID;
+        this.isSelected = isSelected;
+    }
 
-	public Boolean isSelected()
-	{
-		return new Boolean(isSelected);
-	}
+    public Boolean isSelected()
+    {
+        return new Boolean(isSelected);
+    }
 
-	public Comparable item()
-	{
-		return itsItemToDisplay;
-	}
+    public Comparable item()
+    {
+        return itsItemToDisplay;
+    }
 
-	public String value()
-	{
-		return itsID;
-	}
+    public String value()
+    {
+        return itsID;
+    }
 
     public int compareTo(Object anObject)
     {
@@ -60,9 +59,9 @@ public class Choice implements Comparable
     {
         return itsItemToDisplay.hashCode();
     }
-    
+
     public String toString()
     {
         return "'" + itsItemToDisplay + "' (" + itsID + ") => " + isSelected;
-    }    
+    }
 }

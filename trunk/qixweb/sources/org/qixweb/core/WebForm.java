@@ -1,7 +1,6 @@
 package org.qixweb.core;
 
-
 public interface WebForm
 {
-	QixwebUrl actionUrl();
+    QixwebUrl actionUrl();
 }

@@ -14,7 +14,7 @@ public class TestStringUtil extends ExtendedTestCase
 
         String stringWith1024Chars = RandomStringUtils.randomAlphabetic(1024);
         assertEquals(stringWith1024Chars, StringUtil.onlyFirst1024Chars(stringWith1024Chars));
-        
+
         String stringWithMoreThan1024Chars = stringWith1024Chars + "OtherChars";
         assertEquals(stringWith1024Chars, StringUtil.onlyFirst1024Chars(stringWithMoreThan1024Chars));
     }
@@ -22,7 +22,7 @@ public class TestStringUtil extends ExtendedTestCase
     public void testNthIndexOf() throws Exception
     {
         assertEquals(-1, StringUtil.nthIndexOf("ciccionissimo", 1, 'u'));
-        
+
         assertEquals(1, StringUtil.nthIndexOf("ciccionissimo", 1, 'i'));
         assertEquals(4, StringUtil.nthIndexOf("ciccionissimo", 2, 'i'));
         assertEquals(7, StringUtil.nthIndexOf("ciccionissimo", 3, 'i'));

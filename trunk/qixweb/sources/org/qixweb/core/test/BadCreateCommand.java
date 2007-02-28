@@ -6,12 +6,10 @@ public class BadCreateCommand extends WebCommand
 {
     public static final String FAKE_MESSAGE = "fake generated exception on create";
 
-
     public static WebCommand create(QixwebUrl anUrl, UserData aUserData)
     {
         throw new RuntimeException(FAKE_MESSAGE);
     }
-
 
     public Browsable execute(QixwebEnvironment aEnvironment) throws Exception
     {

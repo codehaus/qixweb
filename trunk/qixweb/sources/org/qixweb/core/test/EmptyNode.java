@@ -5,7 +5,7 @@ import org.qixweb.core.WebNode;
 public class EmptyNode extends WebNode
 {
     public boolean equals(Object obj)
-	{
-		return obj instanceof EmptyNode;
-	}
+    {
+        return obj instanceof EmptyNode;
+    }
 }

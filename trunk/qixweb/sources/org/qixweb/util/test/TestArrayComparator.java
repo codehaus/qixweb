@@ -140,7 +140,8 @@ public class TestArrayComparator extends junit.framework.TestCase
 
         assertTrue("Arrays with the same elements and in the same order must be equal", ArrayComparator.areEquals(new Iterator[] { list.iterator() }, new Iterator[] { sameList.iterator() }));
 
-        assertFalse("Arrays with the same elements but in a different order must be different", ArrayComparator.areEquals(new Iterator[] { list.iterator() }, new Iterator[] { listWithDifferentOrder.iterator() }));
+        assertFalse("Arrays with the same elements but in a different order must be different", ArrayComparator.areEquals(new Iterator[] { list.iterator() }, new Iterator[] { listWithDifferentOrder
+                .iterator() }));
 
         assertTrue("Two empty arrays must be equal", ArrayComparator.areEquals(new Iterator[0], new Iterator[0]));
 

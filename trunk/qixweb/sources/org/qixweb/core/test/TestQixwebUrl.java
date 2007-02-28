@@ -262,11 +262,11 @@ public class TestQixwebUrl extends ExtendedTestCase
         QixwebUrl urlForCommandWithValidation = new QixwebUrl(CommandWithValidation.class);
         assertEquals(new CommandWithValidationBuilder(urlForCommandWithValidation.parameters()), urlForCommandWithValidation.toCommandBuilder());
     }
-    
+
     public void testToNodeBuilder() throws Exception
     {
         FakeEnvironment fakeEnvironment = new FakeEnvironment();
-        
+
         assertNull("Null should be returned for node without builder", itsWebUrlForAnyNode.toNodeBuilderWith(fakeEnvironment));
 
         QixwebUrl url = new QixwebUrl(NodeWithoutCreateMethod.class);

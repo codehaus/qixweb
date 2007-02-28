@@ -13,9 +13,10 @@ public class TestWebSystem extends TestCase
             return super.workgroup();
         }
     }
+
     private MyWebSystem itsSystem;
 
-    protected void setUp() 
+    protected void setUp()
     {
         itsSystem = new MyWebSystem();
     }
@@ -23,7 +24,7 @@ public class TestWebSystem extends TestCase
     public void testWorkgroup()
     {
         assertEquals("Initially, the user is not in the workgroup", QixwebUser.ANONYMOUS, itsSystem.userBy("name"));
-        
+
         QixwebUser user = QixwebUser.createUserWith("name", "", "", "", "", "", false, true);
         itsSystem.workgroup().add(user);
         assertEquals("The user should be in the workgroup", user, itsSystem.userBy("name"));

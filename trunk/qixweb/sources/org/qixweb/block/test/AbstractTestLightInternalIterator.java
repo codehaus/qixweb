@@ -214,17 +214,15 @@ public abstract class AbstractTestLightInternalIterator extends ExtendedTestCase
 
         assertEquals("Should be collected as List", Arrays.asList(theCollectedElements), theCollectedElementsAsList);
     }
-    
+
     public void testCollectAsSet()
     {
-        Object[] theElements = { new Integer(1), new Integer(2),  new Integer(1)};
+        Object[] theElements = { new Integer(1), new Integer(2), new Integer(1) };
 
         Set collectedElements = createIterator(theElements).collectAsSet(incrementFunction());
-        
+
         assertEquals(CollectionUtil.setWith(new Integer(2), new Integer(3)), collectedElements);
     }
-    
-    
 
     private Function incrementFunction()
     {
@@ -578,36 +576,38 @@ public abstract class AbstractTestLightInternalIterator extends ExtendedTestCase
         Object[] theElements = { "one", "two" };
         Object[] returnedObjects = createIterator(theElements).select(new AlwaysTruePredicate(), Object.class);
         assertEquals("Should mantains all the elements", theElements, returnedObjects);
-        
+
         returnedObjects = createIterator(theElements).select(new AlwaysFalsePredicate(), Object.class);
         assertEquals("Should remove all the elements", new Object[0], returnedObjects);
 
-        returnedObjects = createIterator(theElements).select(new Predicate(){
+        returnedObjects = createIterator(theElements).select(new Predicate()
+        {
             public boolean is(Object aEach)
             {
                 return aEach.equals("two");
             }
         }, Object.class);
-        assertEquals("Should keep only 'two'", new Object[] {"two"}, returnedObjects);
+        assertEquals("Should keep only 'two'", new Object[] { "two" }, returnedObjects);
     }
-    
+
     public void testSelectAsList()
     {
         Object[] theElements = { "one", "two" };
         List returnedObjects = createIterator(theElements).selectAsList(new AlwaysTruePredicate());
         assertEquals("Should mantains all the elements", CollectionUtil.toList(theElements), returnedObjects);
-        
+
         returnedObjects = createIterator(theElements).selectAsList(new AlwaysFalsePredicate());
         assertEquals("Should remove all the elements", new ArrayList(), returnedObjects);
 
-        returnedObjects = createIterator(theElements).selectAsList(new Predicate() {
+        returnedObjects = createIterator(theElements).selectAsList(new Predicate()
+        {
             public boolean is(Object aEach)
             {
                 return aEach.equals("two");
             }
         });
         assertEquals("Should keep only 'two'", CollectionUtil.listWith("two"), returnedObjects);
-    }    
+    }
 
     public void testSumUpOnManyElements()
     {
@@ -701,8 +701,9 @@ public abstract class AbstractTestLightInternalIterator extends ExtendedTestCase
         Object[] theMatchingElements = theIterator.select(new EqualsPredicate(new Integer(1)), Integer.class);
         assertEquals(4, theMatchingElements.length);
     }
+
     // @PMD:REVIEWED:ExcessivePublicCount: by bop on 1/26/05 4:57 PM
-    
+
     public void testApplyOnList() throws Exception
     {
         List actual = LightInternalIterator.apply_On("toString", CollectionUtil.listWith(new Integer(1), new Integer(3)));

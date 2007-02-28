@@ -9,98 +9,98 @@ import javax.servlet.http.HttpSessionContext;
 
 public class FakeHttpSession implements HttpSession
 {
-	private String itsSessionID;
-	// @PMD:REVIEWED:LooseCoupling: by bop on 3/2/05 12:05 PM
-	private HashMap itsAttributes;
-	
-	public FakeHttpSession()
-	{
-		itsAttributes = new HashMap();
-	}
+    private String itsSessionID;
+    // @PMD:REVIEWED:LooseCoupling: by bop on 3/2/05 12:05 PM
+    private HashMap itsAttributes;
 
-	public long getCreationTime()
-	{
-		return 0;
-	}
+    public FakeHttpSession()
+    {
+        itsAttributes = new HashMap();
+    }
 
-	public String getId()
-	{
-		return itsSessionID;
-	}
+    public long getCreationTime()
+    {
+        return 0;
+    }
 
-	public long getLastAccessedTime()
-	{
-		return 0;
-	}
+    public String getId()
+    {
+        return itsSessionID;
+    }
 
-	public ServletContext getServletContext()
-	{
-		return null;
-	}
+    public long getLastAccessedTime()
+    {
+        return 0;
+    }
 
-	public void setMaxInactiveInterval(int arg0)
-	{
-	}
+    public ServletContext getServletContext()
+    {
+        return null;
+    }
 
-	public int getMaxInactiveInterval()
-	{
-		return 0;
-	}
+    public void setMaxInactiveInterval(int arg0)
+    {
+    }
 
-	public HttpSessionContext getSessionContext()
-	{
-		return null;
-	}
+    public int getMaxInactiveInterval()
+    {
+        return 0;
+    }
 
-	public Object getAttribute(String key)
-	{
-		return itsAttributes.get(key);
-	}
+    public HttpSessionContext getSessionContext()
+    {
+        return null;
+    }
 
-	public Object getValue(String arg0)
-	{
-		return null;
-	}
+    public Object getAttribute(String key)
+    {
+        return itsAttributes.get(key);
+    }
 
-	public Enumeration getAttributeNames()
-	{
-		return null;
-	}
+    public Object getValue(String arg0)
+    {
+        return null;
+    }
 
-	public String[] getValueNames()
-	{
-		return null;
-	}
+    public Enumeration getAttributeNames()
+    {
+        return null;
+    }
 
-	public void setAttribute(String key, Object value)
-	{
-		itsAttributes.put(key, value);		
-	}
+    public String[] getValueNames()
+    {
+        return null;
+    }
 
-	public void putValue(String arg0, Object arg1)
-	{
-	}
+    public void setAttribute(String key, Object value)
+    {
+        itsAttributes.put(key, value);
+    }
 
-	public void removeAttribute(String arg0)
-	{
-	}
+    public void putValue(String arg0, Object arg1)
+    {
+    }
 
-	public void removeValue(String arg0)
-	{
-	}
+    public void removeAttribute(String arg0)
+    {
+    }
 
-	public void invalidate()
-	{
-	}
+    public void removeValue(String arg0)
+    {
+    }
 
-	public boolean isNew()
-	{
-		return false;
-	}
+    public void invalidate()
+    {
+    }
 
-	public void simulateSessionID(String aSessionID)
-	{
-		itsSessionID = aSessionID;
-	}
+    public boolean isNew()
+    {
+        return false;
+    }
+
+    public void simulateSessionID(String aSessionID)
+    {
+        itsSessionID = aSessionID;
+    }
 
 }

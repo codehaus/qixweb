@@ -6,12 +6,12 @@ public class DoubleControl extends WebCommandRequestControl
 {
     public DoubleControl(Parameters someParametersToControl)
     {
-        super(someParametersToControl);        
+        super(someParametersToControl);
     }
 
     public boolean isValid(String parameterKey)
     {
-        return !Double.isNaN(itsParametersToControl.getAsDouble(parameterKey, Double.NaN)); 
+        return !Double.isNaN(itsParametersToControl.getAsDouble(parameterKey, Double.NaN));
     }
 
 }

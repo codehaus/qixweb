@@ -5,15 +5,13 @@ import java.lang.reflect.Method;
 
 import org.qixweb.util.XpLogger;
 
-
-
 public class CreateMethodInvoker
 {
     public static WebNode onNode(QixwebUrl aQixwebUrl, UserData aUserData, QixwebEnvironment environment)
     {
         return onNode(aQixwebUrl.target(), aQixwebUrl, aUserData, environment);
     }
-    
+
     public static WebNode onNode(Class nodeClass, QixwebUrl aQixwebUrl, UserData aUserData, QixwebEnvironment environment)
     {
         Class[] createParameterTypes = new Class[] { QixwebUrl.class, UserData.class, QixwebEnvironment.class };
@@ -21,8 +19,7 @@ public class CreateMethodInvoker
 
         return (WebNode) on(nodeClass, createParameterTypes, createParameters);
     }
-    
-    
+
     public static Object on(Class target, Class[] createParameterTypes, Object[] createParameters)
     {
         Object object = null;
@@ -42,5 +39,4 @@ public class CreateMethodInvoker
         return object;
     }
 
-   
 }

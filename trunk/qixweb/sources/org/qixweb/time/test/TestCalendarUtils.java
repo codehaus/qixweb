@@ -9,7 +9,6 @@ import org.qixweb.time.CalendarUtils;
 import org.qixweb.util.ClassUtil;
 import org.qixweb.util.test.ExtendedTestCase;
 
-
 public class TestCalendarUtils extends ExtendedTestCase
 {
     public void testMoveMinutesHand()
@@ -74,16 +73,17 @@ public class TestCalendarUtils extends ExtendedTestCase
         assertEquals(2, CalendarUtils.elapsedMinutes(firstTimeInMinutes, secondTimeInMinutes));
     }
 
-    private void invoke_on_checking_with(String methodToTest, String classToTest, Calendar expectedDate, Calendar date) throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException
+    private void invoke_on_checking_with(String methodToTest, String classToTest, Calendar expectedDate, Calendar date) throws ClassNotFoundException, NoSuchMethodException, InstantiationException,
+            IllegalAccessException, InvocationTargetException
     {
         Class clazz = Class.forName(classToTest);
         Method method = clazz.getMethod(methodToTest, null);
-        assertEquals("Invoking "+classToTest+"."+methodToTest, 
-                ClassUtil.newInstance(clazz, new Class[] {Calendar.class}, new Object[] {expectedDate}), 
-                method.invoke(ClassUtil.newInstance(clazz, new Class[] {Calendar.class}, new Object[] {date}), null));
+        assertEquals("Invoking " + classToTest + "." + methodToTest, ClassUtil.newInstance(clazz, new Class[] { Calendar.class }, new Object[] { expectedDate }), method.invoke(ClassUtil.newInstance(
+                clazz, new Class[] { Calendar.class }, new Object[] { date }), null));
     }
 
-    public void testOneDayAfterCrossingYear() throws ClassNotFoundException, SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, InstantiationException
+    public void testOneDayAfterCrossingYear() throws ClassNotFoundException, SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException,
+            InstantiationException
     {
         Calendar date = new GregorianCalendar(2002, 11, 31);
         Calendar expectedDate = new GregorianCalendar(2003, 0, 1);

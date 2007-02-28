@@ -11,14 +11,14 @@ public abstract class WebNodeBuilder
     {
         itsQixwebEnvironment = qixwebEnvironment;
     }
-    
+
     protected QixwebEnvironment qixwebEnvironment()
     {
         return itsQixwebEnvironment;
     }
-    
+
     public abstract WebNode createFrom(QixwebUrl urlToNode);
-    
+
     public boolean equals(Object other)
     {
         return DeepEquals.equals(this, other);

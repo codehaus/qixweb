@@ -20,15 +20,15 @@ import org.qixweb.util.test.ExtendedTestCase;
 public class TestQixwebServlet extends ExtendedTestCase
 {
     private ConcreteQixwebServlet itsServlet;
-    private FakeEnvironment itsFakeEnvironment; 
-    
+    private FakeEnvironment itsFakeEnvironment;
+
     private FakeHttpServletRequest itsFakeRequest;
     private FakeHttpServletResponse itsFakeResponse;
 
     public class ConcreteQixwebServlet extends QixwebServlet
     {
         UserData userDataForTest = null;
-        
+
         public ConcreteQixwebServlet() throws ServletException
         {
             init(new ServletConfig()
@@ -180,7 +180,7 @@ public class TestQixwebServlet extends ExtendedTestCase
     protected void setUp() throws Exception
     {
         super.setUp();
-        itsFakeEnvironment = new FakeEnvironment(); 
+        itsFakeEnvironment = new FakeEnvironment();
         itsServlet = new ConcreteQixwebServlet();
         itsFakeRequest = new FakeHttpServletRequest();
         itsFakeResponse = new FakeHttpServletResponse();
@@ -194,8 +194,7 @@ public class TestQixwebServlet extends ExtendedTestCase
         itsServlet.service(itsFakeRequest, itsFakeResponse);
         assert_matchesRegex(itsFakeResponse.outputAsString(), "<A href=\"home/\\d+\\?command=AnyCommand\">Click here to execute Any Command</A>");
     }
-    
-    
+
     public void testUserDataRetrieval()
     {
         String sessionID = "sessionID";
@@ -206,12 +205,12 @@ public class TestQixwebServlet extends ExtendedTestCase
         prepareRequestWith(itsFakeRequest, sessionID, pathInfo);
 
         itsFakeEnvironment.sessionManager().storeUserData(new SessionID(sessionID, pathInfo), userData);
-        
+
         itsServlet.service(itsFakeRequest, itsFakeResponse);
         String html = itsFakeResponse.outputAsString();
-        
+
         assert_matchesRegex(html, "<A href=\"home/\\d+\\?command=AnyCommand\">Click here to execute Any Command</A>");
-        assertEquals(userData, itsFakeEnvironment.sessionManager().userDataFor(new SessionID(sessionID, "/"+extractNextPageIDFrom(html))));
+        assertEquals(userData, itsFakeEnvironment.sessionManager().userDataFor(new SessionID(sessionID, "/" + extractNextPageIDFrom(html))));
     }
 
     private String extractNextPageIDFrom(String htmlPage)
@@ -227,7 +226,7 @@ public class TestQixwebServlet extends ExtendedTestCase
     {
         fakeRequest.simulateParameter("node", "AnyNode");
         fakeRequest.simulateServletPath(itsFakeEnvironment.servletPath());
-        fakeRequest.simulatePathInfo(pathInfo);        
+        fakeRequest.simulatePathInfo(pathInfo);
         fakeRequest.simulateSession(createSessionFor(sessionID));
     }
 
@@ -236,9 +235,7 @@ public class TestQixwebServlet extends ExtendedTestCase
         FakeHttpSession session = new FakeHttpSession();
         session.simulateSessionID(sessionID);
         return session;
-    }    
-
-
+    }
 
     public void testException() throws ServletException
     {
@@ -339,9 +336,9 @@ public class TestQixwebServlet extends ExtendedTestCase
     {
         prepareRequestWith(itsFakeRequest, "sessionID", "123456");
         itsFakeRequest.simulateParameter("aCustomParameter", "aValue");
-                
+
         itsServlet = new ConcreteQixwebServlet()
-        {           
+        {
             protected void addDataFrom_To(HttpServletRequest aRequest, UserData aUserData)
             {
                 aUserData.store("aKey", aRequest.getParameter("aCustomParameter"));

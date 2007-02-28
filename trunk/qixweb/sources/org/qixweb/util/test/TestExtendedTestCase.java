@@ -98,12 +98,12 @@ public class TestExtendedTestCase extends TestCase
             fail("should not be empty");
         }
     }
-    
+
     public void testNotEmptyOnByteArray() throws Exception
     {
         try
         {
-            ExtendedTestCase.assertNotEmpty(new byte[] {1,2,3});
+            ExtendedTestCase.assertNotEmpty(new byte[] { 1, 2, 3 });
         }
         catch (AssertionFailedError e)
         {
@@ -111,7 +111,6 @@ public class TestExtendedTestCase extends TestCase
         }
 
     }
-
 
     public void testNotEquals()
     {

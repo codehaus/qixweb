@@ -5,7 +5,7 @@ import java.io.Serializable;
 public abstract class WebCommand implements Serializable
 {
     public abstract Browsable execute(QixwebEnvironment environment) throws Exception;
-    
+
     public boolean canBeExecutedBy(QixwebUser aUser, QixwebEnvironment environment)
     {
         return true;

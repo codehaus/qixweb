@@ -19,5 +19,5 @@ public class TestTextControl extends TestCase
         assertFalse(textControl.isValid("notPresent"));
         assertFalse(textControl.isValid("emptyPresent"));
     }
-    
+
 }

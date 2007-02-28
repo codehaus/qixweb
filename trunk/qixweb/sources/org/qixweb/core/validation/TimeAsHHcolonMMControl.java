@@ -7,11 +7,11 @@ public class TimeAsHHcolonMMControl extends WebCommandRequestControl
 {
     public TimeAsHHcolonMMControl(Parameters someParametersToControl)
     {
-        super(someParametersToControl);        
+        super(someParametersToControl);
     }
 
     public boolean isValid(String parameterKey)
     {
-        return !QixwebTime.NULL.equals(itsParametersToControl.getAsTimeHH_colon_mm(parameterKey)); 
+        return !QixwebTime.NULL.equals(itsParametersToControl.getAsTimeHH_colon_mm(parameterKey));
     }
 }

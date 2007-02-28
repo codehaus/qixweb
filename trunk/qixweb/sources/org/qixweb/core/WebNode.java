@@ -150,7 +150,8 @@ public abstract class WebNode implements Browsable
             public boolean is(Object each)
             {
                 Method method = (Method) each;
-                return aClazz.isAssignableFrom(method.getReturnType()) && method.getParameterTypes().length == 0 && !Modifier.isStatic(method.getModifiers()) && !method.getName().equals("connections");
+                return aClazz.isAssignableFrom(method.getReturnType()) && method.getParameterTypes().length == 0 && !Modifier.isStatic(method.getModifiers())
+                        && !method.getName().equals("connections");
             }
         }, Method.class);
         list.addAll(CollectionUtil.toList(CollectionUtil.flatWithoutNulls(executeVoidParameterMethods(matchingMethods, aClazz), Object.class)));

@@ -6,12 +6,12 @@ public class TextControl extends WebCommandRequestControl
 {
     public TextControl(Parameters someParametersToControl)
     {
-        super(someParametersToControl);        
+        super(someParametersToControl);
     }
 
     public boolean isValid(String parameterKey)
     {
-        return itsParametersToControl.isNotEmpty(parameterKey); 
+        return itsParametersToControl.isNotEmpty(parameterKey);
     }
 
 }

@@ -7,7 +7,6 @@ import junit.framework.TestCase;
 
 import org.qixweb.util.ArrayAsserter;
 
-
 public class TestArrayAsserter extends TestCase
 {
     private String[] itsQuiQuoQuaArray;

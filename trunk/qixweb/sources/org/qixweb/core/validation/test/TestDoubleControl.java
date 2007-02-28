@@ -12,9 +12,9 @@ public class TestDoubleControl extends TestCase
         Parameters parameters = new Parameters();
         parameters.set("validDouble", "2.022006");
         parameters.set("invalidDouble", "not numeric");
-        
+
         DoubleControl doubleControl = new DoubleControl(parameters);
-        
+
         assertTrue(doubleControl.isValid("validDouble"));
         assertFalse(doubleControl.isValid("invalidDouble"));
     }

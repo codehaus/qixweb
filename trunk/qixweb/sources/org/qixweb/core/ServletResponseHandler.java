@@ -10,9 +10,6 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.qixweb.util.*;
-import org.qixweb.util.StringUtil;
-import org.qixweb.util.XpLogger;
-
 
 public class ServletResponseHandler implements ResponseHandler
 {
@@ -80,7 +77,9 @@ public class ServletResponseHandler implements ResponseHandler
             {
                 writer.close();
             }
-            catch (IOException ioex) { /*never*/ }
+            catch (IOException ioex)
+            { /* never */
+            }
         }
 
         return html;

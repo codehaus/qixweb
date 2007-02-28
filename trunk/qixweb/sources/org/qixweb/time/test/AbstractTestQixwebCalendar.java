@@ -28,13 +28,13 @@ public abstract class AbstractTestQixwebCalendar extends ExtendedTestCase
         QixwebCalendar anyDate = concreteInstance(22, 2, 2004);
         assertNotEquals(anyDate, null);
     }
-    
+
     public void testEqualsFalseWithNonAbstractCalendarDate()
     {
         QixwebCalendar anyDate = concreteInstance(22, 2, 2004);
         assertNotEquals(anyDate, new Object());
     }
-    
+
     public void testDifferentSubtypesCanBeCompared()
     {
         QixwebDate aDate = new QixwebDate(1, 2, 2003);
@@ -42,28 +42,28 @@ public abstract class AbstractTestQixwebCalendar extends ExtendedTestCase
         QixwebTime anotherDateTime = new QixwebTime(1, 2, 2003, 0, 0, 1);
         EqualsBehaviourVerifier.check(aDate, sameDateTime, anotherDateTime);
     }
-    
+
     public void testFormatting()
     {
         QixwebCalendar aDate = concreteInstance(11, 2, 2003);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.ITALY);
         assertEquals("11-feb-2003", aDate.format(dateFormat));
     }
-    
+
     public void testToDate()
     {
         GregorianCalendar aCalendar = new GregorianCalendar(2003, 1, 11);
         QixwebCalendar aDate = concreteInstance(11, 2, 2003);
         assertEquals(aCalendar.getTime(), aDate.getTime());
     }
-    
+
     public void testNull()
     {
-        assertEquals(new GregorianCalendar(0,0,0), QixwebCalendar.NULL.toGregorianCalendar());
-        assertTrue(concreteInstance(1,1,1).after(QixwebCalendar.NULL));
+        assertEquals(new GregorianCalendar(0, 0, 0), QixwebCalendar.NULL.toGregorianCalendar());
+        assertTrue(concreteInstance(1, 1, 1).after(QixwebCalendar.NULL));
         assertEquals(QixwebCalendar.NULL.toString(), QixwebCalendar.NULL.key());
     }
-    
+
     public void testNullsAreEquivalent()
     {
         assertEquals(QixwebCalendar.NULL, QixwebDate.NULL);
@@ -73,7 +73,7 @@ public abstract class AbstractTestQixwebCalendar extends ExtendedTestCase
         assertEquals(QixwebDate.NULL, QixwebTime.NULL);
         assertEquals(QixwebTime.NULL, QixwebDate.NULL);
     }
-    
+
     public void testAfter()
     {
         QixwebCalendar date = concreteInstance(1, 2, 2003);

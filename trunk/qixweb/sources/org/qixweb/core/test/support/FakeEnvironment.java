@@ -10,7 +10,7 @@ public class FakeEnvironment extends QixwebEnvironment
 
     public TheSystem system()
     {
-        systemHasBeenInvoked  = true;
+        systemHasBeenInvoked = true;
         return new FakeSystem();
     }
 

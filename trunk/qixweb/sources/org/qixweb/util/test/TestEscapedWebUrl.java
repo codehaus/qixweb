@@ -13,15 +13,15 @@ public class TestEscapedWebUrl extends ExtendedTestCase
         url = new EscapedWebUrl(new WebUrl("http://host:1234/something/servlet/XpServlet/?node=SomeNode&param=aValue", "Bed & Breakfast"));
         assertEquals("Bed &amp; Breakfast", url.label());
     }
-    
+
     public void testIsNotADecorator()
     {
         WebUrl originalUrl = new WebUrl("http://www.some.url");
         WebUrl escapedUrl = new EscapedWebUrl(originalUrl);
-        
+
         originalUrl.disable();
-        
+
         assertLinkIsDisabled(originalUrl);
-        assertLinkIsEnabled("The new url should not be affected by updates on the original", escapedUrl);        
+        assertLinkIsEnabled("The new url should not be affected by updates on the original", escapedUrl);
     }
 }

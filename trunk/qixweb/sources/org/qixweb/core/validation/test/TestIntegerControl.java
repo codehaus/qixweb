@@ -12,9 +12,9 @@ public class TestIntegerControl extends TestCase
         Parameters parameters = new Parameters();
         parameters.set("validInteger", "2006");
         parameters.set("invalidInteger", "not numeric");
-        
+
         IntegerControl integerControl = new IntegerControl(parameters);
-        
+
         assertTrue(integerControl.isValid("validInteger"));
         assertFalse(integerControl.isValid("invalidInteger"));
     }

@@ -10,7 +10,6 @@ import org.qixweb.core.test.support.FakeResponseHandler;
 import org.qixweb.util.*;
 import org.qixweb.util.test.ExtendedTestCase;
 
-
 public class TestWebNode extends ExtendedTestCase
 {
     private FakeResponseHandler itsFakeResponseHandler;
@@ -140,7 +139,7 @@ public class TestWebNode extends ExtendedTestCase
             return itsUrlArray;
         }
     }
-    
+
     public class ReturningUrlListNode extends WebNode
     {
         private List itsUrlList;
@@ -160,7 +159,7 @@ public class TestWebNode extends ExtendedTestCase
         {
             return itsUrlList;
         }
-    }    
+    }
 
     public class ReturningUrlIteratorNode extends WebNode
     {
@@ -223,20 +222,20 @@ public class TestWebNode extends ExtendedTestCase
                 return null;
         }
     }
-    
+
     public class ReturningObjectWithMethodReturingUrlNode extends WebNode
     {
         public Object objectWithMethodReturningUrlNode()
         {
             return new ReturningUrlNode();
         }
-    }    
+    }
 
     public class ReturningUrlComprehensiveNode extends WebNode
     {
         private ReturningUrlNode itsReturningUrlNode;
         private ReturningUrlArrayNode itsReturningUrlArrayNode;
-        private ReturningUrlListNode itsReturningUrlListNode; 
+        private ReturningUrlListNode itsReturningUrlListNode;
         private ReturningUrlIteratorNode itsReturningUrlIteratorNode;
         private ReturningUrlViaArrayOfIteratorsNode itsReturningUrlViaArrayOfIteratorsNode;
 
@@ -244,7 +243,7 @@ public class TestWebNode extends ExtendedTestCase
         {
             itsReturningUrlNode = new ReturningUrlNode();
             itsReturningUrlArrayNode = new ReturningUrlArrayNode();
-            itsReturningUrlListNode = new ReturningUrlListNode(); 
+            itsReturningUrlListNode = new ReturningUrlListNode();
             itsReturningUrlIteratorNode = new ReturningUrlIteratorNode();
             itsReturningUrlViaArrayOfIteratorsNode = new ReturningUrlViaArrayOfIteratorsNode();
         }
@@ -268,7 +267,7 @@ public class TestWebNode extends ExtendedTestCase
         {
             return itsReturningUrlViaArrayOfIteratorsNode.someUrls();
         }
-        
+
         public List urlList()
         {
             return itsReturningUrlListNode.someUrls();
@@ -425,14 +424,14 @@ public class TestWebNode extends ExtendedTestCase
             assertTrue(re.getCause().getCause().equals(node.GENERATED_EXCEPTION));
         }
     }
-    
+
     public void testAllMethods()
     {
         QixwebUrl url = new ReturningUrlNode().url();
         ReturningUrlComprehensiveNode node = new ReturningUrlComprehensiveNode();
         ArrayAsserter.assertEquals(new QixwebUrl[] { url, url, url, url, url }, node.connections());
     }
-    
+
     public void testMethodsReturningUrlIterator()
     {
         ReturningUrlIteratorNode node = new ReturningUrlIteratorNode();
@@ -467,7 +466,7 @@ public class TestWebNode extends ExtendedTestCase
         ReturningFormNode node = new ReturningFormNode();
         ArrayAsserter.assertEqualsIgnoringOrder(new QixwebUrl[] { node.form().actionUrl() }, node.connections());
     }
-    
+
     public void testErrorMessages() throws Exception
     {
         WebNode node = new AnyNode("title");
@@ -478,5 +477,5 @@ public class TestWebNode extends ExtendedTestCase
         node = new AnyNode("title", messages);
         assertEquals("invalid date&amp;time", node.errorMessageFor("parameter1"));
     }
-    
+
 }

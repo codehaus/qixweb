@@ -6,7 +6,7 @@ public class RedirectingCommand extends WebCommand
 {
     public static final String DESTINATION = "destination";
     private final QixwebUrl itsDestination;
-    
+
     public static WebCommand create(QixwebUrl anUrl, UserData aUserData)
     {
         String destination = anUrl.parameters().get(DESTINATION);
@@ -25,13 +25,13 @@ public class RedirectingCommand extends WebCommand
         itsDestination = destination;
     }
 
-	public Browsable execute(QixwebEnvironment system)
-	{
+    public Browsable execute(QixwebEnvironment system)
+    {
         return itsDestination;
-	}
-	
-	public boolean equals(Object obj)
-	{
+    }
+
+    public boolean equals(Object obj)
+    {
         return obj instanceof RedirectingCommand;
-	}
+    }
 }

@@ -12,7 +12,7 @@ public class TestTimeAsHHcolonMMControl extends TestCase
         Parameters parameters = new Parameters();
         parameters.set("validTime", "12:30");
         parameters.set("invalidTime", "12-10");
-        
+
         TimeAsHHcolonMMControl timeControl = new TimeAsHHcolonMMControl(parameters);
 
         assertTrue(timeControl.isValid("validTime"));
