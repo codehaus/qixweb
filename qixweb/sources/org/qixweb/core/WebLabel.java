@@ -6,8 +6,9 @@ import org.apache.commons.lang.StringUtils;
 public class WebLabel implements Comparable
 {
     public static final WebLabel EMPTY = new WebLabel("");
-    
+
     private final String itsString;
+
     public WebLabel(Object aValue)
     {
         itsString = aValue != null ? aValue.toString() : "";
@@ -41,5 +42,4 @@ public class WebLabel implements Comparable
         return EMPTY.equals(this);
     }
 
-    
 }

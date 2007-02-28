@@ -6,13 +6,13 @@ public class ByteArrayControl extends WebCommandRequestControl
 {
     public ByteArrayControl(Parameters someParametersToControl)
     {
-        super(someParametersToControl);        
+        super(someParametersToControl);
     }
 
     public boolean isValid(String parameterKey)
     {
         byte[] byteArray = itsParametersToControl.getAsByteArray(parameterKey);
-        return byteArray != null && byteArray.length != 0 ; 
+        return byteArray != null && byteArray.length != 0;
     }
 
 }

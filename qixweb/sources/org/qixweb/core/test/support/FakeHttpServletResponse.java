@@ -130,7 +130,7 @@ public class FakeHttpServletResponse implements HttpServletResponse
         itsPrintWriter.flush();
         return outputAsStringWithoutFlushing();
     }
-    
+
     public String outputAsStringWithoutFlushing()
     {
         // @PMD:REVIEWED:StringInstantiation: by bop on 3/8/05 5:31 PM

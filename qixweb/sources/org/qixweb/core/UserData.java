@@ -10,59 +10,60 @@ import org.qixweb.util.DeepEquals;
 public class UserData implements Serializable
 {
     public static final UserData EMPTY = new UserData();
-    
-	private static final String LOGGED_USERNAME_KEY = "LOGGED_USERNAME_KEY";
-	private Map itsData;
 
-	public UserData()
-	{
-		itsData = new HashMap();
-	}
+    private static final String LOGGED_USERNAME_KEY = "LOGGED_USERNAME_KEY";
+    private Map itsData;
 
-	public UserData(UserData anotherUserData)
-	{
-		itsData = new HashMap(anotherUserData.itsData);
-	}
+    public UserData()
+    {
+        itsData = new HashMap();
+    }
 
-	public int size()
-	{
-		return itsData.size();
-	}
+    public UserData(UserData anotherUserData)
+    {
+        itsData = new HashMap(anotherUserData.itsData);
+    }
 
-	public Object valueFor(String aKey)
-	{
-		return itsData.get(aKey);
-	}
+    public int size()
+    {
+        return itsData.size();
+    }
 
-	public void store(String key, Object value)
-	{
-		itsData.put(key, value);
-	}
+    public Object valueFor(String aKey)
+    {
+        return itsData.get(aKey);
+    }
 
-	public void removeFor(String key)
-	{
-		itsData.remove(key);
-	}
+    public void store(String key, Object value)
+    {
+        itsData.put(key, value);
+    }
 
-	public String loggedUserName()
-	{
-        return (String)itsData.get(LOGGED_USERNAME_KEY);
-	}
+    public void removeFor(String key)
+    {
+        itsData.remove(key);
+    }
 
-	public void removeLoggedUserName()
-	{
-		itsData.remove(LOGGED_USERNAME_KEY);
-	}
+    public String loggedUserName()
+    {
+        return (String) itsData.get(LOGGED_USERNAME_KEY);
+    }
 
-	public void storeLoggedUserName(String username)
-	{
-		store(LOGGED_USERNAME_KEY, username);
-	}
+    public void removeLoggedUserName()
+    {
+        itsData.remove(LOGGED_USERNAME_KEY);
+    }
 
-	public boolean equals(Object obj)
-	{
+    public void storeLoggedUserName(String username)
+    {
+        store(LOGGED_USERNAME_KEY, username);
+    }
+
+    public boolean equals(Object obj)
+    {
         return DeepEquals.equals(this, obj);
-	}
+    }
+
     public int hashCode()
     {
         return HashCodeBuilder.reflectionHashCode(this);

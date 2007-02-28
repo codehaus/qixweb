@@ -12,9 +12,9 @@ public class TestDateAsDDslashMMslashYYYYControl extends TestCase
         Parameters parameters = new Parameters();
         parameters.set("validDate", "02/02/2006");
         parameters.set("invalidDate", "30-40--50");
-        
+
         DateAsDDslashMMslashYYYYControl dateControl = new DateAsDDslashMMslashYYYYControl(parameters);
-        
+
         assertTrue(dateControl.isValid("validDate"));
         assertFalse(dateControl.isValid("invalidDate"));
     }

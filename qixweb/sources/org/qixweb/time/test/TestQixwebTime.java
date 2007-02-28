@@ -18,7 +18,7 @@ public class TestQixwebTime extends AbstractTestQixwebCalendar
         assertEquals(59, time.minute());
         assertEquals(59, time.second());
     }
-    
+
     public void testBeginningOfTheDay() throws Exception
     {
         QixwebTime time = new QixwebTime(16, 8, 2003, 12, 34, 23).beginningOfTheDay();
@@ -34,14 +34,14 @@ public class TestQixwebTime extends AbstractTestQixwebCalendar
         assertEquals(34, time.minute());
         assertEquals(23, time.second());
     }
-    
+
     public void testTimeOnlyFactoryMethod()
     {
         QixwebTime time = QixwebTime.timeOnly(12, 34, 23);
         assertEquals(12, time.hour());
         assertEquals(34, time.minute());
         assertEquals(23, time.second());
-    }    
+    }
 
     public void testEquals()
     {
@@ -102,14 +102,12 @@ public class TestQixwebTime extends AbstractTestQixwebCalendar
         assertEquals("20030816-123423", new QixwebTime(16, 8, 2003, 12, 34, 23).asStringYYYYMMDD_HHMMSS());
         assertEquals("20041201-031401", new QixwebTime(1, 12, 2004, 3, 14, 1).asStringYYYYMMDD_HHMMSS());
     }
-    
+
     public void testAsStringDDSlashMMSlashYearBlankHHColonMM()
     {
         assertEquals("16/08/2006 12:34", new QixwebTime(16, 8, 2006, 12, 34, 23).asStringDDSlashMMSlashYearBlankHHColonMM());
         assertEquals("01/12/2006 03:14", new QixwebTime(1, 12, 2006, 3, 14, 1).asStringDDSlashMMSlashYearBlankHHColonMM());
     }
-    
-    
 
     public void testGetTimeInMillis()
     {

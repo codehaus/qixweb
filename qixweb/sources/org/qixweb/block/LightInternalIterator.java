@@ -74,7 +74,7 @@ public abstract class LightInternalIterator
 
         return theCollectedElements;
     }
-    
+
     public Set collectAsSet(Function function)
     {
         checkAlreadyBeenUsed();
@@ -88,8 +88,6 @@ public abstract class LightInternalIterator
 
         return collectedElements;
     }
-
-    
 
     public int count(Predicate aPredicate)
     {
@@ -162,7 +160,7 @@ public abstract class LightInternalIterator
         }
         return theSelectedElements;
     }
-    
+
     public Object sumUp(Object aRunningValue, BinaryFunction aFunction)
     {
         checkAlreadyBeenUsed();

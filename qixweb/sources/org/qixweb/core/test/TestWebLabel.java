@@ -1,8 +1,8 @@
 package org.qixweb.core.test;
 
-import org.qixweb.core.WebLabel;
-
 import junit.framework.TestCase;
+
+import org.qixweb.core.WebLabel;
 
 public class TestWebLabel extends TestCase
 {
@@ -10,7 +10,7 @@ public class TestWebLabel extends TestCase
     {
         assertEquals(new WebLabel(""), new WebLabel(null));
     }
-    
+
     public void testIsNullSafe() throws Exception
     {
         Object nullObject = null;
@@ -25,7 +25,7 @@ public class TestWebLabel extends TestCase
         assertFalse(new WebLabel("asdf").isEmpty());
         assertTrue(new WebLabel(null).isEmpty());
     }
-    
+
     public void testEscapeHtml() throws Exception
     {
         assertEquals("&lt;&amp;", new WebLabel("<&").toString());
@@ -38,9 +38,9 @@ public class TestWebLabel extends TestCase
 
     public void testTrim() throws Exception
     {
-        assertEquals("text", new WebLabel("text   ").toString());        
+        assertEquals("text", new WebLabel("text   ").toString());
     }
-    
+
     public void testCompare() throws Exception
     {
         WebLabel label = new WebLabel("first");

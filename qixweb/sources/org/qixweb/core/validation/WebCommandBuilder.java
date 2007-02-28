@@ -22,6 +22,7 @@ public abstract class WebCommandBuilder
     }
 
     public abstract WebCommand destinationWhenValid(UserData userData);
+
     public abstract Browsable destinationWhenNotValid(QixwebEnvironment environment);
 
     protected void addControl(WebCommandRequestControl control, boolean mandatoryFlag, String parameterKey, String messageWhenInvalid)
@@ -55,6 +56,5 @@ public abstract class WebCommandBuilder
     {
         return DeepEquals.equals(this, other);
     }
-
 
 }

@@ -5,7 +5,7 @@ import java.lang.reflect.Constructor;
 import org.apache.commons.lang.ClassUtils;
 import org.apache.commons.lang.StringUtils;
 
-public class ClassUtil 
+public class ClassUtil
 {
     private static final String INNER_CLASS_SEPARATOR = ".";
 
@@ -13,14 +13,14 @@ public class ClassUtil
     {
         return aClass.getName();
     }
-    
+
     public static String shortNameOf(Class aClass)
     {
         String shortClassName = ClassUtils.getShortClassName(aClass);
-        
+
         if (ClassUtils.isInnerClass(aClass))
             return outerClassName(shortClassName);
-        else 
+        else
             return shortClassName;
     }
 
@@ -39,11 +39,11 @@ public class ClassUtil
         }
         catch (Exception impossibleEx)
         {
-			XpLogger.logException(impossibleEx);        
+            XpLogger.logException(impossibleEx);
         }
         return newInstance;
     }
-    
+
     public static Object newInstance(Class clazz)
     {
         return newInstance(clazz, new Class[0], new Object[0]);

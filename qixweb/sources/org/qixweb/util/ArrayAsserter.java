@@ -133,7 +133,7 @@ public class ArrayAsserter
         boolean areEquals = ArrayComparator.areEquals(expected, received, failureListener);
         Assert.assertTrue(composeMessage(aMessage, failureListener.getFailureMessage()), areEquals);
     }
-    
+
     public static void assertEquals(byte[] expected, byte[] received)
     {
         assertEquals("", expected, received);

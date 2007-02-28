@@ -11,7 +11,7 @@ public class TestByteArrayControl extends TestCase
     {
         Parameters parameters = new Parameters();
         parameters.set("valid", new byte[] { 1, 2, 3 });
-        parameters.set("empty", new byte[] {  });
+        parameters.set("empty", new byte[] {});
 
         ByteArrayControl textControl = new ByteArrayControl(parameters);
 

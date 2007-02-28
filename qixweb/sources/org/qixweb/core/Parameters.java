@@ -43,8 +43,6 @@ public class Parameters
         return result;
     }
 
-    
-
     public boolean getAsBoolean(String key)
     {
         return new Boolean(get(key)).booleanValue();
@@ -60,7 +58,7 @@ public class Parameters
     {
         return getAsCalendarDD_MM_YYYY(key, QixwebDate.NULL);
     }
-    
+
     public QixwebDate getAsCalendarDD_MM_YYYY(String key, QixwebDate defaultValue)
     {
         if (isNotEmpty(key))
@@ -81,7 +79,7 @@ public class Parameters
 
     public Character getAsCharacter(String key)
     {
-        return isNotEmpty(key)? new Character(get(key).charAt(0)) : null;
+        return isNotEmpty(key) ? new Character(get(key).charAt(0)) : null;
     }
 
     public Parameters set(String key, int value)
@@ -116,7 +114,7 @@ public class Parameters
     public Integer getAsInteger(String key)
     {
         String value = get(key);
-        return (value != null)? Integer.decode(value) : null;
+        return (value != null) ? Integer.decode(value) : null;
     }
 
     /**
@@ -135,7 +133,7 @@ public class Parameters
             itsParameters.put(key, value.toString());
         return this;
     }
-    
+
     public Parameters set(String key, String value)
     {
         if (value != null)
@@ -337,7 +335,7 @@ public class Parameters
     {
         return getAsTimeHH_colon_mm(key, QixwebTime.NULL);
     }
-    
+
     public QixwebTime getAsTimeHH_colon_mm(String key, QixwebTime defaultValue)
     {
         if (isNotEmpty(key))

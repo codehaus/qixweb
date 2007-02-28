@@ -73,13 +73,14 @@ public class TestCollectionUtil extends ExtendedTestCase
     }
 
     public void testFlatOnCollection() throws Exception
-    {        assertEquals(new ArrayList(), CollectionUtil.flat(new ArrayList()));
+    {
+        assertEquals(new ArrayList(), CollectionUtil.flat(new ArrayList()));
 
         List list = CollectionUtil.listWith(CollectionUtil.listWith("1", "2"));
         assertEquals(CollectionUtil.listWith("1", "2"), CollectionUtil.flat(list));
 
         list = CollectionUtil.listWith(CollectionUtil.listWith("3", "4"), CollectionUtil.listWith("1", "2"));
-        assertEquals(CollectionUtil.listWith( "3", "4", "1", "2"), CollectionUtil.flat(list));
+        assertEquals(CollectionUtil.listWith("3", "4", "1", "2"), CollectionUtil.flat(list));
 
         list = CollectionUtil.listWith(CollectionUtil.listWith("1", "2", CollectionUtil.listWith("3", "4")), CollectionUtil.listWith("5", "6"));
         assertEquals(CollectionUtil.listWith("1", "2", "3", "4", "5", "6"), CollectionUtil.flat(list));
@@ -202,20 +203,22 @@ public class TestCollectionUtil extends ExtendedTestCase
         assertEquals(CollectionUtil.listWith("1", "2", "3"), CollectionUtil.removeDuplicates(CollectionUtil.listWith("1", "2", "2", "3")));
         assertEquals(CollectionUtil.listWith("1", "2"), CollectionUtil.removeDuplicates(CollectionUtil.listWith("1", "2", "2", "1", "2")));
     }
-    
+
     public void testFirst() throws Exception
     {
         try
         {
             CollectionUtil.firstFrom(new ArrayList());
-            fail("It should throw an NoSuchElementException"); 
+            fail("It should throw an NoSuchElementException");
         }
-        catch (NoSuchElementException e){}
+        catch (NoSuchElementException e)
+        {
+        }
         assertEquals("1", CollectionUtil.firstFrom(CollectionUtil.setWith("1")));
         assertEquals("1", CollectionUtil.firstFrom(CollectionUtil.listWith("1", "2")));
-        
+
     }
-    
+
     public void testIsNotEmpty() throws Exception
     {
         assertFalse(CollectionUtil.isNotEmpty(new ArrayList()));

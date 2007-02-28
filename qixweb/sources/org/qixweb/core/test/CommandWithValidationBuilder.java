@@ -3,7 +3,6 @@ package org.qixweb.core.test;
 import org.qixweb.core.*;
 import org.qixweb.core.validation.WebCommandBuilder;
 
-
 public class CommandWithValidationBuilder extends WebCommandBuilder
 {
     private static Browsable itsDestinationWhenNotValid = null;
@@ -23,7 +22,7 @@ public class CommandWithValidationBuilder extends WebCommandBuilder
     {
         return itsDestinationWhenNotValid;
     }
-    
+
     public static void simulateNotValidWithDestination(Browsable destination)
     {
         itsValidationFlag = false;

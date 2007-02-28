@@ -10,17 +10,17 @@ public abstract class WebSystem implements TheSystem, Serializable
     {
         resetWorkgroup();
     }
-    
+
     public QixwebUser userBy(String aUserName)
     {
         return itsWorkgroup.findUserBy(aUserName);
     }
-    
+
     protected QixwebWorkgroup workgroup()
     {
         return itsWorkgroup;
     }
-    
+
     protected void resetWorkgroup()
     {
         itsWorkgroup = new QixwebWorkgroup();

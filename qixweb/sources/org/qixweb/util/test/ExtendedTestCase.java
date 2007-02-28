@@ -32,33 +32,33 @@ public abstract class ExtendedTestCase extends TestCase
         super(aString);
         init();
     }
-    
+
     protected void setUp() throws Exception
     {
         init();
-        itsStartingTime = System.currentTimeMillis();        
+        itsStartingTime = System.currentTimeMillis();
     }
-    
+
     protected void tearDown() throws Exception
     {
         System.setOut(systemOut);
         XpLogger.resetConsoleAppenderLogger();
         System.setErr(systemErr);
-        
-        //timeMesurement(); decomment if you like to track the time spent by a single test
+
+        // timeMesurement(); decomment if you like to track the time spent by a single test
     }
 
     private void timeMesurement() throws IOException
     {
-        long endTime = System.currentTimeMillis();        
-        long timeOfTest = endTime - itsStartingTime;   
-        
+        long endTime = System.currentTimeMillis();
+        long timeOfTest = endTime - itsStartingTime;
+
         FileWriter writer = new FileWriter("timeOfTests.txt", true);
-        writer.write("Time of "+ getName()+ ": "+ timeOfTest + " msec.\n");
+        writer.write("Time of " + getName() + ": " + timeOfTest + " msec.\n");
         writer.flush();
         writer.close();
     }
-    
+
     public static void assertEquals(String aMessage, Date expectedDate, Date actualDate, int precisionInMillis)
     {
         assertTrue(aMessage, expectedDate.getTime() - actualDate.getTime() <= precisionInMillis);
@@ -138,13 +138,12 @@ public abstract class ExtendedTestCase extends TestCase
     {
         assertTrue("Length is " + someObjects.length + " instead of 0", someObjects.length == 0);
     }
-    
-    
+
     public static void assertNotEmpty(Object[] someObjects)
     {
         assertTrue(someObjects.length > 0);
     }
-    
+
     public static void assertNotEmpty(byte[] byteArray)
     {
         assertTrue(byteArray.length > 0);
@@ -154,7 +153,7 @@ public abstract class ExtendedTestCase extends TestCase
     {
         assertEmpty("", collection);
     }
-    
+
     public static void assertEmpty(String message, String string)
     {
         assertTrue(message, StringUtils.isEmpty(string));
@@ -164,23 +163,21 @@ public abstract class ExtendedTestCase extends TestCase
     {
         assertEmpty("", string);
     }
-    
+
     public static void assertNotEmpty(String string)
     {
         assertTrue(StringUtils.isNotEmpty(string));
-    }    
-    
-    
+    }
+
     public static void assertNotEmpty(Collection collection)
     {
         assertNotEmpty("", collection);
     }
-    
+
     public static void assertNotEmpty(String description, Collection collection)
     {
         assertFalse(description, collection.isEmpty());
-    }    
-
+    }
 
     public static void assertEmpty(String aMessage, Collection collection)
     {
@@ -192,15 +189,11 @@ public abstract class ExtendedTestCase extends TestCase
         assertTrue(aMessagge + ": length is " + someObjects.length + " instead of 0", someObjects.length == 0);
     }
 
-   
-
     private void init()
     {
         systemOut = System.out;
-        systemErr = System.err;        
+        systemErr = System.err;
     }
-
-    
 
     public String grabbedErr()
     {
@@ -244,7 +237,7 @@ public abstract class ExtendedTestCase extends TestCase
     {
         assertEquals("different arrays", someObjects, otherObjects);
     }
-    
+
     public void assert_containsInOrder(String text, String string1, String string2)
     {
         String regexp = string1 + ".*" + string2;
@@ -280,7 +273,7 @@ public abstract class ExtendedTestCase extends TestCase
     {
         assertTrue(message, webUrl.isEnabled());
     }
-    
+
     public static void assertEqualsIgnoringOrder(Collection expected, Collection actual)
     {
         assertEqualsIgnoringOrder("", expected, actual);
@@ -315,6 +308,5 @@ public abstract class ExtendedTestCase extends TestCase
     {
         assertFalse(aCollection.contains(anItem));
     }
-    
-    
+
 }

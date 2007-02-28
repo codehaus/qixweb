@@ -7,12 +7,12 @@ public class DateAsDDslashMMslashYYYYControl extends WebCommandRequestControl
 {
     public DateAsDDslashMMslashYYYYControl(Parameters someParametersToControl)
     {
-        super(someParametersToControl);        
+        super(someParametersToControl);
     }
 
     public boolean isValid(String parameterKey)
     {
-        return !QixwebDate.NULL.equals(itsParametersToControl.getAsCalendarDD_MM_YYYY(parameterKey)); 
+        return !QixwebDate.NULL.equals(itsParametersToControl.getAsCalendarDD_MM_YYYY(parameterKey));
     }
 
 }

@@ -26,14 +26,14 @@ public class TestChoice extends ExtendedTestCase
         EqualsBehaviourVerifier.check(choice, sameChoice, differentChoiceForValue);
         EqualsBehaviourVerifier.check(choice, sameChoice, differentChoiceForSelection);
     }
-    
+
     public void testCompareTo()
     {
         assertEquals(0, choice.compareTo(sameChoice));
         assertEquals(-differentChoiceForLabel.compareTo(choice), choice.compareTo(differentChoiceForLabel));
         assertTrue(choice.compareTo(new Object()) != 0);
     }
-    
+
     public void testSelection()
     {
         assertTrue(choice.isSelected().booleanValue());

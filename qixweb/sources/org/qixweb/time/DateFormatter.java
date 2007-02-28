@@ -83,13 +83,11 @@ public class DateFormatter
         return format(aCalendar, new SimpleDateFormat("yyyyMM"));
     }
 
-    
     public static String formatHH_dot_mm(QixwebCalendar aCalendar)
     {
         return format(aCalendar, new SimpleDateFormat("HH.mm"));
     }
-    
-    
+
     private static String format(QixwebCalendar aCalendar, SimpleDateFormat aDateFormat)
     {
         return aCalendar.format(aDateFormat);

@@ -17,7 +17,7 @@ public class NodeWithoutCreateMethodBuilder extends WebNodeBuilder
         hasBeenCalled = true;
         return new NodeWithoutCreateMethod();
     }
-    
+
     public static boolean hasBeenCalled()
     {
         return hasBeenCalled;

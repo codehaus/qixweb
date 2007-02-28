@@ -15,7 +15,7 @@ public class WebUrl implements Comparable
 {
     private static final String ENCONDING_ISO_8859_1 = "ISO-8859-1";
 
-    private Parameters itsParameters;    
+    private Parameters itsParameters;
     private String itsUrlBeforeParameters;
     private String itsLabel;
     private boolean isEnabled;
@@ -78,12 +78,11 @@ public class WebUrl implements Comparable
     {
         return itsUrlBeforeParameters + parameters().allAsString();
     }
-    
+
     public String encodedDestination()
     {
         return StringEscapeUtils.escapeHtml(itsUrlBeforeParameters + parameters().allAsString());
     }
-    
 
     public boolean equals(Object anotherObject)
     {

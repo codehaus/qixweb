@@ -28,13 +28,13 @@ public class TestUrlParametersExtractor extends ExtendedTestCase
         assertEquals(1, map.keySet().size());
     }
 
-    
     public void testKeepParameterWithoutValue()
     {
         Map map = new UrlParametersExtractor("?key=").run();
         ArrayAsserter.assertEquals(new String[] { "" }, (String[]) map.get("key"));
         assertEquals(1, map.keySet().size());
     }
+
     public void testUrlWithTwoParametersGetsAMapWithTwoElements()
     {
         Map map = new UrlParametersExtractor("?key1=value1&key2=value2").run();

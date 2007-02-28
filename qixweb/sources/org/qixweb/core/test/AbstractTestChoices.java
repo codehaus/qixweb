@@ -6,15 +6,13 @@ import org.qixweb.core.AbstractChoice;
 import org.qixweb.core.Choice;
 import org.qixweb.util.EqualsBehaviourVerifier;
 
-
-
 public abstract class AbstractTestChoices extends TestCase
 {
     public void testCreation()
     {
         boolean isEnabled = true;
         AbstractChoice multipleChoices = create("multiplechoices name", isEnabled);
-        
+
         assertEquals("multiplechoices name", multipleChoices.name());
         assertTrue(multipleChoices.isEnabled().booleanValue());
         assertEquals(0, multipleChoices.choices().size());
@@ -26,8 +24,9 @@ public abstract class AbstractTestChoices extends TestCase
     }
 
     protected abstract void add_to(Choice addedChoice, AbstractChoice multipleChoices);
+
     protected abstract AbstractChoice create(String name, boolean isEnabled);
-    
+
     public void testEquals()
     {
         AbstractChoice choices = create("name", true);
