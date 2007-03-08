@@ -11,6 +11,8 @@ import sun.misc.BASE64Encoder;
 
 public class Parameters
 {
+    public static final Parameters EMPTY = new Parameters();
+    
     protected Map itsParameters;
 
     public Parameters()
