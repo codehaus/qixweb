@@ -13,7 +13,12 @@ public class TestClassUtil extends ExtendedTestCase
     {
         assertEquals("org.qixweb.util.test.TestClassUtil", ClassUtil.fullNameOf(TestClassUtil.class));
     }
-
+    
+    public void testPackageNameOfAClass() throws Exception
+    {
+        assertEquals("org.qixweb.util.test", ClassUtil.packageNameOf(TestClassUtil.class));
+    }
+    
     public void testShortNameOfAClass() throws Exception
     {
         assertEquals("TestClassUtil", ClassUtil.shortNameOf(TestClassUtil.class));

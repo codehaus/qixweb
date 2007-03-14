@@ -48,4 +48,9 @@ public class ClassUtil
     {
         return newInstance(clazz, new Class[0], new Object[0]);
     }
+
+    public static String packageNameOf(Class clazz)
+    {
+        return clazz.getPackage().getName();
+    }
 }
