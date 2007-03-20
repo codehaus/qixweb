@@ -112,6 +112,19 @@ public class TestExtendedTestCase extends TestCase
 
     }
 
+    public void testEmptyByteArray() throws Exception
+    {
+        try
+        {
+            ExtendedTestCase.assertEmpty(new byte[0]);
+        }
+        catch (AssertionFailedError e)
+        {
+            fail("should be empty");
+        }
+
+    }
+    
     public void testNotEquals()
     {
         ExtendedTestCase.assertNotEquals("The objects must be different", new Integer(2), new Integer(3));
