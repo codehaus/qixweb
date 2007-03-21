@@ -39,9 +39,14 @@ public class FakeTimeProvider implements TimeProvider
         return new QixwebDate(itsDate);
     }
 
-    public void advance(int numberOfMinutes)
+    public void advanceOfMinutes(int numberOfMinutes)
     {
         itsDate.add(Calendar.MINUTE, numberOfMinutes);
+    }
+    
+    public void advanceOfSeconds(int numberOfSeconds)
+    {
+        itsDate.add(Calendar.SECOND, numberOfSeconds);
     }
 
     public String toString()
