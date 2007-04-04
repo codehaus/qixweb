@@ -2,66 +2,53 @@ package org.qixweb.core;
 
 import org.qixweb.util.DeepEquals;
 
+
 public class Choice implements Comparable
 {
-    private String itsID;
-    private Comparable itsItemToDisplay;
-    private boolean isSelected;
+	private String itsValue;
+	private String itsLabel;
+	private boolean isSelected;
 
-    public Choice(String anID, Comparable anItemToDisplay, boolean isSelected)
-    {
-        itsItemToDisplay = anItemToDisplay;
-        itsID = anID;
-        this.isSelected = isSelected;
-    }
+	public String toString()
+	{
+		return "'" + itsLabel + "' (" + itsValue + ") => " + isSelected;
+	}
+	
+	public Choice(String aValue, String aLabel, boolean isSelected)
+	{
+		itsLabel = aLabel;
+		itsValue = aValue;
+		this.isSelected = isSelected;
+	}
 
-    public Boolean isSelected()
-    {
-        return new Boolean(isSelected);
-    }
+	public Boolean isSelected()
+	{
+		return new Boolean(isSelected);
+	}
 
-    public Comparable item()
-    {
-        return itsItemToDisplay;
-    }
+	public String label()
+	{
+		return itsLabel;
+	}
 
-    public String value()
-    {
-        return itsID;
-    }
+	public String value()
+	{
+		return itsValue;
+	}
+
+	public boolean equals(Object aChoice)
+	{
+		return DeepEquals.equals(this, aChoice);
+	}
 
     public int compareTo(Object anObject)
     {
         if (anObject instanceof Choice)
         {
             Choice anotherChoice = (Choice) anObject;
-            return itsItemToDisplay.compareTo(anotherChoice.itsItemToDisplay);
+            return itsLabel.compareTo(anotherChoice.itsLabel);
         }
-        return -1;
+        return 0;
     }
-
-    public void select()
-    {
-        isSelected = true;
-    }
-
-    public void deselect()
-    {
-        isSelected = false;
-    }
-
-    public boolean equals(Object aChoice)
-    {
-        return DeepEquals.equals(this, aChoice);
-    }
-
-    public int hashCode()
-    {
-        return itsItemToDisplay.hashCode();
-    }
-
-    public String toString()
-    {
-        return "'" + itsItemToDisplay + "' (" + itsID + ") => " + isSelected;
-    }
+	
 }

@@ -4,6 +4,7 @@ import org.qixweb.time.QixwebTime;
 import org.qixweb.time.RealTimeProvider;
 import org.qixweb.util.test.ExtendedTestCase;
 
+
 public class TestTimeProvider extends ExtendedTestCase
 {
     private RealTimeProvider itsTimeProvider;
@@ -15,7 +16,7 @@ public class TestTimeProvider extends ExtendedTestCase
         QixwebTime time2 = itsTimeProvider.now();
         assertNotEquals("Changing second of day times should differ", time1, time2);
     }
-
+    
     public void testThreeInvocationsWithinASecond() throws Exception
     {
         QixwebTime time1 = itsTimeProvider.now();

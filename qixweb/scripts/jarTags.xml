@@ -1,34 +1,23 @@
 <?xml version="1.0"?>
 
 <project name="qixJarTags" default="doNothing">
-	
-	<property name="lib.dir" value="${qixweb.dir}/lib"/> 
-	
-	<fileset id="velocity.tag" dir="${lib.dir}">
+	<fileset id="velocity.tag" dir="${qixweb.dir}/lib">
 		<include name="velocity-1.3.1.jar"/>
 	</fileset>
 	
-	<fileset id="http.tag" dir="${lib.dir}">
+	<fileset id="http.tag" dir="${qixweb.dir}/lib">
 		<include name="servlet.jar"/>
 		<include name="velocity-1.3.1.jar"/>
 	</fileset>
 	
-	<fileset id="qixbase.tag" dir="${lib.dir}">
+	<fileset id="qixbase.tag" dir="${qixweb.dir}/lib">
 		<include name = "commons-collections-3.0.jar"/>
-		<include name = "commons-lang-2.3.jar"/>
+		<include name = "commons-lang-2.0.jar"/>
 		<include name = "junit.jar"/>
 		<include name = "log4j-1.2.4.jar"/>
 	</fileset>
 
-	<fileset id="jakartacommons.io.tag" dir="${lib.dir}">
-		<include name = "commons-io-1.1.jar"/>		
-	</fileset>
-	
-	<fileset id="jakartacommons.fileupload.tag" dir="${lib.dir}">
-			<include name = "commons-fileupload-1.1.jar"/>		
-	</fileset>
-	
-	<fileset id="collections.tag" dir="${lib.dir}">
+	<fileset id="collections.tag" dir="${qixweb.dir}/lib">
 		<include name = "commons-collections-3.0.jar"/>
 	</fileset>
 

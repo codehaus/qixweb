@@ -1,17 +1,18 @@
 package org.qixweb.core;
 
+
 public abstract class QixwebEnvironment
 {
     private QixwebSessionManager itsSessionManager;
-
+    
     public abstract TheSystem system();
 
     public QixwebEnvironment()
     {
-        // @PMD:REVIEWED:ConstructorCallsOverridableMethod: by bop on 1/25/05 12:24 PM
-        initSessionManager();
+		// @PMD:REVIEWED:ConstructorCallsOverridableMethod: by bop on 1/25/05 12:24 PM
+		initSessionManager();	
     }
-
+    
     protected void initSessionManager()
     {
         itsSessionManager = new QixwebSessionManager();
@@ -19,7 +20,7 @@ public abstract class QixwebEnvironment
 
     public QixwebSessionManager sessionManager()
     {
-        return itsSessionManager;
+    	return itsSessionManager;
     }
 
     public String velocityTemplateDir()
@@ -30,4 +31,6 @@ public abstract class QixwebEnvironment
     public abstract String nodePackage();
 
     public abstract String commandPackage();
+
+    public abstract String servletPath();
 }

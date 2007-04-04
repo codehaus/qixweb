@@ -1,8 +1,9 @@
 package org.qixweb.block.test;
 
+import org.qixweb.block.IdentityFunction;
+
 import junit.framework.TestCase;
 
-import org.qixweb.block.IdentityFunction;
 
 public class TestIdentityFunction extends TestCase
 {

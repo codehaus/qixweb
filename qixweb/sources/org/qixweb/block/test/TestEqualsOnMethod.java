@@ -1,26 +1,27 @@
 package org.qixweb.block.test;
 
+import org.qixweb.block.EqualsOnMethod;
+
 import junit.framework.TestCase;
 
-import org.qixweb.block.EqualsOnMethod;
 
 public class TestEqualsOnMethod extends TestCase
 {
     public class Name
     {
         private String itsName;
-
+        
         public Name(String name)
         {
             itsName = name;
         }
-
+        
         public String name()
         {
             return itsName;
         }
     }
-
+    
     public void testIs() throws Exception
     {
         assertFalse(new EqualsOnMethod("pippo", "name").is(new Name("pluto")));

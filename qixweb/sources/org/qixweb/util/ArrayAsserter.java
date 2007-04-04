@@ -134,11 +134,6 @@ public class ArrayAsserter
         Assert.assertTrue(composeMessage(aMessage, failureListener.getFailureMessage()), areEquals);
     }
 
-    public static void assertEquals(byte[] expected, byte[] received)
-    {
-        assertEquals("", expected, received);
-    }
-
     public static void assertOnlyOneElementEquals(String aMessage, Object anExpectedData, Object[] someReceivedData)
     {
         assertEquals(aMessage, new Object[] { anExpectedData }, someReceivedData);

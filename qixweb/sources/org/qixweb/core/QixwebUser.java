@@ -6,21 +6,21 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.qixweb.util.DeepEquals;
 
+
 public class QixwebUser implements Comparable, Serializable
 {
     static final long serialVersionUID = 1L;
-    public static final QixwebUser ANONYMOUS = createUserWith("AnonymousUser", "", "", "", "", "", false, true);
+    public static final QixwebUser NULL = createUserWith("NullUser", "", "", "", "", "", false, true);
 
     public static QixwebUser createSuperAdminWith(String aName, String aPassword, String aFirstName, String aLastName, String aEmail, String aCompany)
     {
         return new QixwebUser(aName, aPassword, aFirstName, aLastName, aEmail, aCompany, true, false, false);
     }
 
-    public static QixwebUser createUserWith(String aUserName, String aPassword, String aFirstName, String aLastName, String aEmail, String aCompany, boolean isToAuthenticateViaLdap,
-            boolean hasWritePermissionFlag)
+    public static QixwebUser createUserWith(String aUserName, String aPassword, String aFirstName, String aLastName, String aEmail, String aCompany, boolean isToAuthenticateViaLdap, boolean hasWritePermissionFlag)
     {
         return new QixwebUser(aUserName, aPassword, aFirstName, aLastName, aEmail, aCompany, false, isToAuthenticateViaLdap, hasWritePermissionFlag);
-    }
+    }    
 
     public static String generateRandomPassword()
     {
@@ -38,8 +38,7 @@ public class QixwebUser implements Comparable, Serializable
     private String itsEmail;
     private String itsCompany;
 
-    protected QixwebUser(String aName, String aPassword, String aFirstName, String aLastName, String aEmail, String aCompany, boolean isSuperAdminFlag, boolean isToAuthenticateViaLdapFlag,
-            boolean hasWritePermissionFlag)
+    protected QixwebUser(String aName, String aPassword, String aFirstName, String aLastName, String aEmail, String aCompany, boolean isSuperAdminFlag, boolean isToAuthenticateViaLdapFlag, boolean hasWritePermissionFlag)
     {
         itsName = aName;
         itsPassword = aPassword;
@@ -77,7 +76,7 @@ public class QixwebUser implements Comparable, Serializable
     {
         return itsLastName;
     }
-
+    
     public boolean isSuperAdmin()
     {
         return isSuperAdmin;
@@ -102,12 +101,12 @@ public class QixwebUser implements Comparable, Serializable
     {
         isToAuthenticateViaLdap = false;
     }
-
+    
     public void enableAuthenticationViaLdap()
     {
-        isToAuthenticateViaLdap = true;
+    	isToAuthenticateViaLdap = true;
     }
-
+    
     public void disable()
     {
         itsEnableState = false;
@@ -117,12 +116,13 @@ public class QixwebUser implements Comparable, Serializable
     {
         itsEnableState = true;
     }
-
+    
     public String toString()
     {
-        return "[" + name() + "/" + password() + " - " + firstName() + " - " + lastName() + " - " + email() + " - " + company() + " - " + (isSuperAdmin() ? "super admin" : "not super admin") + " - "
-                + (hasWritePermission() ? "RW" : "R") + " - " + (isEnabled() ? "enabled" : "disabled") + " - " + (isAuthenticatedViaLdap() ? "LDAP" : "INTERNAL") + "]";
-    }
+        return "[" + name() + "/" + password() + " - " + firstName() + " - " + lastName() + " - " +email() + " - " + company() + " - " + 
+            (isSuperAdmin() ? "super admin" : "not super admin") + " - " + (hasWritePermission() ? "RW" : "R") + " - " + 
+            (isEnabled() ? "enabled" : "disabled") + " - " + (isAuthenticatedViaLdap() ? "LDAP" : "INTERNAL") + "]";
+    }    
 
     public boolean hasWritePermission()
     {
@@ -153,7 +153,7 @@ public class QixwebUser implements Comparable, Serializable
     {
         return DeepEquals.equals(this, anotherObject);
     }
-
+    
     public int hashCode()
     {
         return HashCodeBuilder.reflectionHashCode(this);
@@ -162,5 +162,5 @@ public class QixwebUser implements Comparable, Serializable
     public void email(String anEmail)
     {
         itsEmail = anEmail;
-    }
+    }    
 }

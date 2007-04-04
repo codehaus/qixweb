@@ -2,6 +2,8 @@ package org.qixweb.core;
 
 import java.util.Map;
 
+
+
 public class QixwebUrlFactory
 {
     private QixwebEnvironment itsEnvironment;
@@ -10,14 +12,14 @@ public class QixwebUrlFactory
     {
         itsEnvironment = anEnvironment;
     }
+    
+	public WebAppUrl createFrom(Map parametersMap)
+	{
+		return WebAppUrl.createFrom(parametersMap, itsEnvironment.nodePackage(), itsEnvironment.commandPackage(), itsEnvironment.servletPath());
+	}
 
-    public QixwebUrl createFrom(Map parametersMap)
+    public WebAppUrl createUrlWith(Class aClazz)
     {
-        return QixwebUrl.createAsRequestFrom(parametersMap, itsEnvironment.nodePackage(), itsEnvironment.commandPackage());
-    }
-
-    public QixwebUrl createUrlWith(Class aClazz)
-    {
-        return new QixwebUrl(aClazz);
+        return new WebAppUrl(aClazz, itsEnvironment.servletPath());
     }
 }

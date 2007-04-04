@@ -6,12 +6,12 @@ import org.qixweb.util.DeepEquals;
 public abstract class DefaultWebForm implements WebForm
 {
     private boolean isEnabled;
-
+    
     public DefaultWebForm()
     {
         isEnabled = true;
     }
-
+    
     public DefaultWebForm(QixwebUser user)
     {
         isEnabled = user.hasWritePermission();
@@ -21,30 +21,25 @@ public abstract class DefaultWebForm implements WebForm
     {
         return DeepEquals.equals(this, otherForm);
     }
-
     public String toString()
     {
         return ToStringBuilder.reflectionToString(this);
     }
-
     public void disable()
     {
-        isEnabled = false;
+    	isEnabled = false;
     }
-
     public boolean isEnabled()
     {
         return isEnabled;
     }
-
-    public QixwebUrl actionUrl()
+    public WebAppUrl actionUrl()
     {
-        QixwebUrl url = concreteActionUrl();
+        WebAppUrl url = concreteActionUrl();
         if (!isEnabled())
             url.disable();
-
+        
         return url;
     }
-
-    protected abstract QixwebUrl concreteActionUrl();
+    protected abstract WebAppUrl concreteActionUrl();
 }
