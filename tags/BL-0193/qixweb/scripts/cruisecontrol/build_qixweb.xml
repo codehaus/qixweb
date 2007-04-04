@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<project name="build_qixweb" default="build">
+    <property environment="env"/>
+    <property name="qixweb" value="${basedir}/checkout/qixweb"/>
+    <property name="log.dir" value="${basedir}/test/log"/>
+    <property name="report.dir" value="${basedir}/test/report"/>
+   
+
+    <path id="qixweb.classpath" >
+        <fileset dir="${qixweb}/lib" includes="*.jar"/>
+    </path>
+
+    <target name="build" depends="checkout, build_qixweb, run_test"></target>
+
+    <target name="checkout">
+        <cvs command="co -P" cvsRoot=":pserver:anonymous:@cvs.qixweb.codehaus.org:/cvs/qixweb" package="qixweb" dest="./checkout" />
+    </target>  
+      
+    <target name="build_qixweb" >
+        <delete dir="${qixweb}/classes" includeEmptyDirs="true" failonerror="no"/>
+        <mkdir dir="${qixweb}/classes"/>
+        <javac destdir="${qixweb}/classes" fork="true" source="1.4">
+           <classpath refid="qixweb.classpath"/>
+           <src path="${qixweb}/sources"/>
+        </javac>
+      
+    </target>  
+
+        <path id="test.classpath">
+                <pathelement location="${qixweb}/classes" />
+                <fileset dir="${qixweb}/lib">
+                        <include name="**/*.jar"/>
+                </fileset>
+        </path>
+
+
+    <target name="run_test">
+        <delete dir="${log.dir}"/>
+        <mkdir dir="${log.dir}"/>
+
+        <junit dir="${qixweb}" printsummary="yes" haltonerror="no" haltonfailure="no" failureproperty="junit_test_failed">
+                <classpath refid="test.classpath"/>
+                <formatter type="xml" />
+
+            <batchtest fork="yes" todir="${log.dir}">
+                <fileset dir="${qixweb}/classes">
+                  <include name="**/Test*.class" />
+                  <include name="**/*Test.class" />
+                  <exclude name="**/AbstractTest*.class"/>
+                  <exclude name="**/*ForTest.class" />
+                  <exclude name="**/Test*$$*.class" /> <!-- exclude inner classes -->
+                </fileset>
+            </batchtest>
+        </junit>
+
+                <antcall target="alltest_report"/>
+        <fail if="junit_test_failed" message="One or more Webapp's JUnit tests failed"/>
+    </target>
+
+    <target name="alltest_report">
+        <delete dir="${report.dir}"/>
+        <mkdir dir="${report.dir}"/>
+        <mkdir dir="${report.dir}/html"/>
+
+                <junitreport todir="${report.dir}">
+                  <fileset dir="${log.dir}">
+                        <include name="TEST-*.xml"/>
+                  </fileset>
+                  <report format="frames" todir="${report.dir}/html"/>
+                </junitreport>
+    </target>
+
+</project>
