@@ -10,8 +10,7 @@ import junit.framework.TestCase;
 import org.apache.commons.lang.StringUtils;
 import org.qixweb.core.WebLabel;
 import org.qixweb.core.WebUrl;
-import org.qixweb.util.StringUtil;
-import org.qixweb.util.XpLogger;
+import org.qixweb.util.*;
 
 public abstract class ExtendedTestCase extends TestCase
 {
@@ -279,6 +278,17 @@ public abstract class ExtendedTestCase extends TestCase
         assertTrue(message, webUrl.isEnabled());
     }
 
+    protected void assertContainsOnly(Object anObject, Collection aCollection)
+    {
+        assertContainsOnlyOneElement("", aCollection);
+        assertEquals(anObject, CollectionUtil.firstFrom(aCollection));
+    }
+
+    protected void assertContainsOnlyOneElement(String message, Collection aCollection)
+    {
+        assertEquals(message, 1, aCollection.size());
+    }
+
     public static void assertEqualsIgnoringOrder(Collection expected, Collection actual)
     {
         assertEqualsIgnoringOrder("", expected, actual);
@@ -313,5 +323,4 @@ public abstract class ExtendedTestCase extends TestCase
     {
         assertFalse(aCollection.contains(anItem));
     }
-
 }
