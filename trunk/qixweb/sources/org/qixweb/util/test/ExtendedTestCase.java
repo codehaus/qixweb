@@ -160,7 +160,7 @@ public abstract class ExtendedTestCase extends TestCase
 
     public static void assertEmpty(String message, String string)
     {
-        assertTrue(message, StringUtils.isEmpty(string));
+        assertTrue(message + ". The actual string is: <"+string+">", StringUtils.isEmpty(string));
     }
 
     public static void assertEmpty(String string)
