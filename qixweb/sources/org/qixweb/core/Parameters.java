@@ -11,8 +11,6 @@ import sun.misc.BASE64Encoder;
 
 public class Parameters
 {
-    public static final Parameters EMPTY = new Parameters();
-    
     protected Map itsParameters;
 
     public Parameters()
@@ -25,6 +23,11 @@ public class Parameters
         itsParameters = parameters;
     }
 
+    public final static Parameters EMPTY()
+    {
+        return new Parameters();
+    }
+    
     public String get(String key)
     {
         Object value = itsParameters.get(key);
