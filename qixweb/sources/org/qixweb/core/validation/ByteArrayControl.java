@@ -1,5 +1,6 @@
 package org.qixweb.core.validation;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.qixweb.core.Parameters;
 
 public class ByteArrayControl extends WebCommandRequestControl
@@ -11,8 +12,7 @@ public class ByteArrayControl extends WebCommandRequestControl
 
     public boolean isValid(String parameterKey)
     {
-        byte[] byteArray = itsParametersToControl.getAsByteArray(parameterKey);
-        return byteArray != null && byteArray.length != 0;
+        return !ArrayUtils.isEmpty(itsParametersToControl.getAsByteArray(parameterKey));
     }
 
 }

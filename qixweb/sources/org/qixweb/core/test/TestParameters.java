@@ -377,21 +377,25 @@ public class TestParameters extends ExtendedTestCase
 
     public void testExtractingNullParameterAsBooleanReturnsFalse()
     {
-        assertFalse(itsParameters.getAsBoolean("k"));
+        assertFalse(itsParameters.getAsBoolean("not existing key"));
     }
 
     public void testExtractingParameterAsBoolean()
     {
         itsParameters.set("key", true);
         assertTrue(itsParameters.getAsBoolean("key"));
+        
         itsParameters.set("key", "zfockl;");
         assertFalse(itsParameters.getAsBoolean("key"));
     }
 
     public void testExtractingParameterAsByteArray()
     {
+        assertNull(itsParameters.getAsByteArray("key"));
+        
         byte[] array = new byte[] { -112, 34, 56, -90, -113 };
         itsParameters.set("key", array);
+
         ArrayAsserter.assertEquals("Should be equals", array, itsParameters.getAsByteArray("key"));
     }
 
