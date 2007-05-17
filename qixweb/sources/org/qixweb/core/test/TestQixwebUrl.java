@@ -151,11 +151,11 @@ public class TestQixwebUrl extends ExtendedTestCase
     public void testNodeDestination()
     {
         String expectedDestination = itsServletPath + "?" + QixwebUrl.PARAMETER_NODE_TO_DISPLAY + "=AnyNode";
-        String returnedDestination = itsWebUrlForAnyNode.destination();
-        assertEquals("wrong destination composition", expectedDestination, returnedDestination);
+        String actualDestination = itsWebUrlForAnyNode.destination();
+        assertEquals("wrong destination composition", expectedDestination, actualDestination);
         assertTrue("should go the a node", itsWebUrlForAnyNode.isGoingToANode());
     }
-
+    
     public void testCommandDestination()
     {
         String expectedDestination = itsServletPath + "?" + QixwebUrl.PARAMETER_COMMAND_TO_EXECUTE + "=AnyCommand";
