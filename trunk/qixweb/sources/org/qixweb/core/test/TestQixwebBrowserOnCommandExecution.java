@@ -13,7 +13,7 @@ public class TestQixwebBrowserOnCommandExecution extends ExtendedTestCase
     protected void setUp() throws Exception
     {
         itsFakeResponseHandler = new FakeResponseHandler();
-        itsBrowser = QixwebBrowser.usingSystem(itsFakeResponseHandler, UserData.EMPTY, new FakeEnvironment());
+        itsBrowser = QixwebBrowser.usingSystem(itsFakeResponseHandler, UserDataCreator.EMPTY, new FakeEnvironment());
     }
 
     public void testExecuteRedirectingCommand() throws Exception
@@ -38,7 +38,7 @@ public class TestQixwebBrowserOnCommandExecution extends ExtendedTestCase
 
     public void testGoToWarningNodeForNotInstantiableCommand() throws Exception
     {
-        itsBrowser = QixwebBrowser.usingEnvironment(itsFakeResponseHandler, UserData.EMPTY, new FakeEnvironment());
+        itsBrowser = QixwebBrowser.usingEnvironment(itsFakeResponseHandler, UserDataCreator.EMPTY, new FakeEnvironment());
 
         itsBrowser.goTo(new QixwebUrl(NotInstantiableCommand.class));
         assertNull("Shouldn't redirect anywhere", itsFakeResponseHandler.redirectedDestination());
@@ -47,7 +47,7 @@ public class TestQixwebBrowserOnCommandExecution extends ExtendedTestCase
 
     public void testGoToLoginNodeForNotExecutableCommand() throws Exception
     {
-        itsBrowser = QixwebBrowser.usingEnvironment(itsFakeResponseHandler, UserData.EMPTY, new FakeEnvironment());
+        itsBrowser = QixwebBrowser.usingEnvironment(itsFakeResponseHandler, UserDataCreator.EMPTY, new FakeEnvironment());
 
         itsBrowser.goTo(new QixwebUrl(NotExecutableCommand.class));
         assertNull("Shouldn't redirect anywhere", itsFakeResponseHandler.redirectedDestination());
@@ -62,7 +62,7 @@ public class TestQixwebBrowserOnCommandExecution extends ExtendedTestCase
 
     public void testLoggedUserCanExecuteCommandWithAuthenticationRequired() throws Exception
     {
-        itsBrowser = new QixwebBrowser(itsFakeResponseHandler, UserData.EMPTY, new FakeEnvironment(), false)
+        itsBrowser = new QixwebBrowser(itsFakeResponseHandler, UserDataCreator.EMPTY, new FakeEnvironment(), false)
         {
             protected QixwebUser loggedUser()
             {
