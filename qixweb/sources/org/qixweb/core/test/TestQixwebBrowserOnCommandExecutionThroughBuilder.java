@@ -13,7 +13,7 @@ public class TestQixwebBrowserOnCommandExecutionThroughBuilder extends ExtendedT
     protected void setUp() throws Exception
     {
         itsFakeResponseHandler = new FakeResponseHandler();
-        itsBrowser = QixwebBrowser.usingSystem(itsFakeResponseHandler, UserData.EMPTY, new FakeEnvironment());
+        itsBrowser = QixwebBrowser.usingSystem(itsFakeResponseHandler, UserDataCreator.EMPTY, new FakeEnvironment());
     }
 
     public void testExecuteWhenNotValidCommandRequest() throws Exception

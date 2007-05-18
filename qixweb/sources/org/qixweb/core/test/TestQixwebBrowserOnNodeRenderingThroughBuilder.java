@@ -17,7 +17,7 @@ public class TestQixwebBrowserOnNodeRenderingThroughBuilder extends ExtendedTest
 
     public void test() throws Exception
     {
-        QixwebBrowser browserUsingEnvironment = QixwebBrowser.usingEnvironment(itsFakeResponseHandler, UserData.EMPTY, new FakeEnvironment());
+        QixwebBrowser browserUsingEnvironment = QixwebBrowser.usingEnvironment(itsFakeResponseHandler, UserDataCreator.EMPTY, new FakeEnvironment());
 
         browserUsingEnvironment.goTo(new QixwebUrl(NodeWithoutCreateMethod.class));
 
@@ -29,7 +29,7 @@ public class TestQixwebBrowserOnNodeRenderingThroughBuilder extends ExtendedTest
     {
         XpLogger.off();
 
-        QixwebBrowser browserUsingSystem = QixwebBrowser.usingSystem(itsFakeResponseHandler, UserData.EMPTY, new FakeEnvironment());
+        QixwebBrowser browserUsingSystem = QixwebBrowser.usingSystem(itsFakeResponseHandler, UserDataCreator.EMPTY, new FakeEnvironment());
         browserUsingSystem.goTo(new QixwebUrl(NodeWithoutCreateMethod.class));
 
         assertFalse(NodeWithoutCreateMethodBuilder.hasBeenCalled());

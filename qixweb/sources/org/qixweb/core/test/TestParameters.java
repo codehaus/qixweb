@@ -1,7 +1,6 @@
 package org.qixweb.core.test;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import org.qixweb.core.Parameters;
 import org.qixweb.core.WebUrl;
@@ -75,7 +74,7 @@ public class TestParameters extends ExtendedTestCase
         assertEquals("value1", itsParameters.get("parameter1", "default"));
     }
 
-    public void testEmpty()
+    public void testIsEmpty()
     {
         assertNull(itsParameters.get("parameter1"));
         assertTrue(itsParameters.isEmpty("parameter1"));
@@ -495,5 +494,15 @@ public class TestParameters extends ExtendedTestCase
     {
         itsParameters.set("nullString", (String) null);
         assertEquals("", itsParameters.allAsString());
+    }
+    
+    public void testEmptyParametersFactory() 
+    {
+        Parameters parameters = Parameters.EMPTY();
+        parameters.set("key", "value");
+        assertEquals(1, parameters.size());
+        
+        Parameters anotherParameters = Parameters.EMPTY();
+        assertEquals("each instance has its own empty parameters", 0, anotherParameters.size());
     }
 }

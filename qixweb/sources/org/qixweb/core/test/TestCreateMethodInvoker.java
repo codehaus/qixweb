@@ -13,7 +13,7 @@ public class TestCreateMethodInvoker extends TestCase
 
     public void testInvokeCreateOnClassOrInItsParents() throws Exception
     {
-        CreateMethodInvoker.onNode(SonOfAnyNode.class, QixwebUrl.EMPTY_URL, UserData.EMPTY, new FakeEnvironment());
+        CreateMethodInvoker.onNode(SonOfAnyNode.class, QixwebUrl.EMPTY_URL, UserDataCreator.EMPTY, new FakeEnvironment());
         assertTrue("Should be able to invoke the 'create' method on its parent", FakeNode.createMethodHasBeenCalled);
     }
 }
