@@ -6,6 +6,13 @@ import org.qixweb.core.UserData;
 
 public class TestUserDataCreator extends TestCase
 {
+    public void testEqualsOnEmptyUserData() 
+    {
+        UserData emptyUserData = UserDataCreator.EMPTY;
+        UserData userData = new UserData();
+        assertEquals(emptyUserData, userData);
+    }
+
     public void testEMPTYIsASingleton() 
     {
         UserData userData = UserDataCreator.EMPTY;

@@ -27,5 +27,10 @@ public class UserDataCreator
         {
             throw new UnsupportedOperationException();
         }
+        
+        public boolean equals(Object obj)
+        {
+            return obj instanceof UserData & ((UserData)obj).size() == 0;
+        }
     }
 }
