@@ -255,7 +255,7 @@ public abstract class ExtendedTestCase extends TestCase
         String regexp = string1 + ".*" + string2 + ".*" + string3;
         Pattern pattern = Pattern.compile(regexp, Pattern.DOTALL);
         Matcher matcher = pattern.matcher(text);
-        assertTrue(matcher.find());
+        assertTrue("Instead it contains: "+ text, matcher.find());
     }
 
     public void assertLinkIsDisabled(WebUrl webUrl)
