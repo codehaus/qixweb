@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import junit.framework.TestCase;
 
 import org.apache.commons.lang.StringUtils;
+import org.qixweb.block.LightInternalIterator;
 import org.qixweb.core.WebLabel;
 import org.qixweb.core.WebUrl;
 import org.qixweb.util.*;
@@ -287,6 +288,11 @@ public abstract class ExtendedTestCase extends TestCase
     protected void assertContainsOnlyOneElement(String message, Collection aCollection)
     {
         assertEquals(message, 1, aCollection.size());
+    }
+
+    public static void assertLinksContainLabel(List qixwebUrls, String label)
+    {
+        assert_contains(LightInternalIterator.apply_On("label", qixwebUrls), label);
     }
 
     public static void assertEqualsIgnoringOrder(Collection expected, Collection actual)
