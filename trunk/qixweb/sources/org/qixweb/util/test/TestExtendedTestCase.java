@@ -5,6 +5,8 @@ import java.util.*;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
+import org.qixweb.core.QixwebUrl;
+import org.qixweb.core.test.AnyNode;
 import org.qixweb.util.CollectionUtil;
 
 public class TestExtendedTestCase extends TestCase
@@ -124,7 +126,7 @@ public class TestExtendedTestCase extends TestCase
         }
 
     }
-    
+
     public void testNotEquals()
     {
         ExtendedTestCase.assertNotEquals("The objects must be different", new Integer(2), new Integer(3));
@@ -236,6 +238,29 @@ public class TestExtendedTestCase extends TestCase
         {
         }
         ExtendedTestCase.assertEqualsElementsButInDifferentOrder(CollectionUtil.listWith("primo", "secondo"), CollectionUtil.listWith("secondo", "primo"));
+    }
+
+    public void testAssertLinksContainLabel()
+    {
+        List linksList = CollectionUtil.listWith(new QixwebUrl(AnyNode.class, "aLabel"), new QixwebUrl(AnyNode.class, "anotherLabel"));
+        try
+        {
+            ExtendedTestCase.assertLinksContainLabel(linksList, "aLabel");
+            ExtendedTestCase.assertLinksContainLabel(linksList, "anotherLabel");
+        }
+        catch (AssertionFailedError e)
+        {
+            fail();
+        }
+        
+        try
+        {
+            ExtendedTestCase.assertLinksContainLabel(linksList, "unexistingLabel");
+            fail("should not contain unexistingLabel");
+        }
+        catch (AssertionFailedError e)
+        {
+        }
     }
 
 }
