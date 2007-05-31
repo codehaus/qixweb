@@ -19,6 +19,14 @@ public abstract class WebCommandBuilder
         itsSubmittedValues = submittedValues;
         areAllRight = true;
         itsMessageForInvalidParameters = new HashMap();
+
+        boolean isUpdating = submittedValues.getAsBoolean(WebNode.PARAMETER_NAME_FOR_IS_UPDATING);
+        if (!isUpdating)
+            onAdding(submittedValues);
+    }
+
+    protected void onAdding(Parameters parameters)
+    {
     }
 
     public abstract WebCommand destinationWhenValid(UserData userData);
