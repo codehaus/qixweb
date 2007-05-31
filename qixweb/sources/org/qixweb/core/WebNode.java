@@ -6,6 +6,7 @@ import java.lang.reflect.Modifier;
 import java.util.*;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.log4j.helpers.QuietWriter;
 import org.qixweb.block.*;
 import org.qixweb.util.CollectionUtil;
 import org.qixweb.util.StringUtil;
@@ -13,6 +14,7 @@ import org.qixweb.util.StringUtil;
 public abstract class WebNode implements Browsable
 {
     private HashMap itsErrorMessages = new HashMap();
+    public static final String PARAMETER_NAME_FOR_IS_UPDATING = "isUpdating";
 
     public QixwebUrl[] connections()
     {
@@ -195,5 +197,10 @@ public abstract class WebNode implements Browsable
     {
         String result = (String) itsErrorMessages.get(parameterName);
         return result == null ? StringUtil.EMPTY : StringEscapeUtils.escapeHtml(result);
+    }
+    
+    protected void setUpdatingOn(QixwebUrl link)
+    {
+        link.parameters().set(PARAMETER_NAME_FOR_IS_UPDATING, true);
     }
 }
