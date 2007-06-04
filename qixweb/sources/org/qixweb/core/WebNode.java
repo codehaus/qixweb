@@ -6,7 +6,6 @@ import java.lang.reflect.Modifier;
 import java.util.*;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.log4j.helpers.QuietWriter;
 import org.qixweb.block.*;
 import org.qixweb.util.CollectionUtil;
 import org.qixweb.util.StringUtil;
