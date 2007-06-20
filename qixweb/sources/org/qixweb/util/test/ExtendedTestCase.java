@@ -289,6 +289,11 @@ public abstract class ExtendedTestCase extends TestCase
     {
         assertEquals(message, 1, aCollection.size());
     }
+    
+    protected void assertContainsOnlyOneElement(Collection aCollection)
+    {
+        assertEquals(StringUtil.EMPTY, 1, aCollection.size());
+    }
 
     public static void assertLinksContainLabel(List qixwebUrls, String label)
     {
